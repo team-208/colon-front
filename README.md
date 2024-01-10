@@ -27,6 +27,40 @@
   - utils
   - README.md
 
+## branch 전략 (임시 선정. 논의 후 교체 가능성 있음.)
+
+- main: 상용 branch. _**(프로젝트 초기 상태에선 main에서 바로 작업 할것.)**_
+- develop: 상용 배포전 테스트용 branch. 상용 배포시 main으로 merge.
+- feature/개발사항: 페이지 또는 기능 개발시 develop branch에서 생성.
+- hotfix/개발사항: hotfix 적용 필요시 main에서 생성하고 개발 완료 후, main과 develop 둘 다에 merge.
+
+## commit 규칙 (임시 선정. 논의 후 교체 가능성 있음.)
+
+- [prefix]: 개발사항 개조식으로 작성.
+- prefix 종류
+  - feat: 개발 사항
+  - fix: 버그 수정
+- ex. feat: 메인 페이지 퍼블리싱.
+
+## pr 규칙 (임시 선정. 논의 후 교체 가능성 있음.)
+
+- 개발사항
+  - 해당 branch에서 작업한 commit list
+- 참고사항
+  - 질문 / 해당 이슈와 관련하여 숙지되어야 할 사항 기록
+- ex.
+
+```
+개발사항
+- feat: 메인 페이지 퍼블리싱.
+- feat: 메인 페이지 api 연동.
+- fix: 메인 페이지 favicon 변경.
+- fix: pacakage.json script 수정.
+
+참고사항
+이것은 참고사항입니다. 자유롭게 기입해 주세요. 무엇이든.
+```
+
 ## Tech Stack
 
 ### CSS - styled-component
