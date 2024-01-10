@@ -6,8 +6,8 @@
   - (pages)
   - apis : _**하위 README 필독.**_
     - [domain dir]
-      - mutation
-      - query
+      - mutation dir
+      - query dir
       - api.ts
       - key.ts
       - type.d.ts
