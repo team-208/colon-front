@@ -1,0 +1,7 @@
+.eslintrc.json
+.prettierrc
+next-env.d.ts
+next.config.js
+tsconfig.json
+server.js
+/app
