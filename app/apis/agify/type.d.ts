@@ -5,6 +5,16 @@ declare namespace Agify {
     name: string;
     age: number;
   }
+
+  // [POST]: https://api.agify.io?name=${name} Request
+  interface postAgifyRequest {
+    name: string;
+  }
+
+  // [POST]: https://api.agify.io?name=${name} Response
+  interface postAgifyResult {
+    id: number;
+  }
 }
 
 export as namespace Agify;

@@ -1,10 +1,21 @@
 'use client';
 
+import useAgifyMutation from '@/app/apis/agify/mutation/useAgifyMutation';
 import useAgifyQuery from '@/app/apis/agify/query/useAgifyQuery';
-import { Suspense } from 'react';
+import { useState } from 'react';
 
 export default function ReactQueryCSRPage() {
+  // states
+  const [mutationData, setMutationData] = useState<Agify.postAgifyResult>();
+
+  // queries
   const { data } = useAgifyQuery('huun');
+  const { mutateAsync: agifyMutation } = useAgifyMutation({ name: 'dave' });
+
+  const mutationHandler = async () => {
+    const res = await agifyMutation();
+    setMutationData(res);
+  };
 
   return (
     <section>
@@ -13,6 +24,11 @@ export default function ReactQueryCSRPage() {
       <p>{data?.name}</p>
       <p>{data?.age}</p>
       <p>{data?.count}</p>
+
+      <button type="button" onClick={mutationHandler}>
+        post mutation request
+      </button>
+      {mutationData && <p>{`post mutation response id: ${mutationData?.id}`}</p>}
     </section>
   );
 }
