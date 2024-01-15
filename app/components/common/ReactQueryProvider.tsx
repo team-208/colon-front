@@ -11,7 +11,8 @@ const ReactQueryProvider = ({ children }: React.PropsWithChildren) => {
         queries: {
           refetchOnWindowFocus: false, // 윈도우가 다시 포커스되었을때 데이터를 refetch
           refetchOnMount: false, // 데이터가 stale 상태이면 컴포넌트가 마운트될 때 refetch
-          retry: 1, // API 요청 실패시 재시도
+          retry: 0, // API 요청 실패시 재시도
+          throwOnError: true, // ErrorBoundary 사용
         },
       },
     }),
