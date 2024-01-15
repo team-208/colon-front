@@ -12,6 +12,7 @@ export default function ReactQueryCSRPage() {
   const { data } = useAgifyQuery('huun');
   const { mutateAsync: agifyMutation } = useAgifyMutation({ name: 'dave' });
 
+  // events
   const mutationHandler = async () => {
     const res = await agifyMutation();
     setMutationData(res);
