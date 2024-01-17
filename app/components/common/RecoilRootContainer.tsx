@@ -6,6 +6,6 @@ type Props = {
   children: ReactNode;
 };
 
-export default function RecoilRootLayout({ children }: Props) {
+export default function RecoilRootContainer({ children }: Props) {
   return <RecoilRoot>{children}</RecoilRoot>;
 }

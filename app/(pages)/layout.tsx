@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
-import RecoilRootLayout from '../components/common/RecoilRootLayout';
+import RecoilRootContainer from '../components/common/RecoilRootContainer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <RecoilRootLayout>{children}</RecoilRootLayout>
+        <RecoilRootContainer>{children}</RecoilRootContainer>
       </body>
     </html>
   );
