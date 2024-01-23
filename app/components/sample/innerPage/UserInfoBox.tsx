@@ -1,7 +1,7 @@
 'use client';
 import React, { useCallback } from 'react';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
-import { userState, userTagText } from '@/app/recoils/sample/user';
+import { userState, userTagText } from '@/app/recoils/sample';
 
 export default function UserInfoBox() {
   // const [user, setUser] = useRecoilState(userState);

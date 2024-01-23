@@ -1,5 +1,5 @@
 import { selector } from 'recoil';
-import { userState } from '.';
+import { userState } from './atom';
 
 export const userTagText = selector({
   key: 'userTagText',
