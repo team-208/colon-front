@@ -1,15 +1,24 @@
 import { atom } from 'recoil';
 
-const localStorageEffect =
-  (key: string) =>
+interface Storage {
+  Session: 'session';
+  Local: 'local';
+}
+
+const storageEffect =
+  (type: Storage[keyof Storage], key: string) =>
   ({ setSelf, onSet }: any) => {
-    const savedValue = localStorage.getItem(key);
+    if (typeof window === 'undefined') return;
+
+    const savedValue = window[`${type}Storage`].getItem(key);
     if (savedValue != null) {
       setSelf(JSON.parse(savedValue));
     }
 
     onSet((newValue: any, _: any, isReset: boolean) => {
-      isReset ? localStorage.removeItem(key) : localStorage.setItem(key, JSON.stringify(newValue));
+      isReset
+        ? window[`${type}Storage`].removeItem(key)
+        : window[`${type}Storage`].setItem(key, JSON.stringify(newValue));
     });
   };
 
@@ -22,5 +31,5 @@ export const userState = atom({
     username: '슈퍼맨',
     tagList: ['프론트엔드', 'ReactJS', 'NextJS', 'Javascript', 'HTML', 'CSS'],
   },
-  effects: [localStorageEffect('user_info')],
+  effects: [storageEffect('session', 'user_info')],
 });
