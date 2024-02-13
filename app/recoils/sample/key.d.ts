@@ -1,18 +1,32 @@
+interface RecoilStorage {
+  Session: 'session';
+  Local: 'local';
+}
+
+interface RecoilStorageKey {
+  userInfo: 'user_info';
+}
+
 interface RecoilKeyProps {
   userState: string;
   userTagText: string;
 }
 
-interface RecoilSessionStorageKeyProps {
-  userInfo: string;
-}
-
-export const RECOIL_KEYS: RecoilKeyProps = {
+const RECOIL_KEYS: RecoilKeyProps = {
   userState: 'userState',
   userTagText: 'userTagText',
 };
 
-export const RECOIL_STORAGE_KEYS: RecoilSessionStorageKeyProps = {
+const RECOIL_STORAGE_KEYS: RecoilStorageKey = {
   userInfo: 'user_info',
 };
 
+export {
+  // interface
+  RecoilStorage,
+  RecoilStorageKey,
+
+  // key
+  RECOIL_KEYS,
+  RECOIL_STORAGE_KEYS,
+};
