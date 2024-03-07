@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
-import ReactQueryProvider from '../components/common/ReactQueryProvider';
-import RecoilRootContainer from '../components/common/RecoilRootContainer';
+import GlobalContainer from '../components/common/GlobalContainer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,9 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <RecoilRootContainer>
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-        </RecoilRootContainer>
+        <GlobalContainer>{children}</GlobalContainer>
       </body>
     </html>
   );
