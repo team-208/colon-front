@@ -1,10 +1,15 @@
 'use client';
 
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ReactNode, useState } from 'react';
+import { RecoilRoot } from 'recoil';
 
-const ReactQueryProvider = ({ children }: React.PropsWithChildren) => {
+interface GlobalContainerProps {
+  children: ReactNode;
+}
+
+const GlobalContainer = ({ children }: GlobalContainerProps) => {
   const [client] = useState(
     new QueryClient({
       defaultOptions: {
@@ -20,10 +25,10 @@ const ReactQueryProvider = ({ children }: React.PropsWithChildren) => {
 
   return (
     <QueryClientProvider client={client}>
-      {children}
+      <RecoilRoot>{children}</RecoilRoot>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 };
 
-export default ReactQueryProvider;
+export default GlobalContainer;
