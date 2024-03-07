@@ -132,3 +132,8 @@ main {
   max-width: 1024px;
   margin: 0 auto;
 }
+
+button {
+  border: none;
+  cursor: pointer;
+}
