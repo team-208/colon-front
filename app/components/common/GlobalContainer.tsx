@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode, useState } from 'react';
 import { RecoilRoot } from 'recoil';
+import StyledComponentsRegistry from './StyledComponentRegistry';
 
 interface GlobalContainerProps {
   children: ReactNode;
@@ -25,7 +26,9 @@ const GlobalContainer = ({ children }: GlobalContainerProps) => {
 
   return (
     <QueryClientProvider client={client}>
-      <RecoilRoot>{children}</RecoilRoot>
+      <StyledComponentsRegistry>
+        <RecoilRoot>{children}</RecoilRoot>
+      </StyledComponentsRegistry>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
