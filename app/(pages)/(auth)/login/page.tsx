@@ -46,7 +46,7 @@ export default function Login() {
 
   const handleClickSignUp = () => {
     // TODO: publishing 예정.
-    push('/singup');
+    push('/signup');
   };
 
   return (
