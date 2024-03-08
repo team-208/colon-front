@@ -1,6 +1,5 @@
 'use client';
 
-import { Metadata, ResolvingMetadata } from 'next';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
@@ -15,25 +14,6 @@ const ServiceImageP = styled.p`
   width: 100%;
   line-height: 400px;
   background-color: #e0e0e0;
-  text-align: center;
-`;
-
-const IntroduceDiv = styled.div`
-  margin: 50px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const TitleStrong = styled.strong`
-  font-size: 40px;
-`;
-
-const DescP = styled.p`
-  margin-top: 24px;
-  font-size: 20px;
-  line-height: 28px;
-  white-space: pre-wrap;
   text-align: center;
 `;
 
