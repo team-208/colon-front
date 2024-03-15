@@ -12,7 +12,7 @@ const useAuth = () => {
       const { data, error } = await auth.signInWithOAuth({
         provider: 'kakao',
         options: {
-          redirectTo: `localhost:3000/auth/callback`,
+          redirectTo: `http://localhost:3000/api/auth/callback`,
         },
       });
     } catch (error) {}
