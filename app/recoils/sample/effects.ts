@@ -1,10 +1,7 @@
-interface Storage {
-  Session: 'session';
-  Local: 'local';
-}
+import { RecoilStorage, RecoilStorageKey, RECOIL_STORAGE_KEYS } from './key.d';
 
 export const storageEffect =
-  (type: Storage[keyof Storage], key: string) =>
+  (type: RecoilStorage[keyof RecoilStorage], key: RecoilStorageKey[keyof RecoilStorageKey]) =>
   ({ setSelf, onSet }: any) => {
     if (typeof window === 'undefined') return;
 
