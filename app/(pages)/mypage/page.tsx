@@ -3,6 +3,10 @@
 import { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import NicnameComponent from '@/app/components/mypage/NicnameComponent';
+import Tabs from '@/app/components/common/Tabs';
+import ReactionContent from '@/app/components/mypage/ReactionContent';
+import ScrapContent from '@/app/components/mypage/ScrapContent';
+import ActivityContent from '@/app/components/mypage/ActivityContent';
 
 const ContainerMain = styled.div`
   display: flex;
@@ -59,6 +63,21 @@ const TagP = styled.p`
   background-color: #e0e0e0;
 `;
 
+const tabList = [
+  {
+    text: '반응한 글',
+    component: <ReactionContent />,
+  },
+  {
+    text: '스크랩',
+    component: <ScrapContent />,
+  },
+  {
+    text: '활동 내역',
+    component: <ActivityContent />,
+  },
+];
+
 export default function MyPage() {
   return (
     <ContainerMain>
@@ -74,7 +93,7 @@ export default function MyPage() {
         </ProfileTextDiv>
       </ProfileDiv>
 
-      <div>TabList</div>
+      <Tabs tabList={tabList} />
     </ContainerMain>
   );
 }
