@@ -1,7 +1,7 @@
 'use client';
 
-import useAgifyMutation from '@/app/apis/agify/mutation/useAgifyMutation';
-import useAgifyQuery from '@/app/apis/agify/query/useAgifyQuery';
+import useAgifyQuery from '../../../../react-queries/agify/query/useAgifyQuery';
+import useAgifyMutation from '../../../../react-queries/agify/mutation/useAgifyMutation';
 import { useState } from 'react';
 
 export default function ReactQueryCSRPage() {
