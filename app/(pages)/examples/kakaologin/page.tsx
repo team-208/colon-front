@@ -5,7 +5,7 @@ import useAuth from '../../../hooks/useAuth';
 
 export default function Home() {
   const router = useRouter();
-  const { login, logout, deleteUser } = useAuth();
+  const { login, logout, deleteUser, signUp } = useAuth();
 
   return (
     <main>
@@ -35,6 +35,15 @@ export default function Home() {
         }}
       >
         kakao user remove
+      </button>
+
+      <br />
+      <button
+        onClick={() => {
+          signUp('DESIGN');
+        }}
+      >
+        user add
       </button>
     </main>
   );
