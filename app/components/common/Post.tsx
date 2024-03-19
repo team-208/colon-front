@@ -1,10 +1,11 @@
 'use client';
 
-import React, { ReactNode } from 'react';
+import { ReactNode, use, useCallback } from 'react';
 import styled from 'styled-components';
 import { cutText } from '@/app/utils/text';
 
 type Props = {
+  id: number;
   date: Date;
   title: string;
   content: string;
@@ -63,8 +64,19 @@ const PostButton = styled.button`
   background: transparent;
 `;
 
+// TODO: Infinity Scroll 구현 시 React.memo 적용
 export default function Post(props: Props) {
-  const { date, title, content, nickname, modified, solved, isModify, children } = props;
+  const { id, date, title, content, nickname, modified, solved, isModify, children } = props;
+
+  const handleClickModify = useCallback((id: number) => {
+    // TODO: 수정 api 연동
+    console.log('수정', id);
+  }, []);
+
+  const handleClickDelete = useCallback((id: number) => {
+    // TODO: 삭제 api 연동
+    console.log('삭제', id);
+  }, []);
 
   return (
     <PostContainerDiv>
@@ -88,8 +100,8 @@ export default function Post(props: Props) {
 
         {isModify && (
           <PostButtonLaytoutDiv>
-            <PostButton>수정</PostButton>
-            <PostButton>삭제</PostButton>
+            <PostButton onClick={() => handleClickModify(id)}>수정</PostButton>
+            <PostButton onClick={() => handleClickDelete(id)}>삭제</PostButton>
           </PostButtonLaytoutDiv>
         )}
       </PostDiv>
