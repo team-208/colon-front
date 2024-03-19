@@ -19,10 +19,11 @@ const TabListUl = styled.ul`
   border-bottom: 1px solid #000000;
 `;
 
-const TabListLi = styled.li`
+const TabListLi = styled.li<{ $isActive: boolean }>`
   display: inline-block;
   cursor: pointer;
   padding: 12px 0;
+  font-weight: ${({ $isActive }) => ($isActive ? '800' : 'nomal')};
 
   &:not(:last-child) {
     margin-right: 10px;
@@ -33,7 +34,7 @@ const TabContentDiv = styled.div`
   width: inherit;
   max-height: 300px;
   overflow: auto;
-  padding: 12px;
+  padding: 12px 0;
 `;
 
 export default function Tabs(props: Props) {
@@ -45,11 +46,7 @@ export default function Tabs(props: Props) {
     <TabTableDiv>
       <TabListUl>
         {tabList.map((v, idx) => (
-          <TabListLi
-            style={{ fontWeight: curIdx === idx ? '800' : 'normal' }}
-            key={`$tab-${idx}`}
-            onClick={() => setCurIdx(idx)}
-          >
+          <TabListLi $isActive={curIdx === idx} key={`$tab-${idx}`} onClick={() => setCurIdx(idx)}>
             {v.text}
           </TabListLi>
         ))}
