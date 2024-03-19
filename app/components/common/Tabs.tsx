@@ -23,6 +23,7 @@ const TabListLi = styled.li<{ $isActive: boolean }>`
   display: inline-block;
   cursor: pointer;
   padding: 12px 0;
+  font-size: 25px;
   font-weight: ${({ $isActive }) => ($isActive ? '800' : 'nomal')};
 
   &:not(:last-child) {
