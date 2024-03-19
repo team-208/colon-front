@@ -1,5 +1,6 @@
 'use client';
 
+import useAuth from '@/app/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
@@ -36,16 +37,14 @@ const SignUpButton = styled.button`
 export default function Login() {
   // hooks
   const { push } = useRouter();
+  const { login } = useAuth();
 
   // events
   const handleClickKakao = () => {
-    // TODO: supabase 연동필요.
-    // TODO: 로그인 성공 / 실패 / 미가입자인 경우 각 케이스별 페이지 분기 필요.
-    push('/');
+    login();
   };
 
   const handleClickSignUp = () => {
-    // TODO: publishing 예정.
     push('/signup');
   };
 
