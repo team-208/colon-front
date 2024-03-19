@@ -13,13 +13,14 @@ const ContentContainer = styled.div`
   }
 `;
 
-const ReactionDiv = styled.div`
+const ReactionP = styled.p`
   font-size: 35px;
   margin-right: 12px;
 `;
 
 const postList = [
   {
+    id: 1,
     reaction: '🥹',
     date: new Date(),
     title: '안녕하세요. 궁금한게 있습니다.',
@@ -29,6 +30,7 @@ const postList = [
     solved: false,
   },
   {
+    id: 2,
     reaction: '🧡',
     date: new Date(),
     title:
@@ -39,6 +41,7 @@ const postList = [
     solved: false,
   },
   {
+    id: 3,
     reaction: '😡',
     date: new Date(),
     title: '이것은 해결된 질문입니다 :)',
@@ -48,6 +51,7 @@ const postList = [
     solved: true,
   },
   {
+    id: 4,
     reaction: '💚',
     date: new Date(),
     title: '해결도되고 수정도 된 질문입니다.',
@@ -62,7 +66,7 @@ export default function ReactionContent() {
   const [list, setList] = useState<typeof postList | null>(null);
 
   useEffect(() => {
-    // TODO: 반응한 글 리스트 불러오는 api 연동
+    // TODO: 반응한 글 리스트 불러오는 api 연동 (Infinity Scroll)
     setTimeout(() => {
       setList(postList);
     }, 2000);
@@ -73,7 +77,7 @@ export default function ReactionContent() {
       {list ? (
         list.map((post, idx) => (
           <Post key={`reaction-${idx}`} {...post}>
-            <ReactionDiv>{post.reaction}</ReactionDiv>
+            <ReactionP>{post.reaction}</ReactionP>
           </Post>
         ))
       ) : (
