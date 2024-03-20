@@ -15,7 +15,6 @@ export interface Post {
 export interface Comment {
   id: number;
   date: Date;
-  postTitle: string;
+  postInfo: { id: number; date: Date; title: string };
   comment: string;
-  type: string;
 }

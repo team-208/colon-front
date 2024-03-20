@@ -61,7 +61,7 @@ const userList: Array<UserPost | UserComment> = [
   {
     id: 1,
     date: new Date(),
-    postTitle: '안녕하세요. 궁금한게 있습니다.',
+    postInfo: { id: 1, date: new Date(), title: '안녕하세요. 궁금한게 있습니다.' },
     comment: '네 제가 답해드리겠습니다 ~',
     type: 'comment',
   },
@@ -106,12 +106,13 @@ export default function ActivityContent() {
       {list ? (
         list.map((v, idx) =>
           v.type === 'post' ? (
-            <PostComponent key={`post-${idx}`} {...(v as UserPost)} />
+            <PostComponent key={`post-${idx}`} {...(v as UserPost)} isModify />
           ) : (
-            <CommentComponent key={`comment-${idx}`} {...(v as UserComment)} />
+            <CommentComponent key={`comment-${idx}`} {...(v as UserComment)} isDelete />
           ),
         )
       ) : (
+        // TODO: 로딩 or 게시물 없음 화면
         <div>Loading...</div>
       )}
     </ContentContainer>
