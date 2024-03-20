@@ -56,7 +56,6 @@ const PostButton = styled.button`
   background: transparent;
 `;
 
-// TODO: Infinity Scroll 구현 시 React.memo 적용
 const Post = (props: Props) => {
   const { id, date, title, content, nickname, modified, solved, isModify, children } = props;
 

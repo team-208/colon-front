@@ -16,7 +16,7 @@ const NicknameButton = styled.button`
   display: inline-block;
 `;
 
-export default function NicnameComponent() {
+const NicnameComponent = () => {
   const [isModify, setIsModify] = useState(false);
   const [value, setValue] = useState('닉네임');
 
@@ -41,4 +41,6 @@ export default function NicnameComponent() {
       </NicknameButton>
     </div>
   );
-}
+};
+
+export default NicnameComponent;

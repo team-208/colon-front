@@ -59,11 +59,11 @@ const postList: Array<Post> = [
   },
 ];
 
-export default function ScrapContent() {
+const ScrapContent = () => {
   const [list, setList] = useState<typeof postList | null>(null);
 
   useEffect(() => {
-    // TODO: 스크랩한 글 리스트 불러오는 api 연동
+    // TODO: 스크랩한 글 리스트 불러오는 api 연동 (Infinity Scroll)
     setTimeout(() => {
       setList(postList);
     }, 2000);
@@ -83,4 +83,6 @@ export default function ScrapContent() {
       )}
     </ContentContainer>
   );
-}
+};
+
+export default ScrapContent;

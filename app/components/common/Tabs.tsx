@@ -2,6 +2,7 @@
 
 import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
+import { deflate } from 'zlib';
 
 type Props = {
   initIdx?: number;
@@ -38,7 +39,7 @@ const TabContentDiv = styled.div`
   padding: 12px 0;
 `;
 
-export default function Tabs(props: Props) {
+const Tabs = (props: Props) => {
   const { initIdx, tabList } = props;
 
   const [curIdx, setCurIdx] = useState(initIdx || 0);
@@ -55,4 +56,6 @@ export default function Tabs(props: Props) {
       <TabContentDiv>{tabList[curIdx].component}</TabContentDiv>
     </TabTableDiv>
   );
-}
+};
+
+export default Tabs;

@@ -63,7 +63,7 @@ const postList: Array<Post & { reaction: string }> = [
   },
 ];
 
-export default function ReactionContent() {
+const ReactionContent = () => {
   const [list, setList] = useState<typeof postList | null>(null);
 
   useEffect(() => {
@@ -87,4 +87,6 @@ export default function ReactionContent() {
       )}
     </ContentContainer>
   );
-}
+};
+
+export default ReactionContent;

@@ -69,7 +69,7 @@ const userList: Array<UserPost | UserComment> = [
 
 type UserPost = Post & { reaction: string; type: string };
 type UserComment = Comment & { type: string };
-export default function ActivityContent() {
+const ActivityContent = () => {
   const [filter, setFilter] = useState<string>(filterList[0].value);
   const [data, setData] = useState<Array<UserPost | UserComment> | null>(null);
   const [list, setList] = useState<Array<UserPost | UserComment> | null>(null);
@@ -82,7 +82,7 @@ export default function ActivityContent() {
   }, [filter, data]);
 
   useEffect(() => {
-    // TODO: 사용자 활동내역 api 연동
+    // TODO: 사용자 활동내역 api 연동 (Infinity Scroll)
     setTimeout(() => {
       setData(userList);
       setList(userList);
@@ -117,4 +117,6 @@ export default function ActivityContent() {
       )}
     </ContentContainer>
   );
-}
+};
+
+export default ActivityContent;
