@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Post from '../common/Post';
+import { Post } from '@/app/types/data';
+import PostCompoment from '../common/Post';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const ReactionP = styled.p`
   margin-right: 12px;
 `;
 
-const postList = [
+const postList: Array<Post & { reaction: string }> = [
   {
     id: 1,
     reaction: '🥹',
@@ -76,9 +77,9 @@ export default function ReactionContent() {
     <ContentContainer>
       {list ? (
         list.map((post, idx) => (
-          <Post key={`reaction-${idx}`} {...post}>
+          <PostCompoment key={`reaction-${idx}`} {...post}>
             <ReactionP>{post.reaction}</ReactionP>
-          </Post>
+          </PostCompoment>
         ))
       ) : (
         // TODO: 로딩 or 게시물 없음 화면

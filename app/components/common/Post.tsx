@@ -1,20 +1,11 @@
 'use client';
 
-import { ReactNode, use, useCallback } from 'react';
+import { useCallback } from 'react';
 import styled from 'styled-components';
 import { cutText } from '@/app/utils/text';
+import { Post } from '@/app/types/data';
 
-type Props = {
-  id: number;
-  date: Date;
-  title: string;
-  content: string;
-  nickname: string;
-  modified: boolean;
-  solved: boolean;
-  isModify?: boolean;
-  children?: ReactNode;
-};
+type Props = Post;
 
 const PostContainerDiv = styled.div`
   display: flex;
@@ -33,6 +24,7 @@ const PostTitleP = styled.p`
   font-size: 25px;
   font-weight: bold;
 `;
+
 const PostTitleSpan = styled.span`
   font-size: 15px;
   font-weight: 400 !important;

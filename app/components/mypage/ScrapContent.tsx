@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Post from '../common/Post';
+import { Post } from '@/app/types/data';
+import PostComponent from '../common/Post';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -18,10 +19,9 @@ const ScrapIconP = styled.p`
   margin-right: 12px;
 `;
 
-const postList = [
+const postList: Array<Post> = [
   {
     id: 1,
-    reaction: '🥹',
     date: new Date(),
     title: '안녕하세요. 궁금한게 있습니다.',
     content: '본문 내용입니다.',
@@ -31,7 +31,6 @@ const postList = [
   },
   {
     id: 2,
-    reaction: '🧡',
     date: new Date(),
     title:
       '안녕하세요. 75자 테스트를 해볼게요. 얼마나 적어야 75자가 넘을까요? 아메리카노 거의 다 마셔가네요. 배가 고프네요. 아직도 75자가 안넘네요?',
@@ -42,7 +41,6 @@ const postList = [
   },
   {
     id: 3,
-    reaction: '😡',
     date: new Date(),
     title: '이것은 해결된 질문입니다 :)',
     content: '본문 내용입니다.',
@@ -52,7 +50,6 @@ const postList = [
   },
   {
     id: 4,
-    reaction: '💚',
     date: new Date(),
     title: '해결도되고 수정도 된 질문입니다.',
     content: '본문 내용입니다.',
@@ -76,9 +73,9 @@ export default function ScrapContent() {
     <ContentContainer>
       {list ? (
         list.map((post, idx) => (
-          <Post key={`reaction-${idx}`} {...post}>
+          <PostComponent key={`reaction-${idx}`} {...post}>
             <ScrapIconP>📚</ScrapIconP>
-          </Post>
+          </PostComponent>
         ))
       ) : (
         // TODO: 로딩 or 게시물 없음 화면
