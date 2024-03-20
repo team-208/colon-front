@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { Comment } from '@/app/types/data';
 
@@ -42,7 +42,7 @@ const CommentButton = styled.div`
   background: transparent;
 `;
 
-export default function Comment(props: Props) {
+const Comment = (props: Props) => {
   const { id, postInfo, comment, isDelete } = props;
 
   const handleClickDelete = useCallback((id: number) => {
@@ -62,4 +62,6 @@ export default function Comment(props: Props) {
       )}
     </CommentContainerdiv>
   );
-}
+};
+
+export default React.memo(Comment);
