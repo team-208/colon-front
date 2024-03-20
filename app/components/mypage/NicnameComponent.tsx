@@ -4,7 +4,7 @@ import styled from 'styled-components';
 // TODO: 디자인시 NicnameP, NicknameInput width 통일
 const NicknameP = styled.p`
   display: inline-block;
-  width: 64px;
+  width: 128px;
 `;
 
 const NicknameInput = styled.input`

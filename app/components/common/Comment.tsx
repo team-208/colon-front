@@ -46,6 +46,7 @@ export default function Comment(props: Props) {
   const { id, postInfo, comment, isDelete } = props;
 
   const handleClickDelete = useCallback((id: number) => {
+    // TODO: 삭제 api 연동
     console.log('삭제', id);
   }, []);
 
