@@ -1,7 +1,7 @@
 import { createClient } from '@/app/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
-export async function POST(request: Request) {
+export async function DELETE(request: Request) {
   try {
     const { origin } = new URL(request.url);
     const next = '/';
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       const { session } = userSession;
       // 카카오 연결 끊기
       await fetch('https://kapi.kakao.com/v1/user/unlink', {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
           Authorization: 'Bearer ' + session?.provider_token,
         },
