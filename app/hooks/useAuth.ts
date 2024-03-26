@@ -17,6 +17,15 @@ const useAuth = () => {
           redirectTo: `http://localhost:3000/api/auth/callback`,
         },
       });
+
+      const user = await userInfo();
+      if (isEmpty(user)) {
+        alert('회원 가입이 필요합니다. 회원가입 화면으로 이동합니다.');
+        replace('/examples/kakaologin');
+        return;
+      }
+
+      push('/');
     } catch (error) {}
   };
 
