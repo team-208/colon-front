@@ -19,6 +19,7 @@ const ReactionP = styled.p`
   margin-right: 12px;
 `;
 
+const time = new Date().getTime();
 const postList: Array<Post & { reaction: string }> = [
   {
     id: 1,
@@ -33,7 +34,7 @@ const postList: Array<Post & { reaction: string }> = [
   {
     id: 2,
     reaction: '🧡',
-    date: new Date(),
+    date: new Date(time - 1000 * 60 * 4),
     title:
       '안녕하세요. 75자 테스트를 해볼게요. 얼마나 적어야 75자가 넘을까요? 아메리카노 거의 다 마셔가네요. 배가 고프네요. 아직도 75자가 안넘네요?',
     content: '본문 내용입니다.',
@@ -44,7 +45,7 @@ const postList: Array<Post & { reaction: string }> = [
   {
     id: 3,
     reaction: '😡',
-    date: new Date(),
+    date: new Date(time - 1000 * 60 * 60 * 23),
     title: '이것은 해결된 질문입니다 :)',
     content: '본문 내용입니다.',
     nickname: 'ohdal',
@@ -54,7 +55,17 @@ const postList: Array<Post & { reaction: string }> = [
   {
     id: 4,
     reaction: '💚',
-    date: new Date(),
+    date: new Date(time - 1000 * 60 * 60 * 24 * 2),
+    title: '해결도되고 수정도 된 질문입니다.',
+    content: '본문 내용입니다.',
+    nickname: 'ohdal',
+    modified: true,
+    solved: true,
+  },
+  {
+    id: 5,
+    reaction: '🤣',
+    date: new Date(time - 1000 * 60 * 60 * 24 * 9),
     title: '해결도되고 수정도 된 질문입니다.',
     content: '본문 내용입니다.',
     nickname: 'ohdal',

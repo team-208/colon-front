@@ -2,7 +2,7 @@
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { cutText } from '@/app/utils/text';
+import { cutText, dateText } from '@/app/utils/text';
 import { Post } from '@/app/types/data';
 
 type Props = Post;
@@ -78,8 +78,7 @@ const Post = (props: Props) => {
           {solved ? '✅ ' : '🖐️ '}
           {cutText(title, 75, '...')}
           <PostTitleSpan>
-            {/* TODO: 라이브러리 상의하기 dayjs */}
-            {date.getMonth() + '.' + date.getDate()}
+            {dateText(date)}
             {modified && '(편집됨)'}
           </PostTitleSpan>
         </PostTitleP>
