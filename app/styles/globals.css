@@ -137,3 +137,7 @@ button {
   border: none;
   cursor: pointer;
 }
+
+* {
+  box-sizing: border-box;
+}
