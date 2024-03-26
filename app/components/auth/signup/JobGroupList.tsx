@@ -1,11 +1,12 @@
 'use client';
 
+import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import React from 'react';
 import styled from 'styled-components';
 
 interface JobGroupListProps {
-  jobGroup: string;
-  onClick: (jopGrop: string) => void;
+  jobGroup: JOB_GROUP_TYPES | undefined;
+  onClick: (jopGrop: JOB_GROUP_TYPES) => void;
 }
 
 const ContainerUl = styled.ul`
