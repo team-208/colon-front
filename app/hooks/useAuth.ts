@@ -9,13 +9,11 @@ const useAuth = () => {
   const { auth } = supabaseClient;
   const { push, replace } = useRouter();
 
-  const login = async () => {
+  const login = async (redirectTo: string) => {
     try {
       await auth.signInWithOAuth({
         provider: 'kakao',
-        options: {
-          redirectTo: `http://localhost:3000/api/auth/callback`,
-        },
+        options: { redirectTo },
       });
     } catch (error) {}
   };
