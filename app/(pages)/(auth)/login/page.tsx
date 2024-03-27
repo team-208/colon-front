@@ -1,7 +1,6 @@
 'use client';
 
 import useAuth from '@/app/hooks/useAuth';
-import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
 const ContainerMain = styled.main`
@@ -36,16 +35,20 @@ const SignUpButton = styled.button`
 
 export default function Login() {
   // hooks
-  const { push } = useRouter();
   const { login } = useAuth();
+
+  const host =
+    process.env.NODE_ENV !== 'development'
+      ? process.env.NEXT_PUBLIC_PRODUCTION_HOST
+      : process.env.NEXT_PUBLIC_DEVELOP_HOST;
 
   // events
   const handleClickKakao = () => {
-    login();
+    login(`${host}/api/auth/callback`);
   };
 
   const handleClickSignUp = () => {
-    push('/signup');
+    login(`${host}/signup`);
   };
 
   return (
