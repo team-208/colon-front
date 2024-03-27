@@ -1,11 +1,9 @@
+import { getHost } from '@/app/utils/host';
 import { createClient } from '@/app/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-  const host =
-    process.env.NODE_ENV !== 'development'
-      ? process.env.NEXT_PUBLIC_PRODUCTION_HOST
-      : process.env.NEXT_PUBLIC_DEVELOP_HOST;
+  const host = getHost();
 
   try {
     const next = '/';

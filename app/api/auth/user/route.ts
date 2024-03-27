@@ -1,15 +1,13 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/app/utils/supabase/server';
 import { isEmpty } from 'lodash';
+import { getHost } from '@/app/utils/host';
 
 // TODO: error handling 논의 필요.
 // 공용 에러 페이지로 통일한다면 api단에서 에러 처리.
 // 에러 케이스별 화면 변경이 필요하다면 error code response 후 csr로 처리.
 export async function GET(request: Request, response: Response) {
-  const host =
-    process.env.NODE_ENV !== 'development'
-      ? process.env.NEXT_PUBLIC_PRODUCTION_HOST
-      : process.env.NEXT_PUBLIC_DEVELOP_HOST;
+  const host = getHost();
 
   const supabase = await createClient();
 
@@ -33,10 +31,7 @@ export async function GET(request: Request, response: Response) {
 }
 
 export async function POST(request: Request) {
-  const host =
-    process.env.NODE_ENV !== 'development'
-      ? process.env.NEXT_PUBLIC_PRODUCTION_HOST
-      : process.env.NEXT_PUBLIC_DEVELOP_HOST;
+  const host = getHost();
 
   const supabase = await createClient();
   const bodyData = await request.json();
