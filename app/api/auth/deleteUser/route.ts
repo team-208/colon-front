@@ -2,8 +2,12 @@ import { createClient } from '@/app/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
+  const host =
+    process.env.NODE_ENV !== 'development'
+      ? process.env.NEXT_PUBLIC_PRODUCTION_HOST
+      : process.env.NEXT_PUBLIC_DEVELOP_HOST;
+
   try {
-    const { origin } = new URL(request.url);
     const next = '/';
 
     const supabase = await createClient(true);
@@ -23,14 +27,14 @@ export async function POST(request: Request) {
       const { data, error } = await supabase.auth.admin.deleteUser(session?.user?.id || '');
 
       if (!error) {
-        return NextResponse.redirect(`${origin}${next}`);
+        return NextResponse.redirect(`${host}${next}`);
       }
     }
 
     // 로그인 에러 발생시 redirect
-    return NextResponse.redirect(`${origin}/auth/auth-code-error`);
+    return NextResponse.redirect(`${host}/auth/auth-code-error`);
   } catch (error) {
-    return NextResponse.redirect(`${origin}/auth/auth-code-error`);
+    return NextResponse.redirect(`${host}/auth/auth-code-error`);
   }
 }
 
