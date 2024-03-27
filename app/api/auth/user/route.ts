@@ -34,7 +34,8 @@ export async function POST(request: Request) {
 
   try {
     const { error } = await supabase.from('user_info').insert([{ ...bodyData }]);
-    return NextResponse.json({ success: true });
+    // TODO: error 처리 프론트 or 백 결정 필요.
+    return NextResponse.json({ success: error ? false : true });
   } catch (error) {
     return NextResponse.redirect(`${origin}/auth/auth-code-error`);
   }
