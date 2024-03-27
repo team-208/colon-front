@@ -1,6 +1,7 @@
 'use client';
 
 import useAuth from '@/app/hooks/useAuth';
+import { getHost } from '@/app/utils/host';
 import styled from 'styled-components';
 
 const ContainerMain = styled.main`
@@ -37,11 +38,9 @@ export default function Login() {
   // hooks
   const { login } = useAuth();
 
-  const host =
-    process.env.NODE_ENV !== 'development'
-      ? process.env.NEXT_PUBLIC_PRODUCTION_HOST
-      : process.env.NEXT_PUBLIC_DEVELOP_HOST;
+  const host = getHost();
 
+  // console.log(process.env.NODE_ENV, host);
   // events
   const handleClickKakao = () => {
     login(`${host}/api/auth/callback`);
