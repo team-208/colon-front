@@ -13,7 +13,7 @@ const useAuth = () => {
     try {
       await auth.signInWithOAuth({
         provider: 'kakao',
-        options: { redirectTo },
+        options: { redirectTo: redirectTo },
       });
     } catch (error) {}
   };

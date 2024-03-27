@@ -6,7 +6,11 @@ import { isEmpty } from 'lodash';
 // 공용 에러 페이지로 통일한다면 api단에서 에러 처리.
 // 에러 케이스별 화면 변경이 필요하다면 error code response 후 csr로 처리.
 export async function GET(request: Request, response: Response) {
-  const { origin } = new URL(request.url);
+  const host =
+    process.env.NODE_ENV !== 'development'
+      ? process.env.NEXT_PUBLIC_PRODUCTION_HOST
+      : process.env.NEXT_PUBLIC_DEVELOP_HOST;
+
   const supabase = await createClient();
 
   try {
@@ -24,11 +28,16 @@ export async function GET(request: Request, response: Response) {
       isEmpty(userInfo) ? {} : { ...data.session, user: { profile_url: userInfo[0].profile_url } },
     );
   } catch (error) {
-    return NextResponse.redirect(`${origin}/auth/auth-code-error`);
+    return NextResponse.redirect(`${host}/auth/auth-code-error`);
   }
 }
 
 export async function POST(request: Request) {
+  const host =
+    process.env.NODE_ENV !== 'development'
+      ? process.env.NEXT_PUBLIC_PRODUCTION_HOST
+      : process.env.NEXT_PUBLIC_DEVELOP_HOST;
+
   const supabase = await createClient();
   const bodyData = await request.json();
 
@@ -37,6 +46,6 @@ export async function POST(request: Request) {
     // TODO: error 처리 프론트 or 백 결정 필요.
     return NextResponse.json({ success: error ? false : true });
   } catch (error) {
-    return NextResponse.redirect(`${origin}/auth/auth-code-error`);
+    return NextResponse.redirect(`${host}/auth/auth-code-error`);
   }
 }

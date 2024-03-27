@@ -6,7 +6,12 @@ import { isEmpty } from 'lodash';
 // 공용 에러 페이지로 통일한다면 api단에서 에러 처리.
 // 에러 케이스별 화면 변경이 필요하다면 error code response 후 csr로 처리.
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url);
+  const host =
+    process.env.NODE_ENV !== 'development'
+      ? process.env.NEXT_PUBLIC_PRODUCTION_HOST
+      : process.env.NEXT_PUBLIC_DEVELOP_HOST;
+
+  const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');
 
   const supabase = await createClient(true);
@@ -29,14 +34,14 @@ export async function GET(request: Request) {
       }
 
       if (isEmpty(userInfo)) {
-        return NextResponse.redirect(`${origin}/signup`);
+        return NextResponse.redirect(`${host}/signup`);
       }
 
-      return NextResponse.redirect(`${origin}/`);
+      return NextResponse.redirect(`${host}/`);
     }
   } catch (error) {
     // 로그인 에러 발생시 redirect
-    return NextResponse.redirect(`${origin}/auth/auth-code-error`);
+    return NextResponse.redirect(`${host}/auth/auth-code-error`);
   }
 }
 
