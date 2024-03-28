@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import Image from 'next/image';
 import styled from 'styled-components';
 import NicnameComponent from '@/app/components/mypage/NicnameComponent';
 import Tabs from '@/app/components/common/Tabs';
@@ -42,15 +42,6 @@ const ProfileTextDiv = styled.div`
   }
 `;
 
-const ProfileImage = styled.img`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
 const TitleStrong = styled.strong`
   font-size: 24px;
 `;
@@ -83,7 +74,7 @@ export default function MyPage() {
     <ContainerMain>
       <ProfileDiv>
         <ProfileImageDiv>
-          <ProfileImage alt="프로필 이미지" />
+          <Image src={'/next.svg'} alt="프로필 이미지" fill={true} />
         </ProfileImageDiv>
 
         <ProfileTextDiv>
