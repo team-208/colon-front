@@ -39,7 +39,7 @@ const PostNicknameP = styled.p`
   font-size: 20px;
 `;
 
-const PostButtonLaytoutDiv = styled.div`
+const PostButtonLayoutDiv = styled.div`
   position: absolute;
   top: 0;
   right: 0;
@@ -89,10 +89,10 @@ const Post = (props: Props) => {
         <PostNicknameP>{nickname}</PostNicknameP>
 
         {isModify && (
-          <PostButtonLaytoutDiv>
+          <PostButtonLayoutDiv>
             <PostButton onClick={() => handleClickModify(id)}>수정</PostButton>
             <PostButton onClick={() => handleClickDelete(id)}>삭제</PostButton>
-          </PostButtonLaytoutDiv>
+          </PostButtonLayoutDiv>
         )}
       </PostDiv>
     </PostContainerDiv>
