@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 import styled from 'styled-components';
 import { Post } from '@/app/types/data';
 import PostComponent from '../common/PostComp';
@@ -22,7 +23,7 @@ const ScrapIconP = styled.p`
 const postList: Array<Post> = [
   {
     id: 1,
-    date: new Date(),
+    date: dayjs(),
     title: '안녕하세요. 궁금한게 있습니다.',
     content: '본문 내용입니다.',
     nickname: 'ohdal',
@@ -31,7 +32,7 @@ const postList: Array<Post> = [
   },
   {
     id: 2,
-    date: new Date(),
+    date: dayjs(),
     title:
       '안녕하세요. 75자 테스트를 해볼게요. 얼마나 적어야 75자가 넘을까요? 아메리카노 거의 다 마셔가네요. 배가 고프네요. 아직도 75자가 안넘네요?',
     content: '본문 내용입니다.',
@@ -41,7 +42,7 @@ const postList: Array<Post> = [
   },
   {
     id: 3,
-    date: new Date(),
+    date: dayjs(),
     title: '이것은 해결된 질문입니다 :)',
     content: '본문 내용입니다.',
     nickname: 'ohdal',
@@ -50,7 +51,7 @@ const postList: Array<Post> = [
   },
   {
     id: 4,
-    date: new Date(),
+    date: dayjs(),
     title: '해결도되고 수정도 된 질문입니다.',
     content: '본문 내용입니다.',
     nickname: 'ohdal',
