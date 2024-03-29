@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Post, Comment } from '@/app/types/data';
-import PostComponent from '../common/Post';
-import CommentComponent from '../common/Comment';
+import PostComponent from '../common/PostComp';
+import CommentComp from '../common/CommentComp';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -67,8 +67,15 @@ const userList: Array<UserPost | UserComment> = [
   },
 ];
 
-type UserPost = Post & { reaction: string; type: string };
-type UserComment = Comment & { type: string };
+interface UserPost extends Post {
+  reaction: string;
+  type: string;
+}
+
+interface UserComment extends Comment {
+  type: string;
+}
+
 const ActivityContent = () => {
   const [filter, setFilter] = useState<string>(filterList[0].value);
   const [data, setData] = useState<Array<UserPost | UserComment> | null>(null);
@@ -108,7 +115,7 @@ const ActivityContent = () => {
           v.type === 'post' ? (
             <PostComponent key={`post-${idx}`} {...(v as UserPost)} isModify />
           ) : (
-            <CommentComponent key={`comment-${idx}`} {...(v as UserComment)} isDelete />
+            <CommentComp key={`comment-${idx}`} {...(v as UserComment)} isDelete />
           ),
         )
       ) : (

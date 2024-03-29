@@ -4,10 +4,10 @@ import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 import { deflate } from 'zlib';
 
-type Props = {
+interface Props {
   initIdx?: number;
   tabList: Array<{ text: string; component: React.JSX.Element }>;
-};
+}
 
 const TabTableDiv = styled.div`
   width: 100%;
@@ -39,7 +39,7 @@ const TabContentDiv = styled.div`
   padding: 12px 0;
 `;
 
-const Tabs = (props: Props) => {
+const TabsComp = (props: Props) => {
   const { initIdx, tabList } = props;
 
   const [curIdx, setCurIdx] = useState(initIdx || 0);
@@ -58,4 +58,4 @@ const Tabs = (props: Props) => {
   );
 };
 
-export default Tabs;
+export default TabsComp;

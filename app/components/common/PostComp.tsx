@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { cutText, dateText } from '@/app/utils/text';
 import { Post } from '@/app/types/data';
 
-type Props = Post;
+interface Props extends Post {}
 
 const PostContainerDiv = styled.div`
   display: flex;
@@ -56,7 +56,7 @@ const PostButton = styled.button`
   background: transparent;
 `;
 
-const Post = (props: Props) => {
+const PostComp = (props: Props) => {
   const { id, date, title, content, nickname, modified, solved, isModify, children } = props;
 
   const handleClickModify = useCallback((id: number) => {
@@ -99,4 +99,4 @@ const Post = (props: Props) => {
   );
 };
 
-export default React.memo(Post);
+export default React.memo(PostComp);

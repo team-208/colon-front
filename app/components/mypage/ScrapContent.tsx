@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Post } from '@/app/types/data';
-import PostComponent from '../common/Post';
+import PostComponent from '../common/PostComp';
 
 const ContentContainer = styled.div`
   display: flex;

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Post } from '@/app/types/data';
-import PostCompoment from '../common/Post';
+import PostCompoment from '../common/PostComp';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -19,8 +19,12 @@ const ReactionP = styled.p`
   margin-right: 12px;
 `;
 
+interface ReactionPost extends Post {
+  reaction: string;
+}
+
 const time = new Date().getTime();
-const postList: Array<Post & { reaction: string }> = [
+const postList: Array<ReactionPost> = [
   {
     id: 1,
     reaction: '🥹',

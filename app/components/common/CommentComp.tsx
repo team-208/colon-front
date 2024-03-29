@@ -4,7 +4,9 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { Comment } from '@/app/types/data';
 
-type Props = Comment & { isDelete?: boolean };
+interface Props extends Comment {
+  isDelete?: boolean;
+}
 
 const CommentContainerdiv = styled.div`
   position: relative;
@@ -42,7 +44,7 @@ const CommentButton = styled.div`
   background: transparent;
 `;
 
-const Comment = (props: Props) => {
+const CommentComp = (props: Props) => {
   const { id, postInfo, comment, isDelete } = props;
 
   const handleClickDelete = useCallback((id: number) => {
@@ -64,4 +66,4 @@ const Comment = (props: Props) => {
   );
 };
 
-export default React.memo(Comment);
+export default React.memo(CommentComp);
