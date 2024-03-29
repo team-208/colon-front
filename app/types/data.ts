@@ -1,8 +1,9 @@
+import dayjs from 'dayjs';
 import { ReactNode } from 'react';
 
 export interface Post {
   id: number;
-  date: Date;
+  date: dayjs.Dayjs;
   title: string;
   content: string;
   nickname: string;
@@ -14,7 +15,7 @@ export interface Post {
 
 export interface Comment {
   id: number;
-  date: Date;
-  postInfo: { id: number; date: Date; title: string };
+  date: dayjs.Dayjs;
+  postInfo: { id: number; date: dayjs.Dayjs; title: string };
   comment: string;
 }

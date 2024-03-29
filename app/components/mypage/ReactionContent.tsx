@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 import styled from 'styled-components';
 import { Post } from '@/app/types/data';
 import PostCompoment from '../common/PostComp';
@@ -23,12 +24,12 @@ interface ReactionPost extends Post {
   reaction: string;
 }
 
-const time = new Date().getTime();
+const time = dayjs();
 const postList: Array<ReactionPost> = [
   {
     id: 1,
     reaction: '🥹',
-    date: new Date(),
+    date: dayjs(),
     title: '안녕하세요. 궁금한게 있습니다.',
     content: '본문 내용입니다.',
     nickname: 'ohdal',
@@ -38,7 +39,7 @@ const postList: Array<ReactionPost> = [
   {
     id: 2,
     reaction: '🧡',
-    date: new Date(time - 1000 * 60 * 4),
+    date: time.subtract(4, 'minute'),
     title:
       '안녕하세요. 75자 테스트를 해볼게요. 얼마나 적어야 75자가 넘을까요? 아메리카노 거의 다 마셔가네요. 배가 고프네요. 아직도 75자가 안넘네요?',
     content: '본문 내용입니다.',
@@ -49,7 +50,7 @@ const postList: Array<ReactionPost> = [
   {
     id: 3,
     reaction: '😡',
-    date: new Date(time - 1000 * 60 * 60 * 23),
+    date: time.subtract(23, 'hour'),
     title: '이것은 해결된 질문입니다 :)',
     content: '본문 내용입니다.',
     nickname: 'ohdal',
@@ -59,7 +60,7 @@ const postList: Array<ReactionPost> = [
   {
     id: 4,
     reaction: '💚',
-    date: new Date(time - 1000 * 60 * 60 * 24 * 2),
+    date: time.subtract(2, 'day'),
     title: '해결도되고 수정도 된 질문입니다.',
     content: '본문 내용입니다.',
     nickname: 'ohdal',
@@ -69,7 +70,7 @@ const postList: Array<ReactionPost> = [
   {
     id: 5,
     reaction: '🤣',
-    date: new Date(time - 1000 * 60 * 60 * 24 * 9),
+    date: time.subtract(9, 'day'),
     title: '해결도되고 수정도 된 질문입니다.',
     content: '본문 내용입니다.',
     nickname: 'ohdal',

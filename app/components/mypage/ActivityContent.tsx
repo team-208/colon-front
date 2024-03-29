@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 import styled from 'styled-components';
 import { Post, Comment } from '@/app/types/data';
 import PostComponent from '../common/PostComp';
@@ -49,7 +50,7 @@ const userList: Array<UserPost | UserComment> = [
   {
     id: 1,
     reaction: '🥹',
-    date: new Date(),
+    date: dayjs(),
     title: '안녕하세요. 궁금한게 있습니다.',
     content: '본문 내용입니다.',
     nickname: 'ohdal',
@@ -60,8 +61,8 @@ const userList: Array<UserPost | UserComment> = [
   },
   {
     id: 1,
-    date: new Date(),
-    postInfo: { id: 1, date: new Date(), title: '안녕하세요. 궁금한게 있습니다.' },
+    date: dayjs(),
+    postInfo: { id: 1, date: dayjs(), title: '안녕하세요. 궁금한게 있습니다.' },
     comment: '네 제가 답해드리겠습니다 ~',
     type: 'comment',
   },
