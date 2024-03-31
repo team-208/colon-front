@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import styled from 'styled-components';
-import NicnameComponent from '@/app/components/mypage/NicnameComponent';
+import NicknameComp from '@/app/components/mypage/NicknameComp';
 import Tabs from '@/app/components/common/TabsComp';
 import ReactionContent from '@/app/components/mypage/ReactionContent';
 import ScrapContent from '@/app/components/mypage/ScrapContent';
@@ -79,7 +79,7 @@ export default function MyPage() {
 
         <ProfileTextDiv>
           <TitleStrong>프로필</TitleStrong>
-          <NicnameComponent />
+          <NicknameComp />
           <TagP>태그</TagP>
         </ProfileTextDiv>
       </ProfileDiv>
