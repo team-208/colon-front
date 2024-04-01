@@ -1,7 +1,9 @@
 'use client';
 
+import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import JobGroupList from '@/app/components/auth/signup/JobGroupList';
 import ProfileList from '@/app/components/auth/signup/ProfileList';
+import useAuth from '@/app/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
@@ -55,15 +57,15 @@ const CompleteButton = styled.button`
 export default function SignUp() {
   // state
   // TODO: api 연동시 type 지정 필요.
-  const [jobGroup, setJobGroup] = useState<string>('');
+  const [jobGroup, setJobGroup] = useState<JOB_GROUP_TYPES>();
   const [profile, setProfile] = useState<string>('');
 
   // hooks
-  const { push } = useRouter();
+  const { signUp } = useAuth();
 
   // events
   const handleClickJobGroup = useCallback(
-    (jobGroup: string) => {
+    (jobGroup: JOB_GROUP_TYPES) => {
       setJobGroup(jobGroup);
     },
     [setJobGroup],
@@ -77,8 +79,14 @@ export default function SignUp() {
   );
 
   const handleClick = () => {
-    // TODO: supabase 연동 및 에러 케이스 분기 필요.
-    push('/');
+    if (jobGroup) {
+      signUp(jobGroup);
+      return;
+    }
+
+    // TODO: 필수 정보 미입력시 처리 방법 논의 필요.
+    // ex) alert or 버튼 비활성화 등.
+    alert('필수정보를 입력해 주세요.');
   };
 
   return (

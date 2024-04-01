@@ -2,27 +2,60 @@
 
 import { useRouter } from 'next/navigation';
 import supabaseClient from '../utils/supabase/client';
+import { isEmpty } from 'lodash';
+import { JOB_GROUP_TYPES } from '../api/auth/user/type';
 
 const useAuth = () => {
   const { auth } = supabaseClient;
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
 
-  const login = async () => {
+  const login = async (redirectTo: string) => {
     try {
-      const { data, error } = await auth.signInWithOAuth({
+      await auth.signInWithOAuth({
         provider: 'kakao',
-        options: {
-          redirectTo: `http://localhost:3000/api/auth/callback`,
-        },
+        options: { redirectTo: redirectTo },
       });
     } catch (error) {}
   };
 
   const logout = async () => {
     try {
-      const { error } = await auth.signOut();
+      await auth.signOut();
       push('/');
     } catch (error) {}
+  };
+
+  const signUp = async (major: JOB_GROUP_TYPES) => {
+    try {
+      const user = await userInfo();
+      if (!isEmpty(user)) {
+        alert('이미 가입된 회원 입니다. 로그인 화면으로 이동합니다.');
+        replace('/');
+        return;
+      }
+
+      // TODO: input field 연동 필요.
+      const userPostFetch = await fetch('/api/auth/user', {
+        method: 'POST',
+        body: JSON.stringify({
+          major,
+          profile_url: '/',
+          created_at: new Date(),
+          updated_at: new Date(),
+        }),
+      });
+
+      const { success } = await userPostFetch.json();
+
+      if (!success) {
+        throw Error();
+      }
+
+      alert('회원가입 성공!');
+      replace('/');
+    } catch (error) {
+      alert('회원가입에 실패 하였습니다.(실패 화면 이동 필요.)');
+    }
   };
 
   const deleteUser = async () => {
@@ -31,7 +64,12 @@ const useAuth = () => {
     } catch (error) {}
   };
 
-  return { login, logout, deleteUser };
+  const userInfo = async () => {
+    const userFetch = await fetch('/api/auth/user');
+    return await userFetch.json();
+  };
+
+  return { login, logout, deleteUser, userInfo, signUp };
 };
 
 export default useAuth;
