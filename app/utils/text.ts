@@ -5,7 +5,7 @@ export const cutText = (text: string, length: number, replace: string): string =
 
 export const dateText = (date: dayjs.Dayjs): string => {
   const cur = dayjs();
-  const diff = Math.trunc(cur.diff(date) / 1000 / 60); // 분단위
+  const diff = Math.trunc(cur.diff(date, "minute"));
 
   if (diff > 60 * 24 * 7) {
     return dayjs(date).format('YY/MM/DD');
