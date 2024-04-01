@@ -9,7 +9,7 @@ const ContainerHeader = styled.header`
   height: 60px;
 `;
 
-const Header = () => {
+const HeaderComp = () => {
   return (
     <ContainerHeader>
       <h1>아이콘</h1>
@@ -19,4 +19,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderComp;
