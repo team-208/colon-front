@@ -1,8 +1,7 @@
 'use client';
 
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { deflate } from 'zlib';
 
 interface Props {
   initIdx?: number;
@@ -53,7 +52,9 @@ const TabsComp = (props: Props) => {
           </TabListLi>
         ))}
       </TabListUl>
-      <TabContentDiv>{tabList[curIdx].component}</TabContentDiv>
+      <React.Suspense fallback={<div>...loading</div>}>
+        <TabContentDiv>{tabList[curIdx].component}</TabContentDiv>
+      </React.Suspense>
     </TabTableDiv>
   );
 };

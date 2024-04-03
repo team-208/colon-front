@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import { Post } from '@/app/types/data';
-import PostCompoment from '../common/PostComp';
+import PostComp from '../common/PostComp';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -79,28 +78,25 @@ const postList: Array<ReactionPost> = [
   },
 ];
 
-const ReactionContent = () => {
-  const [list, setList] = useState<typeof postList | null>(null);
-
-  useEffect(() => {
-    // TODO: 반응한 글 리스트 불러오는 api 연동 (Infinity Scroll)
+const fetchReaction = async (): Promise<typeof postList> => {
+  // TODO: 반응한 글 리스트 불러오는 api 연동 (Infinity Scroll)
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      setList(postList);
+      resolve(postList);
     }, 2000);
-  }, []);
+  });
+};
+
+const ReactionContent = async () => {
+  const list: typeof postList = await fetchReaction();
 
   return (
     <ContentContainer>
-      {list ? (
-        list.map((post, idx) => (
-          <PostCompoment key={`reaction-${idx}`} {...post}>
-            <ReactionP>{post.reaction}</ReactionP>
-          </PostCompoment>
-        ))
-      ) : (
-        // TODO: 로딩 or 게시물 없음 화면
-        <div>Loading...</div>
-      )}
+      {list?.map((post, idx) => (
+        <PostComp key={`reaction-${idx}`} {...post}>
+          <ReactionP>{post.reaction}</ReactionP>
+        </PostComp>
+      ))}
     </ContentContainer>
   );
 };
