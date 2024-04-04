@@ -3,7 +3,7 @@ import { fetchGetUser } from './fetch';
 import supabaseClient from '@/app/utils/supabase/client';
 import QUERY_KEYS from '../../queryKeys';
 
-const useUserSession = () => {
+const useUserSessionQuery = () => {
   const { auth } = supabaseClient;
 
   return useQuery({
@@ -13,4 +13,4 @@ const useUserSession = () => {
   });
 };
 
-export default useUserSession;
+export default useUserSessionQuery;
