@@ -5,6 +5,8 @@ import supabaseClient from '../utils/supabase/client';
 import { isEmpty } from 'lodash';
 import { JOB_GROUP_TYPES } from '../api/auth/user/type';
 import { fetchDeleteUser } from '../api/auth/deleteUser/fetch';
+import { fetchSignUpUser } from '../api/auth/user/fetch';
+import dayjs from 'dayjs';
 
 const useAuth = () => {
   const { auth } = supabaseClient;
@@ -35,18 +37,12 @@ const useAuth = () => {
         return;
       }
 
-      // TODO: input field 연동 필요.
-      const userPostFetch = await fetch('/api/auth/user', {
-        method: 'POST',
-        body: JSON.stringify({
-          major,
-          profile_url: '/',
-          created_at: new Date(),
-          updated_at: new Date(),
-        }),
+      const { success } = await fetchSignUpUser({
+        major,
+        profile_url: '/',
+        created_at: dayjs(),
+        updated_at: dayjs(),
       });
-
-      const { success } = await userPostFetch.json();
 
       if (!success) {
         throw Error();
