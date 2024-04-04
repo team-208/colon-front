@@ -36,7 +36,7 @@ const useAuth = () => {
       const { data: user } = await refetchUserSession();
       if (!isEmpty(user)) {
         alert('이미 가입된 회원 입니다. 로그인 화면으로 이동합니다.');
-        replace('/');
+        replace('/login');
         return;
       }
 
