@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import supabaseClient from '../utils/supabase/client';
 import { isEmpty } from 'lodash';
 import { JOB_GROUP_TYPES } from '../api/auth/user/type';
+import { fetchDeleteUser } from '../api/auth/deleteUser/fetch';
 
 const useAuth = () => {
   const { auth } = supabaseClient;
@@ -60,7 +61,7 @@ const useAuth = () => {
 
   const deleteUser = async () => {
     try {
-      await fetch('/api/auth/deleteUser', { method: 'POST', body: JSON.stringify({}) });
+      await fetchDeleteUser();
     } catch (error) {}
   };
 
