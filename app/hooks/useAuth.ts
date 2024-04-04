@@ -7,10 +7,13 @@ import { JOB_GROUP_TYPES } from '../api/auth/user/type';
 import { fetchDeleteUser } from '../api/auth/deleteUser/fetch';
 import { fetchSignUpUser } from '../api/auth/user/fetch';
 import dayjs from 'dayjs';
+import useUserSession from '../api/auth/user/queries';
 
 const useAuth = () => {
   const { auth } = supabaseClient;
   const { push, replace } = useRouter();
+
+  const { data: userInfo, refetch: refetchUserSession } = useUserSession();
 
   const login = async (redirectTo: string) => {
     try {
@@ -30,7 +33,7 @@ const useAuth = () => {
 
   const signUp = async (major: JOB_GROUP_TYPES) => {
     try {
-      const user = await userInfo();
+      const { data: user } = await refetchUserSession();
       if (!isEmpty(user)) {
         alert('이미 가입된 회원 입니다. 로그인 화면으로 이동합니다.');
         replace('/');
@@ -59,11 +62,6 @@ const useAuth = () => {
     try {
       await fetchDeleteUser();
     } catch (error) {}
-  };
-
-  const userInfo = async () => {
-    const userFetch = await fetch('/api/auth/user');
-    return await userFetch.json();
   };
 
   return { login, logout, deleteUser, userInfo, signUp };

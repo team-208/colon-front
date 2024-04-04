@@ -1,3 +1,4 @@
+import { Session } from '@supabase/supabase-js';
 import dayjs from 'dayjs';
 
 export type JOB_GROUP_TYPES = 'PLANNING' | 'DESIGN' | 'DEVELOP';
@@ -11,4 +12,10 @@ export interface SignUpUserRequest {
 
 export interface SignUpUserResponse {
   success: boolean;
+}
+
+export interface GetUserResponse extends Session {
+  user: {
+    profile_url: string;
+  };
 }
