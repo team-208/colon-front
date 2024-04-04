@@ -4,16 +4,18 @@ import { useRouter } from 'next/navigation';
 import supabaseClient from '../utils/supabase/client';
 import { isEmpty } from 'lodash';
 import { JOB_GROUP_TYPES } from '../api/auth/user/type';
-import { fetchDeleteUser } from '../api/auth/deleteUser/fetch';
-import { fetchSignUpUser } from '../api/auth/user/fetch';
 import dayjs from 'dayjs';
-import useUserSession from '../api/auth/user/queries';
+import useUserSessionQuery from '../api/auth/user/queries';
+import useDeleteUserMutation from '../api/auth/deleteUser/mutations';
+import useSignUpUserMutation from '../api/auth/user/mutations';
 
 const useAuth = () => {
   const { auth } = supabaseClient;
   const { push, replace } = useRouter();
 
-  const { data: userInfo, refetch: refetchUserSession } = useUserSession();
+  const { data: userInfo, refetch: refetchUserSession } = useUserSessionQuery();
+  const { mutateAsync: deleteUserMutation } = useDeleteUserMutation();
+  const { mutateAsync: signUpUserMutation } = useSignUpUserMutation();
 
   const login = async (redirectTo: string) => {
     try {
@@ -40,7 +42,7 @@ const useAuth = () => {
         return;
       }
 
-      const { success } = await fetchSignUpUser({
+      const { success } = await signUpUserMutation({
         major,
         profile_url: '/',
         created_at: dayjs(),
@@ -60,7 +62,7 @@ const useAuth = () => {
 
   const deleteUser = async () => {
     try {
-      await fetchDeleteUser();
+      await deleteUserMutation();
     } catch (error) {}
   };
 
