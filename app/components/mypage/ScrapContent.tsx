@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import { Post } from '@/app/types/data';
-import PostComponent from '../common/PostComp';
+import PostComp from '../common/PostComp';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -60,28 +59,25 @@ const postList: Array<Post> = [
   },
 ];
 
-const ScrapContent = () => {
-  const [list, setList] = useState<typeof postList | null>(null);
-
-  useEffect(() => {
-    // TODO: 스크랩한 글 리스트 불러오는 api 연동 (Infinity Scroll)
+const fetchScrap = async (): Promise<typeof postList> => {
+  // TODO: 스크랩한 글 리스트 불러오는 api 연동 (Infinity Scroll)
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      setList(postList);
+      resolve(postList);
     }, 2000);
-  }, []);
+  });
+};
+
+const ScrapContent = async () => {
+  const list: typeof postList = await fetchScrap();
 
   return (
     <ContentContainer>
-      {list ? (
-        list.map((post, idx) => (
-          <PostComponent key={`reaction-${idx}`} {...post}>
-            <ScrapIconP>📚</ScrapIconP>
-          </PostComponent>
-        ))
-      ) : (
-        // TODO: 로딩 or 게시물 없음 화면
-        <div>Loading...</div>
-      )}
+      {list?.map((post, idx) => (
+        <PostComp key={`reaction-${idx}`} {...post}>
+          <ScrapIconP>📚</ScrapIconP>
+        </PostComp>
+      ))}
     </ContentContainer>
   );
 };
