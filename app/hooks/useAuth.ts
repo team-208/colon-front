@@ -80,7 +80,7 @@ const useAuth = () => {
       }
 
       const convertedBody = removeUndefinedValue(requestBody);
-      const { success } = await updateUserMutation(convertedBody);
+      const { success } = await updateUserMutation({ ...convertedBody, updated_at: dayjs() });
 
       if (!success) {
         throw Error();
