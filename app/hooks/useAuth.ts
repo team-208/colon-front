@@ -3,11 +3,12 @@
 import { useRouter } from 'next/navigation';
 import supabaseClient from '../utils/supabase/client';
 import { isEmpty } from 'lodash';
-import { JOB_GROUP_TYPES } from '../api/auth/user/type';
+import { JOB_GROUP_TYPES, UpdateUserRequest } from '../api/auth/user/type';
 import dayjs from 'dayjs';
 import useUserSessionQuery from '../api/auth/user/queries';
 import useDeleteUserMutation from '../api/auth/deleteUser/mutations';
-import useSignUpUserMutation from '../api/auth/user/mutations';
+import { useSignUpUserMutation, useUpdateUserMutation } from '../api/auth/user/mutations';
+import { removeUndefinedValue } from '../utils/converter';
 
 const useAuth = () => {
   const { auth } = supabaseClient;
@@ -16,6 +17,7 @@ const useAuth = () => {
   const { data: userInfo, refetch: refetchUserSession } = useUserSessionQuery();
   const { mutateAsync: deleteUserMutation } = useDeleteUserMutation();
   const { mutateAsync: signUpUserMutation } = useSignUpUserMutation();
+  const { mutateAsync: updateUserMutation } = useUpdateUserMutation();
 
   const login = async (redirectTo: string) => {
     try {
@@ -45,6 +47,7 @@ const useAuth = () => {
       const { success } = await signUpUserMutation({
         major,
         profile_url: '/',
+        nick_name: '',
         created_at: dayjs(),
         updated_at: dayjs(),
       });
@@ -66,7 +69,30 @@ const useAuth = () => {
     } catch (error) {}
   };
 
-  return { login, logout, deleteUser, userInfo, signUp };
+  const updateUser = async (requestBody: UpdateUserRequest) => {
+    try {
+      const { data: user } = await refetchUserSession();
+
+      if (isEmpty(user)) {
+        alert('로그인 후 이용할 수 있습니다. 로그인 화면으로 이동합니다.');
+        replace('/login');
+        return;
+      }
+
+      const convertedBody = removeUndefinedValue(requestBody);
+      const { success } = await updateUserMutation(convertedBody);
+
+      if (!success) {
+        throw Error();
+      }
+
+      alert('수정 성공!');
+    } catch (error) {
+      alert('회원 정보 수정에 실패하였습니다.');
+    }
+  };
+
+  return { login, logout, deleteUser, userInfo, signUp, updateUser };
 };
 
 export default useAuth;
