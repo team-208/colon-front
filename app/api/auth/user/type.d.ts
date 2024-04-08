@@ -17,5 +17,9 @@ export interface SignUpUserResponse {
 export interface GetUserResponse extends Session {
   user: {
     profile_url: string;
+    nick_name: string;
+    major: string;
+    created_at: string;
+    updated_at: string;
   };
 }

@@ -23,7 +23,18 @@ export async function GET(request: Request, response: Response) {
     }
 
     return NextResponse.json(
-      isEmpty(userInfo) ? {} : { ...data.session, user: { profile_url: userInfo[0].profile_url } },
+      isEmpty(userInfo)
+        ? {}
+        : {
+            ...data.session,
+            user: {
+              profile_url: userInfo[0].profile_url,
+              nick_name: userInfo[0].nick_name,
+              major: userInfo[0].major,
+              created_at: userInfo[0].created_at,
+              updated_at: userInfo[0].updated_at,
+            },
+          },
     );
   } catch (error) {
     return NextResponse.redirect(`${host}/auth/auth-code-error`);
