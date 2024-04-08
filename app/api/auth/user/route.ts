@@ -55,3 +55,22 @@ export async function POST(request: Request) {
     return NextResponse.redirect(`${host}/auth/auth-code-error`);
   }
 }
+
+export async function PUT(request: Request) {
+  const host = getHost();
+
+  const supabase = await createClient();
+  const bodyData = await request.json();
+
+  try {
+    const { data } = await supabase.auth.getSession();
+    const { error } = await supabase
+      .from('user_info')
+      .update({ ...bodyData })
+      .eq('user_id', data.session?.user.id);
+    // TODO: error 처리 프론트 or 백 결정 필요.
+    return NextResponse.json({ success: error ? false : true, error });
+  } catch (error) {
+    return NextResponse.redirect(`${host}/auth/auth-code-error`);
+  }
+}

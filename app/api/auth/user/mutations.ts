@@ -1,8 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
-import { fetchSignUpUser } from './fetch';
-import { SignUpUserRequest } from './type';
+import { fetchSignUpUser, fetchUpdateUser } from './fetch';
+import { SignUpUserRequest, UpdateUserRequest } from './type';
 
-const useSignUpUserMutation = () =>
+export const useSignUpUserMutation = () =>
   useMutation({ mutationFn: (body: SignUpUserRequest) => fetchSignUpUser(body) });
 
-export default useSignUpUserMutation;
+export const useUpdateUserMutation = () =>
+  useMutation({ mutationFn: (body: UpdateUserRequest) => fetchUpdateUser(body) });
