@@ -18,7 +18,7 @@ const NicknameButton = styled.button`
   display: inline-block;
 `;
 
-const NicknameComp = () => {
+const NicknameInputComp = () => {
   const [isModify, setIsModify] = useState(false);
   const [value, setValue] = useState('닉네임');
 
@@ -45,4 +45,4 @@ const NicknameComp = () => {
   );
 };
 
-export default NicknameComp;
+export default NicknameInputComp;
