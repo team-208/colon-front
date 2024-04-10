@@ -3,14 +3,16 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 
-const Section = styled.div<{ $dir: string }>`
+const Section = styled.section<{ $dir: Direction }>`
   display: flex;
   flex-direction: ${(props) => props.$dir};
   padding: 16px;
 `;
 
+type Direction = 'column' | 'row';
+
 interface Props {
-  direction: 'column' | 'row';
+  direction: Direction;
   children: ReactNode;
 }
 
