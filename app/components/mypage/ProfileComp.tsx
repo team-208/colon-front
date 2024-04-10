@@ -3,8 +3,11 @@
 import Image from 'next/image';
 import { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import useAuth from '@/app/hooks/useAuth';
 
 const ProfileDiv = styled.div`
+  width: 100%;
+  position: relative;
   display: flex;
   flex-directioin: row;
 `;
@@ -64,8 +67,17 @@ const TagP = styled.p`
   background-color: #e0e0e0;
 `;
 
+const LogoutP = styled.p`
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 16px;
+  border-bottom: 1px solid #a3a3a3;
+`;
+
 const ProfileComp = () => {
   // TODO: 초깃값 설정 (recoil)
+  const { logout } = useAuth();
   const [nickname, setNickname] = useState('닉네임');
   const [isModify, setIsModify] = useState(false);
 
@@ -125,6 +137,7 @@ const ProfileComp = () => {
         </NicknameDiv>
         <TagP>태그</TagP>
       </ProfileTextDiv>
+      <LogoutP onClick={logout}>로그아웃</LogoutP>
     </ProfileDiv>
   );
 };
