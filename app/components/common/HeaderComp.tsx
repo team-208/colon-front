@@ -19,7 +19,7 @@ const HeaderComp = () => {
       <h1>아이콘</h1>
       <h1>[page1]</h1>
       <h1>[page2]</h1>
-      <h1>{`로그인 유저: ${userInfo?.user?.nick_name}` ?? ''}</h1>
+      <h1>{userInfo?.user?.nick_name ?? ''}</h1>
     </ContainerHeader>
   );
 };
