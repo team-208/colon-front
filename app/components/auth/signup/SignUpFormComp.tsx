@@ -2,10 +2,11 @@
 
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import useAuth from '@/app/hooks/useAuth';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import JobGroupList from './JobGroupList';
-import ProfileList from './ProfileList';
+import ProfileList, { PROFILE_TYPES } from './ProfileList';
+import useNickNameQuery from '@/app/api/auth/nickName/queries';
 
 const ServiceImageP = styled.p`
   width: 100%;
@@ -49,30 +50,50 @@ const CompleteButton = styled.button`
 const SignUpFormComp = () => {
   // state
   // TODO: api 연동시 type 지정 필요.
-  const [jobGroup, setJobGroup] = useState<JOB_GROUP_TYPES>();
-  const [profile, setProfile] = useState<string>('');
+  const [major, setMajor] = useState<JOB_GROUP_TYPES>();
+  const [profile, setProfile] = useState<PROFILE_TYPES>('KAKAO');
+  const [randomNickName, setRandomNickName] = useState<string>('');
 
   // hooks
-  const { signUp } = useAuth();
+  const { signUp, userInfo } = useAuth();
+
+  // queries
+  const { refetch: refetchNickName } = useNickNameQuery();
+
+  // useMemos
+  const kakaoNickname = useMemo(
+    () => userInfo?.kakaoUserInfo.preferred_username ?? '',
+    [userInfo?.kakaoUserInfo.preferred_username],
+  );
 
   // events
   const handleClickJobGroup = useCallback(
     (jobGroup: JOB_GROUP_TYPES) => {
-      setJobGroup(jobGroup);
+      setMajor(jobGroup);
     },
-    [setJobGroup],
+    [setMajor],
   );
 
   const handleClickProfile = useCallback(
-    (profile: string) => {
+    (profile: PROFILE_TYPES) => {
       setProfile(profile);
     },
     [setProfile],
   );
 
-  const handleClick = () => {
-    if (jobGroup) {
-      signUp(jobGroup);
+  const handleClick = async () => {
+    if (major && profile) {
+      // TODO: profileUrl & nickname input 영역은 추가작업 필요.
+      // nickname 새로고침 or 직접 입력, profile 업로드 방식 등 기획서 구체화가 필요.
+      const isKaKaoProfile = profile === 'KAKAO';
+
+      signUp({
+        major,
+        profileUrl: isKaKaoProfile
+          ? userInfo?.kakaoUserInfo.avatar_url ?? ''
+          : userInfo?.user.profile_url ?? '',
+        nickname: isKaKaoProfile ? kakaoNickname : randomNickName,
+      });
       return;
     }
 
@@ -80,6 +101,18 @@ const SignUpFormComp = () => {
     // ex) alert or 버튼 비활성화 등.
     alert('필수정보를 입력해 주세요.');
   };
+
+  const handleRefreshRandomNickName = async () => {
+    const { data: randomNickName } = await refetchNickName();
+    if (randomNickName?.success) {
+      setRandomNickName(randomNickName?.nickname);
+    }
+  };
+
+  // useEffects
+  useEffect(() => {
+    handleRefreshRandomNickName();
+  }, []);
 
   return (
     <>
@@ -91,10 +124,15 @@ const SignUpFormComp = () => {
         </h2>
 
         <SubtitleH3>종사하시는 직군과 가장 유사한 분야를 선택해주세요!</SubtitleH3>
-        <JobGroupList jobGroup={jobGroup} onClick={handleClickJobGroup} />
+        <JobGroupList jobGroup={major} onClick={handleClickJobGroup} />
 
         <SubtitleH3>사용하실 프로필을 선택해 주세요!</SubtitleH3>
-        <ProfileList profile={profile} onClick={handleClickProfile} />
+        <ProfileList
+          profile={profile}
+          kakaoNickname={kakaoNickname}
+          randomNickname={randomNickName}
+          onClick={handleClickProfile}
+        />
 
         <SubtitleH3>
           서비스 이용을 위한 약관 동의가 필요해요!(카카오 회원가입시 항목이 중복되어 검토 필요)
