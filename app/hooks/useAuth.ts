@@ -35,7 +35,15 @@ const useAuth = () => {
     } catch (error) {}
   };
 
-  const signUp = async (major: JOB_GROUP_TYPES) => {
+  const signUp = async ({
+    major,
+    profileUrl,
+    nickname,
+  }: {
+    major: JOB_GROUP_TYPES;
+    profileUrl: string;
+    nickname: string;
+  }) => {
     try {
       const { data: user } = await refetchUserSession();
       if (!isEmpty(user)) {
@@ -46,8 +54,8 @@ const useAuth = () => {
 
       const { success } = await signUpUserMutation({
         major,
-        profile_url: '/',
-        nick_name: '',
+        profile_url: profileUrl,
+        nick_name: nickname,
         created_at: dayjs(),
         updated_at: dayjs(),
       });
