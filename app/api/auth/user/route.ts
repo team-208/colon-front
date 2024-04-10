@@ -17,11 +17,6 @@ export async function GET(request: Request, response: Response) {
       throw Error('get session error');
     }
 
-    const { data: kakaoUserInfo, error: kakaoUserInfoError } = await supabase.auth.getUser();
-    if (kakaoUserInfoError) {
-      throw Error('get kakaoUserInfo error');
-    }
-
     const { data: userInfo, error: userInfoError } = await supabase.from('user_info').select('*');
     if (userInfoError) {
       throw Error('user info error');
@@ -39,7 +34,7 @@ export async function GET(request: Request, response: Response) {
               created_at: userInfo[0].created_at,
               updated_at: userInfo[0].updated_at,
             },
-            kakaoUserInfo: kakaoUserInfo?.user?.user_metadata,
+            kakaoUserInfo: data.session?.user.user_metadata,
           },
     );
   } catch (error) {

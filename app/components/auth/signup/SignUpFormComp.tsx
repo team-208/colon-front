@@ -62,8 +62,8 @@ const SignUpFormComp = () => {
 
   // useMemos
   const kakaoNickname = useMemo(
-    () => userInfo?.kakaoUserInfo.preferred_username ?? '',
-    [userInfo?.kakaoUserInfo.preferred_username],
+    () => userInfo?.kakaoUserInfo?.preferred_username ?? '',
+    [userInfo?.kakaoUserInfo?.preferred_username],
   );
 
   // events
