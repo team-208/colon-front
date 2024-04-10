@@ -6,10 +6,7 @@ import ScrapContent from '@/app/components/mypage/ScrapContent';
 import ActivityContent from '@/app/components/mypage/ActivityContent';
 
 const tabList = [
-  {
-    text: '반응한 글',
-    component: <ReactionContent />,
-  },
+  { text: '반응한 글', component: <ReactionContent /> },
   {
     text: '스크랩',
     component: <ScrapContent />,
@@ -22,7 +19,7 @@ const tabList = [
 
 export default function MyPage() {
   return (
-    <div>
+    <main>
       <SectionComp direction="row">
         <ProfileComp />
       </SectionComp>
@@ -30,6 +27,6 @@ export default function MyPage() {
       <SectionComp direction="column">
         <Tabs tabList={tabList} />
       </SectionComp>
-    </div>
+    </main>
   );
 }
