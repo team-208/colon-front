@@ -83,8 +83,8 @@ const SignUpFormComp = () => {
 
   const handleClick = async () => {
     if (major && profile) {
-      // TODO: profileUrl & nickname input 영역은 추가작업 필요.
-      // nickname 새로고침 or 직접 입력, profile 업로드 방식 등 기획서 구체화가 필요.
+      // TODO: nickname input 영역은 추가작업 필요.
+      // nickname 새로고침 or 직접 입력 등 기획서 구체화가 필요.
       const isKaKaoProfile = profile === 'KAKAO';
 
       signUp({
