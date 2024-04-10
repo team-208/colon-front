@@ -1,21 +1,9 @@
-'use client';
-
-import styled from 'styled-components';
+import SectionComp from '@/app/components/mypage/SectionComp';
 import ProfileComp from '@/app/components/mypage/ProfileComp';
 import Tabs from '@/app/components/common/TabsComp';
 import ReactionContent from '@/app/components/mypage/ReactionContent';
 import ScrapContent from '@/app/components/mypage/ScrapContent';
 import ActivityContent from '@/app/components/mypage/ActivityContent';
-
-const ContainerMain = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-
-  > *:not(:last-child) {
-    margin-bottom: 24px;
-  }
-`;
 
 const tabList = [
   {
@@ -34,9 +22,14 @@ const tabList = [
 
 export default function MyPage() {
   return (
-    <ContainerMain>
-      <ProfileComp />
-      <Tabs tabList={tabList} />
-    </ContainerMain>
+    <div>
+      <SectionComp direction="row">
+        <ProfileComp />
+      </SectionComp>
+
+      <SectionComp direction="column">
+        <Tabs tabList={tabList} />
+      </SectionComp>
+    </div>
   );
 }
