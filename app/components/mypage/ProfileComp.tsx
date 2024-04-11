@@ -9,7 +9,7 @@ const ProfileDiv = styled.div`
   width: 100%;
   position: relative;
   display: flex;
-  flex-directioin: row;
+  flex-direction: row;
 `;
 
 const ProfileImageDiv = styled.div`
