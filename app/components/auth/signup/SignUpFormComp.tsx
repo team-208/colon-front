@@ -49,7 +49,6 @@ const CompleteButton = styled.button`
 
 const SignUpFormComp = () => {
   // state
-  // TODO: api 연동시 type 지정 필요.
   const [major, setMajor] = useState<JOB_GROUP_TYPES>();
   const [profile, setProfile] = useState<PROFILE_TYPES>('KAKAO');
   const [randomNickName, setRandomNickName] = useState<string>('');
@@ -83,8 +82,7 @@ const SignUpFormComp = () => {
 
   const handleClick = async () => {
     if (major && profile) {
-      // TODO: nickname input 영역은 추가작업 필요.
-      // nickname 새로고침 or 직접 입력 등 기획서 구체화가 필요.
+      // TODO: 디자인 가이드 배포시 random nickname profile image 추가작업 필요.
       const isKaKaoProfile = profile === 'KAKAO';
 
       signUp({
