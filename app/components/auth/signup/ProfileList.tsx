@@ -3,9 +3,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
+export type PROFILE_TYPES = 'RANDOM' | 'KAKAO';
 interface JobGroupListProps {
-  profile: string;
-  onClick: (profile: string) => void;
+  profile: PROFILE_TYPES;
+  kakaoNickname: string;
+  randomNickname: string;
+  onClick: (profile: PROFILE_TYPES) => void;
 }
 
 const ContainerUl = styled.ul`
@@ -23,17 +26,17 @@ const ProfileButton = styled.button<{ $isActive: boolean }>`
   border: 1px solid #c3c3c3;
 `;
 
-const ProfileList = ({ profile, onClick }: JobGroupListProps) => {
+const ProfileList = ({ profile, kakaoNickname, randomNickname, onClick }: JobGroupListProps) => {
   return (
     <ContainerUl>
       <li>
         <ProfileButton $isActive={profile === 'KAKAO'} onClick={() => onClick('KAKAO')}>
-          이름
+          이름 - {kakaoNickname}
         </ProfileButton>
       </li>
       <li>
         <ProfileButton $isActive={profile === 'RANDOM'} onClick={() => onClick('RANDOM')}>
-          랜덤 닉네임
+          랜덤 닉네임 - {randomNickname}
         </ProfileButton>
       </li>
     </ContainerUl>

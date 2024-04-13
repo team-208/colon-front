@@ -34,6 +34,7 @@ export async function GET(request: Request, response: Response) {
               created_at: userInfo[0].created_at,
               updated_at: userInfo[0].updated_at,
             },
+            kakaoUserInfo: data.session?.user.user_metadata,
           },
     );
   } catch (error) {

@@ -40,7 +40,6 @@ export default function Login() {
 
   const host = getHost();
 
-  // console.log(process.env.NODE_ENV, host);
   // events
   const handleClickKakao = () => {
     login(`${host}/api/auth/callback`);
