@@ -1,12 +1,18 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
+import Quill, { Delta } from 'quill';
 import hljs from 'highlight.js';
-import Quill from 'quill';
+import { debounce } from 'lodash';
 import 'highlight.js/styles/github.css';
 import 'react-quill/dist/quill.snow.css';
 // import 'react-quill/dist/quill.bubble.css';
+
+interface Props {
+  setHTML: (value: string) => void;
+  initValue?: string;
+}
 
 const ToolbarContainer = styled.div`
   border-top-left-radius: 10px;
@@ -39,20 +45,48 @@ const options = {
   theme: 'snow', // or bubble
 };
 
-const QuillEditor = () => {
-  let editor: Quill;
+const QuillEditor = (props: Props) => {
+  const { setHTML, initValue } = props;
+  const editorInstance = useRef<Quill | null>(null);
+  const editorRef = useRef<HTMLDivElement | null>(null);
 
-  const handleClickContainer = () => {
-    editor.focus();
-  };
+  const handleClickContainer = useCallback(() => {
+    if (!editorInstance.current) return;
+    editorInstance.current.focus();
+  }, []);
 
-  const getValue = (): string => {
-    return '';
-  };
+  const handleChangeEditor = useCallback(
+    debounce((v: string) => {
+      setHTML(v);
+    }, 300),
+    [setHTML],
+  );
 
   useEffect(() => {
-    if (!editor) editor = new Quill('#container', options);
-  }, []);
+    if (!editorInstance.current) {
+      editorInstance.current = new Quill('#container', options);
+      editorInstance.current.on(
+        'text-change',
+        (delta: Delta, oldContents: Delta, source: string) => {
+          switch (source) {
+            case 'user':
+              const el = editorRef.current?.querySelector('.ql-editor');
+              handleChangeEditor(el?.innerHTML as string);
+              break;
+            case 'api':
+              break;
+            default:
+              break;
+          }
+        },
+      );
+
+      if (initValue) {
+        const el = editorRef.current?.querySelector('.ql-editor');
+        (el as Element).innerHTML = initValue;
+      }
+    }
+  }, [initValue]);
 
   return (
     <>
@@ -101,7 +135,7 @@ const QuillEditor = () => {
           <button className="ql-clean"></button>
         </span>
       </ToolbarContainer>
-      <Container id="container" onClick={handleClickContainer} />
+      <Container id="container" onClick={handleClickContainer} ref={editorRef} />
     </>
   );
 };
