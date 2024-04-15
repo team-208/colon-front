@@ -1,14 +1,15 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { createTextFile } from '@/app/utils/text';
-import QuillEditor from '@/app/components/common/QuillEditor';
+
+const QuillEditor = dynamic(() => import('@/app/components/common/QuillEditor'), { ssr: false });
 
 export default function QuilleditorPage() {
   const [content, setContent] = useState('');
 
   const handleClickSave = (isTemporary: boolean) => {
-
     // content text .txt 파일로 변환 storage 저장
     // directory, file 명 논의하기
     const file = createTextFile(content, 'userid_date');
