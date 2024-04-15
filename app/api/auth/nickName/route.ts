@@ -27,6 +27,6 @@ export async function GET(request: Request, response: Response) {
       nickname: `${abjectiveWord?.word} ${animalWord?.word}`,
     });
   } catch (error) {
-    return NextResponse.redirect(`${host}/auth/auth-code-error`);
+    return NextResponse.redirect(`${host}/error/500`);
   }
 }

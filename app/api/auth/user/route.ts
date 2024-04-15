@@ -38,7 +38,7 @@ export async function GET(request: Request, response: Response) {
           },
     );
   } catch (error) {
-    return NextResponse.redirect(`${host}/auth/auth-code-error`);
+    return NextResponse.redirect(`${host}/error/500`);
   }
 }
 
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     // TODO: error 처리 프론트 or 백 결정 필요.
     return NextResponse.json({ success: error ? false : true });
   } catch (error) {
-    return NextResponse.redirect(`${host}/auth/auth-code-error`);
+    return NextResponse.redirect(`${host}/error/500`);
   }
 }
 
@@ -72,6 +72,6 @@ export async function PUT(request: Request) {
     // TODO: error 처리 프론트 or 백 결정 필요.
     return NextResponse.json({ success: error ? false : true, error });
   } catch (error) {
-    return NextResponse.redirect(`${host}/auth/auth-code-error`);
+    return NextResponse.redirect(`${host}/error/500`);
   }
 }
