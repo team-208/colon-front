@@ -1,8 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
+import useProfileMutation from '@/app/api/auth/profile/mutations';
 import useAuth from '@/app/hooks/useAuth';
 
 const ProfileDiv = styled.div`
@@ -45,7 +46,7 @@ const ModifyButton = styled.button`
 
 const NicknameDiv = styled.div`
   > * {
-    width: 64px;
+    width: 128px;
     height: 32px;
     line-height: 32px;
     font-size: 16px;
@@ -76,20 +77,47 @@ const LogoutP = styled.p`
 `;
 
 const ProfileComp = () => {
-  // TODO: 초깃값 설정 (recoil)
-  const { logout } = useAuth();
-  const [nickname, setNickname] = useState('닉네임');
+  const { logout, userInfo, updateUser } = useAuth();
+  const { mutateAsync: profileMutation } = useProfileMutation();
+
+  const nicknameInputRef = useRef<HTMLInputElement | null>(null);
+  const [profileFile, setProfileFile] = useState<File | null>(null);
   const [isModify, setIsModify] = useState(false);
 
-  const handleModifyButton = useCallback(() => {
+  const createUpateData = useCallback(async () => {
+    const updateData: { [key: string]: string } = {};
+    let isUpdate = false;
+
+    // 프로필 이미지 Storage 저장하기
+    if (profileFile) {
+      isUpdate = true;
+      const { success, fullPath } = await profileMutation(profileFile);
+      if (success) {
+        updateData['profile_url'] = fullPath;
+      } else {
+        // TODO: 에러처리
+        console.log('error');
+      }
+    }
+    const nickname = nicknameInputRef.current?.value as string;
+    if (nickname !== userInfo?.user.nick_name) {
+      isUpdate = true;
+      updateData['nick_name'] = nickname;
+    }
+
+    return isUpdate ? updateData : false;
+  }, [profileFile, nicknameInputRef.current]);
+
+  const handleModifyButton = useCallback(async () => {
     setIsModify((v) => !v);
     if (isModify) {
-      // TODO: 프로필 이미지, 닉네임 수정 API 연동
-      // TODO: 이미지나, 닉네임 변경점이 없을 때 처리
+      const updateData = await createUpateData();
 
-      console.log('프로필 수정');
+      if (updateData) {
+        await updateUser(updateData);
+      }
     }
-  }, [isModify]);
+  }, [isModify, createUpateData]);
 
   const clickModifyIcon = useCallback(() => {
     const input = document.createElement('input');
@@ -97,8 +125,13 @@ const ProfileComp = () => {
     input.accept = 'image/png, image/jpeg';
     input.click();
 
-    input.addEventListener('change', (e) => {
-      console.log(input.files);
+    input.addEventListener('change', async () => {
+      if (input.files) {
+        setProfileFile(input.files[0]);
+      } else {
+        // TODO: 에러처리
+        console.log('error');
+      }
     });
   }, []);
 
@@ -125,14 +158,9 @@ const ProfileComp = () => {
         </TitleP>
         <NicknameDiv>
           {isModify ? (
-            <NicknameInput
-              value={nickname}
-              onChange={(e) => {
-                setNickname(e.target.value);
-              }}
-            />
+            <NicknameInput ref={nicknameInputRef} defaultValue={userInfo?.user.nick_name} />
           ) : (
-            <p>{nickname}</p>
+            <p>{userInfo?.user.nick_name}</p>
           )}
         </NicknameDiv>
         <TagP>태그</TagP>
