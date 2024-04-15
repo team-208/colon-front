@@ -15,6 +15,8 @@ interface Props {
 }
 
 const ToolbarContainer = styled.div`
+  border-color: #919191 !important;
+  border-bottom: none !important;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   margin-bottom: 0 !important;
@@ -24,9 +26,14 @@ const Container = styled.div`
   width: 100%;
   min-height: 300px;
   max-height: 300px;
+  border: 1px solid #919191;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   overflow: auto;
+
+  .ql-container.ql-snow {
+    border: none;
+  }
 `;
 
 hljs.configure({
