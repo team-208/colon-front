@@ -80,7 +80,6 @@ const ProfileComp = () => {
 
     // 프로필 이미지 Storage 저장하기
     if (updateProfile) {
-      console.log('in profile');
       isUpdate = true;
       const { success, fullPath } = await profileMutation(updateProfile);
       if (success) {
