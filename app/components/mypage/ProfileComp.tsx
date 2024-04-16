@@ -1,27 +1,16 @@
 'use client';
 
-import Image from 'next/image';
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
-import { fileToBase64 } from '@/app/utils/file';
 import useProfileMutation from '@/app/api/auth/profile/mutations';
 import useAuth from '@/app/hooks/useAuth';
+import ProfileImageComp from './ProfileImageComp';
 
 const ProfileDiv = styled.div`
   width: 100%;
   position: relative;
   display: flex;
   flex-direction: row;
-`;
-
-const ProfileImageDiv = styled.div`
-  width: 140px;
-  height: 140px;
-  position: relative;
-  overflow: hidden;
-  margin-right: 24px;
-  border-radius: 50%;
-  background-color: #e0e0e0;
 `;
 
 const ProfileTextDiv = styled.div`
@@ -37,7 +26,7 @@ const TitleP = styled.p`
   font-size: 24px;
 `;
 
-const ModifyButton = styled.button`
+const ProfileButton = styled.button`
   font-size: 20px;
   padding: 10px;
   background: none;
@@ -82,18 +71,18 @@ const ProfileComp = () => {
   const { mutateAsync: profileMutation } = useProfileMutation();
 
   const nicknameInputRef = useRef<HTMLInputElement | null>(null);
-  const [profileFile, setProfileFile] = useState<File | null>(null);
-  const [profileBase64, setProfileBase64] = useState<string | null>(null);
+  const [updateProfile, setUpdateProfile] = useState<File | null>(null);
   const [isModify, setIsModify] = useState(false);
 
-  const createUpateData = useCallback(async () => {
+  const createUpateData = async () => {
     const updateData: { [key: string]: string } = {};
     let isUpdate = false;
 
     // 프로필 이미지 Storage 저장하기
-    if (profileFile) {
+    if (updateProfile) {
+      console.log('in profile');
       isUpdate = true;
-      const { success, fullPath } = await profileMutation(profileFile);
+      const { success, fullPath } = await profileMutation(updateProfile);
       if (success) {
         updateData['profile_url'] = fullPath;
       } else {
@@ -101,76 +90,50 @@ const ProfileComp = () => {
         console.log('error');
       }
     }
-    const nickname = nicknameInputRef.current?.value as string;
-    if (nickname !== userInfo?.user.nick_name) {
+    const updateNickName = nicknameInputRef.current?.value as string;
+    if (updateNickName !== userInfo?.user.nick_name) {
       isUpdate = true;
-      updateData['nick_name'] = nickname;
+      updateData['nick_name'] = updateNickName;
     }
 
     return isUpdate ? updateData : false;
-  }, [profileFile, nicknameInputRef.current]);
+  };
 
-  const handleModifyButton = useCallback(async () => {
+  const handleModifyButton = async () => {
     setIsModify((v) => !v);
     if (isModify) {
       const updateData = await createUpateData();
 
       if (updateData) {
         await updateUser(updateData);
-        setProfileFile(null);
+        setUpdateProfile(null);
       }
     }
-  }, [isModify, createUpateData]);
+  };
 
-  const clickModifyIcon = useCallback(() => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/png, image/jpeg';
-    input.click();
-
-    input.addEventListener('change', async () => {
-      if (input.files) {
-        setProfileFile(input.files[0]);
-      } else {
-        // TODO: 에러처리
-        console.log('error');
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (profileFile) {
-      fileToBase64(profileFile).then((v) => {
-        setProfileBase64(v);
-      });
-    } else {
-      setProfileBase64(null);
-    }
-  }, [profileFile]);
+  const handleCancelButton = () => {
+    setIsModify(false);
+    setUpdateProfile(null);
+  };
 
   return (
     <ProfileDiv>
-      <ProfileImageDiv>
-        <Image
-          src={profileBase64 || '/' + userInfo?.user.profile_url || '/next.svg'}
-          alt="프로필 이미지"
-          fill={true}
-        />
-        {isModify && (
-          <Image
-            src={'/vercel.svg'}
-            alt="수정아이콘"
-            fill={true}
-            onClick={clickModifyIcon}
-            style={{ cursor: 'pointer', zIndex: 10 }}
-          />
-        )}
-      </ProfileImageDiv>
+      <ProfileImageComp
+        isModify={isModify}
+        updateProfileFile={(file: File) => setUpdateProfile(file)}
+      />
 
       <ProfileTextDiv>
         <TitleP>
           <strong>프로필</strong>
-          <ModifyButton onClick={handleModifyButton}>{isModify ? '완료' : '수정하기'}</ModifyButton>
+          {isModify ? (
+            <>
+              <ProfileButton onClick={handleModifyButton}>완료</ProfileButton>
+              <ProfileButton onClick={handleCancelButton}>취소</ProfileButton>
+            </>
+          ) : (
+            <ProfileButton onClick={handleModifyButton}>수정하기</ProfileButton>
+          )}
         </TitleP>
         <NicknameDiv>
           {isModify ? (
