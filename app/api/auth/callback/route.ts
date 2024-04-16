@@ -39,7 +39,7 @@ export async function GET(request: Request) {
     }
   } catch (error) {
     // 로그인 에러 발생시 redirect
-    return NextResponse.redirect(`${host}/auth/auth-code-error`);
+    return NextResponse.redirect(`${host}/error/500`);
   }
 }
 
