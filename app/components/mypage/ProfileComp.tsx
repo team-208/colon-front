@@ -1,8 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { fileToBase64 } from '@/app/utils/file';
 import useProfileMutation from '@/app/api/auth/profile/mutations';
 import useAuth from '@/app/hooks/useAuth';
 
@@ -82,6 +83,7 @@ const ProfileComp = () => {
 
   const nicknameInputRef = useRef<HTMLInputElement | null>(null);
   const [profileFile, setProfileFile] = useState<File | null>(null);
+  const [profileBase64, setProfileBase64] = useState<string | null>(null);
   const [isModify, setIsModify] = useState(false);
 
   const createUpateData = useCallback(async () => {
@@ -115,6 +117,7 @@ const ProfileComp = () => {
 
       if (updateData) {
         await updateUser(updateData);
+        setProfileFile(null);
       }
     }
   }, [isModify, createUpateData]);
@@ -135,19 +138,32 @@ const ProfileComp = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (profileFile) {
+      fileToBase64(profileFile).then((v) => {
+        setProfileBase64(v);
+      });
+    } else {
+      setProfileBase64(null);
+    }
+  }, [profileFile]);
+
   return (
     <ProfileDiv>
       <ProfileImageDiv>
-        {isModify ? (
+        <Image
+          src={profileBase64 || '/' + userInfo?.user.profile_url || '/next.svg'}
+          alt="프로필 이미지"
+          fill={true}
+        />
+        {isModify && (
           <Image
             src={'/vercel.svg'}
             alt="수정아이콘"
             fill={true}
             onClick={clickModifyIcon}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', zIndex: 10 }}
           />
-        ) : (
-          <Image src={'/next.svg'} alt="프로필 이미지" fill={true} />
         )}
       </ProfileImageDiv>
 
