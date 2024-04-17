@@ -75,10 +75,6 @@ const QuillEditor = (props: Props) => {
           handleChangeEditor((editorRef.current as ReactQuill).value);
         }
       };
-
-      if (initValue) {
-        editorRef.current.value = initValue;
-      }
     }
   }, [initValue]);
 
@@ -130,7 +126,7 @@ const QuillEditor = (props: Props) => {
         </span>
       </ToolbarContainer>
       <Container id="container" onClick={handleClickContainer}>
-        <ReactQuill {...options} ref={editorRef} />
+        <ReactQuill {...options} ref={editorRef} defaultValue={initValue} />
       </Container>
     </>
   );
