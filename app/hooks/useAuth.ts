@@ -86,6 +86,7 @@ const useAuth = () => {
         throw Error();
       }
 
+      refetchUserSession();
       alert('수정 성공!');
     } catch (error) {
       alert('회원 정보 수정에 실패하였습니다.');
