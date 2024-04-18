@@ -5,7 +5,7 @@ export const cutText = (text: string, length: number, replace: string): string =
 
 export const dateText = (date: dayjs.Dayjs): string => {
   const cur = dayjs();
-  const diff = Math.trunc(cur.diff(date, "minute"));
+  const diff = Math.trunc(cur.diff(date, 'minute'));
 
   if (diff > 60 * 24 * 7) {
     return dayjs(date).format('YY/MM/DD');
@@ -20,4 +20,11 @@ export const dateText = (date: dayjs.Dayjs): string => {
   }
 
   return diff + '분 전';
+};
+
+export const createTextFile = (str: string, filename: string): File => {
+  const file = new File([str], `${filename}.txt`, {
+    type: 'text/plain;charset=UTF-8',
+  });
+  return file;
 };

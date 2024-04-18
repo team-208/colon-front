@@ -141,3 +141,11 @@ button {
 * {
   box-sizing: border-box;
 }
+
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}
