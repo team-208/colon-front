@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import useAuth from '@/app/hooks/useAuth';
 import { fileToBase64 } from '@/app/utils/file';
@@ -25,7 +25,11 @@ const ProfileImageComp = (props: Props) => {
   const { userInfo } = useAuth();
   const { isModify, updateProfileFile } = props;
   const [profile, setProfile] = useState<File | null>(null);
-  const [profileBase64, setProfileBase64] = useState<string | null>(null);
+
+  const imageSrc = useMemo(() => {
+    const modifiedProfileUrl = profile && URL.createObjectURL(profile);
+    return modifiedProfileUrl || '/next.svg' || '/' + userInfo?.user.profile_url;
+  }, [profile]);
 
   const clickModifyIcon = () => {
     const input = document.createElement('input');
@@ -46,11 +50,6 @@ const ProfileImageComp = (props: Props) => {
   useEffect(() => {
     if (profile) {
       updateProfileFile(profile);
-      fileToBase64(profile).then((v) => {
-        setProfileBase64(v);
-      });
-    } else {
-      setProfileBase64(null);
     }
   }, [profile]);
 
@@ -62,12 +61,7 @@ const ProfileImageComp = (props: Props) => {
 
   return (
     <ProfileImageDiv>
-      <Image
-        // src={profileBase64 || '/' + userInfo?.user.profile_url || '/next.svg'}
-        src={profileBase64 || '/next.svg' || '/' + userInfo?.user.profile_url}
-        alt="프로필 이미지"
-        fill={true}
-      />
+      <Image src={imageSrc} alt="프로필 이미지" fill={true} />
       {isModify && (
         <Image
           src={'/vercel.svg'}
