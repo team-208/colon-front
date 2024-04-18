@@ -1,4 +1,4 @@
-import SectionComp from '@/app/components/mypage/SectionComp';
+import SectionComp from '@/app/components/common/SectionComp';
 import ProfileComp from '@/app/components/mypage/ProfileComp';
 import Tabs from '@/app/components/common/TabsComp';
 import ReactionContent from '@/app/components/mypage/ReactionContent';
