@@ -5,6 +5,12 @@ import styled from 'styled-components';
 import useProfileMutation from '@/app/api/auth/profile/mutations';
 import useAuth from '@/app/hooks/useAuth';
 import ProfileImageComp from './ProfileImageComp';
+import { isEmpty } from 'lodash';
+
+interface UpdateUserRequest {
+  profile_url?: string;
+  nick_name?: string;
+}
 
 const ProfileDiv = styled.div`
   width: 100%;
@@ -74,28 +80,26 @@ const ProfileComp = () => {
   const [updateProfile, setUpdateProfile] = useState<File | null>(null);
   const [isModify, setIsModify] = useState(false);
 
-  const createUpateData = async () => {
-    const updateData: { [key: string]: string } = {};
-    let isUpdate = false;
+  const createUpateData = async (): Promise<UpdateUserRequest> => {
+    let updateData: UpdateUserRequest = {};
 
-    // 프로필 이미지 Storage 저장하기
+    const updateNickName = nicknameInputRef.current?.value as string;
+    if (updateNickName !== userInfo?.user.nick_name) {
+      updateData.nick_name = updateNickName;
+    }
+
     if (updateProfile) {
-      isUpdate = true;
+      // 프로필 이미지 Storage 저장하기
       const { success, fullPath } = await profileMutation(updateProfile);
       if (success) {
-        updateData['profile_url'] = fullPath;
+        updateData.profile_url = fullPath;
       } else {
         // TODO: 에러처리
         console.log('error');
       }
     }
-    const updateNickName = nicknameInputRef.current?.value as string;
-    if (updateNickName !== userInfo?.user.nick_name) {
-      isUpdate = true;
-      updateData['nick_name'] = updateNickName;
-    }
 
-    return isUpdate ? updateData : false;
+    return updateData;
   };
 
   const handleModifyButton = async () => {
@@ -103,7 +107,7 @@ const ProfileComp = () => {
     if (isModify) {
       const updateData = await createUpateData();
 
-      if (updateData) {
+      if (isEmpty(updateData)) {
         await updateUser(updateData);
         setUpdateProfile(null);
       }
