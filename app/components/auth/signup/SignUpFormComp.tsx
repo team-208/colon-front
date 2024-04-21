@@ -9,11 +9,15 @@ import ProfileList, { PROFILE_TYPES } from './ProfileList';
 import useNickNameQuery from '@/app/api/auth/nickName/queries';
 
 const IntroduceDiv = styled.div`
-  margin: 40px 0 50px;
+  margin: 40px 0 230px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    margin: 34px 0 154px;
+  }
 `;
 
 const TitleH1 = styled.h1`
@@ -44,20 +48,46 @@ const ProfileTitleH2 = styled.h2`
   }
 `;
 
+const FooterDiv = styled.div`
+  position: fixed;
+  bottom: 124px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: ${({ theme }) => theme.color.static.light};
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    bottom: 48px;
+  }
+`;
+
 const DescP = styled.p`
-  margin: 50px auto 0;
-  font-size: 20px;
-  line-height: 28px;
   white-space: pre-wrap;
   text-align: center;
+  ${({ theme }) => theme.font.body2};
+  color: ${({ theme }) => theme.color.primary.string};
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${({ theme }) => theme.font.caption1};
+  }
 `;
 
 const CompleteButton = styled.button`
-  margin: 0 auto;
+  margin: 16px 20px 0;
   background-color: #c3c3c3;
-  border-radius: 4px;
-  padding: 14px 24px;
-  min-width: 240px;
+  border-radius: 15px;
+  width: calc(100% - 40px);
+  max-width: 640px;
+  height: 50px;
+  background-color: ${({ theme }) => theme.color.primary.normal};
+  color: ${({ theme }) => theme.color.static.light};
+  ${({ theme }) => theme.font.body1};
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.color.interaction.disable};
+    color: ${({ theme }) => theme.color.label.disable};
+  }
 `;
 
 const SignUpFormComp = () => {
@@ -77,6 +107,7 @@ const SignUpFormComp = () => {
     () => userInfo?.kakaoUserInfo?.preferred_username ?? '',
     [userInfo?.kakaoUserInfo?.preferred_username],
   );
+  const isDisable = useMemo(() => !(major && profile), [major, profile]);
 
   // events
   const handleClickJobGroup = useCallback(
@@ -93,25 +124,22 @@ const SignUpFormComp = () => {
     [setProfile],
   );
 
-  const handleClick = async () => {
-    if (major && profile) {
-      // TODO: 디자인 가이드 배포시 random nickname profile image 추가작업 필요.
-      const isKaKaoProfile = profile === 'KAKAO';
-
-      signUp({
-        major,
-        profileUrl: isKaKaoProfile
-          ? userInfo?.kakaoUserInfo.avatar_url ?? ''
-          : userInfo?.user.profile_url ?? '',
-        nickname: isKaKaoProfile ? kakaoNickname : randomNickName,
-      });
+  const handleClick = useCallback(async () => {
+    if (isDisable) {
       return;
     }
 
-    // TODO: 필수 정보 미입력시 처리 방법 논의 필요.
-    // ex) alert or 버튼 비활성화 등.
-    alert('필수정보를 입력해 주세요.');
-  };
+    // TODO: 디자인 가이드 배포시 random nickname profile image 추가작업 필요.
+    const isKaKaoProfile = profile === 'KAKAO';
+
+    signUp({
+      major: major as JOB_GROUP_TYPES,
+      profileUrl: isKaKaoProfile
+        ? userInfo?.kakaoUserInfo.avatar_url ?? ''
+        : userInfo?.user.profile_url ?? '',
+      nickname: isKaKaoProfile ? kakaoNickname : randomNickName,
+    });
+  }, [isDisable]);
 
   const handleRefreshRandomNickName = async () => {
     const { data: randomNickName } = await refetchNickName();
@@ -142,9 +170,15 @@ const SignUpFormComp = () => {
         />
       </IntroduceDiv>
 
-      {/* TODO: 디자인 가이드 배포 후, 공용 모듈화 필요 */}
-      <DescP>{`프로필이 완성되었어요!\nCO:LON에서 다양한 사람들을 만날 준비가 되셨나요?`}</DescP>
-      <CompleteButton onClick={handleClick}>이야기하러 가기!</CompleteButton>
+      <FooterDiv>
+        {!isDisable && (
+          <DescP>{`프로필이 완성되었어요!\nCO:LON에서 다양한 사람들을 만날 준비가 되셨나요?`}</DescP>
+        )}
+        {/* TODO: 디자인 가이드 배포 후, 공용 모듈화 필요 */}
+        <CompleteButton disabled={isDisable} onClick={handleClick}>
+          이야기하러 가기!
+        </CompleteButton>
+      </FooterDiv>
     </>
   );
 };

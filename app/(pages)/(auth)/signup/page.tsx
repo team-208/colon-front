@@ -4,7 +4,7 @@ import SectionComp from '@/app/components/common/SectionComp';
 export default function SignUp() {
   return (
     <main>
-      <SectionComp direction="column">
+      <SectionComp direction="column" padding="0">
         <SignUpFormComp />
       </SectionComp>
     </main>
