@@ -3,10 +3,10 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 
-const Section = styled.section<{ $dir: Direction }>`
+const Section = styled.section<{ $dir: Direction; $padding: string }>`
   display: flex;
   flex-direction: ${(props) => props.$dir};
-  padding: 16px;
+  padding: ${({ $padding }) => $padding};
 `;
 
 type Direction = 'column' | 'row';
@@ -14,11 +14,16 @@ type Direction = 'column' | 'row';
 interface Props {
   direction: Direction;
   children: ReactNode;
+  padding?: string;
 }
 
 const SectionComp = (props: Props) => {
-  const { direction, children } = props;
-  return <Section $dir={direction}>{children}</Section>;
+  const { direction, children, padding } = props;
+  return (
+    <Section $dir={direction} $padding={padding ?? '16px'}>
+      {children}
+    </Section>
+  );
 };
 
 export default SectionComp;
