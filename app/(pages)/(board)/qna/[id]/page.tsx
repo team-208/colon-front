@@ -1,13 +1,15 @@
 import { Metadata } from 'next';
 import dayjs from 'dayjs';
 import { Post } from '@/app/types/data';
+import SectionComp from '@/app/components/common/SectionComp';
 
 type Props = {
   params: { id: string };
   post: Post;
 };
 
-const post = await (async function (): Promise<Post> {
+const fetchPost = async (id: string): Promise<Post> => {
+  // TODO: get post api 연동
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
@@ -21,10 +23,12 @@ const post = await (async function (): Promise<Post> {
       });
     }, 1000);
   });
-})();
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const id = params.id;
+
+  const post = await fetchPost(id);
 
   return {
     title: `CO:LON | ${post.title}`,
@@ -32,13 +36,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const QuestionPage = (props: Props) => {
+const QuestionPage = async (props: Props) => {
+  const { params } = props;
+
+  const post = await fetchPost(params.id);
+
   return (
-    <article>
-      <p>{post.title}</p>
-      <p>{post.nickname}</p>
-      <p>{post.content}</p>
-    </article>
+    <SectionComp direction="column">
+      <article>
+        <p>{post.title}</p>
+        <p>{post.nickname}</p>
+        <p>{post.content}</p>
+      </article>
+    </SectionComp>
   );
 };
 
