@@ -8,27 +8,21 @@ import JobGroupList from './JobGroupList';
 import ProfileList, { PROFILE_TYPES } from './ProfileList';
 import useNickNameQuery from '@/app/api/auth/nickName/queries';
 
-const ServiceImageP = styled.p`
-  width: 100%;
-  line-height: 40px;
-  background-color: #e0e0e0;
-  text-align: center;
-`;
-
 const IntroduceDiv = styled.div`
-  margin: 50px 0 30px;
+  margin: 40px 0 50px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
 `;
 
-const TitleStrong = styled.strong`
-  font-size: 24px;
+const TitleH1 = styled.h1`
+  ${({ theme }) => theme.font.heading1};
 `;
 
-const SubtitleH3 = styled.h3`
-  margin-top: 32px;
-  font-size: 16px;
+const SubtitleH2 = styled.h3`
+  ${({ theme }) => theme.font.body1};
+  margin: 40px 0 16px;
 `;
 
 const DescP = styled.p`
@@ -114,32 +108,23 @@ const SignUpFormComp = () => {
 
   return (
     <>
-      <ServiceImageP>서비스 아이콘</ServiceImageP>
-
       <IntroduceDiv>
-        <h2>
-          <TitleStrong>프로필 만들기</TitleStrong>
-        </h2>
+        <TitleH1>회원가입</TitleH1>
 
-        <SubtitleH3>종사하시는 직군과 가장 유사한 분야를 선택해주세요!</SubtitleH3>
+        <SubtitleH2>종사하시는 직군과 가장 유사한 분야를 선택해주세요!</SubtitleH2>
         <JobGroupList jobGroup={major} onClick={handleClickJobGroup} />
 
-        <SubtitleH3>사용하실 프로필을 선택해 주세요!</SubtitleH3>
+        <SubtitleH2>사용하실 프로필을 선택해 주세요!</SubtitleH2>
         <ProfileList
           profile={profile}
           kakaoNickname={kakaoNickname}
           randomNickname={randomNickName}
           onClick={handleClickProfile}
         />
-
-        <SubtitleH3>
-          서비스 이용을 위한 약관 동의가 필요해요!(카카오 회원가입시 항목이 중복되어 검토 필요)
-        </SubtitleH3>
-
-        <DescP>{`프로필이 완성되었어요!\nCO:LON에서 다양한 사람들을 만날 준비가 되셨나요?`}</DescP>
       </IntroduceDiv>
 
       {/* TODO: 디자인 가이드 배포 후, 공용 모듈화 필요 */}
+      <DescP>{`프로필이 완성되었어요!\nCO:LON에서 다양한 사람들을 만날 준비가 되셨나요?`}</DescP>
       <CompleteButton onClick={handleClick}>이야기하러 가기!</CompleteButton>
     </>
   );

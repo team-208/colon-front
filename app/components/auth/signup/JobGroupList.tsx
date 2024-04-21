@@ -10,18 +10,24 @@ interface JobGroupListProps {
 }
 
 const ContainerUl = styled.ul`
-  margin-top: 12px;
+  width: 318px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  grid-column-gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 16px;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    width: 224px;
+  }
 `;
 
 const JobGroupButton = styled.button<{ $isActive: boolean }>`
   width: 100%;
   padding: 8px 16px;
-  border-radius: 2px;
-  background-color: ${({ $isActive }) => ($isActive ? '#c3c3c3' : 'white')};
-  border: 1px solid #c3c3c3;
+  border-radius: 12px;
+  background-color: ${({ theme, $isActive }) =>
+    $isActive ? theme.color.primary.normal : theme.color.palette.coolNeutral99};
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.color.static.light : theme.color.label.normal};
 `;
 
 const JobGroupList = ({ jobGroup, onClick }: JobGroupListProps) => {
