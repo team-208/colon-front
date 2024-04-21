@@ -58,6 +58,7 @@ const NameP = styled.p<{ $isActive: boolean }>`
 
 const LabelP = styled.p<{ $isActive: boolean }>`
   ${({ theme }) => theme.font.body2};
+  text-align: center;
   color: ${({ theme, $isActive }) =>
     $isActive ? theme.color.primary.normal : theme.color.label.normal};
 
