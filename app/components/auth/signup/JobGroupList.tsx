@@ -22,12 +22,17 @@ const ContainerUl = styled.ul`
 
 const JobGroupButton = styled.button<{ $isActive: boolean }>`
   width: 100%;
-  padding: 8px 16px;
+  height: 40px;
   border-radius: 12px;
   background-color: ${({ theme, $isActive }) =>
     $isActive ? theme.color.primary.normal : theme.color.palette.coolNeutral99};
   color: ${({ theme, $isActive }) =>
     $isActive ? theme.color.static.light : theme.color.label.normal};
+  ${({ theme }) => theme.font.body2};
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${({ theme }) => theme.font.body3}
+  }
 `;
 
 const JobGroupList = ({ jobGroup, onClick }: JobGroupListProps) => {

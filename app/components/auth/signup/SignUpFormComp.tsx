@@ -18,11 +18,30 @@ const IntroduceDiv = styled.div`
 
 const TitleH1 = styled.h1`
   ${({ theme }) => theme.font.heading1};
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${({ theme }) => theme.font.heading2};
+  }
 `;
 
-const SubtitleH2 = styled.h3`
+const JobGroupTitleH2 = styled.h2`
   ${({ theme }) => theme.font.body1};
   margin: 40px 0 16px;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${({ theme }) => theme.font.body2};
+    margin: 28px 0 12px;
+  }
+`;
+
+const ProfileTitleH2 = styled.h2`
+  ${({ theme }) => theme.font.body1};
+  margin: 40px 0 16px;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${({ theme }) => theme.font.body2};
+    margin: 32px 0 16px;
+  }
 `;
 
 const DescP = styled.p`
@@ -111,10 +130,10 @@ const SignUpFormComp = () => {
       <IntroduceDiv>
         <TitleH1>회원가입</TitleH1>
 
-        <SubtitleH2>종사하시는 직군과 가장 유사한 분야를 선택해주세요!</SubtitleH2>
+        <JobGroupTitleH2>종사하시는 직군과 가장 유사한 분야를 선택해주세요!</JobGroupTitleH2>
         <JobGroupList jobGroup={major} onClick={handleClickJobGroup} />
 
-        <SubtitleH2>사용하실 프로필을 선택해 주세요!</SubtitleH2>
+        <ProfileTitleH2>사용하실 프로필을 선택해 주세요!</ProfileTitleH2>
         <ProfileList
           profile={profile}
           kakaoNickname={kakaoNickname}
