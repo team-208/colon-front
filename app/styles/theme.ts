@@ -103,7 +103,10 @@ const color = {
     brilliantRose20: '#7A2754',
     brilliantRose10: '#662045',
   },
-  gradient: 'linear-gradient(0deg, #0080DB 0 32%, #00A1FF 32% 100%, #3ECDDE)',
+  gradient: {
+    normal: 'linear-gradient(0deg, #0080DB 0 32%, #00A1FF 32% 100%, #3ECDDE)',
+    hover: 'linear-gradient(0deg, #0080DB 0 78%, #00A1FF 78% 100%, #23B9FD)',
+  },
 };
 
 const font = {
@@ -116,6 +119,18 @@ const font = {
   display2: css`
     font-size: 48px;
     line-height: 72px;
+    letter-spacing: -2.5%;
+    font-weight: 700;
+  `,
+  display3: css`
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -2.5%;
+    font-weight: 700;
+  `,
+  display4: css`
+    font-size: 32px;
+    line-height: 48px;
     letter-spacing: -2.5%;
     font-weight: 700;
   `,
