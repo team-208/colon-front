@@ -63,6 +63,27 @@ const color = {
     disable: '#F4F4F5',
   },
   palette: {
+    coolNeutral99: '#F7F7F8',
+    coolNeutral98: '#F4F4F5',
+    coolNeutral97: '#EAEBEC',
+    coolNeutral96: '#E1E2E4',
+    coolNeutral95: '#DBDCDF',
+    coolNeutral90: '#C2C4C8',
+    coolNeutral80: '#AEB0B6',
+    coolNeutral70: '#989BA2',
+    coolNeutral60: '#878A93',
+    coolNeutral50: '#70737C',
+    coolNeutral40: '#5A5C63',
+    coolNeutral30: '#46474C',
+    coolNeutral25: '#37383C',
+    coolNeutral23: '#333438',
+    coolNeutral22: '#2E2F33',
+    coolNeutral20: '#292A2D',
+    coolNeutral17: '#212225',
+    coolNeutral15: '#1B1C1E',
+    coolNeutral10: '#171719',
+    coolNeutral7: '#141415',
+    coolNeutral5: '#0F0F10',
     deepSkyBlue99: '#DDF3FF',
     deepSkyBlue95: '#C4EAFF',
     deepSkyBlue90: '#A1DEFF',
@@ -103,7 +124,10 @@ const color = {
     brilliantRose20: '#7A2754',
     brilliantRose10: '#662045',
   },
-  gradient: 'linear-gradient(0deg, #0080DB 0 32%, #00A1FF 32% 100%, #3ECDDE)',
+  gradient: {
+    normal: 'linear-gradient(0deg, #0080DB 0 32%, #00A1FF 32% 100%, #3ECDDE)',
+    hover: 'linear-gradient(0deg, #0080DB 0 78%, #00A1FF 78% 100%, #23B9FD)',
+  },
 };
 
 const font = {
@@ -116,6 +140,18 @@ const font = {
   display2: css`
     font-size: 48px;
     line-height: 72px;
+    letter-spacing: -2.5%;
+    font-weight: 700;
+  `,
+  display3: css`
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -2.5%;
+    font-weight: 700;
+  `,
+  display4: css`
+    font-size: 32px;
+    line-height: 48px;
     letter-spacing: -2.5%;
     font-weight: 700;
   `,
