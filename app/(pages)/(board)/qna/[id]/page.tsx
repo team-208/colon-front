@@ -3,9 +3,9 @@ import dayjs from 'dayjs';
 import { Post } from '@/app/types/data';
 import SectionComp from '@/app/components/common/SectionComp';
 
-type Props = {
+interface Props {
   params: { id: string };
-};
+}
 
 const fetchPost = async (id: string): Promise<Post> => {
   // TODO: get post api 연동
