@@ -1,5 +1,5 @@
 import SectionComp from '@/app/components/common/SectionComp';
-import Writecomp from '@/app/components/board/qna/write/WriteComp';
+import Writecomp from '@/app/components/board/qna/WriteComp';
 
 const WritePage = () => {
   return (

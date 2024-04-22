@@ -2,9 +2,11 @@ import { Metadata } from 'next';
 import dayjs from 'dayjs';
 import { Post } from '@/app/types/data';
 import SectionComp from '@/app/components/common/SectionComp';
+import { ReactNode } from 'react';
 
 interface Props {
   params: { id: string };
+  children: ReactNode;
 }
 
 const fetchPost = async (id: string): Promise<Post> => {
@@ -36,18 +38,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const QuestionPage = async (props: Props) => {
-  const { params } = props;
+  const { params, children } = props;
 
   const post = await fetchPost(params.id);
 
   return (
-    <SectionComp direction="column">
-      <article>
-        <p>{post.title}</p>
-        <p>{post.nickname}</p>
-        <p>{post.content}</p>
-      </article>
-    </SectionComp>
+    <>
+      {children || (
+        <SectionComp direction="column">
+          <article>
+            <p>{post.title}</p>
+            <p>{post.nickname}</p>
+            <p>{post.content}</p>
+          </article>
+        </SectionComp>
+      )}
+    </>
   );
 };
 
