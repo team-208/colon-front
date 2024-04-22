@@ -5,7 +5,6 @@ import SectionComp from '@/app/components/common/SectionComp';
 
 type Props = {
   params: { id: string };
-  post: Post;
 };
 
 const fetchPost = async (id: string): Promise<Post> => {
