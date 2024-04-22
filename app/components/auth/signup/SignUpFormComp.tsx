@@ -8,43 +8,86 @@ import JobGroupList from './JobGroupList';
 import ProfileList, { PROFILE_TYPES } from './ProfileList';
 import useNickNameQuery from '@/app/api/auth/nickName/queries';
 
-const ServiceImageP = styled.p`
-  width: 100%;
-  line-height: 40px;
-  background-color: #e0e0e0;
-  text-align: center;
-`;
-
 const IntroduceDiv = styled.div`
-  margin: 50px 0 30px;
+  margin: 40px 0 230px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    margin: 34px 0 154px;
+  }
 `;
 
-const TitleStrong = styled.strong`
-  font-size: 24px;
+const TitleH1 = styled.h1`
+  ${({ theme }) => theme.font.heading1};
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${({ theme }) => theme.font.heading2};
+  }
 `;
 
-const SubtitleH3 = styled.h3`
-  margin-top: 32px;
-  font-size: 16px;
+const JobGroupTitleH2 = styled.h2`
+  ${({ theme }) => theme.font.body1};
+  margin: 40px 0 16px;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${({ theme }) => theme.font.body2};
+    margin: 28px 0 12px;
+  }
+`;
+
+const ProfileTitleH2 = styled.h2`
+  ${({ theme }) => theme.font.body1};
+  margin: 40px 0 16px;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${({ theme }) => theme.font.body2};
+    margin: 32px 0 16px;
+  }
+`;
+
+const FooterDiv = styled.div`
+  position: fixed;
+  bottom: 124px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: ${({ theme }) => theme.color.static.light};
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    bottom: 48px;
+  }
 `;
 
 const DescP = styled.p`
-  margin: 50px auto 0;
-  font-size: 20px;
-  line-height: 28px;
   white-space: pre-wrap;
   text-align: center;
+  ${({ theme }) => theme.font.body2};
+  color: ${({ theme }) => theme.color.primary.string};
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${({ theme }) => theme.font.caption1};
+  }
 `;
 
 const CompleteButton = styled.button`
-  margin: 0 auto;
+  margin: 16px 20px 0;
   background-color: #c3c3c3;
-  border-radius: 4px;
-  padding: 14px 24px;
-  min-width: 240px;
+  border-radius: 15px;
+  width: calc(100% - 40px);
+  max-width: 640px;
+  height: 50px;
+  background-color: ${({ theme }) => theme.color.primary.normal};
+  color: ${({ theme }) => theme.color.static.light};
+  ${({ theme }) => theme.font.body1};
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.color.interaction.disable};
+    color: ${({ theme }) => theme.color.label.disable};
+  }
 `;
 
 const SignUpFormComp = () => {
@@ -64,6 +107,7 @@ const SignUpFormComp = () => {
     () => userInfo?.kakaoUserInfo?.preferred_username ?? '',
     [userInfo?.kakaoUserInfo?.preferred_username],
   );
+  const isDisable = useMemo(() => !(major && profile), [major, profile]);
 
   // events
   const handleClickJobGroup = useCallback(
@@ -80,25 +124,22 @@ const SignUpFormComp = () => {
     [setProfile],
   );
 
-  const handleClick = async () => {
-    if (major && profile) {
-      // TODO: 디자인 가이드 배포시 random nickname profile image 추가작업 필요.
-      const isKaKaoProfile = profile === 'KAKAO';
-
-      signUp({
-        major,
-        profileUrl: isKaKaoProfile
-          ? userInfo?.kakaoUserInfo.avatar_url ?? ''
-          : userInfo?.user.profile_url ?? '',
-        nickname: isKaKaoProfile ? kakaoNickname : randomNickName,
-      });
+  const handleClick = useCallback(async () => {
+    if (isDisable) {
       return;
     }
 
-    // TODO: 필수 정보 미입력시 처리 방법 논의 필요.
-    // ex) alert or 버튼 비활성화 등.
-    alert('필수정보를 입력해 주세요.');
-  };
+    // TODO: 디자인 가이드 배포시 random nickname profile image 추가작업 필요.
+    const isKaKaoProfile = profile === 'KAKAO';
+
+    signUp({
+      major: major as JOB_GROUP_TYPES,
+      profileUrl: isKaKaoProfile
+        ? userInfo?.kakaoUserInfo.avatar_url ?? ''
+        : userInfo?.user.profile_url ?? '',
+      nickname: isKaKaoProfile ? kakaoNickname : randomNickName,
+    });
+  }, [isDisable]);
 
   const handleRefreshRandomNickName = async () => {
     const { data: randomNickName } = await refetchNickName();
@@ -114,33 +155,30 @@ const SignUpFormComp = () => {
 
   return (
     <>
-      <ServiceImageP>서비스 아이콘</ServiceImageP>
-
       <IntroduceDiv>
-        <h2>
-          <TitleStrong>프로필 만들기</TitleStrong>
-        </h2>
+        <TitleH1>회원가입</TitleH1>
 
-        <SubtitleH3>종사하시는 직군과 가장 유사한 분야를 선택해주세요!</SubtitleH3>
+        <JobGroupTitleH2>종사하시는 직군과 가장 유사한 분야를 선택해주세요!</JobGroupTitleH2>
         <JobGroupList jobGroup={major} onClick={handleClickJobGroup} />
 
-        <SubtitleH3>사용하실 프로필을 선택해 주세요!</SubtitleH3>
+        <ProfileTitleH2>사용하실 프로필을 선택해 주세요!</ProfileTitleH2>
         <ProfileList
           profile={profile}
           kakaoNickname={kakaoNickname}
           randomNickname={randomNickName}
           onClick={handleClickProfile}
         />
-
-        <SubtitleH3>
-          서비스 이용을 위한 약관 동의가 필요해요!(카카오 회원가입시 항목이 중복되어 검토 필요)
-        </SubtitleH3>
-
-        <DescP>{`프로필이 완성되었어요!\nCO:LON에서 다양한 사람들을 만날 준비가 되셨나요?`}</DescP>
       </IntroduceDiv>
 
-      {/* TODO: 디자인 가이드 배포 후, 공용 모듈화 필요 */}
-      <CompleteButton onClick={handleClick}>이야기하러 가기!</CompleteButton>
+      <FooterDiv>
+        {!isDisable && (
+          <DescP>{`프로필이 완성되었어요!\nCO:LON에서 다양한 사람들을 만날 준비가 되셨나요?`}</DescP>
+        )}
+        {/* TODO: 디자인 가이드 배포 후, 공용 모듈화 필요 */}
+        <CompleteButton disabled={isDisable} onClick={handleClick}>
+          이야기하러 가기!
+        </CompleteButton>
+      </FooterDiv>
     </>
   );
 };
