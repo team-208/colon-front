@@ -6,7 +6,7 @@ import { ReactNode } from 'react';
 
 interface Props {
   params: { id: string };
-  children: ReactNode;
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 const fetchPost = async (id: string): Promise<Post> => {
@@ -37,9 +37,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const QuestionPage = async (props: Props) => {
-  const { params, children } = props;
-
+const QuestionPage = async (props: any) => {
+  const { children, params } = props;
   const post = await fetchPost(params.id);
 
   return (
