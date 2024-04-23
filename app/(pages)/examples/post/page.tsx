@@ -15,6 +15,9 @@ export default function PostPage() {
       tags: ['태그1', '태그2'],
       author_major: 'DEVELOP',
       author_nickname: '개발테스트1114',
+      body: '개발테스트!!!!!!!!!!!!',
+      author_profile_url: '',
+      preview_body: '개발테스트 개발테스트 개발테스트 개발테스트',
     });
   };
 
