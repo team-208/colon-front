@@ -4,7 +4,7 @@ import usePostQuery from '@/app/api/post/[id]/queries';
 import { useInsertPostMutation } from '@/app/api/post/mutations';
 
 export default function PostPage() {
-  const { data } = usePostQuery('5');
+  const { data } = usePostQuery('7');
   const { mutateAsync } = useInsertPostMutation();
 
   const handleClick = async () => {
