@@ -1,6 +1,6 @@
 'use client';
 
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import styled from 'styled-components';
 import { JOB_GROUP_LABELS } from './constants';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
@@ -129,13 +129,15 @@ const ContentPreviewBodyP = styled.p`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  height: 94px;
+  height: 78px;
   text-overflow: ellipsis;
   overflow: hidden;
   color: ${({ theme }) => theme.color.palette.coolNeutral23};
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     ${({ theme }) => theme.font.body2};
+    -webkit-line-clamp: 4;
+    height: 80px;
   }
 `;
 
@@ -143,6 +145,11 @@ const CommentCountDiv = styled.div`
   ${({ theme }) => theme.font.body3};
   display: flex;
   align-items: center;
+  margin-top: 26px;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    margin-top: 28px;
+  }
 `;
 
 const CountSpan = styled.span`
@@ -160,7 +167,59 @@ const SeperatorSpan = styled.span`
   font-weight: 400;
 `;
 
-const CommentDiv = styled.div``;
+const CommentDiv = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  padding: 14px 16px 16px;
+
+  & > div:last-of-type {
+    margin-left: 8px;
+    width: calc(100% - 32px);
+  }
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    padding: 14px 16px 14px;
+  }
+`;
+
+const CommentUserDiv = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+
+  & > span:first-of-type {
+    display: inline-block;
+    ${({ theme }) => theme.font.caption1};
+    margin-right: 4px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    overflow: hidden;
+    /* TODO: major별 색상 분기 필요 */
+    background-color: ${({ theme }) => theme.color.primary.normal};
+    color: ${({ theme }) => theme.color.static.light};
+  }
+
+  & > span:last-of-type {
+    ${({ theme }) => theme.font.body3};
+  }
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    & > span:last-of-type {
+      ${({ theme }) => theme.font.caption1};
+    }
+  }
+`;
+
+const CommentBodyP = styled.p`
+  ${({ theme }) => theme.font.body2};
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${({ theme }) => theme.font.body3};
+  }
+`;
 
 const QuestionCard = ({
   status,
@@ -236,8 +295,20 @@ const QuestionCard = ({
             (댓글 영역 추가 개발 필요)
           </CommentCountDiv>
         </ContentDiv>
+
         <CommentDiv>
-          <p></p>
+          <Image alt="댓글 아이콘" src={`${IMAGE_CDN}/qna/Icon_Reply.png`} width={20} height={20} />
+
+          <div>
+            <CommentUserDiv>
+              <span>{JOB_GROUP_LABELS['DESIGN']}</span>
+              <span>댓글닉네임(댓글 영역 추가 개발 필요)</span>
+            </CommentUserDiv>
+
+            <CommentBodyP>
+              개발 공부를 하면서 이런 유용한 정보를 얻을 수 있다니 정말 좋아요! 반응 남기고 갑니다~
+            </CommentBodyP>
+          </div>
         </CommentDiv>
       </ArticleBodyDiv>
     </ContainerArticle>
