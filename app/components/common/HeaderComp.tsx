@@ -61,7 +61,6 @@ const HeaderNav = styled.nav`
     ${({ theme }) => theme.font.body3}
 
     a {
-      text-decoration: none;
       color: ${({ theme }) => theme.color.label.normal};
     }
 
