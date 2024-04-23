@@ -2,17 +2,19 @@
 
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
+import { UnprivilegedEditor } from 'react-quill';
 import { createTextFile } from '@/app/utils/text';
 
 const QuillEditor = dynamic(() => import('@/app/components/common/QuillEditor'), { ssr: false });
 
 export default function QuilleditorPage() {
-  const [content, setContent] = useState('');
+  const [html, setHTML] = useState<string>('');
+  const [text, setText] = useState<string>('');
 
   const handleClickSave = (isTemporary: boolean) => {
     // content text .txt 파일로 변환 storage 저장
     // directory, file 명 논의하기
-    const file = createTextFile(content, 'userid_date');
+    const file = createTextFile(html, 'userid_date');
 
     const obj = {
       title: 'title',
@@ -23,14 +25,15 @@ export default function QuilleditorPage() {
     // obj 객체 posts DB 저장
   };
 
-  const setHTML = (v: string) => {
-    setContent(v);
+  const setEditor = (editor: UnprivilegedEditor) => {
+    setHTML(editor.getHTML());
+    setText(editor.getText().replaceAll('\n', ' '));
   };
 
   return (
     <>
       {/* <QuillEditor setHTML={setHTML} initValue="<p>안녕하세요</p>" /> */}
-      <QuillEditor setHTML={setHTML} />
+      <QuillEditor setEditor={setEditor} />
       <div>
         <button
           onClick={() => {

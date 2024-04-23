@@ -1,9 +1,10 @@
-import SectionComp from '@/app/components/mypage/SectionComp';
+import SectionComp from '@/app/components/common/SectionComp';
 import ProfileComp from '@/app/components/mypage/ProfileComp';
 import Tabs from '@/app/components/common/TabsComp';
 import ReactionContent from '@/app/components/mypage/ReactionContent';
 import ScrapContent from '@/app/components/mypage/ScrapContent';
 import ActivityContent from '@/app/components/mypage/ActivityContent';
+
 
 const tabList = [
   { text: '반응한 글', component: <ReactionContent /> },

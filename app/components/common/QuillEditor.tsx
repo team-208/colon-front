@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useCallback, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import ReactQuill from 'react-quill';
 import hljs from 'highlight.js';
@@ -10,7 +10,7 @@ import 'react-quill/dist/quill.snow.css';
 // import 'react-quill/dist/quill.bubble.css';
 
 interface Props {
-  setHTML: (value: string) => void;
+  setEditor: (editor: ReactQuill.UnprivilegedEditor) => void;
   initValue?: string;
 }
 
@@ -53,7 +53,7 @@ const options = {
 };
 
 const QuillEditor = (props: Props) => {
-  const { setHTML, initValue } = props;
+  const { setEditor, initValue } = props;
   const editorRef = useRef<ReactQuill | null>(null);
 
   const handleClickContainer = useCallback(() => {
@@ -62,25 +62,11 @@ const QuillEditor = (props: Props) => {
   }, []);
 
   const handleChangeEditor = useCallback(
-    debounce((v: ReactQuill.Value) => {
-      setHTML(v.toString());
+    debounce((content, delta, source, editor) => {
+      setEditor(editor);
     }, 300),
-    [setHTML],
+    [setEditor],
   );
-
-  useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.onEditorChange = (eventName) => {
-        if (eventName === 'text-change') {
-          handleChangeEditor((editorRef.current as ReactQuill).value);
-        }
-      };
-
-      if (initValue) {
-        editorRef.current.value = initValue;
-      }
-    }
-  }, [initValue]);
 
   return (
     <>
@@ -130,7 +116,12 @@ const QuillEditor = (props: Props) => {
         </span>
       </ToolbarContainer>
       <Container id="container" onClick={handleClickContainer}>
-        <ReactQuill {...options} ref={editorRef} />
+        <ReactQuill
+          {...options}
+          ref={editorRef}
+          defaultValue={initValue}
+          onChange={handleChangeEditor}
+        />
       </Container>
     </>
   );
