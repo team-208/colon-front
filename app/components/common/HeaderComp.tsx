@@ -47,10 +47,8 @@ const FlexRowDiv = styled.div`
   flex-direction: row;
   align-items: center;
 
-  &.gap {
-    :not(:last-child) {
-      margin-right: 10px;
-    }
+  :not(:last-of-type) {
+    margin-right: 10px;
   }
 `;
 
@@ -64,7 +62,7 @@ const HeaderNav = styled.nav`
       color: ${({ theme }) => theme.color.label.normal};
     }
 
-    &:not(:last-child) {
+    &:not(:last-of-type) {
       margin-right: 10px;
     }
   }
@@ -95,7 +93,7 @@ const HeaderComp = () => {
         </FlexRowDiv>
 
         {userInfo && (
-          <FlexRowDiv className="gap">
+          <FlexRowDiv>
             <Image alt="" src={icon_search} width={24} height={24} />
             <Image alt="" src={icon_bell} width={24} height={24} />
             {/* TODO: profile_url 처리 */}
