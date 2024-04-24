@@ -28,7 +28,7 @@ const ContainerHeaderInner = styled.div`
   justify-content: space-between;
   align-items: center;
   height: inherit;
-  padding: 0 170px;
+  padding: 0 190px;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     padding: 0 20px;
