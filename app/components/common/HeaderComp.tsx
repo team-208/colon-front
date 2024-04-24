@@ -38,7 +38,7 @@ const ContainerHeaderInner = styled.div`
 const LogoContainer = styled.div`
   position: relative;
   width: 80px;
-  height: 42px;
+  height: 18px;
   margin-right: 24px;
 `;
 
@@ -80,7 +80,7 @@ const HeaderComp = () => {
         <FlexRowDiv>
           <LogoContainer>
             <Link href="/">
-              <Image alt="" src={logoImg} objectFit="contain" fill />
+              <Image alt="" src={logoImg} fill />
             </Link>
           </LogoContainer>
           <HeaderNav>
