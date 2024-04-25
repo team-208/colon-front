@@ -198,7 +198,7 @@ const font = {
     font-weight: 600;
   `,
   caption1: css`
-    font-size: 13px;
+    font-size: 12px;
     line-height: 16px;
     letter-spacing: -2.5%;
     font-weight: 700;
