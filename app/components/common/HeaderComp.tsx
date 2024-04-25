@@ -15,6 +15,7 @@ const ContainerHeader = styled.header`
   left: 0;
   width: 100%;
   height: 60px;
+  z-index: 1000;
   background-color: ${({ theme }) => theme.color.static.light};
   border-bottom: 1px solid #cbcbcb;
 
@@ -76,11 +77,11 @@ const HeaderComp = () => {
     <ContainerHeader>
       <ContainerHeaderInner>
         <FlexRowDiv>
-          <LogoContainer>
-            <Link href="/">
-              <Image alt="" src={logoImg} fill />
-            </Link>
-          </LogoContainer>
+          <Link href="/">
+            <LogoContainer>
+              <Image alt="" src={logoImg} sizes="80px" fill />
+            </LogoContainer>
+          </Link>
           <HeaderNav>
             <ul>
               {headerMenu.map((v) => (
