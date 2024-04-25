@@ -1,3 +1,11 @@
-import QuestionPage from './page';
+import { ReactNode } from 'react';
 
-export default QuestionPage;
+interface Props {
+  children: ReactNode;
+}
+
+const QuestionLayout = ({ children }: Props) => {
+  return <>{children}</>;
+};
+
+export default QuestionLayout;

@@ -6,7 +6,6 @@ import { ReactNode } from 'react';
 
 interface Props {
   params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 const fetchPost = async (id: string): Promise<Post> => {
@@ -37,22 +36,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const QuestionPage = async (props: any) => {
-  const { children, params } = props;
+const QuestionPage = async ({ params }: Props) => {
   const post = await fetchPost(params.id);
 
   return (
-    <>
-      {children || (
-        <SectionComp direction="column">
-          <article>
-            <p>{post.title}</p>
-            <p>{post.nickname}</p>
-            <p>{post.content}</p>
-          </article>
-        </SectionComp>
-      )}
-    </>
+    <SectionComp direction="column">
+      <article>
+        <p>{post.title}</p>
+        <p>{post.nickname}</p>
+        <p>{post.content}</p>
+      </article>
+    </SectionComp>
   );
 };
 
