@@ -6,10 +6,18 @@ export interface DeviceProps {
   desktop: number;
 }
 
+interface HeightProps {
+  header: { mobile: number; tablet: number; desktop: number };
+}
+
 const deviceSizes: DeviceProps = {
   mobile: 767,
   tablet: 991,
   desktop: 992,
+};
+
+const heightSizes: HeightProps = {
+  header: { mobile: 56, tablet: 60, desktop: 60 },
 };
 
 const mediaQuery = {
@@ -211,7 +219,7 @@ const font = {
   `,
 };
 
-const theme = { color, font, mediaQuery };
+const theme = { color, font, mediaQuery, heightSizes };
 
 export default theme;
 
