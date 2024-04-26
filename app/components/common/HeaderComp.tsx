@@ -14,13 +14,13 @@ const ContainerHeader = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  height: ${({ theme }) => theme.heightSizes.header.desktop}px;
   z-index: 1000;
   background-color: ${({ theme }) => theme.color.static.light};
   border-bottom: 1px solid #cbcbcb;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
-    height: 56px;
+    height: ${({ theme }) => theme.heightSizes.header.mobile}px;
   }
 `;
 
