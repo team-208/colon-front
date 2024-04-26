@@ -61,7 +61,7 @@ const ProfileImageComp = (props: Props) => {
 
   return (
     <ProfileImageDiv>
-      <Image src={imageSrc} alt="프로필 이미지" fill={true} />
+      <Image src={imageSrc} alt="프로필 이미지" sizes="140px" fill />
       {isModify && (
         <Image
           src={'/vercel.svg'}
