@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import dayjs from 'dayjs';
 import { Post } from '@/app/types/data';
+import MainContainer from '@/app/components/common/MainContainer';
 import SectionComp from '@/app/components/common/SectionComp';
-import { ReactNode } from 'react';
 
 interface Props {
   params: { id: string };
@@ -40,13 +40,15 @@ const QuestionPage = async ({ params }: Props) => {
   const post = await fetchPost(params.id);
 
   return (
-    <SectionComp direction="column">
-      <article>
-        <p>{post.title}</p>
-        <p>{post.nickname}</p>
-        <p>{post.content}</p>
-      </article>
-    </SectionComp>
+    <MainContainer>
+      <SectionComp direction="column">
+        <article>
+          <p>{post.title}</p>
+          <p>{post.nickname}</p>
+          <p>{post.content}</p>
+        </article>
+      </SectionComp>
+    </MainContainer>
   );
 };
 

@@ -2,9 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
+import MainContainer from '../components/common/MainContainer';
 
-const ContainerMain = styled.main`
-  margin-top: 50px;
+const ContainerInnerDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,18 +54,22 @@ export default function Home() {
   };
 
   return (
-    <ContainerMain>
-      <ServiceImageP>서비스 이미지</ServiceImageP>
+    <MainContainer>
+      <ContainerInnerDiv>
+        <ServiceImageP>서비스 이미지</ServiceImageP>
 
-      <IntroduceDiv>
-        <h2>
-          <TitleStrong>CO:LON</TitleStrong>
-        </h2>
+        <IntroduceDiv>
+          <h2>
+            <TitleStrong>CO:LON</TitleStrong>
+          </h2>
 
-        <DescP>{`IT 기획자 개발자 디자이너가\n모두 모여 소통하는 공간`}</DescP>
-      </IntroduceDiv>
+          <DescP>{`IT 기획자 개발자 디자이너가\n모두 모여 소통하는 공간`}</DescP>
+        </IntroduceDiv>
 
-      <KakaoLoginButton onClick={handleClick}>카카오로 로그인하고 소통하러 가기!</KakaoLoginButton>
-    </ContainerMain>
+        <KakaoLoginButton onClick={handleClick}>
+          카카오로 로그인하고 소통하러 가기!
+        </KakaoLoginButton>
+      </ContainerInnerDiv>
+    </MainContainer>
   );
 }

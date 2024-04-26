@@ -1,10 +1,10 @@
+import MainContainer from '@/app/components/common/MainContainer';
 import SectionComp from '@/app/components/common/SectionComp';
 import ProfileComp from '@/app/components/mypage/ProfileComp';
 import Tabs from '@/app/components/common/TabsComp';
 import ReactionContent from '@/app/components/mypage/ReactionContent';
 import ScrapContent from '@/app/components/mypage/ScrapContent';
 import ActivityContent from '@/app/components/mypage/ActivityContent';
-
 
 const tabList = [
   { text: '반응한 글', component: <ReactionContent /> },
@@ -20,7 +20,7 @@ const tabList = [
 
 export default function MyPage() {
   return (
-    <main>
+    <MainContainer>
       <SectionComp direction="row">
         <ProfileComp />
       </SectionComp>
@@ -28,6 +28,6 @@ export default function MyPage() {
       <SectionComp direction="column">
         <Tabs tabList={tabList} />
       </SectionComp>
-    </main>
+    </MainContainer>
   );
 }

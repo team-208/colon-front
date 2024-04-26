@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 const QnaLayout = ({ children }: Props) => {
-  return <main>{children}</main>;
+  return <>{children}</>;
 };
 
 export default QnaLayout;
