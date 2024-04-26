@@ -4,10 +4,12 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 interface Props {
+  fullWidth?: boolean;
   children: ReactNode;
 }
 
-const Container = styled.main`
+const Container = styled.main<{ $full: boolean }>`
+  ${({ $full }) => 'max-width: none;'}
   margin-top: ${({ theme }) => theme.heightSizes.header.desktop}px;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
@@ -16,9 +18,9 @@ const Container = styled.main`
 `;
 
 const MainContainer = (props: Props) => {
-  const { children } = props;
+  const { children, fullWidth } = props;
 
-  return <Container>{children}</Container>;
+  return <Container $full={fullWidth ?? false}>{children}</Container>;
 };
 
 export default MainContainer;
