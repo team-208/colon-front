@@ -119,7 +119,6 @@ const KakaoLoginButton = styled.button`
   ${({ theme }) => theme.mediaQuery.mobile} {
     width: 272px;
   }
-  /* padding: 14px 24px; */
 `;
 
 export default function Home() {
@@ -128,7 +127,6 @@ export default function Home() {
 
   // events
   const handleClick = () => {
-    // TODO: publishing 예정.
     push('/login');
   };
 
@@ -148,6 +146,7 @@ export default function Home() {
         </SectionComp>
 
         <SectionComp direction="column" padding="0">
+          {/* TODO: publishing 예정. */}
           <BoxInnerDiv>
             {[1, 2, 3, 4, 5].map((v) => (
               <BoxDiv key={v}>
