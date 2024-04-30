@@ -62,6 +62,12 @@ table {
 main {
   max-width: 1024px;
   margin: 0 auto;
+
+  margin-top: ${({ theme }) => theme.heightSizes.header.desktop}px;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    margin-top: ${({ theme }) => theme.heightSizes.header.mobile}px;
+  }
 }
 
 button {

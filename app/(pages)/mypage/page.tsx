@@ -1,4 +1,3 @@
-import MainContainer from '@/app/components/common/MainContainer';
 import SectionComp from '@/app/components/common/SectionComp';
 import ProfileComp from '@/app/components/mypage/ProfileComp';
 import Tabs from '@/app/components/common/TabsComp';
@@ -20,7 +19,7 @@ const tabList = [
 
 export default function MyPage() {
   return (
-    <MainContainer>
+    <main>
       <SectionComp direction="row">
         <ProfileComp />
       </SectionComp>
@@ -28,6 +27,6 @@ export default function MyPage() {
       <SectionComp direction="column">
         <Tabs tabList={tabList} />
       </SectionComp>
-    </MainContainer>
+    </main>
   );
 }

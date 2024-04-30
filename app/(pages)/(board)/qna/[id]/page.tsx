@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import dayjs from 'dayjs';
 import { Post } from '@/app/types/data';
-import MainContainer from '@/app/components/common/MainContainer';
 import SectionComp from '@/app/components/common/SectionComp';
 
 interface Props {
@@ -40,7 +39,7 @@ const QuestionPage = async ({ params }: Props) => {
   const post = await fetchPost(params.id);
 
   return (
-    <MainContainer>
+    <main>
       <SectionComp direction="column">
         <article>
           <p>{post.title}</p>
@@ -48,7 +47,7 @@ const QuestionPage = async ({ params }: Props) => {
           <p>{post.content}</p>
         </article>
       </SectionComp>
-    </MainContainer>
+    </main>
   );
 };
 

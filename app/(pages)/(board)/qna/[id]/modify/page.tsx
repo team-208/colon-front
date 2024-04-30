@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import { Post } from '@/app/types/data';
-import MainContainer from '@/app/components/common/MainContainer';
 import SectionComp from '@/app/components/common/SectionComp';
 import Writecomp from '@/app/components/board/qna/WriteComp';
 
@@ -28,12 +27,12 @@ const ModifyPage = async ({ params }: Props) => {
   const post = await fetchPost(params.id);
 
   return (
-    <MainContainer>
+    <main>
       <SectionComp direction="column">
         QnA 게시글 수정 페이지
         <Writecomp defaultPost={post} />
       </SectionComp>
-    </MainContainer>
+    </main>
   );
 };
 

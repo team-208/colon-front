@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import MainContainer from '../components/common/MainContainer';
 import SectionComp from '../components/common/SectionComp';
 import icon_arrow from '../assets/images/home/icon_arrow.png';
 import logo_kakao from '../assets/images/home/logo_kakao.png';
@@ -131,7 +130,7 @@ export default function Home() {
   };
 
   return (
-    <MainContainer fullWidth>
+    <main style={{ maxWidth: 'none' }}>
       <ContainerInnerDiv>
         <SectionComp direction="column" padding="0">
           <SquareP />
@@ -166,6 +165,6 @@ export default function Home() {
           </KakaoLoginButton>
         </SectionComp>
       </ContainerInnerDiv>
-    </MainContainer>
+    </main>
   );
 }

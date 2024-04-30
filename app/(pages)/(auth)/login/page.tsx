@@ -3,9 +3,8 @@
 import useAuth from '@/app/hooks/useAuth';
 import { getHost } from '@/app/utils/host';
 import styled from 'styled-components';
-import MainContainer from '@/app/components/common/MainContainer';
 
-const ContainerInnerDiv = styled.div`
+const ContainerMain = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,17 +49,15 @@ export default function Login() {
   };
 
   return (
-    <MainContainer>
-      <ContainerInnerDiv>
-        <ServiceImageP>소개글</ServiceImageP>
+    <ContainerMain>
+      <ServiceImageP>소개글</ServiceImageP>
 
-        {/* TODO: 디자인 가이드 배포 후, 공용 모듈화 필요 */}
-        <KakaoLoginButton onClick={handleClickKakao}>
-          카카오로 로그인하고 소통하러 가기!
-        </KakaoLoginButton>
+      {/* TODO: 디자인 가이드 배포 후, 공용 모듈화 필요 */}
+      <KakaoLoginButton onClick={handleClickKakao}>
+        카카오로 로그인하고 소통하러 가기!
+      </KakaoLoginButton>
 
-        <SignUpButton onClick={handleClickSignUp}>회원가입</SignUpButton>
-      </ContainerInnerDiv>
-    </MainContainer>
+      <SignUpButton onClick={handleClickSignUp}>회원가입</SignUpButton>
+    </ContainerMain>
   );
 }
