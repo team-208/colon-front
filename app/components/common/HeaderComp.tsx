@@ -5,8 +5,8 @@ import Link from 'next/link';
 import useAuth from '@/app/hooks/useAuth';
 import styled from 'styled-components';
 import logoImg from '../../assets/images/logo.png';
-import icon_bell from '../../assets/images/header/Bell.png';
-import icon_search from '../../assets/images/header/Search.png';
+import icon_bell from '../../assets/images/header/icon_bell.png';
+import icon_search from '../../assets/images/header/icon_search.png';
 import { headerMenu } from '@/app/constants/menu';
 
 const ContainerHeader = styled.header`
@@ -14,13 +14,13 @@ const ContainerHeader = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  height: ${({ theme }) => theme.heightSizes.header.desktop}px;
   z-index: 1000;
   background-color: ${({ theme }) => theme.color.static.light};
   border-bottom: 1px solid #cbcbcb;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
-    height: 56px;
+    height: ${({ theme }) => theme.heightSizes.header.mobile}px;
   }
 `;
 

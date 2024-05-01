@@ -27,10 +27,12 @@ const ModifyPage = async ({ params }: Props) => {
   const post = await fetchPost(params.id);
 
   return (
-    <SectionComp direction="column">
-      QnA 게시글 수정 페이지
-      <Writecomp defaultPost={post} />
-    </SectionComp>
+    <main>
+      <SectionComp direction="column">
+        QnA 게시글 수정 페이지
+        <Writecomp defaultPost={post} />
+      </SectionComp>
+    </main>
   );
 };
 

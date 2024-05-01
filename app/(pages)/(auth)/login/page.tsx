@@ -5,7 +5,6 @@ import { getHost } from '@/app/utils/host';
 import styled from 'styled-components';
 
 const ContainerMain = styled.main`
-  margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;

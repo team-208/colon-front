@@ -5,7 +5,6 @@ import ReactionContent from '@/app/components/mypage/ReactionContent';
 import ScrapContent from '@/app/components/mypage/ScrapContent';
 import ActivityContent from '@/app/components/mypage/ActivityContent';
 
-
 const tabList = [
   { text: '반응한 글', component: <ReactionContent /> },
   {
