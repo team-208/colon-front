@@ -9,7 +9,7 @@ interface Props {
 }
 
 const ContainerDiv = styled.div<{ $height: number; $color?: string }>`
-  width: 100vw;
+  width: 100%;
   height: ${({ $height }) => $height}px;
   background-color: ${({ $color, theme }) => $color ?? theme.color.line.solid.neutral};
 `;
