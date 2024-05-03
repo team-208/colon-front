@@ -14,8 +14,6 @@ interface Props {
   updatedAt: Dayjs;
 }
 
-const ContainerDiv = styled.div``;
-
 const MajorP = styled.p`
   display: flex;
   align-items: center;
