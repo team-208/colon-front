@@ -10,11 +10,8 @@ interface Props {
   onChange: (filter: filter) => void;
 }
 
-const ContainerDiv = styled.div`
-  width: 100%;
-`;
-
 const FilterUl = styled.ul`
+  width: 100%;
   padding: 0 20px;
   border-bottom: 1px solid ${({ theme }) => theme.color.line.solid.normal};
 `;
@@ -22,7 +19,7 @@ const FilterUl = styled.ul`
 const FilterLi = styled.li<{ $active: boolean }>`
   display: inline-block;
   cursor: pointer;
-  padding: 5px 20px;
+  padding: 5px 16.5px;
   ${({ theme }) => theme.font.body3}
   color: ${({ theme, $active }) =>
     $active ? theme.color.label.normal : theme.color.interaction.inactive};
@@ -44,15 +41,13 @@ const FilterHeaderComp = (props: Props) => {
   };
 
   return (
-    <ContainerDiv>
-      <FilterUl>
-        {filterList.map((v, idx) => (
-          <FilterLi key={idx} onClick={() => handleClick(v)} $active={v.value === value}>
-            {v.text}
-          </FilterLi>
-        ))}
-      </FilterUl>
-    </ContainerDiv>
+    <FilterUl>
+      {filterList.map((v, idx) => (
+        <FilterLi key={idx} onClick={() => handleClick(v)} $active={v.value === value}>
+          {v.text}
+        </FilterLi>
+      ))}
+    </FilterUl>
   );
 };
 
