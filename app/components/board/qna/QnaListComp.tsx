@@ -1,6 +1,19 @@
 'use client';
 
+import styled from 'styled-components';
 import FilterHeaderComp, { filter } from '@/app/components/common/FilterHeaderComp';
+import SelectorComp from '../../common/SelectorComp';
+
+const SelectorContainerDiv = styled.div`
+  width: 100%;
+  height: 28px;
+  padding: 0 20px;
+
+  > * {
+    float: right;
+    line-height: 28px;
+  }
+`;
 
 const filterList = [
   {
@@ -29,6 +42,9 @@ const QnaListComp = () => {
   return (
     <>
       <FilterHeaderComp filterList={filterList} onChange={chagneFilter} />
+      <SelectorContainerDiv>
+        <SelectorComp />
+      </SelectorContainerDiv>
       {/* 질문카드 영역 */}
     </>
   );
