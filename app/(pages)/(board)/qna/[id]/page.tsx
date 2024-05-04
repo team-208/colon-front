@@ -4,6 +4,7 @@ import { Post } from '@/app/types/data';
 import SectionComp from '@/app/components/common/SectionComp';
 import QnADetailContent from '@/app/components/board/qna/QnADetail/QnADetailContent';
 import QnACommentList from '@/app/components/board/qna/QnADetail/QnACommentList';
+import QnACommentWrite from '@/app/components/board/qna/QnADetail/QnACommentWrite';
 
 interface Props {
   params: { id: string };
@@ -56,7 +57,10 @@ const QuestionPage = async ({ params }: Props) => {
         />
       </SectionComp>
       <SectionComp direction="column" padding="0">
-        <QnACommentList />
+        <QnACommentList postId={params.id} />
+      </SectionComp>
+      <SectionComp direction="column" padding="0">
+        <QnACommentWrite postId={params.id} />
       </SectionComp>
     </main>
   );

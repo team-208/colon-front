@@ -7,7 +7,9 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import styled from 'styled-components';
 
-interface Props {}
+interface Props {
+  postId: string;
+}
 
 const ConatinerDiv = styled.div`
   max-width: 700px;
@@ -82,7 +84,7 @@ const emojis = {
   heart: 0,
 };
 
-const QnACommentList = ({}: Props) => {
+const QnACommentList = ({ postId }: Props) => {
   return (
     <ConatinerDiv>
       <FilterDiv>
