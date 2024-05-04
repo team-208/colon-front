@@ -133,8 +133,10 @@ const color = {
     brilliantRose10: '#662045',
   },
   gradient: {
-    normal: 'linear-gradient(0deg, #0080DB 0 32%, #00A1FF 32% 100%, #3ECDDE)',
-    hover: 'linear-gradient(0deg, #0080DB 0 78%, #00A1FF 78% 100%, #23B9FD)',
+    normal:
+      'linear-gradient(90deg, rgba(0,128,219,1) 0%, rgba(0,161,255,1) 32%, rgba(62,205,222,1) 100%);',
+    hover:
+      'linear-gradient(90deg, rgba(0,128,219,1) 0%, rgba(0,161,255,1) 78%, rgba(35,185,253,1) 100%);',
   },
 };
 
