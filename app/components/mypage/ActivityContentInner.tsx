@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { UserPost, UserComment } from '../type';
-import CommentComp from '../common/CommentComp';
+import CommentComp from '../common/CommentComp/CommentCompRegacy';
 import PostComp from '../common/PostComp';
 
 const FilterListLayoutDiv = styled.div`
