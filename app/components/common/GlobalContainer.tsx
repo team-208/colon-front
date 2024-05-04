@@ -73,6 +73,8 @@ main {
 button {
   border: none;
   cursor: pointer;
+  background-color: transparent;
+  padding: 0;
 }
 
 * {
