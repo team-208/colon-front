@@ -1,9 +1,9 @@
 'use client';
 
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import QnA from '../QnA';
-import Divider from '@/app/components/common/Divider';
+import DividerComp from '@/app/components/common/DividerComp';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
@@ -135,7 +135,7 @@ const QnADetailContent = ({
         updatedAt={updatedAt ?? createdAt}
       />
 
-      <Divider.Horizonal height={1} />
+      <DividerComp.Horizonal height={1} />
 
       <CheckLabelBoxDiv>
         <Image
@@ -156,7 +156,7 @@ const QnADetailContent = ({
 
       <QnAReactionCount emojiCount={8} commentCount={3} />
 
-      <Divider.Horizonal height={1} />
+      <DividerComp.Horizonal height={1} />
     </ConatinerArticle>
   );
 };
