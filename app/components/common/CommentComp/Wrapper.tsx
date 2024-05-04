@@ -14,6 +14,7 @@ interface Props {
 const ContainerDiv = styled.div<{ $isNestedComment: boolean }>`
   display: flex;
   padding: 20px;
+  width: 100%;
 
   background-color: ${({ $isNestedComment, theme }) =>
     $isNestedComment ? theme.color.background.alternative : theme.color.background.normal};
@@ -24,6 +25,10 @@ const ContainerDiv = styled.div<{ $isNestedComment: boolean }>`
 
 const NestedIconImage = styled(Image)`
   margin-right: 12px;
+`;
+
+const ChildrenDiv = styled.div`
+  width: 100%;
 `;
 
 const Wrapper = ({ className, isNestedComment, children }: Props) => {
@@ -37,7 +42,7 @@ const Wrapper = ({ className, isNestedComment, children }: Props) => {
           height={16}
         />
       )}
-      {children}
+      <ChildrenDiv>{children}</ChildrenDiv>
     </ContainerDiv>
   );
 };
