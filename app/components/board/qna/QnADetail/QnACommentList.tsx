@@ -2,7 +2,6 @@
 
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import CommentComp from '@/app/components/common/CommentComp';
-import { UserComment } from '@/app/components/type';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import dayjs from 'dayjs';
 import Image from 'next/image';
@@ -77,6 +76,12 @@ const commentList = [
   },
 ];
 
+const emojis = {
+  thumbsUp: 2,
+  smilingHeart: 4,
+  heart: 0,
+};
+
 const QnACommentList = ({}: Props) => {
   return (
     <ConatinerDiv>
@@ -92,19 +97,25 @@ const QnACommentList = ({}: Props) => {
           />
         </SelectButton>
       </FilterDiv>
-      {commentList.map(
-        ({ id, major, nickname, updatedAt, comment, isNestedComment, isSelected }) => (
-          <CommentComp.Wrapper key={`comment-item-${id}`} isNestedComment={isNestedComment}>
-            <CommentComp.Header
-              major={major as JOB_GROUP_TYPES}
-              nickname={nickname}
-              updatedAt={updatedAt}
-              isSelected={!!isSelected}
-            />
-            <CommentP>{comment}</CommentP>
-          </CommentComp.Wrapper>
-        ),
-      )}
+
+      <ul>
+        {commentList.map(
+          ({ id, major, nickname, updatedAt, comment, isNestedComment, isSelected }) => (
+            <li key={`comment-item-${id}`}>
+              <CommentComp.Wrapper isNestedComment={isNestedComment}>
+                <CommentComp.Header
+                  major={major as JOB_GROUP_TYPES}
+                  nickname={nickname}
+                  updatedAt={updatedAt}
+                  isSelected={!!isSelected}
+                />
+                <CommentP>{comment}</CommentP>
+                <CommentComp.Emojis emojis={emojis} />
+              </CommentComp.Wrapper>
+            </li>
+          ),
+        )}
+      </ul>
     </ConatinerDiv>
   );
 };
