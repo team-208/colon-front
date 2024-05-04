@@ -2,9 +2,8 @@ import { Metadata } from 'next';
 import dayjs from 'dayjs';
 import { Post } from '@/app/types/data';
 import SectionComp from '@/app/components/common/SectionComp';
-import QnA from '@/app/components/board/qna/QnA';
-import Divider from '@/app/components/common/Divider';
 import QnADetailContent from '@/app/components/board/qna/QnADetail/QnADetailContent';
+import QnACommentList from '@/app/components/board/qna/QnADetail/QnACommentList';
 
 interface Props {
   params: { id: string };
@@ -55,6 +54,9 @@ const QuestionPage = async ({ params }: Props) => {
           author_nickname="우아한 코끼리"
           author_major="PLANNING"
         />
+      </SectionComp>
+      <SectionComp direction="column" padding="0">
+        <QnACommentList />
       </SectionComp>
     </main>
   );
