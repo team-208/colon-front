@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { UserPost, UserComment } from '../type';
-import PostComp from '../common/PostComp';
 import CommentComp from '../common/CommentComp';
+import PostComp from '../common/PostComp';
 
 const FilterListLayoutDiv = styled.div`
   display: flex;
@@ -74,7 +74,7 @@ const ActivityContentInner = (props: Props) => {
 
       {filteredList.map((v, idx) =>
         v.type === 'post' ? (
-          <PostComp key={`post-${idx}`} {...(v as UserPost)} isModify />
+          <PostComp.PostCompRegacy key={`post-${idx}`} {...(v as UserPost)} isModify />
         ) : (
           <CommentComp key={`comment-${idx}`} {...(v as UserComment)} isDelete />
         ),

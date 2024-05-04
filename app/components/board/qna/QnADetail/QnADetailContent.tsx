@@ -2,7 +2,7 @@
 
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import { Dayjs } from 'dayjs';
-import QnA from '../QnA';
+import PostComp from '../../../common/PostComp';
 import DividerComp from '@/app/components/common/DividerComp';
 import styled from 'styled-components';
 import Image from 'next/image';
@@ -28,7 +28,7 @@ const ConatinerArticle = styled.article`
   margin: 0 auto;
 `;
 
-const QnAHeader = styled(QnA.Header)`
+const QnAHeader = styled(PostComp.Header)`
   padding: 0 20px;
   margin: 20px 0 10px;
 
@@ -103,7 +103,7 @@ const TagListUl = styled.ul`
   }
 `;
 
-const QnAReactionCount = styled(QnA.ReactionCount)`
+const QnAReactionCount = styled(PostComp.ReactionCount)`
   padding: 0 20px;
   margin: 28px 0 32px;
 

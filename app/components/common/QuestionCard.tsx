@@ -6,7 +6,7 @@ import { JOB_GROUP_LABELS } from './constants';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
-import QnA from '../board/qna/QnA';
+import PostComp from './PostComp';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -29,7 +29,7 @@ const ContainerArticle = styled.article`
   width: 100%;
 `;
 
-const QnAHeader = styled(QnA.Header)`
+const QnAHeader = styled(PostComp.Header)`
   padding-left: 4px;
 `;
 
@@ -81,7 +81,7 @@ const ContentPreviewBodyP = styled.p`
   }
 `;
 
-const QnAReactionCount = styled(QnA.ReactionCount)`
+const QnAReactionCount = styled(PostComp.ReactionCount)`
   margin-top: 26px;
 
   ${({ theme }) => theme.mediaQuery.mobile} {

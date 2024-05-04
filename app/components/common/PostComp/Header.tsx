@@ -3,7 +3,7 @@
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import { Dayjs } from 'dayjs';
 import styled from 'styled-components';
-import { JOB_GROUP_LABELS } from '../../../common/constants';
+import { JOB_GROUP_LABELS } from '../constants';
 import { dateText } from '@/app/utils/text';
 
 interface Props {

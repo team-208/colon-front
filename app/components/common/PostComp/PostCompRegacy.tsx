@@ -56,7 +56,7 @@ const PostButton = styled.button`
   background: transparent;
 `;
 
-const PostComp = (props: Props) => {
+const PostCompRegacy = (props: Props) => {
   const { id, date, title, content, nickname, modified, solved, isModify, children } = props;
 
   const handleClickModify = useCallback((id: number) => {
@@ -99,4 +99,5 @@ const PostComp = (props: Props) => {
   );
 };
 
-export default React.memo(PostComp);
+export default PostCompRegacy;
+export type PostCompRegacyType = { PostCompRegacy: typeof PostCompRegacy };
