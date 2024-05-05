@@ -4,6 +4,7 @@ import Tabs from '@/app/components/common/TabsComp';
 import ReactionContent from '@/app/components/mypage/ReactionContent';
 import ScrapContent from '@/app/components/mypage/ScrapContent';
 import ActivityContent from '@/app/components/mypage/ActivityContent';
+import DeleteUserButton from '@/app/components/mypage/DeleteUserButton';
 
 const tabList = [
   { text: '반응한 글', component: <ReactionContent /> },
@@ -27,6 +28,8 @@ export default function MyPage() {
       <SectionComp direction="column">
         <Tabs tabList={tabList} />
       </SectionComp>
+
+      <DeleteUserButton />
     </main>
   );
 }
