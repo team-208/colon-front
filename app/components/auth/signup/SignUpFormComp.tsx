@@ -135,11 +135,11 @@ const SignUpFormComp = () => {
     signUp({
       major: major as JOB_GROUP_TYPES,
       profileUrl: isKaKaoProfile
-        ? userInfo?.kakaoUserInfo.avatar_url ?? ''
-        : userInfo?.user.profile_url ?? '',
+        ? userInfo?.kakaoUserInfo?.avatar_url ?? ''
+        : userInfo?.user?.profile_url ?? '',
       nickname: isKaKaoProfile ? kakaoNickname : randomNickName,
     });
-  }, [isDisable]);
+  }, [isDisable, profile]);
 
   const handleRefreshRandomNickName = async () => {
     const { data: randomNickName } = await refetchNickName();
