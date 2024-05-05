@@ -6,6 +6,9 @@ import styled from 'styled-components';
 import SectionComp from '../components/common/SectionComp';
 import icon_arrow from '../assets/images/home/icon_arrow.png';
 import logo_kakao from '../assets/images/home/logo_kakao.png';
+import useAuth from '../hooks/useAuth';
+import { useEffect } from 'react';
+import { isEmpty } from 'lodash';
 
 const ContainerInnerDiv = styled.div`
   display: flex;
@@ -122,12 +125,23 @@ const KakaoLoginButton = styled.button`
 
 export default function Home() {
   // hooks
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
+  const { userInfo, isFetchedUserInfo } = useAuth();
 
   // events
   const handleClick = () => {
     push('/login');
   };
+
+  useEffect(() => {
+    if (!isEmpty(userInfo)) {
+      replace('/qna');
+    }
+  }, [userInfo]);
+
+  if (!isFetchedUserInfo) {
+    return <></>;
+  }
 
   return (
     <main style={{ maxWidth: 'none' }}>
