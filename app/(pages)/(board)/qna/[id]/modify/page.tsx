@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { Post } from '@/app/types/data';
 import SectionComp from '@/app/components/common/SectionComp';
-import Writecomp from '@/app/components/board/qna/WriteComp';
+import Writecomp from '@/app/components/board/qna/write/WriteFormComp';
 
 interface Props {
   params: { id: string };

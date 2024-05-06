@@ -1,12 +1,11 @@
 import SectionComp from '@/app/components/common/SectionComp';
-import Writecomp from '@/app/components/board/qna/WriteComp';
+import WriteFormcomp from '@/app/components/board/qna/write/WriteFormComp';
 
 const WritePage = () => {
   return (
     <main>
-      <SectionComp direction="column">
-        QnA 게시글 작성 페이지
-        <Writecomp />
+      <SectionComp direction="column" padding="0">
+        <WriteFormcomp />
       </SectionComp>
     </main>
   );
