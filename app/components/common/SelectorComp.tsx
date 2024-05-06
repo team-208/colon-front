@@ -33,6 +33,7 @@ const MenuDiv = styled.div`
     0px 4px 6px -5px rgba(25, 35, 40, 0.1);
 `;
 
+// TODO: $isActive 처리 디자인 나오면 수정
 const MenuLi = styled.li<{ $isActive: boolean }>`
   ${({ theme }) => theme.font.caption1};
   color: ${({ theme, $isActive }) => ($isActive ? theme.color.primary.normal : '#000000')};
@@ -59,6 +60,7 @@ const SelectorComp = ({ defaultIdx, menuList, onChange }: Props) => {
 
   return (
     <SelectorContainerDiv>
+      {/* TODO: arrow 이미지 넣기 */}
       <SelectorButton onClick={handleClickButton}>{curMenu.text}</SelectorButton>
       {toggle && (
         <MenuDiv>
