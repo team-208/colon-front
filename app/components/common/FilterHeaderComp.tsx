@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-export type filter = { text: string; value: string | number };
+export type filterType = { text: string; value: string | number };
 
 interface Props {
-  filterList: filter[];
-  onChange: (filter: filter) => void;
+  filterList: filterType[];
+  onChange: (filter: filterType) => void;
 }
 
 const FilterUl = styled.ul`
@@ -30,20 +30,18 @@ const FilterLi = styled.li<{ $active: boolean }>`
   }
 `;
 
-const FilterHeaderComp = (props: Props) => {
-  const { filterList, onChange } = props;
+const FilterHeaderComp = ({ filterList, onChange }: Props) => {
+  const [curFilter, setCurFilter] = useState(filterList[0]);
 
-  const [value, setValue] = useState(filterList[0].value);
-
-  const handleClick = (v: filter) => {
-    setValue(v.value);
+  const handleClick = (v: filterType) => {
+    setCurFilter(v);
     onChange(v);
   };
 
   return (
     <FilterUl>
       {filterList.map((v, idx) => (
-        <FilterLi key={idx} onClick={() => handleClick(v)} $active={v.value === value}>
+        <FilterLi key={idx} onClick={() => handleClick(v)} $active={v.value === curFilter.value}>
           {v.text}
         </FilterLi>
       ))}
@@ -51,4 +49,4 @@ const FilterHeaderComp = (props: Props) => {
   );
 };
 
-export default FilterHeaderComp;
+export default React.memo(FilterHeaderComp);

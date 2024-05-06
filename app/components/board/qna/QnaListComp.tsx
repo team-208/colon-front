@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { sortMenuList } from '@/app/constants/menu';
-import FilterHeaderComp, { filter } from '@/app/components/common/FilterHeaderComp';
+import FilterHeaderComp, { filterType } from '@/app/components/common/FilterHeaderComp';
 import SelectorComp, { MenuType } from '../../common/SelectorComp';
 
 const SelectorContainerDiv = styled.div`
@@ -17,7 +17,7 @@ const SelectorContainerDiv = styled.div`
   }
 `;
 
-const filterMenuList: filter[] = [
+const filterMenuList: filterType[] = [
   {
     text: '전체',
     value: 0,
@@ -40,7 +40,7 @@ const QnaListComp = () => {
   const [sortMenu, setSortMenu] = useState(sortMenuList[0]);
   const [filterMenu, setFilterMenu] = useState(filterMenuList[0]);
 
-  const chagneFilter = useCallback((filter: filter) => {
+  const chagneFilter = useCallback((filter: filterType) => {
     // TODO: filterMenu 따른 질문카드 영역 처리
     setFilterMenu(filter);
   }, []);
