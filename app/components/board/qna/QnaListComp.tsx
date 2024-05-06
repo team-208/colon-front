@@ -1,8 +1,10 @@
 'use client';
 
+import { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import { sortMenuList } from '@/app/constants/menu';
 import FilterHeaderComp, { filter } from '@/app/components/common/FilterHeaderComp';
-import SelectorComp from '../../common/SelectorComp';
+import SelectorComp, { MenuType } from '../../common/SelectorComp';
 
 const SelectorContainerDiv = styled.div`
   width: 100%;
@@ -15,7 +17,7 @@ const SelectorContainerDiv = styled.div`
   }
 `;
 
-const filterList = [
+const filterMenuList: filter[] = [
   {
     text: '전체',
     value: 0,
@@ -35,15 +37,24 @@ const filterList = [
 ];
 
 const QnaListComp = () => {
-  const chagneFilter = (filter: filter) => {
-    // TODO: filter에 따른 질문카드 영역 처리
-  };
+  const [sortMenu, setSortMenu] = useState(sortMenuList[0]);
+  const [filterMenu, setFilterMenu] = useState(filterMenuList[0]);
+
+  const chagneFilter = useCallback((filter: filter) => {
+    // TODO: filterMenu 따른 질문카드 영역 처리
+    setFilterMenu(filter);
+  }, []);
+
+  const changeSortMenu = useCallback((menu: MenuType) => {
+    // TODO: sortMenu에 따른 질문카드 영역 처리
+    setSortMenu(menu);
+  }, []);
 
   return (
     <>
-      <FilterHeaderComp filterList={filterList} onChange={chagneFilter} />
+      <FilterHeaderComp filterList={filterMenuList} onChange={chagneFilter} />
       <SelectorContainerDiv>
-        <SelectorComp />
+        <SelectorComp menuList={sortMenuList} onChange={changeSortMenu} />
       </SelectorContainerDiv>
       {/* 질문카드 영역 */}
     </>
