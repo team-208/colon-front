@@ -161,4 +161,4 @@ const QnADetailContent = ({
   );
 };
 
-export default React.memo(QnADetailContent);
+export default QnADetailContent;

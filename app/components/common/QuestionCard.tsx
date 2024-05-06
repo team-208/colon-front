@@ -7,6 +7,7 @@ import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import PostComp from './PostComp';
+import React from 'react';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -203,4 +204,4 @@ const QuestionCard = ({
   );
 };
 
-export default QuestionCard;
+export default React.memo(QuestionCard);
