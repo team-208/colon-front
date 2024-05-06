@@ -12,6 +12,7 @@ export async function GET(request: Request, { params }: { params: { postId: stri
       .from('comments')
       .select('*')
       .eq('post_id', params.postId);
+
     if (commentsGetError) {
       return NextResponse.json({
         success: false,

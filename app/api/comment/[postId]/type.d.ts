@@ -6,6 +6,7 @@ export interface GetCommentsResponseItem {
   created_at: string;
   updated_at: string;
   post_id: number;
+  author_nickname: string;
 
   // client computed props
   nestedComments: GetCommentsResponse[];
