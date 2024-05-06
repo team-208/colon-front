@@ -47,7 +47,6 @@ const ReactionCount = ({ className, emojiCount, commentCount }: Props) => {
       <CountSpan>
         <strong>CO:</strong> {commentCount}
       </CountSpan>
-      (댓글 영역 추가 개발 필요)
     </ContainerDiv>
   );
 };

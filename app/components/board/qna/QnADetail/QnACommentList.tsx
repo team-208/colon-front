@@ -89,6 +89,7 @@ const QnACommentList = ({ postId }: Props) => {
     <ConatinerDiv>
       <FilterDiv>
         <TitleP>댓글</TitleP>
+        {/* TODO: selector 컴포넌트 제작 필요 */}
         <SelectButton>
           <span>정렬</span>
           <Image

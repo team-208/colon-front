@@ -7,7 +7,7 @@ import DividerComp from '@/app/components/common/DividerComp';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -161,4 +161,4 @@ const QnADetailContent = ({
   );
 };
 
-export default QnADetailContent;
+export default React.memo(QnADetailContent);
