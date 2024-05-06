@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
+import { IMAGE_CDN } from '@/app/constants/externalUrls';
+import Image from 'next/image';
 import styled from 'styled-components';
 
 export type MenuType = { id: number; text: string; value: number | string };
@@ -16,10 +18,16 @@ const SelectorContainerDiv = styled.div`
 `;
 
 const SelectorButton = styled.button`
+  display: flex;
+  align-items: center;
   ${({ theme }) => theme.font.caption1};
   color: ${({ theme }) => theme.color.label.normal};
   padding: 4px 8px;
   background-color: transparent;
+
+  img {
+    margin-left: 4px;
+  }
 `;
 
 const MenuDiv = styled.div`
@@ -60,8 +68,15 @@ const SelectorComp = ({ defaultIdx, menuList, onChange }: Props) => {
 
   return (
     <SelectorContainerDiv>
-      {/* TODO: arrow 이미지 넣기 */}
-      <SelectorButton onClick={handleClickButton}>{curMenu.text}</SelectorButton>
+      <SelectorButton onClick={handleClickButton}>
+        {curMenu.text}
+        <Image
+          alt="정렬 아이콘"
+          src={`${IMAGE_CDN}/icon/chevron-down.png`}
+          width={8}
+          height={4.5}
+        />
+      </SelectorButton>
       {toggle && (
         <MenuDiv>
           <ul>
