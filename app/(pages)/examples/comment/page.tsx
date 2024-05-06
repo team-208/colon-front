@@ -1,21 +1,20 @@
 'use client';
 
+import useCommentsQuery from '@/app/api/comment/[postId]/queries';
 import { useInsertCommentMutation } from '@/app/api/comment/mutations';
 import { InsertCommentRequest } from '@/app/api/comment/type';
 
 const testData: InsertCommentRequest = {
   post_id: 7,
-  comment: '댓글을 남겨보아요.',
+  comment: '댓글을 남겨보아요. 대댓글',
 };
 
 export default function CommentPage() {
+  const { data } = useCommentsQuery(testData.post_id.toString());
   const { mutateAsync } = useInsertCommentMutation();
 
   const handleClick = async () => {
-    await mutateAsync({
-      post_id: 7,
-      comment: '댓글을 남겨보아요.',
-    });
+    await mutateAsync(testData);
   };
 
   return (
