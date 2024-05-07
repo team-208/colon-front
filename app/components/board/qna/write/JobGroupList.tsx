@@ -15,6 +15,10 @@ const ContainerDiv = styled.div`
   flex-direction: row;
   height: 28px;
   margin: 20px 0 24px 0;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    margin: 20px 0;
+  }
 `;
 
 const TitleP = styled.p`
@@ -34,7 +38,7 @@ const ContainerUl = styled.ul`
   }
 `;
 
-const JobGroupButton = styled(ButtonComp.Basic)`
+const JobGroupButton = styled(ButtonComp.Solid)`
   width: 56px;
   padding: 4px 8px;
   border-radius: 8px;

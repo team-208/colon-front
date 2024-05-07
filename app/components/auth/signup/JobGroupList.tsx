@@ -21,7 +21,7 @@ const ContainerUl = styled.ul`
   }
 `;
 
-const JobGroupButton = styled(ButtonComp.Basic)`
+const JobGroupButton = styled(ButtonComp.Solid)`
   width: 100%;
   height: 40px;
   border-radius: 12px;

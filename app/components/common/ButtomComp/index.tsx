@@ -1,6 +1,6 @@
-import Basic, {BasicType} from "./Basic";
+import Solid, { SolidType } from './Solid';
 
-const ButtonComp: BasicType = () => <></>;
+const ButtonComp: SolidType = () => <></>;
 
-ButtonComp.Basic = Basic;
+ButtonComp.Solid = Solid;
 export default ButtonComp;

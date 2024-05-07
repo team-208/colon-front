@@ -8,7 +8,7 @@ interface Props {
   onClick: () => void;
 }
 
-const BasicButton = styled.button<{ $isActive: boolean }>`
+const SolidButton = styled.button<{ $isActive: boolean }>`
   background-color: ${({ theme, $isActive }) =>
     $isActive ? theme.color.primary.normal : theme.color.palette.coolNeutral99};
   color: ${({ theme, $isActive }) =>
@@ -20,13 +20,13 @@ const BasicButton = styled.button<{ $isActive: boolean }>`
   }
 `;
 
-const Basic = ({ text, isActive, onClick, ...props }: Props) => {
+const Solid = ({ text, isActive, onClick, ...props }: Props) => {
   return (
-    <BasicButton {...props} $isActive={isActive} onClick={onClick}>
+    <SolidButton {...props} $isActive={isActive} onClick={onClick}>
       {text}
-    </BasicButton>
+    </SolidButton>
   );
 };
 
-export default Basic;
-export type BasicType = { Basic: typeof Basic };
+export default Solid;
+export type SolidType = { Solid: typeof Solid };
