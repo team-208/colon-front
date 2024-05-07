@@ -44,7 +44,7 @@ const JobGroupButton = styled(ButtonComp.Basic)`
     isActive ? theme.color.static.light : theme.color.interaction.inactive} !important;
 `;
 
-const JopGroupList = ({ jobGroup, onClick }: Props) => {
+const JobGroupList = ({ jobGroup, onClick }: Props) => {
   return (
     <ContainerDiv>
       <TitleP>질문할 직군</TitleP>
@@ -82,4 +82,4 @@ const JopGroupList = ({ jobGroup, onClick }: Props) => {
   );
 };
 
-export default React.memo(JopGroupList);
+export default React.memo(JobGroupList);

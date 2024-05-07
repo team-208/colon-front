@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Post } from '@/app/types/data';
-import JopGroupList, { JOB_GROUP_LIST_TYPES } from './JopGroupList';
+import JobGroupList, { JOB_GROUP_LIST_TYPES } from './JobGroupList';
 
 interface Props {
   defaultPost?: Post;
@@ -15,7 +15,7 @@ export const WriteComp = (props: Props) => {
 
   return (
     <div>
-      <JopGroupList jobGroup={major} onClick={(v) => setMajor(v)} />
+      <JobGroupList jobGroup={major} onClick={(v) => setMajor(v)} />
       <input defaultValue={defaultPost?.title} />
     </div>
   );
