@@ -74,9 +74,9 @@ const ScrapContent = async () => {
   return (
     <ContentContainer>
       {list?.map((post, idx) => (
-        <PostComp key={`reaction-${idx}`} {...post}>
+        <PostComp.PostCompRegacy key={`reaction-${idx}`} {...post}>
           <ScrapIconP>📚</ScrapIconP>
-        </PostComp>
+        </PostComp.PostCompRegacy>
       ))}
     </ContentContainer>
   );

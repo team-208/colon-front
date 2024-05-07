@@ -4,9 +4,10 @@ import { Dayjs } from 'dayjs';
 import styled from 'styled-components';
 import { JOB_GROUP_LABELS } from './constants';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
-import { dateText } from '@/app/utils/text';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
+import PostComp from './PostComp';
+import React from 'react';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -29,68 +30,8 @@ const ContainerArticle = styled.article`
   width: 100%;
 `;
 
-const ArticleHeaderDiv = styled.div`
+const QnAHeader = styled(PostComp.Header)`
   padding-left: 4px;
-`;
-
-const MajorP = styled.p`
-  display: flex;
-  align-items: center;
-  ${({ theme }) => theme.font.body3};
-  color: ${({ theme }) => theme.color.label.normal};
-  background-color: ${({ theme }) => theme.color.palette.coolNeutral97};
-  border: 1px solid ${({ theme }) => theme.color.palette.coolNeutral97};
-  width: fit-content;
-  height: 24px;
-  border-radius: 6px;
-  overflow: hidden;
-
-  & > span {
-    padding: 2px 4px;
-  }
-
-  & > span:last-of-type {
-    margin-left: 2px;
-    display: inline-block;
-    border-radius: 5px;
-    overflow: hidden;
-    color: ${({ theme }) => theme.color.primary.normal};
-    background-color: ${({ theme }) => theme.color.static.light};
-  }
-
-  ${({ theme }) => theme.mediaQuery.mobile} {
-    ${({ theme }) => theme.font.caption2};
-    height: 20px;
-  }
-`;
-
-const AuthorP = styled.p`
-  display: flex;
-  align-items: center;
-  margin: 6px 0 10px;
-  padding-left: 2px;
-  ${({ theme }) => theme.font.caption1};
-  color: ${({ theme }) => theme.color.palette.coolNeutral25};
-
-  & > span:first-of-type {
-    display: inline-block;
-    ${({ theme }) => theme.font.body3};
-    color: ${({ theme }) => theme.color.static.dark};
-    margin-right: 4px;
-  }
-
-  & > span:last-of-type {
-    display: inline-block;
-    margin-left: 4px;
-  }
-
-  ${({ theme }) => theme.mediaQuery.mobile} {
-    ${({ theme }) => theme.font.caption2};
-
-    & > span:first-of-type {
-      ${({ theme }) => theme.font.caption1};
-    }
-  }
 `;
 
 const ArticleBodyDiv = styled.div`
@@ -141,30 +82,12 @@ const ContentPreviewBodyP = styled.p`
   }
 `;
 
-const CommentCountDiv = styled.div`
-  ${({ theme }) => theme.font.body3};
-  display: flex;
-  align-items: center;
+const QnAReactionCount = styled(PostComp.ReactionCount)`
   margin-top: 26px;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     margin-top: 28px;
   }
-`;
-
-const CountSpan = styled.span`
-  display: inline-block;
-  margin-left: 4px;
-
-  & > strong {
-    color: ${({ theme }) => theme.color.primary.normal};
-  }
-`;
-
-const SeperatorSpan = styled.span`
-  margin: 0 8px;
-  ${({ theme }) => theme.font.caption2};
-  font-weight: 400;
 `;
 
 const CommentDiv = styled.div`
@@ -236,21 +159,12 @@ const QuestionCard = ({
 }: Props) => {
   return (
     <ContainerArticle>
-      <ArticleHeaderDiv>
-        <MajorP>
-          <span>{JOB_GROUP_LABELS[author_major] ?? ''}</span>
-          <span>
-            {`>`}
-            {JOB_GROUP_LABELS[requestedMajor] ?? ''}
-          </span>
-        </MajorP>
-
-        <AuthorP>
-          <span>{author_nickname}</span>
-          <span>•</span>
-          <span>{dateText(updatedAt.add(-9, 'minute'))}분 전 (편집됨)</span>
-        </AuthorP>
-      </ArticleHeaderDiv>
+      <QnAHeader
+        authorMajor={author_major}
+        requestedMajor={requestedMajor}
+        nickname={author_nickname}
+        updatedAt={updatedAt}
+      />
 
       <ArticleBodyDiv>
         <ContentDiv>
@@ -268,32 +182,7 @@ const QuestionCard = ({
 
           <ContentPreviewBodyP>{previewBody}</ContentPreviewBodyP>
 
-          <CommentCountDiv>
-            <Image
-              alt="엄지척 이모지"
-              src={`${IMAGE_CDN}/qna/EmojiThumbsUp.png`}
-              width={16}
-              height={16}
-            />
-            <Image
-              alt="하트 이모지"
-              src={`${IMAGE_CDN}/qna/EmojiHeartEyes.png`}
-              width={16}
-              height={16}
-            />
-            <Image
-              alt="웃음 이모지"
-              src={`${IMAGE_CDN}/qna/EmojiLaughing.png`}
-              width={16}
-              height={16}
-            />
-            <CountSpan>X</CountSpan>
-            <SeperatorSpan>|</SeperatorSpan>
-            <CountSpan>
-              <strong>CO:</strong> X
-            </CountSpan>
-            (댓글 영역 추가 개발 필요)
-          </CommentCountDiv>
+          <QnAReactionCount emojiCount={8} commentCount={3} />
         </ContentDiv>
 
         <CommentDiv>
@@ -315,4 +204,4 @@ const QuestionCard = ({
   );
 };
 
-export default QuestionCard;
+export default React.memo(QuestionCard);

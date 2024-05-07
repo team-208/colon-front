@@ -44,7 +44,7 @@ const CommentButton = styled.div`
   background: transparent;
 `;
 
-const CommentComp = (props: Props) => {
+const CommentCompRegacy = (props: Props) => {
   const { id, postInfo, comment, isDelete } = props;
 
   const handleClickDelete = useCallback((id: number) => {
@@ -66,4 +66,4 @@ const CommentComp = (props: Props) => {
   );
 };
 
-export default React.memo(CommentComp);
+export default CommentCompRegacy;

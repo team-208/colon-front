@@ -93,9 +93,9 @@ const ReactionContent = async () => {
   return (
     <ContentContainer>
       {list?.map((post, idx) => (
-        <PostComp key={`reaction-${idx}`} {...post}>
+        <PostComp.PostCompRegacy key={`reaction-${idx}`} {...post}>
           <ReactionP>{post.reaction}</ReactionP>
-        </PostComp>
+        </PostComp.PostCompRegacy>
       ))}
     </ContentContainer>
   );
