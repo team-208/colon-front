@@ -24,7 +24,7 @@ const ContainerUl = styled.ul`
 const JobGroupButton = styled(ButtonComp.Solid)`
   width: 100%;
   height: 40px;
-  border-radius: 12px;
+  border-radius: 12px !important;
 `;
 
 const JobGroupList = ({ jobGroup, onClick }: JobGroupListProps) => {

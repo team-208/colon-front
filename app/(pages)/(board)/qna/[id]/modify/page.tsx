@@ -28,7 +28,7 @@ const ModifyPage = async ({ params }: Props) => {
 
   return (
     <main>
-      <SectionComp direction="column" padding="0px 200px">
+      <SectionComp direction="column" padding="0">
         <WriteFormComp defaultPost={post} />
       </SectionComp>
     </main>

@@ -40,8 +40,8 @@ const ContainerUl = styled.ul`
 
 const JobGroupButton = styled(ButtonComp.Solid)`
   width: 56px;
-  padding: 4px 8px;
-  border-radius: 8px;
+  padding: 4px 8px !important;
+  border-radius: 8px !important;
   text-align: center;
 
   color: ${({ theme, isActive }) =>

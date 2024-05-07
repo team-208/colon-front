@@ -15,7 +15,7 @@ interface Props {
 }
 
 const ToolbarContainer = styled.div`
-  border-color: #919191 !important;
+  border-color: ${({ theme }) => theme.color.line.solid.normal} !important;
   border-bottom: none !important;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -24,15 +24,35 @@ const ToolbarContainer = styled.div`
 
 const Container = styled.div`
   width: 100%;
-  min-height: 300px;
-  max-height: 300px;
-  border: 1px solid #919191;
+  min-height: 258px;
+  max-height: 258px;
+  border: 1px solid ${({ theme }) => theme.color.line.solid.normal};
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   overflow: auto;
 
+  .ql-container {
+    ${({ theme }) => theme.font.body1};
+  }
+
   .ql-container.ql-snow {
     border: none;
+  }
+
+  .ql-editor.ql-blank::before {
+    ${({ theme }) => theme.font.body1};
+    color: ${({ theme }) => theme.color.interaction.inactive};
+    font-style: normal;
+  }
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    min-height: 144px;
+    max-height: 144px;
+
+    .ql-editor.ql-blank::before,
+    .ql-container {
+      ${({ theme }) => theme.font.body2};
+    }
   }
 `;
 
@@ -48,7 +68,7 @@ const options = {
     toolbar: '#toolbar-container',
   },
   placeholder:
-    '질문에 대한 구체적인 설명을 해주세요.\n상황을 설명해주시면 더욱 좋은 답변을 받으실 수 있어요!\n\nex.',
+    '질문에 대한 구체적인 설명을 해주세요.\n상황을 설명해주시면 더욱 좋은 답변을 받으실 수 있어요!',
   theme: 'snow', // or bubble
 };
 
@@ -64,7 +84,7 @@ const QuillEditor = (props: Props) => {
   const handleChangeEditor = useCallback(
     debounce((content, delta, source, editor) => {
       setEditor(editor);
-    }, 300),
+    }, 350),
     [setEditor],
   );
 
