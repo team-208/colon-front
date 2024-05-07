@@ -14,11 +14,7 @@ const useAuth = () => {
   const { auth } = supabaseClient;
   const { push, replace } = useRouter();
 
-  const {
-    data: userInfo,
-    refetch: refetchUserSession,
-    isFetched: isFetchedUserInfo,
-  } = useUserSessionQuery();
+  const { data: userInfo, refetch: refetchUserSession } = useUserSessionQuery();
   const { mutateAsync: deleteUserMutation } = useDeleteUserMutation();
   const { mutateAsync: signUpUserMutation } = useSignUpUserMutation();
   const { mutateAsync: updateUserMutation } = useUpdateUserMutation();
@@ -35,7 +31,6 @@ const useAuth = () => {
   const logout = async () => {
     try {
       await auth.signOut();
-      await refetchUserSession();
       push('/');
     } catch (error) {}
   };
@@ -79,6 +74,7 @@ const useAuth = () => {
   const deleteUser = async () => {
     try {
       await deleteUserMutation();
+      await refetchUserSession();
     } catch (error) {}
   };
 
@@ -106,7 +102,7 @@ const useAuth = () => {
     }
   };
 
-  return { login, logout, deleteUser, userInfo, signUp, updateUser, isFetchedUserInfo };
+  return { login, logout, deleteUser, userInfo, signUp, updateUser };
 };
 
 export default useAuth;
