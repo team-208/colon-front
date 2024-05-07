@@ -74,7 +74,6 @@ const useAuth = () => {
   const deleteUser = async () => {
     try {
       await deleteUserMutation();
-      await refetchUserSession();
     } catch (error) {}
   };
 
