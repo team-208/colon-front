@@ -10,7 +10,9 @@ export async function GET(request: Request, { params }: { params: { postId: stri
   try {
     const { data, error: commentsGetError } = await supabase
       .from('comments')
-      .select('*')
+      .select(
+        'id, original_comment, comment, emojis, created_at, updated_at, post_id, author_nickname ',
+      )
       .eq('post_id', params.postId);
 
     if (commentsGetError) {
