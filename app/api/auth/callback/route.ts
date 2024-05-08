@@ -35,7 +35,7 @@ export async function GET(request: Request) {
         return NextResponse.redirect(`${host}/signup`);
       }
 
-      return NextResponse.redirect(`${host}/`);
+      return NextResponse.redirect(`${host}/qna`);
     }
   } catch (error) {
     // 로그인 에러 발생시 redirect

@@ -140,9 +140,9 @@ const ProfileComp = () => {
         </TitleP>
         <NicknameDiv>
           {isModify ? (
-            <NicknameInput ref={nicknameInputRef} defaultValue={userInfo?.user.nick_name} />
+            <NicknameInput ref={nicknameInputRef} defaultValue={userInfo?.user?.nick_name} />
           ) : (
-            <p>{userInfo?.user.nick_name}</p>
+            <p>{userInfo?.user?.nick_name}</p>
           )}
         </NicknameDiv>
         <TagP>태그</TagP>
