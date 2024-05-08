@@ -13,7 +13,6 @@ export async function POST(request: Request) {
     if (userSession) {
       // 기존 user profile 제거
       const { data: userInfo } = await supabase.from('user_info').select('profile_url');
-      console.log(userInfo);
       if (userInfo && userInfo[0].profile_url) {
         await supabase.storage.from('profile').remove(userInfo[0].profile_url);
       }
