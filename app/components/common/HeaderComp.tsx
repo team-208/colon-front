@@ -2,12 +2,15 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import useAuth from '@/app/hooks/useAuth';
 import styled from 'styled-components';
 import logoImg from '../../assets/images/logo.png';
 import icon_bell from '../../assets/images/header/icon_bell.png';
 import icon_search from '../../assets/images/header/icon_search.png';
 import { headerMenu } from '@/app/constants/menu';
+import { PROFILE_CDN } from '@/app/constants/externalUrls';
 
 const ContainerHeader = styled.header`
   position: fixed;
@@ -69,9 +72,24 @@ const HeaderNav = styled.nav`
   }
 `;
 
+const ProfileContainerDiv = styled.div`
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-left: 12px;
+  background: rgba(55, 56, 60, 0.1);
+`;
+
 const HeaderComp = () => {
   // TODO: 로그인 확인용 임시 로직
   const { userInfo } = useAuth();
+  const { push } = useRouter();
+
+  const profileUrl = useMemo(() => {
+    return userInfo?.user?.profile_url || '/default.png';
+  }, [userInfo?.user]);
 
   return (
     <ContainerHeader>
@@ -97,8 +115,14 @@ const HeaderComp = () => {
           <FlexRowDiv>
             <Image alt="" src={icon_search} width={24} height={24} />
             <Image alt="" src={icon_bell} width={24} height={24} />
-            {/* TODO: profile_url 처리 */}
-            <h1>{userInfo?.user?.nick_name ?? ''}</h1>
+            <ProfileContainerDiv onClick={() => push('/mypage')}>
+              <Image
+                alt="프로필 이미지"
+                src={`${PROFILE_CDN}/${profileUrl}`}
+                width={36}
+                height={36}
+              />
+            </ProfileContainerDiv>
           </FlexRowDiv>
         )}
       </ContainerHeaderInner>
