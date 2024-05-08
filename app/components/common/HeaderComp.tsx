@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/app/hooks/useAuth';
 import styled from 'styled-components';
@@ -12,15 +12,25 @@ import icon_search from '../../assets/images/header/icon_search.png';
 import { headerMenu } from '@/app/constants/menu';
 import { PROFILE_CDN } from '@/app/constants/externalUrls';
 
-const ContainerHeader = styled.header`
+interface ScrollEvent extends EventTarget {
+  tagName: string;
+  scrollTop: number;
+}
+
+const ContainerHeader = styled.header<{ $isScroll: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: ${({ theme }) => theme.heightSizes.header.desktop}px;
+  ${({ $isScroll }) =>
+    $isScroll
+      ? 'backdrop-filter: blur(5px);-webkit-backdrop-filter: blur(5px);'
+      : 'border-bottom: 1px solid #cbcbcb;'}
+  background-color: ${({ theme, $isScroll }) =>
+    $isScroll ? 'rgba(255,255,255,.3)' : theme.color.static.light};
+
   z-index: 1000;
-  background-color: ${({ theme }) => theme.color.static.light};
-  border-bottom: 1px solid #cbcbcb;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     height: ${({ theme }) => theme.heightSizes.header.mobile}px;
@@ -84,6 +94,7 @@ const ProfileContainerDiv = styled.div`
 
 const HeaderComp = () => {
   // TODO: 로그인 확인용 임시 로직
+  const [isScroll, setIsScroll] = useState(false);
   const { userInfo } = useAuth();
   const { push } = useRouter();
 
@@ -91,8 +102,22 @@ const HeaderComp = () => {
     return userInfo?.user?.profile_url || '/default.png';
   }, [userInfo?.user]);
 
+  useEffect(() => {
+    window.addEventListener(
+      'scroll',
+      (e) => {
+        const target = e.target as ScrollEvent;
+        if (target.tagName === 'MAIN') {
+          if (target.scrollTop === 0) setIsScroll(false);
+          if (target.scrollTop > 0) setIsScroll(true);
+        }
+      },
+      true,
+    );
+  }, []);
+
   return (
-    <ContainerHeader>
+    <ContainerHeader $isScroll={isScroll}>
       <ContainerHeaderInner>
         <FlexRowDiv>
           <Link href="/">
