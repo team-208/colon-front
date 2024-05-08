@@ -10,15 +10,22 @@ export async function POST(request: Request) {
   try {
     const { data: userSession } = await supabase.auth.getSession();
 
-    // TODO: 기존 user profile 제거 비즈니스 로직 필요.
     if (userSession) {
+      // 기존 user profile 제거
+      const { data: userInfo } = await supabase.from('user_info').select('profile_url');
+      console.log(userInfo);
+      if (userInfo && userInfo[0].profile_url) {
+        await supabase.storage.from('profile').remove(userInfo[0].profile_url);
+      }
+
       const { session } = userSession;
       const userId = session?.user.id;
 
+      const num = Math.floor(Math.random() * 100000);
       const profile = bodyData.get('profile') as File;
       const { data, error } = await supabase.storage
         .from('profile')
-        .upload(`${userId}/profile.png`, profile as FormDataEntryValue, {
+        .upload(`${userId}/profile_${num}.png`, profile as FormDataEntryValue, {
           upsert: true,
         });
 
