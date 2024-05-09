@@ -43,7 +43,7 @@ const QnaListComp = () => {
     setFilterMenu(filter);
   }, []);
 
-  const changeOption = useCallback((idx: number) => {
+  const changeSort = useCallback((idx: number) => {
     // TODO: sortMenu에 따른 질문카드 영역 처리
   }, []);
 
@@ -52,10 +52,10 @@ const QnaListComp = () => {
       <FilterHeaderComp filterList={filterMenuList} onChange={chagneFilter} />
       <SelectorContainerDiv>
         <SelectorComp defaultOption={{ idx: 0, text: '최신순' }}>
-          <SelectorComp.Option idx={0} text="최신순" clickEvent={changeOption} />
-          <SelectorComp.Option idx={1} text="반응순" clickEvent={changeOption} />
-          <SelectorComp.Option idx={2} text="답변순" clickEvent={changeOption} />
-          <SelectorComp.Option idx={3} text="스크랩순" clickEvent={changeOption} />
+          <SelectorComp.Option idx={0} text="최신순" clickEvent={changeSort} />
+          <SelectorComp.Option idx={1} text="반응순" clickEvent={changeSort} />
+          <SelectorComp.Option idx={2} text="답변순" clickEvent={changeSort} />
+          <SelectorComp.Option idx={3} text="스크랩순" clickEvent={changeSort} />
         </SelectorComp>
       </SelectorContainerDiv>
       {/* 질문카드 영역 */}
