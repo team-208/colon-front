@@ -39,9 +39,10 @@ hgroup, menu, nav, section {
   display: block;
 }
 html {
-  overflow: hidden;
+  height: 100%
 }
 body {
+  height: 100%;
   line-height: 1;
 }
 ol, ul {
@@ -66,12 +67,10 @@ main {
   overflow: scroll;
   max-width: 1024px;
   margin: 0 auto;
-  
-  height: calc(100vh - ${({ theme }) => theme.heightSizes.header.desktop}px);
+  height: 100%;
   padding-top: ${({ theme }) => theme.heightSizes.header.desktop}px;
   
   ${({ theme }) => theme.mediaQuery.mobile} {
-    height: calc(100vh - ${({ theme }) => theme.heightSizes.header.mobile}px);
     padding-top: ${({ theme }) => theme.heightSizes.header.mobile}px;
   }
 }
