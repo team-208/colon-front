@@ -2,9 +2,8 @@
 
 import { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { sortMenuList } from '@/app/constants/menu';
 import FilterHeaderComp, { filterType } from '@/app/components/common/FilterHeaderComp';
-import SelectorComp, { MenuType } from '../../common/SelectorComp';
+import SelectorComp from '../../common/SelectorComp';
 
 const SelectorContainerDiv = styled.div`
   width: 100%;
@@ -37,7 +36,6 @@ const filterMenuList: filterType[] = [
 ];
 
 const QnaListComp = () => {
-  const [sortMenu, setSortMenu] = useState(sortMenuList[0]);
   const [filterMenu, setFilterMenu] = useState(filterMenuList[0]);
 
   const chagneFilter = useCallback((filter: filterType) => {
@@ -45,16 +43,20 @@ const QnaListComp = () => {
     setFilterMenu(filter);
   }, []);
 
-  const changeSortMenu = useCallback((menu: MenuType) => {
+  const changeOption = useCallback((idx: number) => {
     // TODO: sortMenu에 따른 질문카드 영역 처리
-    setSortMenu(menu);
   }, []);
 
   return (
     <>
       <FilterHeaderComp filterList={filterMenuList} onChange={chagneFilter} />
       <SelectorContainerDiv>
-        <SelectorComp menuList={sortMenuList} onChange={changeSortMenu} />
+        <SelectorComp defaultOption={{ idx: 0, text: '최신순' }}>
+          <SelectorComp.Option idx={0} text="최신순" clickEvent={changeOption} />
+          <SelectorComp.Option idx={1} text="반응순" clickEvent={changeOption} />
+          <SelectorComp.Option idx={2} text="답변순" clickEvent={changeOption} />
+          <SelectorComp.Option idx={3} text="스크랩순" clickEvent={changeOption} />
+        </SelectorComp>
       </SelectorContainerDiv>
       {/* 질문카드 영역 */}
     </>

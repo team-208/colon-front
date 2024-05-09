@@ -1,16 +1,25 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { ReactNode, useState, useCallback, createContext, useContext } from 'react';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import Image from 'next/image';
 import styled from 'styled-components';
 
-export type MenuType = { id: number; text: string; value: number | string };
-
 interface Props {
-  defaultIdx?: number;
-  menuList: MenuType[];
-  onChange: (menu: MenuType) => void;
+  defaultOption: { idx: number; text: string };
+  children: ReactNode;
+}
+
+interface OptionProps {
+  text: string;
+  idx: number;
+  clickEvent: (v: number) => void;
+}
+
+interface Context {
+  curIdx: number;
+  setCurIdx: React.Dispatch<React.SetStateAction<number>>;
+  setCurText: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SelectorContainerDiv = styled.div`
@@ -30,7 +39,7 @@ const SelectorButton = styled.button`
   }
 `;
 
-const MenuDiv = styled.div`
+const OptionDiv = styled.div`
   position: absolute;
   right: 0;
   background: #ffffff;
@@ -42,7 +51,7 @@ const MenuDiv = styled.div`
 `;
 
 // TODO: $isActive 처리 디자인 나오면 수정
-const MenuLi = styled.li<{ $isActive: boolean }>`
+const OptionLi = styled.li<{ $isActive: boolean }>`
   ${({ theme }) => theme.font.caption1};
   color: ${({ theme, $isActive }) => ($isActive ? theme.color.primary.normal : '#000000')};
   width: 100px;
@@ -53,47 +62,60 @@ const MenuLi = styled.li<{ $isActive: boolean }>`
   }
 `;
 
-const SelectorComp = ({ defaultIdx, menuList, onChange }: Props) => {
+const SelectorContext = createContext<Context | null>(null);
+
+const SelectorComp = ({ defaultOption, children }: Props) => {
   const [toggle, setToggle] = useState(false);
-  const [curMenu, setCurMenu] = useState(menuList[defaultIdx ?? 0]);
+  const [curIdx, setCurIdx] = useState(defaultOption.idx);
+  const [curText, setCurText] = useState(defaultOption.text);
+
+  const provider = { curIdx, setCurIdx, setCurText };
 
   const handleClickButton = useCallback(() => {
     setToggle((v) => !v);
   }, []);
 
-  const handleClickMenu = useCallback((menu: MenuType) => {
-    onChange(menu);
-    setCurMenu(menu);
-  }, []);
-
   return (
-    <SelectorContainerDiv>
-      <SelectorButton onClick={handleClickButton}>
-        {curMenu.text}
-        <Image
-          alt="정렬 아이콘"
-          src={`${IMAGE_CDN}/icon/chevron-down.png`}
-          width={8}
-          height={4.5}
-        />
-      </SelectorButton>
-      {toggle && (
-        <MenuDiv>
-          <ul>
-            {menuList.map((menu) => (
-              <MenuLi
-                key={`id-${menu.text}`}
-                $isActive={curMenu.value === menu.value}
-                onClick={() => handleClickMenu(menu)}
-              >
-                {menu.text}
-              </MenuLi>
-            ))}
-          </ul>
-        </MenuDiv>
-      )}
-    </SelectorContainerDiv>
+    <SelectorContext.Provider value={provider}>
+      <SelectorContainerDiv>
+        <SelectorButton onClick={handleClickButton}>
+          {curText}
+          <Image
+            alt="정렬 아이콘"
+            src={`${IMAGE_CDN}/icon/chevron-down.png`}
+            width={8}
+            height={4.5}
+          />
+        </SelectorButton>
+        {toggle && (
+          <OptionDiv>
+            <ul>{children}</ul>
+          </OptionDiv>
+        )}
+      </SelectorContainerDiv>
+    </SelectorContext.Provider>
   );
 };
 
-export default React.memo(SelectorComp);
+const Option = ({ text, idx, clickEvent }: OptionProps) => {
+  const context = useContext(SelectorContext);
+  const isActive = context?.curIdx === idx;
+
+  return (
+    <OptionLi
+      key={`option-${idx}`}
+      $isActive={isActive}
+      onClick={() => {
+        context?.setCurIdx(idx);
+        context?.setCurText(text);
+        clickEvent(idx);
+      }}
+    >
+      {text}
+    </OptionLi>
+  );
+};
+
+SelectorComp.Option = Option;
+
+export default SelectorComp;
