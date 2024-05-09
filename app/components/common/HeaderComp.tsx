@@ -103,17 +103,19 @@ const HeaderComp = () => {
   }, [userInfo?.user]);
 
   useEffect(() => {
-    window.addEventListener(
-      'scroll',
-      (e) => {
-        const target = e.target as ScrollEvent;
-        if (target.tagName === 'MAIN') {
-          if (target.scrollTop === 0) setIsScroll(false);
-          if (target.scrollTop > 0) setIsScroll(true);
-        }
-      },
-      true,
-    );
+    const scrollEvent = (e: any) => {
+      const target = e.target as ScrollEvent;
+      if (target.tagName === 'MAIN') {
+        if (target.scrollTop === 0) setIsScroll(false);
+        if (target.scrollTop > 0) setIsScroll(true);
+      }
+    };
+
+    window.addEventListener('scroll', scrollEvent, true);
+
+    () => {
+      window.removeEventListener('scroll', scrollEvent, true);
+    };
   }, []);
 
   return (
