@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import FilterHeaderComp, { filterType } from '@/app/components/common/FilterHeaderComp';
+import FilterHeaderComp from '@/app/components/common/FilterHeaderComp';
 import SelectorComp from '../../common/SelectorComp';
 
 const SelectorContainerDiv = styled.div`
@@ -16,31 +16,9 @@ const SelectorContainerDiv = styled.div`
   }
 `;
 
-const filterMenuList: filterType[] = [
-  {
-    text: '전체',
-    value: 0,
-  },
-  {
-    text: '기획',
-    value: 1,
-  },
-  {
-    text: '개발',
-    value: 2,
-  },
-  {
-    text: '디자인',
-    value: 3,
-  },
-];
-
 const QnaListComp = () => {
-  const [filterMenu, setFilterMenu] = useState(filterMenuList[0]);
-
-  const chagneFilter = useCallback((filter: filterType) => {
+  const chagneFilter = useCallback((idx: number) => {
     // TODO: filterMenu 따른 질문카드 영역 처리
-    setFilterMenu(filter);
   }, []);
 
   const changeSort = useCallback((idx: number) => {
@@ -49,7 +27,12 @@ const QnaListComp = () => {
 
   return (
     <>
-      <FilterHeaderComp filterList={filterMenuList} onChange={chagneFilter} />
+      <FilterHeaderComp>
+        <FilterHeaderComp.Menu idx={0} text="전체" clickEvent={chagneFilter} />
+        <FilterHeaderComp.Menu idx={1} text="기획" clickEvent={chagneFilter} />
+        <FilterHeaderComp.Menu idx={2} text="개발" clickEvent={chagneFilter} />
+        <FilterHeaderComp.Menu idx={3} text="디자인" clickEvent={chagneFilter} />
+      </FilterHeaderComp>
       <SelectorContainerDiv>
         <SelectorComp defaultOption={{ idx: 0, text: '최신순' }}>
           <SelectorComp.Option idx={0} text="최신순" clickEvent={changeSort} />

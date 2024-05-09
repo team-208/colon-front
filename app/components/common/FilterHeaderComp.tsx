@@ -1,13 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useContext, createContext, ReactNode } from 'react';
 import styled from 'styled-components';
 
-export type filterType = { text: string; value: string | number };
-
 interface Props {
-  filterList: filterType[];
-  onChange: (filter: filterType) => void;
+  defaultIdx?: number;
+  children: ReactNode;
+}
+
+interface MenuProps {
+  idx: number;
+  text: string;
+  clickEvent: (idx: number) => void;
+}
+
+interface FilterHeaderContext {
+  curIdx: number;
+  setCurIdx: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const FilterUl = styled.ul`
@@ -16,37 +25,52 @@ const FilterUl = styled.ul`
   border-bottom: 1px solid ${({ theme }) => theme.color.line.solid.normal};
 `;
 
-const FilterLi = styled.li<{ $active: boolean }>`
+const FilterLi = styled.li<{ $isActive: boolean }>`
   display: inline-block;
   cursor: pointer;
   padding: 5px 16.5px;
   ${({ theme }) => theme.font.body3}
-  color: ${({ theme, $active }) =>
-    $active ? theme.color.label.normal : theme.color.interaction.inactive};
-  ${({ theme, $active }) => $active && `border-bottom: 2px solid ${theme.color.primary.normal};`}
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.color.label.normal : theme.color.interaction.inactive};
+  ${({ theme, $isActive }) =>
+    $isActive && `border-bottom: 2px solid ${theme.color.primary.normal};`}
 
   &:not(:last-of-type) {
     margin-right: 4px;
   }
 `;
 
-const FilterHeaderComp = ({ filterList, onChange }: Props) => {
-  const [curFilter, setCurFilter] = useState(filterList[0]);
+const FilterHeaderContext = createContext<FilterHeaderContext | null>(null);
 
-  const handleClick = (v: filterType) => {
-    setCurFilter(v);
-    onChange(v);
-  };
+const FilterHeaderComp = ({ defaultIdx, children }: Props) => {
+  const [curIdx, setCurIdx] = useState(defaultIdx ?? 0);
+
+  const provider = { curIdx, setCurIdx };
 
   return (
-    <FilterUl>
-      {filterList.map((v, idx) => (
-        <FilterLi key={idx} onClick={() => handleClick(v)} $active={v.value === curFilter.value}>
-          {v.text}
-        </FilterLi>
-      ))}
-    </FilterUl>
+    <FilterHeaderContext.Provider value={provider}>
+      <FilterUl>{children}</FilterUl>
+    </FilterHeaderContext.Provider>
   );
 };
 
-export default React.memo(FilterHeaderComp);
+const Menu = ({ idx, text, clickEvent }: MenuProps) => {
+  const context = useContext(FilterHeaderContext);
+  const isActive = context?.curIdx === idx;
+
+  return (
+    <FilterLi
+      key={`filter-${idx}`}
+      onClick={() => {
+        clickEvent(idx);
+      }}
+      $isActive={isActive}
+    >
+      {text}
+    </FilterLi>
+  );
+};
+
+FilterHeaderComp.Menu = Menu;
+
+export default FilterHeaderComp;
