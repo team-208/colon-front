@@ -1,8 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/app/utils/supabase/server';
 import { getHost } from '@/app/utils/host';
 import dayjs from 'dayjs';
-import { InsertPostRequest } from './type';
+import { InsertPostRequest, PostListOrderTypes } from './type';
+import { count } from 'console';
 
 export async function POST(request: Request) {
   const host = getHost();
@@ -57,6 +58,56 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.redirect(`${host}/error/500`);
+  } catch (error) {
+    return NextResponse.redirect(`${host}/error/500`);
+  }
+}
+
+export async function GET(request: NextRequest) {
+  const host = getHost();
+
+  const supabase = await createClient();
+
+  const searchParams = request.nextUrl.searchParams;
+  const order = searchParams.get('order') as PostListOrderTypes;
+  const offset = parseInt(searchParams.get('offset') as string);
+
+  try {
+    // TODO: 정렬 작업 필요.
+    const orderOption =
+      order === 'DATE_DESC'
+        ? { column: 'created_at', sort: { ascending: false } }
+        : { column: 'created_at', sort: { ascending: false } };
+
+    const { error: totalPostGetError, count: totalCount } = await supabase
+      .from('posts')
+      .select('*', { count: 'exact', head: true })
+      .order(orderOption.column, { ...orderOption.sort });
+
+    const { data, error: postGetError } = await supabase
+      .from('posts')
+      .select('*')
+      .order(orderOption.column, { ...orderOption.sort })
+      .range(offset * 20, (offset + 1) * 20);
+
+    if (totalPostGetError || postGetError) {
+      return NextResponse.json({
+        success: false,
+        offset,
+        totalCount: 0,
+        count: 0,
+        list: [],
+        ...postGetError,
+      });
+    }
+
+    return NextResponse.json({
+      success: true,
+      offset,
+      totalCount,
+      count: data.length,
+      list: [...data],
+    });
   } catch (error) {
     return NextResponse.redirect(`${host}/error/500`);
   }
