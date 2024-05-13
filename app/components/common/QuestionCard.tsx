@@ -163,7 +163,7 @@ const QuestionCard = ({
         authorMajor={author_major}
         requestedMajor={requestedMajor}
         nickname={author_nickname}
-        updatedAt={updatedAt}
+        updatedAt={updatedAt.format('YYYY-MM-DD HH:mm:ss')}
       />
 
       <ArticleBodyDiv>
