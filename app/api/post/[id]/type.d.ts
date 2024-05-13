@@ -13,4 +13,5 @@ export interface GetPostResponse {
   author_nickname: string;
   author_major: JOB_GROUP_TYPES;
   author_profile_url: string;
+  accepted_comment_id: number;
 }
