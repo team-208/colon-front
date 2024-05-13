@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { InsertCommentRequest } from './type';
 import { removeUndefinedValue } from '@/app/utils/converter';
 
+// TODO: 작성자 직군 column 추가 필요.
 export async function POST(request: Request) {
   const host = getHost();
 

@@ -1,14 +1,17 @@
 'use client';
 
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
+import useCommentsQuery from '@/app/api/comment/[postId]/queries';
 import CommentComp from '@/app/components/common/CommentComp';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import dayjs from 'dayjs';
 import Image from 'next/image';
+import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
   postId: string;
+  acceptedCommentId: number;
 }
 
 const ConatinerDiv = styled.div`
@@ -84,7 +87,9 @@ const emojis = {
   heart: 0,
 };
 
-const QnACommentList = ({ postId }: Props) => {
+const QnACommentList = ({ postId, acceptedCommentId }: Props) => {
+  const { data } = useCommentsQuery(postId);
+
   return (
     <ConatinerDiv>
       <FilterDiv>
@@ -102,21 +107,49 @@ const QnACommentList = ({ postId }: Props) => {
       </FilterDiv>
 
       <ul>
-        {commentList.map(
-          ({ id, major, nickname, updatedAt, comment, isNestedComment, isSelected }) => (
-            <li key={`comment-item-${id}`}>
-              <CommentComp.Wrapper isNestedComment={isNestedComment}>
-                <CommentComp.Header
-                  major={major as JOB_GROUP_TYPES}
-                  nickname={nickname}
-                  updatedAt={updatedAt}
-                  isSelected={!!isSelected}
-                />
-                <CommentP>{comment}</CommentP>
-                <CommentComp.Emojis emojis={emojis} />
-              </CommentComp.Wrapper>
-            </li>
-          ),
+        {data?.map(
+          ({
+            id,
+            author_nickname,
+            created_at,
+            updated_at,
+            comment,
+            original_comment,
+            nestedComments,
+          }) => {
+            return (
+              <React.Fragment key={`comment-item-${id}`}>
+                <li>
+                  <CommentComp.Wrapper isNestedComment={!!original_comment}>
+                    <CommentComp.Header
+                      // TODO: 작성자 직군 column 추가 필요
+                      major={'DEVELOP'}
+                      nickname={author_nickname}
+                      updatedAt={updated_at || created_at}
+                      isSelected={acceptedCommentId === id}
+                    />
+                    <CommentP>{comment}</CommentP>
+                    <CommentComp.Emojis emojis={emojis} />
+                  </CommentComp.Wrapper>
+                </li>
+                {nestedComments?.map((item, idx) => (
+                  <li key={`nested-comment-item-${item.id}`}>
+                    <CommentComp.Wrapper isNestedComment={true}>
+                      <CommentComp.Header
+                        // TODO: 작성자 직군 column 추가 필요
+                        major={'DEVELOP'}
+                        nickname={item.author_nickname}
+                        updatedAt={item.updated_at || item.created_at}
+                        isSelected={acceptedCommentId === item.id}
+                      />
+                      <CommentP>{item.comment}</CommentP>
+                      <CommentComp.Emojis emojis={item.emojis} />
+                    </CommentComp.Wrapper>
+                  </li>
+                ))}
+              </React.Fragment>
+            );
+          },
         )}
       </ul>
     </ConatinerDiv>

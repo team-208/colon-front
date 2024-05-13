@@ -4,6 +4,7 @@ import QnADetailContent from '@/app/components/board/qna/QnADetail/QnADetailCont
 import QnACommentList from '@/app/components/board/qna/QnADetail/QnACommentList';
 import QnACommentWrite from '@/app/components/board/qna/QnADetail/QnACommentWrite';
 import { fetchGetPost } from '@/app/api/post/[id]/fetch';
+import { fetchGetComments } from '@/app/api/comment/[postId]/fetch';
 
 interface Props {
   params: { id: string };
@@ -29,7 +30,7 @@ const QuestionPage = async ({ params }: Props) => {
         <QnADetailContent post={post} />
       </SectionComp>
       <SectionComp direction="column" padding="0">
-        <QnACommentList postId={params.id} />
+        <QnACommentList postId={params.id} acceptedCommentId={post.accepted_comment_id} />
       </SectionComp>
       <SectionComp direction="column" padding="0">
         <QnACommentWrite postId={params.id} />
