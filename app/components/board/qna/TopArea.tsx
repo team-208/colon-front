@@ -97,7 +97,7 @@ const FloatingBackgroundDiv = styled.div`
   }
 
   ${({ theme }) => theme.mediaQuery.mobile} {
-    display: none;
+    z-index: -1;
   }
 `;
 
