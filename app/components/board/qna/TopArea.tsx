@@ -2,7 +2,7 @@
 
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import Image from 'next/image';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { useRecoilValue } from 'recoil';
 import { scrollState } from '@/app/recoils';
@@ -59,7 +59,14 @@ const FloatingButton = styled.button<{ $isScroll: boolean }>`
 
   ${({ $isScroll }) =>
     $isScroll &&
-    'width: 170px; position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%); margin-left: 0;'}
+    css`
+      width: 170px;
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-left: 0;
+    `}
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     position: fixed;
@@ -79,22 +86,15 @@ const FloatingButton = styled.button<{ $isScroll: boolean }>`
 `;
 
 const FloatingBackgroundDiv = styled.div`
-  &::after {
-    content: '';
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 
-    width: 1100px;
-    height: 100px;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0) -91%,
-      rgba(255, 255, 255, 0.9) 61.8%
-    );
-    z-index: 1;
-  }
+  width: 1100px;
+  height: 100px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) -91%, rgba(255, 255, 255, 0.9) 61.8%);
+  z-index: 1;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     z-index: -1;
