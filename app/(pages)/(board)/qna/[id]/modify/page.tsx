@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { Post } from '@/app/types/data';
 import SectionComp from '@/app/components/common/SectionComp';
-import Writecomp from '@/app/components/board/qna/WriteComp';
+import WriteFormComp from '@/app/components/board/qna/write/WriteFormComp';
 
 interface Props {
   params: { id: string };
@@ -28,9 +28,8 @@ const ModifyPage = async ({ params }: Props) => {
 
   return (
     <main>
-      <SectionComp direction="column">
-        QnA 게시글 수정 페이지
-        <Writecomp defaultPost={post} />
+      <SectionComp direction="column" padding="0">
+        <WriteFormComp defaultPost={post} />
       </SectionComp>
     </main>
   );
