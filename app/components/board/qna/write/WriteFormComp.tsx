@@ -60,7 +60,7 @@ const ButtonLayoutDiv = styled.div`
   }
 `;
 
-export const WriteComp = (props: Props) => {
+export const WriteFormComp = (props: Props) => {
   const { defaultPost } = props;
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef({ html: '', text: '' });
@@ -115,4 +115,4 @@ export const WriteComp = (props: Props) => {
   );
 };
 
-export default WriteComp;
+export default WriteFormComp;
