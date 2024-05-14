@@ -90,9 +90,9 @@ const ProfileComp = () => {
 
     if (updateProfile) {
       // 프로필 이미지 Storage 저장하기
-      const { success, fullPath } = await profileMutation(updateProfile);
+      const { success, path } = await profileMutation(updateProfile);
       if (success) {
-        updateData.profile_url = fullPath;
+        updateData.profile_url = path;
       } else {
         // TODO: 에러처리
         console.log('error');
@@ -107,7 +107,7 @@ const ProfileComp = () => {
     if (isModify) {
       const updateData = await createUpateData();
 
-      if (isEmpty(updateData)) {
+      if (!isEmpty(updateData)) {
         await updateUser(updateData);
         setUpdateProfile(null);
       }
