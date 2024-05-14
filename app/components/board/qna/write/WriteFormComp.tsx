@@ -63,15 +63,14 @@ const ButtonLayoutDiv = styled.div`
 export const WriteComp = (props: Props) => {
   const { defaultPost } = props;
   const titleRef = useRef<HTMLInputElement>(null);
+  const contentRef = useRef({ html: '', text: '' });
 
   const [major, setMajor] = useState<JOB_GROUP_LIST_TYPES>();
-  const [html, setHTML] = useState<string>('');
-  const [text, setText] = useState<string>('');
 
   const handleClickSave = (isTemporary: boolean) => {
     // content text .txt 파일로 변환 storage 저장
     // directory, file 명 논의하기
-    const file = createTextFile(html, 'userid_date');
+    const file = createTextFile(contentRef.current.html, 'userid_date');
 
     const obj = {
       title: 'title',
@@ -83,8 +82,8 @@ export const WriteComp = (props: Props) => {
   };
 
   const setEditor = (editor: UnprivilegedEditor) => {
-    setHTML(editor.getHTML());
-    setText(editor.getText().replaceAll('\n', ' '));
+    contentRef.current.html = editor.getHTML();
+    contentRef.current.text = editor.getText().replaceAll('\n', ' ');
   };
 
   return (
