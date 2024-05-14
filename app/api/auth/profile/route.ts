@@ -1,6 +1,7 @@
 import { getHost } from '@/app/utils/host';
 import { createClient } from '@/app/utils/supabase/server';
 import { NextResponse } from 'next/server';
+import dayjs from 'dayjs';
 
 export async function POST(request: Request) {
   const host = getHost();
@@ -10,15 +11,15 @@ export async function POST(request: Request) {
   try {
     const { data: userSession } = await supabase.auth.getSession();
 
-    // TODO: 기존 user profile 제거 비즈니스 로직 필요.
     if (userSession) {
       const { session } = userSession;
       const userId = session?.user.id;
 
+      const dateTime = dayjs().format('YYMMDD_HH:mm:ss');
       const profile = bodyData.get('profile') as File;
       const { data, error } = await supabase.storage
         .from('profile')
-        .upload(`${userId}/profile.png`, profile as FormDataEntryValue, {
+        .upload(`${userId}/profile_${dateTime}.png`, profile as FormDataEntryValue, {
           upsert: true,
         });
 

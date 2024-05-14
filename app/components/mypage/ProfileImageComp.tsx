@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import useAuth from '@/app/hooks/useAuth';
-import { fileToBase64 } from '@/app/utils/file';
+import { PROFILE_CDN } from '@/app/constants/externalUrls';
 
 interface Props {
   isModify: boolean;
@@ -28,8 +28,8 @@ const ProfileImageComp = (props: Props) => {
 
   const imageSrc = useMemo(() => {
     const modifiedProfileUrl = profile && URL.createObjectURL(profile);
-    return modifiedProfileUrl || '/next.svg' || '/' + userInfo?.user.profile_url;
-  }, [profile]);
+    return modifiedProfileUrl || `${PROFILE_CDN}/${userInfo?.user?.profile_url || 'default.png'}`;
+  }, [profile, userInfo?.user]);
 
   const clickModifyIcon = () => {
     const input = document.createElement('input');

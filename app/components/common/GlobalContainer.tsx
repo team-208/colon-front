@@ -38,7 +38,11 @@ article, aside, details, figcaption, figure, footer, header,
 hgroup, menu, nav, section {
   display: block;
 }
+html {
+  height: 100%
+}
 body {
+  height: 100%;
   line-height: 1;
 }
 ol, ul {
@@ -60,13 +64,14 @@ table {
 }
 
 main {
+  overflow: scroll;
   max-width: 1024px;
   margin: 0 auto;
-
-  margin-top: ${({ theme }) => theme.heightSizes.header.desktop}px;
-
+  height: 100%;
+  padding-top: ${({ theme }) => theme.heightSizes.header.desktop}px;
+  
   ${({ theme }) => theme.mediaQuery.mobile} {
-    margin-top: ${({ theme }) => theme.heightSizes.header.mobile}px;
+    padding-top: ${({ theme }) => theme.heightSizes.header.mobile}px;
   }
 }
 
