@@ -6,9 +6,12 @@ import TopArea from '@/app/components/board/qna/TopArea';
 import QnaListComp from '@/app/components/board/qna/QnaListComp';
 
 const ContainerMain = styled.main`
-  padding: 0 180px;
+  padding-left: 180px;
+  padding-right: 180px;
+
   ${({ theme }) => theme.mediaQuery.mobile} {
-    padding: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 `;
 
