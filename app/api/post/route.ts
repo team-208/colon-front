@@ -3,7 +3,7 @@ import { createClient } from '@/app/utils/supabase/server';
 import { getHost } from '@/app/utils/host';
 import dayjs from 'dayjs';
 import { InsertPostRequest, PostListOrderTypes } from './type';
-import { count } from 'console';
+import { PAGE_OFFSET_VALUE } from './constants';
 
 export async function POST(request: Request) {
   const host = getHost();
@@ -88,7 +88,7 @@ export async function GET(request: NextRequest) {
       .from('posts')
       .select('*')
       .order(orderOption.column, { ...orderOption.sort })
-      .range(offset * 20, (offset + 1) * 20);
+      .range(offset * PAGE_OFFSET_VALUE, (offset + 1) * PAGE_OFFSET_VALUE);
 
     if (totalPostGetError || postGetError) {
       return NextResponse.json({

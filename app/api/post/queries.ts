@@ -2,6 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import QUERY_KEYS from '../queryKeys';
 import { fetchGetPostList } from './fetch';
 import { GetPostListResponse, PostListOrderTypes } from './type';
+import { PAGE_OFFSET_VALUE } from './constants';
 
 const usePostListQuery = (order: PostListOrderTypes) =>
   useInfiniteQuery<GetPostListResponse, Error>({
@@ -11,7 +12,9 @@ const usePostListQuery = (order: PostListOrderTypes) =>
     getPreviousPageParam: (firstPage) =>
       firstPage.offset === 0 ? undefined : firstPage.offset - 1,
     getNextPageParam: (lastPage) =>
-      lastPage.totalCount <= (lastPage.offset + 1) * 20 ? undefined : lastPage.offset + 1,
+      lastPage.totalCount <= (lastPage.offset + 1) * PAGE_OFFSET_VALUE
+        ? undefined
+        : lastPage.offset + 1,
   });
 
 export default usePostListQuery;
