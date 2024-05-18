@@ -116,13 +116,14 @@ const QnACommentList = ({ postId, acceptedCommentId }: Props) => {
             comment,
             original_comment,
             nestedComments,
+            author_major,
           }) => {
             return (
               <React.Fragment key={`comment-item-${id}`}>
                 <li>
                   <CommentComp.Wrapper isNestedComment={!!original_comment}>
                     <CommentComp.Header
-                      major={'DEVELOP'}
+                      major={author_major}
                       nickname={author_nickname}
                       updatedAt={updated_at || created_at}
                       isSelected={acceptedCommentId === id}
@@ -135,7 +136,7 @@ const QnACommentList = ({ postId, acceptedCommentId }: Props) => {
                   <li key={`nested-comment-item-${item.id}`}>
                     <CommentComp.Wrapper isNestedComment={true}>
                       <CommentComp.Header
-                        major={'DEVELOP'}
+                        major={author_major}
                         nickname={item.author_nickname}
                         updatedAt={item.updated_at || item.created_at}
                         isSelected={acceptedCommentId === item.id}

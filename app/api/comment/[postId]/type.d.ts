@@ -1,3 +1,5 @@
+import { JOB_GROUP_TYPES } from '../../auth/user/type';
+
 export interface GetCommentsResponseItem {
   id: number;
   original_comment?: number;
@@ -7,6 +9,7 @@ export interface GetCommentsResponseItem {
   updated_at: string;
   post_id: number;
   author_nickname: string;
+  author_major: JOB_GROUP_TYPES;
 
   // client computed props
   nestedComments: GetCommentsResponse[];
