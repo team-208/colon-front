@@ -11,7 +11,7 @@ export async function GET(request: Request, { params }: { params: { postId: stri
     const { data, error: commentsGetError } = await supabase
       .from('comments')
       .select(
-        'id, original_comment, comment, emojis, created_at, updated_at, post_id, author_nickname ',
+        'id, original_comment, comment, emojis, created_at, updated_at, post_id, author_nickname, author_major ',
       )
       .eq('post_id', params.postId);
 
