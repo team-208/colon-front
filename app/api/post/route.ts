@@ -3,7 +3,7 @@ import { createClient } from '@/app/utils/supabase/server';
 import { getHost } from '@/app/utils/host';
 import dayjs from 'dayjs';
 import { InsertPostRequest, PostListOrderTypes } from './type';
-import { PAGE_OFFSET_VALUE } from './constants';
+import { PAGE_OFFSET_VALUE, POST_STATUS } from './constants';
 
 export async function POST(request: Request) {
   const host = getHost();
@@ -82,11 +82,13 @@ export async function GET(request: NextRequest) {
     const { error: totalPostGetError, count: totalCount } = await supabase
       .from('posts')
       .select('*', { count: 'exact', head: true })
+      .neq('status', POST_STATUS.EDITING)
       .order(orderOption.column, { ...orderOption.sort });
 
     const { data, error: postGetError } = await supabase
       .from('posts')
       .select('*')
+      .neq('status', POST_STATUS.EDITING)
       .order(orderOption.column, { ...orderOption.sort })
       .range(offset * PAGE_OFFSET_VALUE, (offset + 1) * PAGE_OFFSET_VALUE);
 

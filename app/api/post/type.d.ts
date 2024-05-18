@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { JOB_GROUP_TYPES } from '../auth/user/type';
 
-export type POST_STATUS = 'EDITING' | 'COMPLETE';
+export type POST_STATUS_TYPES = 'EDITING' | 'COMPLETE';
 
 export interface InsertPostRequest {
   status: POST_STATUS;
