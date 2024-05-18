@@ -122,7 +122,6 @@ const QnACommentList = ({ postId, acceptedCommentId }: Props) => {
                 <li>
                   <CommentComp.Wrapper isNestedComment={!!original_comment}>
                     <CommentComp.Header
-                      // TODO: 작성자 직군 column 추가 필요
                       major={'DEVELOP'}
                       nickname={author_nickname}
                       updatedAt={updated_at || created_at}
@@ -136,7 +135,6 @@ const QnACommentList = ({ postId, acceptedCommentId }: Props) => {
                   <li key={`nested-comment-item-${item.id}`}>
                     <CommentComp.Wrapper isNestedComment={true}>
                       <CommentComp.Header
-                        // TODO: 작성자 직군 column 추가 필요
                         major={'DEVELOP'}
                         nickname={item.author_nickname}
                         updatedAt={item.updated_at || item.created_at}

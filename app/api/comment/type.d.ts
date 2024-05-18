@@ -5,6 +5,7 @@ export interface InsertCommentRequest {
   comment: string;
   post_id: number;
   author_nickname: string;
+  author_major: string;
 }
 
 export interface InsertCommentResponse {

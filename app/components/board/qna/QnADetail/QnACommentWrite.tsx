@@ -60,6 +60,7 @@ const QnACommentWrite = ({ postId }: Props) => {
       post_id: parseInt(postId),
       author_nickname: userInfo?.user.nick_name || '',
       comment: comment.current,
+      author_major: userInfo?.user.major || '',
     });
 
     refetchComments();
