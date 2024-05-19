@@ -2,10 +2,12 @@
 
 import usePostQuery from '@/app/api/post/[id]/queries';
 import { useInsertPostMutation } from '@/app/api/post/mutations';
+import usePostListQuery from '@/app/api/post/queries';
 
 export default function PostPage() {
   const { data } = usePostQuery('7');
   const { mutateAsync } = useInsertPostMutation();
+  const { fetchNextPage, hasNextPage } = usePostListQuery('DATE_DESC');
 
   const handleClick = async () => {
     await mutateAsync({
@@ -21,6 +23,12 @@ export default function PostPage() {
     });
   };
 
+  const handleClickList = async () => {
+    if (hasNextPage) {
+      console.log(await fetchNextPage());
+    }
+  };
+
   return (
     <main>
       <p>post title : {data?.title}</p>
@@ -30,6 +38,7 @@ export default function PostPage() {
       <p>post author_major : {data?.author_major}</p>
       <br />
       <button onClick={handleClick}>post 추가</button>
+      <button onClick={handleClickList}>다음 post list 조회</button>
     </main>
   );
 }
