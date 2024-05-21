@@ -62,6 +62,7 @@ const Menu = ({ idx, text, clickEvent }: MenuProps) => {
     <FilterLi
       key={`filter-${idx}`}
       onClick={() => {
+        context?.setCurIdx(idx);
         clickEvent(idx);
       }}
       $isActive={isActive}
