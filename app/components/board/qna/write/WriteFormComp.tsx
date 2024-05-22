@@ -1,7 +1,8 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useState, useRef, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState, useRef } from 'react';
 import { UnprivilegedEditor } from 'react-quill';
 import styled, { css } from 'styled-components';
 import { isEmpty } from 'lodash';
@@ -83,11 +84,12 @@ const ErrorDiv = styled.div<{ $isError: boolean }>`
     `}
 `;
 
+let isPending = false;
 export const WriteFormComp = (props: Props) => {
   const { defaultPost } = props;
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef({ html: '', text: '' });
-  
+
   const [major, setMajor] = useState<JOB_GROUP_LIST_TYPES | undefined>(
     defaultPost?.requested_major,
   );
@@ -98,11 +100,16 @@ export const WriteFormComp = (props: Props) => {
 
   const { userInfo } = useAuth();
   const { mutateAsync: postMutation } = useInsertPostMutation();
+  const { push } = useRouter();
 
   const handleClickSave = async (isTemporary: boolean) => {
+    if (isPending) return;
+
+    // TODO: 로그인한 유저가 아니라면 접근 자체를 막기 - 작성메이지 단에서 처리
     if (isEmpty(userInfo)) return;
     if (validate()) return;
 
+    isPending = true;
     const post: InsertPostRequest = {
       status: isTemporary ? 'EDITING' : 'COMPLETE',
       requested_major: major as JOB_GROUP_LIST_TYPES,
@@ -116,6 +123,8 @@ export const WriteFormComp = (props: Props) => {
     };
 
     await postMutation(post);
+    isPending = false;
+    push('/qna');
   };
 
   const validate = (): boolean => {
