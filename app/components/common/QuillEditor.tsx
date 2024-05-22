@@ -26,7 +26,7 @@ const ToolbarContainer = styled.div`
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   margin-bottom: 0 !important;
-  z-index: 1;
+  z-index: 2;
 `;
 
 const Container = styled.div`
