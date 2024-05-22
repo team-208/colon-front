@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import ReactQuill from 'react-quill';
 import hljs from 'highlight.js';
 import { debounce } from 'lodash';
@@ -14,22 +14,28 @@ interface Props {
   initValue?: string;
 }
 
+const EditorContainer = styled.div`
+  border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.color.line.solid.normal};
+`;
+
 const ToolbarContainer = styled.div`
-  border-color: ${({ theme }) => theme.color.line.solid.normal} !important;
-  border-bottom: none !important;
+  position: relative;
+  border: none !important;
+  border-bottom: 1px solid ${({ theme }) => theme.color.line.solid.normal} !important;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   margin-bottom: 0 !important;
+  z-index: 1;
 `;
 
 const Container = styled.div`
+  position: relative;
   width: 100%;
   min-height: 258px;
   max-height: 258px;
-  border: 1px solid ${({ theme }) => theme.color.line.solid.normal};
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
   overflow: auto;
+  z-index: 1;
 
   .ql-container {
     ${({ theme }) => theme.font.body1};
@@ -89,7 +95,7 @@ const QuillEditor = (props: Props) => {
   );
 
   return (
-    <>
+    <EditorContainer onClick={handleClickContainer}>
       <ToolbarContainer id="toolbar-container">
         {/* <span className="ql-formats">
           <select className="ql-font"></select>
@@ -135,7 +141,7 @@ const QuillEditor = (props: Props) => {
           <button className="ql-clean"></button>
         </span> */}
       </ToolbarContainer>
-      <Container id="container" onClick={handleClickContainer}>
+      <Container onClick={handleClickContainer}>
         <ReactQuill
           {...options}
           ref={editorRef}
@@ -143,7 +149,7 @@ const QuillEditor = (props: Props) => {
           onChange={handleChangeEditor}
         />
       </Container>
-    </>
+    </EditorContainer>
   );
 };
 
