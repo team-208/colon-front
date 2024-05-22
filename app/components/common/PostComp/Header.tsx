@@ -1,7 +1,7 @@
 'use client';
 
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import styled from 'styled-components';
 import { JOB_GROUP_LABELS } from '../constants';
 import { dateText } from '@/app/utils/text';
@@ -11,7 +11,7 @@ interface Props {
   authorMajor: JOB_GROUP_TYPES;
   requestedMajor: JOB_GROUP_TYPES;
   nickname: string;
-  updatedAt: Dayjs;
+  updatedAt: string;
 }
 
 const MajorP = styled.p`
@@ -88,7 +88,7 @@ const Header = ({ className, authorMajor, requestedMajor, nickname, updatedAt }:
       <AuthorP>
         <span>{nickname}</span>
         <span>•</span>
-        <span>{dateText(updatedAt)} (편집됨)</span>
+        <span>{dateText(dayjs(updatedAt))} (편집됨)</span>
       </AuthorP>
     </div>
   );

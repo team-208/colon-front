@@ -8,18 +8,11 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import React, { useMemo } from 'react';
+import { GetPostResponse } from '@/app/api/post/[id]/type';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
-  status: string;
-  requestedMajor: JOB_GROUP_TYPES;
-  title: string;
-  body: string;
-  tags: string[];
-  createdAt: Dayjs;
-  updatedAt: Dayjs;
-  author_nickname: string;
-  author_major: JOB_GROUP_TYPES;
+  post: GetPostResponse;
 }
 
 const ConatinerArticle = styled.article`
@@ -113,26 +106,27 @@ const QnAReactionCount = styled(PostComp.ReactionCount)`
   }
 `;
 
-const QnADetailContent = ({
-  status,
-  requestedMajor,
-  title,
-  body,
-  tags,
-  createdAt,
-  updatedAt,
-  author_nickname,
-  author_major,
-}: Props) => {
+const QnADetailContent = ({ post }: Props) => {
+  const {
+    status,
+    requested_major,
+    title,
+    body,
+    tags,
+    created_at,
+    updated_at,
+    author_nickname,
+    author_major,
+  } = post;
   const isComplete = useMemo(() => status === 'COMPLETE', []);
 
   return (
     <ConatinerArticle>
       <QnAHeader
         authorMajor={author_major}
-        requestedMajor={requestedMajor}
+        requestedMajor={requested_major}
         nickname={author_nickname}
-        updatedAt={updatedAt ?? createdAt}
+        updatedAt={updated_at ?? created_at}
       />
 
       <DividerComp.Horizonal height={1} />

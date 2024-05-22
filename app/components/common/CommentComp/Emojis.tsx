@@ -40,7 +40,7 @@ const Emojis = ({ emojis }: Props) => {
   return (
     <EmojiListUl>
       {['thumbsUp', 'smilingHeart', 'heart'].map((emoji, idx) =>
-        !!emojis[emoji] ? (
+        emojis && !!emojis[emoji] ? (
           <EmojiLi key={`emoji-${emoji}-${idx}`}>
             <Image
               alt="엄지척 이모지"

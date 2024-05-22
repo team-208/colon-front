@@ -8,6 +8,7 @@ const testData: InsertCommentRequest = {
   post_id: 7,
   author_nickname: '개발테스트1114',
   comment: '댓글을 남겨보아요. 대댓글',
+  author_major: 'DEVELOP',
 };
 
 export default function CommentPage() {

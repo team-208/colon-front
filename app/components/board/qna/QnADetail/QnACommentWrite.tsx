@@ -1,5 +1,9 @@
 'use client';
 
+import useCommentsQuery from '@/app/api/comment/[postId]/queries';
+import { useInsertCommentMutation } from '@/app/api/comment/mutations';
+import useAuth from '@/app/hooks/useAuth';
+import React, { useCallback, useRef, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 
@@ -36,10 +40,42 @@ const RegistButton = styled.button`
 `;
 
 const QnACommentWrite = ({ postId }: Props) => {
+  const [comment, setComment] = useState<string>('');
+
+  const { userInfo } = useAuth();
+  const { mutateAsync: insertComment } = useInsertCommentMutation();
+  const { refetch: refetchComments } = useCommentsQuery(postId);
+
+  const handleChangeComment = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setComment(e.target.value);
+  }, []);
+
+  const handleClick = useCallback(async () => {
+    if (!comment) {
+      // TODO: tooltip 필요.
+      return;
+    }
+
+    await insertComment({
+      post_id: parseInt(postId),
+      author_nickname: userInfo?.user.nick_name || '',
+      comment,
+      author_major: userInfo?.user.major || '',
+    });
+
+    refetchComments();
+    setComment('');
+  }, [comment, userInfo]);
+
   return (
     <ContainerDiv>
-      <CommentTextarea placeholder="질문에 대한 나의 의견을 남겨보세요." minRows={2} />
-      <RegistButton>등록</RegistButton>
+      <CommentTextarea
+        placeholder="질문에 대한 나의 의견을 남겨보세요."
+        minRows={2}
+        onChange={handleChangeComment}
+        value={comment}
+      />
+      <RegistButton onClick={handleClick}>등록</RegistButton>
     </ContainerDiv>
   );
 };
