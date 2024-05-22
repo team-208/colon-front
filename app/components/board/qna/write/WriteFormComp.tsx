@@ -142,7 +142,7 @@ export const WriteFormComp = (props: Props) => {
     return valList.length > 0 ? true : false;
   };
 
-  const errorCheck = (str: string): boolean => {
+  const errorCheck = (str: VAL_TYPE): boolean => {
     return val.isCheck && val.list.includes(str);
   };
 
