@@ -78,7 +78,6 @@ const ErrorDiv = styled.div<{ $isError: boolean }>`
     $isError &&
     css`
       > * {
-        position: relative;
         border-color: ${theme.color.status.destructive} !important;
       }
     `}
