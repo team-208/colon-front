@@ -5,7 +5,7 @@ export type POST_STATUS_TYPES = 'EDITING' | 'COMPLETE';
 
 export interface InsertPostRequest {
   status: POST_STATUS;
-  requested_major: JOB_GROUP_TYPES;
+  requested_major: JOB_GROUP_TYPES | 'ALL';
   title: string;
   body: string;
   preview_body: string;
