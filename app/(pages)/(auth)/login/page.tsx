@@ -120,7 +120,7 @@ const SignUpButton = styled.button`
   background-color: #c3c3c3;
   border-radius: 4px;
   padding: 14px 24px;
-  max-width: 300px;
+  width: 300px;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     width: 272px;
