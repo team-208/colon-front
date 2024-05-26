@@ -144,79 +144,79 @@ const font = {
   display1: css`
     font-size: 56px;
     line-height: 72px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 700;
   `,
   display2: css`
     font-size: 48px;
     line-height: 72px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 700;
   `,
   display3: css`
     font-size: 40px;
     line-height: 48px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 700;
   `,
   display4: css`
     font-size: 32px;
     line-height: 48px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 700;
   `,
   title1: css`
     font-size: 36px;
     line-height: 42px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 600;
   `,
   title2: css`
     font-size: 28px;
     line-height: 38px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 600;
   `,
   heading1: css`
     font-size: 20px;
     line-height: 28px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 600;
   `,
   heading2: css`
     font-size: 18px;
     line-height: 26px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 600;
   `,
   body1: css`
     font-size: 16px;
     line-height: 26px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 600;
   `,
   body2: css`
     font-size: 14px;
     line-height: 20px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 600;
   `,
   body3: css`
     font-size: 13px;
     line-height: 18px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 600;
   `,
   caption1: css`
     font-size: 12px;
     line-height: 16px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 700;
   `,
   caption2: css`
     font-size: 10px;
     line-height: 14px;
-    letter-spacing: -2.5%;
+    letter-spacing: -0.025rem;
     font-weight: 700;
   `,
 };
