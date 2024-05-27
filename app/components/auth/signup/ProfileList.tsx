@@ -20,13 +20,14 @@ const ContainerUl = styled.ul`
 
 const ProfileButton = styled.button<{ $isActive: boolean }>`
   width: 100%;
-  height: 94px;
+  height: 116px;
   margin-bottom: 8px;
-  padding: 10px 0;
+  padding: 0 27px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: ${({ theme, $isActive }) =>
     // TODO: 디자인 가이드 수정 필요
     $isActive ? '#00A1FF33' : theme.color.background.alternative};
