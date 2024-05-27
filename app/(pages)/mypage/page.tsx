@@ -16,6 +16,14 @@ const ContainerMain = styled.main`
   }
 `;
 
+const StaticHeightDiv = styled.div`
+  height: calc(100% - 136px);
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    height: calc(100% - 120px);
+  }
+`;
+
 export default function MyPage() {
   return (
     <ContainerMain>
@@ -23,11 +31,11 @@ export default function MyPage() {
         <ProfileComp />
       </SectionComp>
 
-      <SectionComp direction="column" padding="0">
+      <StaticHeightDiv>
         <TabsComp />
-      </SectionComp>
+      </StaticHeightDiv>
 
-      <DeleteUserButton />
+      {/* <DeleteUserButton /> */}
     </ContainerMain>
   );
 }
