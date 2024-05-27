@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import JobGroupList from './JobGroupList';
 import ProfileList, { PROFILE_TYPES } from './ProfileList';
 import useNickNameQuery from '@/app/api/auth/nickName/queries';
+import Image from 'next/image';
+import { IMAGE_CDN } from '@/app/constants/externalUrls';
 
 const IntroduceDiv = styled.div`
   margin: 40px 0 230px;
@@ -50,15 +52,18 @@ const ProfileTitleH2 = styled.h2`
 
 const FooterDiv = styled.div`
   position: fixed;
-  bottom: 124px;
+  bottom: 0;
+  padding-bottom: 124px;
+  margin: 0 auto;
   width: 100%;
+  max-width: 1100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: ${({ theme }) => theme.color.static.light};
 
   ${({ theme }) => theme.mediaQuery.mobile} {
-    bottom: 48px;
+    padding-bottom: 48px;
   }
 `;
 
@@ -87,6 +92,17 @@ const CompleteButton = styled.button`
   &:disabled {
     background-color: ${({ theme }) => theme.color.interaction.disable};
     color: ${({ theme }) => theme.color.label.disable};
+  }
+`;
+
+const ImageBoxDiv = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 260px;
+  bottom: 0;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    height: 50vw;
   }
 `;
 
@@ -172,8 +188,19 @@ const SignUpFormComp = () => {
 
       <FooterDiv>
         {!isDisable && (
-          <DescP>{`프로필이 완성되었어요!\nCO:LON에서 다양한 사람들을 만날 준비가 되셨나요?`}</DescP>
+          <>
+            <ImageBoxDiv>
+              <Image
+                alt="하단 블러 이미지"
+                src={`${IMAGE_CDN}/signup/login-blur-background.png`}
+                sizes="100px"
+                fill
+              />
+            </ImageBoxDiv>
+            <DescP>{`프로필이 완성되었어요!\nCO:LON에서 다양한 사람들을 만날 준비가 되셨나요?`}</DescP>
+          </>
         )}
+
         {/* TODO: 디자인 가이드 배포 후, 공용 모듈화 필요 */}
         <CompleteButton disabled={isDisable} onClick={handleClick}>
           이야기하러 가기!
