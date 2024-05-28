@@ -1,13 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { UserPost, UserComment } from '../type';
+import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import PostComp from '../common/PostComp';
 import CommentCard from './CommentCard';
 import PostCard from './PostCard';
-import { IMAGE_CDN } from '@/app/constants/externalUrls';
 
 const FilterListLayoutDiv = styled.div`
   display: flex;
@@ -73,7 +74,11 @@ const ActivityContentInner = (props: Props) => {
   const [filter, setFilter] = useState<string>(filterList[0].value);
   const [filteredList, setFilteredList] = useState<Array<UserPost | UserComment>>([]);
 
-  const handleModifyClick = () => {};
+  const { push } = useRouter();
+
+  const handleModifyClick = (id: number) => {
+    push(`qna/${id}/modify`);
+  };
 
   useEffect(() => {
     switch (filter) {
@@ -105,7 +110,8 @@ const ActivityContentInner = (props: Props) => {
           <PostCard key={`post-${idx}`} {...(v as UserPost)} isDelete>
             {v.type === 'post' && <PostComp.ReactionCount emojiCount={999} commentCount={3} />}
 
-            <ModifyButton onClick={handleModifyClick}>
+            {/* TODO: post.id로 변경 */}
+            <ModifyButton onClick={() => handleModifyClick(10)}>
               <Image
                 alt="수정 아이콘"
                 src={`${IMAGE_CDN}/icon/ModifyButton_active.png`}

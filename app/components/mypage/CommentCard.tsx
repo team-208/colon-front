@@ -134,9 +134,23 @@ const ModifyButton = styled.button`
   padding: 3px;
 `;
 
-const CommentCard = (props: UserComment) => {
-  const { comment, postInfo, recommend_count, comment_count, author_major, author_nickname } =
-    props;
+const CommentCard = ({
+  comment,
+  postInfo,
+  recommend_count,
+  comment_count,
+  author_major,
+  author_nickname,
+}: UserComment) => {
+  
+  const handleDeleteClick = () => {
+    // TODO: 댓글 삭제 api 연동
+  };
+
+  const handleModifyClick = () => {
+    // TODO: 댓글 수정 버튼 클릭 시 처리 및 api 연동
+  };
+
   return (
     <CommentCardContainer>
       <PostAreaContainer>
@@ -165,7 +179,7 @@ const CommentCard = (props: UserComment) => {
             <TagP>{JOB_GROUP_LABELS[author_major]}</TagP>
             <NicknameP>{author_nickname}</NicknameP>
           </div>
-          <DeleteButton>
+          <DeleteButton onClick={handleDeleteClick}>
             <Image
               alt="삭제 아이콘"
               src={`${IMAGE_CDN}/icon/DeleteButton.png`}
@@ -180,9 +194,9 @@ const CommentCard = (props: UserComment) => {
             recommendCount={recommend_count}
             commentCount={comment_count}
           />
-          <ModifyButton>
+          <ModifyButton onClick={handleModifyClick}>
             <Image
-              alt="삭제 아이콘"
+              alt="수정 아이콘"
               src={`${IMAGE_CDN}/icon/ModifyButton_active.png`}
               width={24}
               height={24}

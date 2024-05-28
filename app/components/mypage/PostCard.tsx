@@ -124,6 +124,7 @@ const PostCard = ({
   children,
   isDelete,
 }: Props) => {
+  
   const handleDeleteClick = () => {
     // TODO: post 삭제 api 연동
   };

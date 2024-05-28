@@ -58,6 +58,7 @@ const ScarpIcon = styled(Image)`
   transform: translateY(-50%);
 `;
 
+// TODO: reaction, scrap 추후 변경
 interface ReactionPost extends Post {
   reaction: string;
   scrap: boolean;
