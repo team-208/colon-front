@@ -18,6 +18,15 @@ export interface Post {
 export interface Comment {
   id: number;
   date: dayjs.Dayjs;
-  postInfo: { id: number; date: dayjs.Dayjs; title: string };
+  author_nickname: string;
+  author_major: JOB_GROUP_TYPES;
   comment: string;
+  recommend_count: number;
+  comment_count: number;
+  postInfo: {
+    status: string;
+    requestedMajor: JOB_GROUP_TYPES;
+    author_major: JOB_GROUP_TYPES;
+    title: string;
+  };
 }

@@ -17,7 +17,6 @@ const TabContentDiv = styled.div`
   width: inherit;
   max-height: calc(100% - 31px);
   overflow: auto;
-  padding: 24px 0 20px 0;
 `;
 
 const contentList: JSX.Element[] = [<ReactionContent />, <ScrapContent />, <ActivityContent />];

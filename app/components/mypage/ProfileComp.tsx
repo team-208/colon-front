@@ -216,7 +216,7 @@ const ProfileComp = () => {
                   {userInfo?.user.nick_name}
                   <ModifyButton onClick={handleModifyButton}>
                     <Image
-                      src={`${IMAGE_CDN}/icon/Modify.png`}
+                      src={`${IMAGE_CDN}/icon/ModifyButton_inactive.png`}
                       alt="수정 아이콘"
                       width={16}
                       height={16}
