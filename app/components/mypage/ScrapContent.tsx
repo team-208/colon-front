@@ -197,7 +197,9 @@ const fetchScrap = async (): Promise<typeof postList> => {
 const ScrapContent = async () => {
   const list: typeof postList = await fetchScrap();
 
-  const handleScrapClick = () => {};
+  const handleScrapClick = () => {
+    // TODO: 스크랩 & 스크랩 취소 api 연동
+  };
 
   return (
     <ContentContainer>

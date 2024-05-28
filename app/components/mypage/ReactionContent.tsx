@@ -129,10 +129,16 @@ const ReactionButton = styled.button`
   padding: 4px 8px;
 `;
 
-const ScrapButton = styled.button`
+const CommentCountDiv = styled.div`
   display: flex;
-  justify-items: center;
+  flex-direction: row;
   align-items: center;
+`;
+
+const CommentCountP = styled.p`
+  ${({ theme }) => theme.font.body2}
+  color: ${({ theme }) => theme.color.label.normal};
+  margin-left: 6px;
 `;
 
 interface ReactionPost extends Post {
@@ -231,10 +237,6 @@ const fetchReaction = async (): Promise<typeof postList> => {
 const ReactionContent = async () => {
   const list: typeof postList = await fetchReaction();
 
-  const handleScrapClick = () => {
-    // TODO: 스크랩 & 스크랩 취소 api 연동
-  };
-
   return (
     <ContentContainer>
       {list?.map((post, idx) => (
@@ -274,18 +276,24 @@ const ReactionContent = async () => {
                 />
               </ReactionButton>
               <DividerDiv />
-              <PostComp.CommentCount count={3} />
-            </div>
-
-            <div>
-              <ScrapButton onClick={handleScrapClick}>
+              <CommentCountDiv>
                 <Image
-                  alt="스크랩 아이콘"
-                  src={`${IMAGE_CDN}/icon/ScrapButton_${post.scrap ? 'active' : 'inactive'}.png`}
+                  alt="댓글 아이콘"
+                  src={`${IMAGE_CDN}/qna/Icon_Comment.png`}
                   width={24}
                   height={24}
                 />
-              </ScrapButton>
+                <CommentCountP>3</CommentCountP>
+              </CommentCountDiv>
+            </div>
+
+            <div>
+              <Image
+                alt="스크랩 아이콘"
+                src={`${IMAGE_CDN}/icon/ScrapButton_${post.scrap ? 'active' : 'inactive'}.png`}
+                width={24}
+                height={24}
+              />
             </div>
           </PostCardFooter>
         </PostCardContainer>
