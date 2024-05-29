@@ -25,6 +25,7 @@ const JobGroupButton = styled(ButtonComp.Solid)`
   width: 100%;
   height: 40px;
   border-radius: 12px !important;
+  padding: 11px 0;
 `;
 
 const JobGroupList = ({ jobGroup, onClick }: JobGroupListProps) => {
