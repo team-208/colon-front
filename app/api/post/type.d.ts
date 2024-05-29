@@ -27,6 +27,7 @@ export interface GetPostListQuery {
 }
 
 export interface PostListItem {
+  id: number;
   status: POST_STATUS;
   requested_major: JOB_GROUP_TYPES;
   title: string;
@@ -36,7 +37,7 @@ export interface PostListItem {
   created_at: string;
   updated_at: string;
   author_nickname: string;
-  author_major: string;
+  author_major: JOB_GROUP_TYPES;
   author_profile_url: string;
 }
 

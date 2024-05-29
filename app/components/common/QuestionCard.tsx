@@ -1,6 +1,6 @@
 'use client';
 
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import styled from 'styled-components';
 import { JOB_GROUP_LABELS } from './constants';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
@@ -8,25 +8,12 @@ import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import PostComp from './PostComp';
 import React from 'react';
+import { PostListItem } from '@/app/api/post/type';
 
-// TODO: post api response로 interface 수정 필요.
-interface Props {
-  status: string;
-  requestedMajor: JOB_GROUP_TYPES;
-  title: string;
-  bodyUrl: string;
-  previewBody: string;
-  tages: string[];
-  createdAt: Dayjs;
-  updatedAt: Dayjs;
-  author_nickname: string;
-  author_major: JOB_GROUP_TYPES;
-  author_profile_url: string;
-}
+interface Props extends PostListItem {}
 
 const ContainerArticle = styled.article`
-  margin-top: 50px;
-  padding: 20px;
+  padding: 0 20px;
   width: 100%;
 `;
 
@@ -58,6 +45,7 @@ const ContentHeaderDiv = styled.div`
 
 const ContentTitleP = styled.p`
   ${({ theme }) => theme.font.heading2};
+  color: ${({ theme }) => theme.color.label.normal};
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -84,6 +72,7 @@ const ContentPreviewBodyP = styled.p`
 
 const QnAReactionCount = styled(PostComp.ReactionCount)`
   margin-top: 26px;
+  color: ${({ theme }) => theme.color.label.normal};
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     margin-top: 28px;
@@ -124,6 +113,7 @@ const CommentUserDiv = styled.div`
 
   & > span:last-of-type {
     ${({ theme }) => theme.font.body3};
+    color: ${({ theme }) => theme.color.label.normal};
   }
 
   ${({ theme }) => theme.mediaQuery.mobile} {
@@ -135,6 +125,8 @@ const CommentUserDiv = styled.div`
 
 const CommentBodyP = styled.p`
   ${({ theme }) => theme.font.body2};
+  color: ${({ theme }) => theme.color.label.normal};
+  font-weight: normal;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -146,13 +138,13 @@ const CommentBodyP = styled.p`
 
 const QuestionCard = ({
   status,
-  requestedMajor,
+  requested_major,
   title,
-  bodyUrl,
-  previewBody,
-  tages,
-  createdAt,
-  updatedAt,
+  body,
+  preview_body,
+  tags,
+  created_at,
+  updated_at,
   author_nickname,
   author_major,
   author_profile_url,
@@ -161,9 +153,9 @@ const QuestionCard = ({
     <ContainerArticle>
       <QnAHeader
         authorMajor={author_major}
-        requestedMajor={requestedMajor}
+        requestedMajor={requested_major}
         nickname={author_nickname}
-        updatedAt={updatedAt.format('YYYY-MM-DD HH:mm:ss')}
+        updatedAt={dayjs(updated_at).format('YYYY-MM-DD HH:mm:ss')}
       />
 
       <ArticleBodyDiv>
@@ -180,7 +172,7 @@ const QuestionCard = ({
             <ContentTitleP>{title}</ContentTitleP>
           </ContentHeaderDiv>
 
-          <ContentPreviewBodyP>{previewBody}</ContentPreviewBodyP>
+          <ContentPreviewBodyP>{preview_body}</ContentPreviewBodyP>
 
           <QnAReactionCount emojiCount={8} commentCount={3} />
         </ContentDiv>
