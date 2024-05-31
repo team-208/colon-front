@@ -8,7 +8,7 @@ import { UserComment } from '../type';
 import CommentComp from '../common/CommentComp';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 
-const CommentCardContainer = styled.div`
+const CommentCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 20px;
@@ -149,7 +149,7 @@ const CommentCard = ({
   };
 
   return (
-    <CommentCardContainer>
+    <CommentCardWrapper>
       <PostAreaContainer>
         <MajorP>
           <span>{JOB_GROUP_LABELS[postInfo.author_major] ?? ''}</span>
@@ -201,7 +201,7 @@ const CommentCard = ({
           </ModifyButton>
         </CommentAreaFooter>
       </CommentAreaContainer>
-    </CommentCardContainer>
+    </CommentCardWrapper>
   );
 };
 
