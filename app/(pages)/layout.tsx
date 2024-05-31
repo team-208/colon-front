@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import GlobalContainer from '../components/common/GlobalContainer';
 import Header from '../components/common/HeaderComp';
+import ScrollBox from '../components/common/ScrollBox';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <GlobalContainer>
           <Header />
+          <ScrollBox />
           {children}
         </GlobalContainer>
       </body>

@@ -2,8 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { useRecoilValue } from 'recoil';
+import { scrollState } from '@/app/recoils';
 import useAuth from '@/app/hooks/useAuth';
 import styled from 'styled-components';
 import logoImg from '../../assets/images/logo.png';
@@ -94,29 +96,14 @@ const ProfileContainerDiv = styled.div`
 
 const HeaderComp = () => {
   // TODO: 로그인 확인용 임시 로직
-  const [isScroll, setIsScroll] = useState(false);
   const { userInfo } = useAuth();
   const { push } = useRouter();
+  
+  const isScroll = useRecoilValue(scrollState);
 
   const profileUrl = useMemo(() => {
     return userInfo?.user?.profile_url || '/default.png';
   }, [userInfo?.user]);
-
-  useEffect(() => {
-    const scrollEvent = (e: any) => {
-      const target = e.target as ScrollEvent;
-      if (target.tagName === 'MAIN') {
-        if (target.scrollTop === 0) setIsScroll(false);
-        if (target.scrollTop > 0) setIsScroll(true);
-      }
-    };
-
-    window.addEventListener('scroll', scrollEvent, true);
-
-    () => {
-      window.removeEventListener('scroll', scrollEvent, true);
-    };
-  }, []);
 
   return (
     <ContainerHeader $isScroll={isScroll}>

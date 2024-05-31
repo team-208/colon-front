@@ -4,5 +4,5 @@ import { RECOIL_KEYS } from '../key.d';
 // atom 생성
 export const scrollState = atom({
   key: RECOIL_KEYS.scrollState,
-  default: false,
+  default: true, // callback 함수 최초 1회 실행 떄문에 true 값
 });

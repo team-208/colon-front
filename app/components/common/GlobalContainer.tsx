@@ -64,15 +64,9 @@ table {
 }
 
 main {
-  overflow: scroll;
   max-width: 1024px;
   margin: 0 auto;
   height: 100%;
-  padding-top: ${({ theme }) => theme.heightSizes.header.desktop}px;
-  
-  ${({ theme }) => theme.mediaQuery.mobile} {
-    padding-top: ${({ theme }) => theme.heightSizes.header.mobile}px;
-  }
 }
 
 button {
