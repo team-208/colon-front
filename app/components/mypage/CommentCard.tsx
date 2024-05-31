@@ -120,8 +120,6 @@ const CommentTextP = styled.p`
   margin: 8px 0 10px 0;
 `;
 
-const DeleteButton = styled.div``;
-
 const ModifyButton = styled.button`
   display: flex;
   flex-direction: row;
@@ -142,7 +140,6 @@ const CommentCard = ({
   author_major,
   author_nickname,
 }: UserComment) => {
-  
   const handleDeleteClick = () => {
     // TODO: 댓글 삭제 api 연동
   };
@@ -179,14 +176,14 @@ const CommentCard = ({
             <TagP>{JOB_GROUP_LABELS[author_major]}</TagP>
             <NicknameP>{author_nickname}</NicknameP>
           </div>
-          <DeleteButton onClick={handleDeleteClick}>
+          <button onClick={handleDeleteClick}>
             <Image
               alt="삭제 아이콘"
               src={`${IMAGE_CDN}/icon/DeleteButton.png`}
               width={18}
               height={18}
             />
-          </DeleteButton>
+          </button>
         </CommentAreaHeader>
         <CommentTextP>{comment}</CommentTextP>
         <CommentAreaFooter>
