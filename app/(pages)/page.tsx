@@ -146,7 +146,7 @@ export default function Home() {
 
   return (
     <main style={{ maxWidth: 'none' }}>
-      <HeaderComp.AuthHeader/>
+      <HeaderComp.BasicHeader/>
       <ContainerInnerDiv>
         <SectionComp direction="column" padding="0">
           <SquareP />

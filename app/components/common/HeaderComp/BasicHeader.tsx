@@ -21,7 +21,7 @@ const FlexRowDiv = styled.div`
   align-items: center;
 `;
 
-const AuthHeader = () => {
+const BasicHeader = () => {
   const path = usePathname();
 
   return (
@@ -41,5 +41,5 @@ const AuthHeader = () => {
   );
 };
 
-export default AuthHeader;
-export type AuthHeaderType = { AuthHeader: typeof AuthHeader };
+export default BasicHeader;
+export type BasicHeaderType = { BasicHeader: typeof BasicHeader };

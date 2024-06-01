@@ -1,13 +1,14 @@
-import AuthHeader, { AuthHeaderType } from './AuthHeader';
+import BasicHeader, { BasicHeaderType } from './BasicHeader';
 import SearchHeader, { SearchHeaderType } from './SearchHeader';
 import CancelHeader, { CancelHeaderType } from './CancelHeader';
 import ConfirmHeader, { ConfirmHeaderType } from './ConfirmHeader';
 
-const HeaderComp: AuthHeaderType & SearchHeaderType & CancelHeaderType & ConfirmHeaderType = () => (
-  <></>
-);
+const HeaderComp: BasicHeaderType &
+  SearchHeaderType &
+  CancelHeaderType &
+  ConfirmHeaderType = () => <></>;
 
-HeaderComp.AuthHeader = AuthHeader;
+HeaderComp.BasicHeader = BasicHeader;
 HeaderComp.SearchHeader = SearchHeader;
 HeaderComp.CancelHeader = CancelHeader;
 HeaderComp.ConfirmHeader = ConfirmHeader;

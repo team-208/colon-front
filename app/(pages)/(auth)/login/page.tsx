@@ -176,7 +176,7 @@ export default function Login() {
 
   return (
     <ContainerMain>
-      <HeaderComp.AuthHeader />
+      <HeaderComp.BasicHeader />
       <SectionComp direction="column" padding="0 20px">
         <TitleP>{`풀리지 않던 궁금증을\n해소하는 곳`}</TitleP>
 
