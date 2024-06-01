@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import styled from 'styled-components';
-import icon_bell from '../../../assets/images/header/icon_bell.png';
+import icon_bell from '@/app/assets/images/header/icon_bell.png';
 
 const Button = styled.button`
   position: relative;
