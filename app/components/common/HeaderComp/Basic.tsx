@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
+import { ReactNode, createContext, useCallback, useMemo } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { useRecoilValue } from 'recoil';
 import { scrollState } from '@/app/recoils';
 import useAuth from '@/app/hooks/useAuth';
@@ -14,10 +14,11 @@ import icon_search from '../../assets/images/header/icon_search.png';
 import { headerMenu } from '@/app/constants/menu';
 import { PROFILE_CDN } from '@/app/constants/externalUrls';
 
-interface ScrollEvent extends EventTarget {
-  tagName: string;
-  scrollTop: number;
+interface Props {
+  children: ReactNode;
 }
+
+interface Context {}
 
 const ContainerHeader = styled.header<{ $isScroll: boolean }>`
   position: fixed;
@@ -94,15 +95,23 @@ const ProfileContainerDiv = styled.div`
   background: rgba(55, 56, 60, 0.1);
 `;
 
-const HeaderComp = () => {
+const HeaderContext = createContext<Context | null>(null);
+
+const Basic = ({ children }: Props) => {
   // TODO: 로그인 확인용 임시 로직
   const { userInfo } = useAuth();
   const { push } = useRouter();
-  
+  const path = usePathname();
+
   const isScroll = useRecoilValue(scrollState);
 
   const profileUrl = useMemo(() => {
     return userInfo?.user?.profile_url || '/default.png';
+  }, [userInfo?.user]);
+
+  const handleProfileClick = useCallback(() => {
+    if (userInfo?.user) push('/mypage');
+    else push('/login');
   }, [userInfo?.user]);
 
   return (
@@ -125,11 +134,11 @@ const HeaderComp = () => {
           </HeaderNav>
         </FlexRowDiv>
 
-        {userInfo && (
+        {path !== '/' && (
           <FlexRowDiv>
             <Image alt="" src={icon_search} width={24} height={24} />
             <Image alt="" src={icon_bell} width={24} height={24} />
-            <ProfileContainerDiv onClick={() => push('/mypage')}>
+            <ProfileContainerDiv onClick={handleProfileClick}>
               <Image
                 alt="프로필 이미지"
                 src={`${PROFILE_CDN}/${profileUrl}`}
@@ -144,4 +153,5 @@ const HeaderComp = () => {
   );
 };
 
-export default HeaderComp;
+export default Basic;
+export type BasicType = { Basic: typeof Basic };
