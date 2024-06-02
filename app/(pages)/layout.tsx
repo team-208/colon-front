@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import GlobalContainer from '../components/common/GlobalContainer';
 import Header from '../components/common/HeaderComp';
-import Modal from '../components/common/ModalComp';
+import ModalComp from '../components/common/ModalComp';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <GlobalContainer>
           <Header />
           {children}
-          <Modal.Container />
+          <ModalComp.Container />
         </GlobalContainer>
       </body>
     </html>
