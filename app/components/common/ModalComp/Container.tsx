@@ -18,7 +18,7 @@ const ContainerDiv = styled.div`
 const Container = () => {
   const { modalState } = useModal();
 
-  return <>{modalState.isOpen && <ContainerDiv>{modalState.contents}</ContainerDiv>}</>;
+  return <>{modalState.isOpen && <ContainerDiv>{modalState.modalProps.contents}</ContainerDiv>}</>;
 };
 
 export default Container;
