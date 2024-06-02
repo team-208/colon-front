@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { ModalRecoilStateProps } from '@/app/types/modalType';
-import { RECOIL_KEYS } from '../key';
+import { RECOIL_KEYS } from '../key.d';
 
 export const modalInitValue: ModalRecoilStateProps = {
   isOpen: false,
