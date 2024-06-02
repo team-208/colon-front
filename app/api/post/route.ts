@@ -54,7 +54,17 @@ export async function POST(request: Request) {
         },
       ]);
 
-      return NextResponse.json({ success: insertError ? false : true, insertError });
+      const { data, error: getPostError } = await supabase
+        .from('posts')
+        .select('id')
+        .eq('body_url', postData?.path)
+        .single();
+
+      if (insertError || getPostError) {
+        return NextResponse.json({ success: false, insertError, getPostError });
+      }
+
+      return NextResponse.json({ success: true, postId: data.id });
     }
 
     return NextResponse.redirect(`${host}/error/500`);
