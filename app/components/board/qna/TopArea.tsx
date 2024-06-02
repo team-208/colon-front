@@ -1,9 +1,11 @@
 'use client';
 
+import { useCallback } from 'react';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import Image from 'next/image';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/navigation';
+import useAuth from '@/app/hooks/useAuth';
 import { useRecoilValue } from 'recoil';
 import { scrollState } from '@/app/recoils';
 
@@ -102,8 +104,14 @@ const FloatingBackgroundDiv = styled.div`
 `;
 
 const TopArea = () => {
+  const { userInfo } = useAuth();
   const scroll = useRecoilValue(scrollState);
   const { push } = useRouter();
+
+  const handleClick = useCallback(() => {
+    if (userInfo?.user) push('/qna/write');
+    else push('/login');
+  }, [userInfo?.user]);
 
   return (
     <ContainerDiv>
@@ -111,12 +119,7 @@ const TopArea = () => {
         <DescP1>여러 직군에 있는 동료에게 물어보는 장소</DescP1>
         <DescP2>소통이 어려웠던 이유, 추가로 공부할 내용을 얻을 수 있어요.</DescP2>
       </TextBoxDiv>
-      <FloatingButton
-        $isScroll={scroll}
-        onClick={() => {
-          push('/qna/write');
-        }}
-      >
+      <FloatingButton $isScroll={scroll} onClick={handleClick}>
         <span>질문하기</span>
         <Image alt="" src={`${IMAGE_CDN}/icon/Write.png`} width={20} height={20} />
       </FloatingButton>
