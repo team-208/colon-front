@@ -4,11 +4,13 @@ import { RECOIL_KEYS } from '../key.d';
 
 export const modalInitValue: ModalRecoilStateProps = {
   isOpen: false,
-  contents: '',
-  confirmLabel: '확인',
-  cancelLabel: '취소',
-  onConfirm: () => {},
-  onCancel: () => {},
+  modalProps: {
+    contents: '',
+    confirmLabel: '확인',
+    cancelLabel: '취소',
+    onConfirm: () => {},
+    onCancel: () => {},
+  },
 };
 
 export const modalState = atom({

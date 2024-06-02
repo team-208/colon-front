@@ -1,10 +1,5 @@
 export interface ModalTypes {
-  contents: string | React.ReactNode;
-  confirmLabel: string;
-  cancelLabel: string;
-  isReverseButton?: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
+  modalProps: ConfirmProps;
 }
 
 export interface ModalRecoilStateProps extends ModalTypes {
