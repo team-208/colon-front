@@ -23,7 +23,12 @@ const CancelButton = styled.button`
   height: 36px;
   padding: 8px 10px;
   color: #989ba2;
+  margin-left: 95px;
   ${({ theme }) => theme.font.body2}
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    margin-left: 0;
+  }
 `;
 
 const CancelHeader = () => {
@@ -31,7 +36,7 @@ const CancelHeader = () => {
 
   // 임시
   const handleCancelClick = () => {
-    push('/qna')
+    push('/qna');
   };
 
   return (

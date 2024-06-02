@@ -14,7 +14,12 @@ const CancelButton = styled.button`
   height: 36px;
   padding: 8px 10px;
   color: #989ba2;
+  margin-left: 95px;
   ${({ theme }) => theme.font.body2}
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    margin-left: 0;
+  }
 `;
 
 const CompleteButton = styled.button`
@@ -23,8 +28,13 @@ const CompleteButton = styled.button`
   background: ${({ theme }) => theme.color.palette.deepSkyBlue99};
   border-radius: 10px;
   padding: 8px 16px;
+  margin-right: 95px;
   ${({ theme }) => theme.font.body2}
   color: ${({ theme }) => theme.color.primary.normal};
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    margin-right: 0;
+  }
 `;
 
 const ConfirmHeader = () => {
