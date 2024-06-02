@@ -43,9 +43,12 @@ const ButtonBoxUl = styled.ul<{ $isReverse: boolean }>`
     `}
 `;
 
-const ConfirmButton = styled(ButtonComp.OutlinedPrimary)``;
-
-const CancelButton = styled(ButtonComp.OutlinedPrimary)``;
+const StyledButton = styled(ButtonComp.OutlinedPrimary)`
+  &:hover {
+    color: ${({ theme }) => theme.color.static.light};
+    background-color: ${({ theme }) => theme.color.primary.normal};
+  }
+`;
 
 const Confirm = ({
   children,
@@ -62,10 +65,10 @@ const Confirm = ({
       {children}
       <ButtonBoxUl $isReverse={!!isReverseButton}>
         <li>
-          <ConfirmButton size={'md'} text={confirmLabel} onClick={onConfirm} isActive />
+          <StyledButton size={'md'} text={confirmLabel} onClick={onConfirm} isActive />
         </li>
         <li>
-          <CancelButton size={'md'} text={cancelLabel} onClick={onCancel} isActive />
+          <StyledButton size={'md'} text={cancelLabel} onClick={onCancel} isActive />
         </li>
       </ButtonBoxUl>
     </ContainerDiv>
