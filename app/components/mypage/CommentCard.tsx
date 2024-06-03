@@ -116,6 +116,7 @@ const NicknameP = styled.p`
 
 const CommentTextP = styled.p`
   ${({ theme }) => theme.font.body3}
+  font-weight: 400;
   color: ${({ theme }) => theme.color.label.normal};
   margin: 8px 0 10px 0;
 `;

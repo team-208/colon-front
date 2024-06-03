@@ -78,6 +78,7 @@ const MajorP = styled.p`
 
 const NicknameP = styled.p`
   ${({ theme }) => theme.font.caption1}
+  font-weight: 700;
   color: ${({ theme }) => theme.color.label.normal};
   margin-left: 6px;
 `;
@@ -99,6 +100,7 @@ const TitleP = styled.p`
 
 const PreviewBodyP = styled.p`
   ${({ theme }) => theme.font.body2}
+  font-weight: 400;
   color: #333438;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -124,7 +126,6 @@ const PostCard = ({
   children,
   isDelete,
 }: Props) => {
-  
   const handleDeleteClick = () => {
     // TODO: post 삭제 api 연동
   };
