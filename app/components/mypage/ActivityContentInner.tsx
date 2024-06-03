@@ -18,6 +18,7 @@ const FilterListLayoutDiv = styled.div`
 `;
 
 const FilterListButton = styled.button<{ $isActive: boolean }>`
+  min-width: 60px;
   padding: 4px 8px;
   ${({ theme }) => theme.font.body3}
   background-color: ${({ theme, $isActive }) =>
