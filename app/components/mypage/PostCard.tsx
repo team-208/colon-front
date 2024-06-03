@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
-import { JOB_GROUP_LABELS } from '../common/constants';
+import { JOB_GROUP_LABELS } from '../constants';
 import { Post } from '@/app/types/data';
 import { ReactNode } from 'react';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';

@@ -2,7 +2,7 @@
 
 import dayjs, { Dayjs } from 'dayjs';
 import styled from 'styled-components';
-import { JOB_GROUP_LABELS } from './constants';
+import { JOB_GROUP_LABELS } from '../constants';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
