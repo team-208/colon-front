@@ -7,7 +7,7 @@ import usePostListQuery from '@/app/api/post/queries';
 export default function PostPage() {
   const { data } = usePostQuery('7');
   const { mutateAsync } = useInsertPostMutation();
-  const { fetchNextPage, hasNextPage } = usePostListQuery('DATE_DESC');
+  const { fetchNextPage, hasNextPage } = usePostListQuery({ order: 'DATE_DESC', major: 'ALL' });
 
   const handleClick = async () => {
     await mutateAsync({
