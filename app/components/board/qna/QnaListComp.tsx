@@ -35,7 +35,7 @@ const ListWrapperUl = styled.ul`
 const QnaListComp = () => {
   const [postList, setPostList] = useState<PostListItem[]>([]);
 
-  const { data } = usePostListQuery('DATE_DESC');
+  const { data } = usePostListQuery({ order: 'DATE_DESC', major: 'ALL' });
 
   const chagneFilter = useCallback((idx: number) => {
     // TODO: filterMenu 따른 질문카드 영역 처리

@@ -16,7 +16,8 @@ export const fetchInsertPost = async (body: InsertPostRequest) => {
 };
 
 export const fetchGetPostList = async (query: GetPostListQuery) => {
-  const res = await fetch(`/api/post?order=${query.order}&offset=${query.offset}`);
+  const majorQuery = query.major && query.major !== 'ALL' ? `&major=${query.major}` : '';
+  const res = await fetch(`/api/post?order=${query.order}&offset=${query.offset}${majorQuery}`);
   const jsonData = (await res.json()) as GetPostListResponse;
   return jsonData;
 };
