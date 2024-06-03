@@ -9,15 +9,14 @@ import ActivityContent from '@/app/components/mypage/ActivityContent';
 
 const TabTableDiv = styled.div`
   width: 100%;
-  height: fit-content;
+  height: 100%;
   padding: 10px;
 `;
 
 const TabContentDiv = styled.div`
   width: inherit;
-  max-height: 300px;
+  max-height: calc(100% - 31px);
   overflow: auto;
-  padding: 12px 0;
 `;
 
 const contentList: JSX.Element[] = [<ReactionContent />, <ScrapContent />, <ActivityContent />];

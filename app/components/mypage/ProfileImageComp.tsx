@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import useAuth from '@/app/hooks/useAuth';
-import { PROFILE_CDN } from '@/app/constants/externalUrls';
+import { PROFILE_CDN, IMAGE_CDN } from '@/app/constants/externalUrls';
 
 interface Props {
   isModify: boolean;
@@ -12,13 +12,30 @@ interface Props {
 }
 
 const ProfileImageDiv = styled.div`
-  width: 140px;
-  height: 140px;
   position: relative;
+  width: 72px;
+  height: 72px;
   overflow: hidden;
-  margin-right: 24px;
+  margin-right: 16px;
   border-radius: 50%;
   background-color: #e0e0e0;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    width: 56px;
+    height: 56px;
+  }
+`;
+
+const ModifyImageDiv = styled.div`
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 5;
 `;
 
 const ProfileImageComp = (props: Props) => {
@@ -61,15 +78,11 @@ const ProfileImageComp = (props: Props) => {
 
   return (
     <ProfileImageDiv>
-      <Image src={imageSrc} alt="프로필 이미지" sizes="140px" fill />
+      <Image src={imageSrc} alt="프로필 이미지" fill sizes="72px" />
       {isModify && (
-        <Image
-          src={'/vercel.svg'}
-          alt="수정아이콘"
-          fill={true}
-          onClick={clickModifyIcon}
-          style={{ cursor: 'pointer', zIndex: 10 }}
-        />
+        <ModifyImageDiv onClick={clickModifyIcon}>
+          <Image src={`${IMAGE_CDN}/icon/Camera.png`} alt="수정아이콘" width={32} height={32} />
+        </ModifyImageDiv>
       )}
     </ProfileImageDiv>
   );
