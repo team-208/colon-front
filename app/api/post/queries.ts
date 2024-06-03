@@ -1,12 +1,12 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import QUERY_KEYS from '../queryKeys';
 import { fetchGetPostList } from './fetch';
-import { GetPostListQuery, GetPostListResponse, PostListOrderTypes } from './type';
+import { GetPostListQuery, GetPostListResponse } from './type';
 import { PAGE_OFFSET_VALUE } from './constants';
 
 const usePostListQuery = ({ order, major }: Omit<GetPostListQuery, 'offset'>) =>
   useInfiniteQuery<GetPostListResponse, Error>({
-    queryKey: QUERY_KEYS.postList(),
+    queryKey: QUERY_KEYS.postList({ order, major }),
     queryFn: ({ pageParam = 0 }) => fetchGetPostList({ offset: pageParam as number, order, major }),
     initialPageParam: 0,
     getPreviousPageParam: (firstPage) =>
