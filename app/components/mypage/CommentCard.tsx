@@ -57,7 +57,7 @@ const TitleP = styled.p`
   align-items: center;
   ${({ theme }) => theme.font.body1}
   color: ${({ theme }) => theme.color.label.normal};
-  margin: 8px 0 20px 0;
+  margin-top: 8px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
