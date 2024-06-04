@@ -1,26 +1,49 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import styled from 'styled-components';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { UserPost, UserComment } from '../type';
-import CommentComp from '../common/CommentComp/CommentCompRegacy';
+import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import PostComp from '../common/PostComp';
+import CommentCard from './CommentCard';
+import PostCard from './PostCard';
 
 const FilterListLayoutDiv = styled.div`
   display: flex;
   flex-direction: row;
+  padding: 0 25px;
+  margin: 16px 0;
 `;
 
 const FilterListButton = styled.button<{ $isActive: boolean }>`
-  font-size: 20px;
-  padding: 8px 10px;
+  padding: 4px 8px;
+  ${({ theme }) => theme.font.body3}
+  background-color: ${({ theme, $isActive }) =>
+    $isActive ? theme.color.primary.normal : theme.color.palette.coolNeutral99};
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.color.static.light : theme.color.interaction.inactive};
   border-radius: 8px;
-  background-color: ${({ $isActive }) => ($isActive ? '#c3c3c3' : 'white')};
-  border: 1px solid #c3c3c3;
 
   &:not(:last-child) {
-    margin-right: 14px;
+    margin-right: 10px;
   }
+`;
+
+const ModifyButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  width: 32px;
+  height: 28px;
+  background: ${({ theme }) => theme.color.palette.deepSkyBlue99};
+  border-radius: 8px;
+  padding: 2px 4px;
 `;
 
 const filterList = [
@@ -36,6 +59,10 @@ const filterList = [
     text: '댓글',
     value: 'comment',
   },
+  {
+    text: '임시저장',
+    value: 'temp_post',
+  },
 ];
 
 type Props = {
@@ -46,6 +73,12 @@ const ActivityContentInner = (props: Props) => {
   const { list } = props;
   const [filter, setFilter] = useState<string>(filterList[0].value);
   const [filteredList, setFilteredList] = useState<Array<UserPost | UserComment>>([]);
+
+  const { push } = useRouter();
+
+  const handleModifyClick = (id: number) => {
+    push(`qna/${id}/modify`);
+  };
 
   useEffect(() => {
     switch (filter) {
@@ -73,10 +106,22 @@ const ActivityContentInner = (props: Props) => {
       </FilterListLayoutDiv>
 
       {filteredList.map((v, idx) =>
-        v.type === 'post' ? (
-          <PostComp.PostCompRegacy key={`post-${idx}`} {...(v as UserPost)} isModify />
+        v.type === 'post' || v.type === 'temp_post' ? (
+          <PostCard key={`post-${idx}`} {...(v as UserPost)} isDelete>
+            {v.type === 'post' && <PostComp.ReactionCount emojiCount={999} commentCount={3} />}
+
+            {/* TODO: post.id로 변경 */}
+            <ModifyButton onClick={() => handleModifyClick(10)}>
+              <Image
+                alt="수정 아이콘"
+                src={`${IMAGE_CDN}/icon/ModifyButton_active.png`}
+                width={24}
+                height={24}
+              />
+            </ModifyButton>
+          </PostCard>
         ) : (
-          <CommentComp key={`comment-${idx}`} {...(v as UserComment)} isDelete />
+          <CommentCard {...(v as UserComment)} />
         ),
       )}
     </>

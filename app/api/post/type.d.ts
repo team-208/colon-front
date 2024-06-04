@@ -23,6 +23,7 @@ export type PostListOrderTypes = 'DATE_DESC';
 
 export interface GetPostListQuery {
   order: PostListOrderTypes;
+  major: JOB_GROUP_TYPES | 'ALL';
   offset: number;
 }
 

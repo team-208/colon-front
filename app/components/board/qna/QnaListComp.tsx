@@ -5,11 +5,10 @@ import styled from 'styled-components';
 import FilterHeaderComp from '@/app/components/common/FilterHeaderComp';
 import SelectorComp from '../../common/SelectorComp';
 import usePostListQuery from '@/app/api/post/queries';
-import { PostListItem } from '@/app/api/post/type';
-import { isEmpty } from 'lodash';
+import { GetPostListQuery, PostListItem } from '@/app/api/post/type';
 import QuestionCard from '../../common/QuestionCard';
-import dayjs from 'dayjs';
 import Link from 'next/link';
+import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 
 const SelectorContainerDiv = styled.div`
   width: 100%;
@@ -34,11 +33,15 @@ const ListWrapperUl = styled.ul`
 
 const QnaListComp = () => {
   const [postList, setPostList] = useState<PostListItem[]>([]);
+  const [filter, setFilter] = useState<Omit<GetPostListQuery, 'offset'>>({
+    order: 'DATE_DESC',
+    major: 'ALL',
+  });
 
-  const { data } = usePostListQuery('DATE_DESC');
+  const { data } = usePostListQuery(filter);
 
-  const chagneFilter = useCallback((idx: number) => {
-    // TODO: filterMenu 따른 질문카드 영역 처리
+  const chagneFilter = useCallback((major: JOB_GROUP_TYPES | 'ALL') => {
+    setFilter((prev) => ({ ...prev, major }));
   }, []);
 
   const changeSort = useCallback((idx: number) => {
@@ -46,18 +49,19 @@ const QnaListComp = () => {
   }, []);
 
   useEffect(() => {
-    if (isEmpty(postList) && data?.pages) {
+    if (data?.pages) {
       setPostList(data?.pages[0].list);
     }
+    // TODO: infinite scroll 적용 필요.
   }, [data]);
 
   return (
     <>
       <FilterHeaderComp>
-        <FilterHeaderComp.Menu idx={0} text="전체" clickEvent={chagneFilter} />
-        <FilterHeaderComp.Menu idx={1} text="기획" clickEvent={chagneFilter} />
-        <FilterHeaderComp.Menu idx={2} text="개발" clickEvent={chagneFilter} />
-        <FilterHeaderComp.Menu idx={3} text="디자인" clickEvent={chagneFilter} />
+        <FilterHeaderComp.Menu idx={0} text="전체" clickEvent={() => chagneFilter('ALL')} />
+        <FilterHeaderComp.Menu idx={1} text="기획" clickEvent={() => chagneFilter('PLANNING')} />
+        <FilterHeaderComp.Menu idx={2} text="개발" clickEvent={() => chagneFilter('DEVELOP')} />
+        <FilterHeaderComp.Menu idx={3} text="디자인" clickEvent={() => chagneFilter('DESIGN')} />
       </FilterHeaderComp>
       <SelectorContainerDiv>
         <SelectorComp defaultOption={{ idx: 0, text: '최신순' }}>
