@@ -40,12 +40,9 @@ const QnaListComp = () => {
 
   const { data } = usePostListQuery(filter);
 
-  const chagneFilter = useCallback(
-    (major: JOB_GROUP_TYPES | 'ALL') => {
-      setFilter({ ...filter, major });
-    },
-    [filter],
-  );
+  const chagneFilter = useCallback((major: JOB_GROUP_TYPES | 'ALL') => {
+    setFilter((prev) => ({ ...prev, major }));
+  }, []);
 
   const changeSort = useCallback((idx: number) => {
     // TODO: sortMenu에 따른 질문카드 영역 처리
