@@ -122,7 +122,7 @@ const ActivityContentInner = (props: Props) => {
             </ModifyButton>
           </PostCard>
         ) : (
-          <CommentCard {...(v as UserComment)} />
+          <CommentCard key={`comment-${idx}`} {...(v as UserComment)} />
         ),
       )}
     </>
