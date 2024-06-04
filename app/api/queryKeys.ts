@@ -9,12 +9,14 @@ const postList = ({ order, major }: Omit<GetPostListQuery, 'offset'>) => [
   `/${order}`,
   `/${major}`,
 ];
+const postSearch = (word: string) => ['post', `/${word}`];
 const commentList = (postId: string) => ['comment', `/${postId}`];
 
 const QUERY_KEYS = {
   authUserSession,
   authNickName,
   postId,
+  postSearch,
   postList,
   commentList,
 };
