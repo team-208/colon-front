@@ -14,7 +14,7 @@ const FilterListLayoutDiv = styled.div`
   display: flex;
   flex-direction: row;
   padding: 0 25px;
-  margin: 16px 0;
+  margin: 16px 0 !important;
 `;
 
 const FilterListButton = styled.button<{ $isActive: boolean }>`
