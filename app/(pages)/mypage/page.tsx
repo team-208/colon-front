@@ -1,6 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
+import HeaderComp from '@/app/components/common/\bHeaderComp';
 import SectionComp from '@/app/components/common/SectionComp';
 import ProfileComp from '@/app/components/mypage/ProfileComp';
 import TabsComp from '@/app/components/mypage/TabsComp';
@@ -27,6 +28,7 @@ const StaticHeightDiv = styled.div`
 export default function MyPage() {
   return (
     <ContainerMain>
+      <HeaderComp.BasicHeader />
       <SectionComp direction="row" padding="0">
         <ProfileComp />
       </SectionComp>

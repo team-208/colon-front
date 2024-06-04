@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import HeaderComp from '@/app/components/common/\bHeaderComp';
 import SectionComp from '@/app/components/common/SectionComp';
 import QnADetailContent from '@/app/components/board/qna/QnADetail/QnADetailContent';
 import QnACommentList from '@/app/components/board/qna/QnADetail/QnACommentList';
@@ -26,6 +27,7 @@ const QuestionPage = async ({ params }: Props) => {
 
   return (
     <main>
+      <HeaderComp.SearchHeader />
       <SectionComp direction="column" padding="0">
         <QnADetailContent post={post} />
       </SectionComp>
