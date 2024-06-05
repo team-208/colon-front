@@ -47,4 +47,3 @@ const ConfirmHeader = () => {
 };
 
 export default ConfirmHeader;
-export type ConfirmHeaderType = { ConfirmHeader: typeof ConfirmHeader };

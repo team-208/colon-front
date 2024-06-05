@@ -108,4 +108,3 @@ const SearchHeader = () => {
 };
 
 export default SearchHeader;
-export type SearchHeaderType = { SearchHeader: typeof SearchHeader };

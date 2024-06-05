@@ -38,4 +38,3 @@ const BasicHeader = () => {
 };
 
 export default BasicHeader;
-export type BasicHeaderType = { BasicHeader: typeof BasicHeader };

@@ -50,4 +50,3 @@ const CancelHeader = () => {
 };
 
 export default CancelHeader;
-export type CancelHeaderType = { CancelHeader: typeof CancelHeader };
