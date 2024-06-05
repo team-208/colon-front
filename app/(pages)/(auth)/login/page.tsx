@@ -1,6 +1,6 @@
 'use client';
 
-import HeaderComp from '@/app/components/common/\bHeaderComp';
+import BasicHeader from '@/app/components/common/BasicHeader';
 import Section from '@/app/components/common/Section';
 import useAuth from '@/app/hooks/useAuth';
 import { getHost } from '@/app/utils/host';
@@ -176,7 +176,7 @@ export default function Login() {
 
   return (
     <ContainerMain>
-      <HeaderComp.BasicHeader />
+      <BasicHeader />
       <Section direction="column" padding="0 20px">
         <TitleP>{`풀리지 않던 궁금증을\n해소하는 곳`}</TitleP>
 

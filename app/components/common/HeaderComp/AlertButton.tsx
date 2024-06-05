@@ -19,3 +19,4 @@ const AlertButton = () => {
 };
 
 export default AlertButton;
+export type AlertButtonType = { AlertButton: typeof AlertButton };

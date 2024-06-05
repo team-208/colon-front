@@ -38,3 +38,4 @@ export const ProfileButton = () => {
 };
 
 export default ProfileButton;
+export type ProfileButtonType = { ProfileButton: typeof ProfileButton };

@@ -25,3 +25,4 @@ const Logo = ({ margin }: Props) => {
 };
 
 export default Logo;
+export type LogoType = { Logo: typeof Logo };

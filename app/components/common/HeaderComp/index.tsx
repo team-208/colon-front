@@ -1,15 +1,16 @@
-import BasicHeader, { BasicHeaderType } from './BasicHeader';
-import SearchHeader, { SearchHeaderType } from './SearchHeader';
-import CancelHeader, { CancelHeaderType } from './CancelHeader';
-import ConfirmHeader, { ConfirmHeaderType } from './ConfirmHeader';
+import Container, { ContainerType } from './Container';
+import Logo, { LogoType } from './Logo';
+import Navigation, { NavigationType } from './Navigation';
+import SearchButton, { SearchButtonType } from './SearchButton';
+import AlertButton, { AlertButtonType } from './AlertButton';
+import ProfileButton, { ProfileButtonType } from './ProfileButton';
 
-const HeaderComp: BasicHeaderType &
-  SearchHeaderType &
-  CancelHeaderType &
-  ConfirmHeaderType = () => <></>;
+const HeaderComp: ContainerType & LogoType & NavigationType & SearchButtonType & ProfileButtonType & AlertButtonType = () => <></>;
 
-HeaderComp.BasicHeader = BasicHeader;
-HeaderComp.SearchHeader = SearchHeader;
-HeaderComp.CancelHeader = CancelHeader;
-HeaderComp.ConfirmHeader = ConfirmHeader;
+HeaderComp.Container = Container;
+HeaderComp.Logo = Logo;
+HeaderComp.Navigation = Navigation;
+HeaderComp.SearchButton = SearchButton;
+HeaderComp.AlertButton = AlertButton;
+HeaderComp.ProfileButton = ProfileButton;
 export default HeaderComp;

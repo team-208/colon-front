@@ -3,13 +3,9 @@
 import { usePathname } from 'next/navigation';
 import styled from 'styled-components';
 
-import Container from './Container';
-import Logo from './Logo';
-import Navigation from './Navigation';
-import AlertButton from './AlertButton';
-import ProfileButton from './ProfileButton';
+import HeaderComp from './\bHeaderComp';
 
-const ContainerFlex = styled(Container)`
+const ContainerFlex = styled(HeaderComp.Container)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,14 +23,14 @@ const BasicHeader = () => {
   return (
     <ContainerFlex>
       <FlexRowDiv>
-        <Logo margin="0 24px 0 0" />
-        <Navigation />
+        <HeaderComp.Logo margin="0 24px 0 0" />
+        <HeaderComp.Navigation />
       </FlexRowDiv>
 
       {path !== '/' && (
         <FlexRowDiv>
-          <AlertButton />
-          <ProfileButton />
+          <HeaderComp.AlertButton />
+          <HeaderComp.ProfileButton />
         </FlexRowDiv>
       )}
     </ContainerFlex>

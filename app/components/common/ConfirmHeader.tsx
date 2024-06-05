@@ -1,9 +1,9 @@
 'use client';
 
 import styled from 'styled-components';
-import Container from './Container';
+import HeaderComp from './\bHeaderComp';
 
-const ContainerFlex = styled(Container)`
+const ContainerFlex = styled(HeaderComp.Container)`
   display: flex;
   justify-content: space-between;
   align-items: center;

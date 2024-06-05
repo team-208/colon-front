@@ -24,3 +24,4 @@ const SearchButton = ({ onClick }: Props) => {
 };
 
 export default SearchButton;
+export type SearchButtonType = { SearchButton: typeof SearchButton };

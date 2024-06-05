@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import Section from '../components/common/Section';
-import HeaderComp from '../components/common/\bHeaderComp';
+import BasicHeader from '../components/common/BasicHeader';
 import icon_arrow from '../assets/images/home/icon_arrow.png';
 import logo_kakao from '../assets/images/home/logo_kakao.png';
 import useAuth from '../hooks/useAuth';
@@ -146,7 +146,7 @@ export default function Home() {
 
   return (
     <main style={{ maxWidth: 'none' }}>
-      <HeaderComp.BasicHeader />
+      <BasicHeader />
       <ContainerInnerDiv>
         <Section direction="column" padding="0">
           <SquareP />

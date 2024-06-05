@@ -3,16 +3,11 @@
 import Image from 'next/image';
 import { useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
-import Container from './Container';
-import Logo from './Logo';
-import Navigation from './Navigation';
-import SearchButton from './SearchButton';
-import AlertButton from './AlertButton';
-import ProfileButton from './ProfileButton';
+import HeaderComp from './\bHeaderComp';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import icon_search from '@/app/assets/images/header/icon_search.png';
 
-const ContainerFlex = styled(Container)`
+const ContainerFlex = styled(HeaderComp.Container)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -89,8 +84,8 @@ const SearchHeader = () => {
   return (
     <ContainerFlex>
       <FlexRowDiv>
-        <Logo margin={isSearch ? '0' : '0 24px 0 0'} />
-        {!isSearch && <Navigation />}
+        <HeaderComp.Logo margin={isSearch ? '0' : '0 24px 0 0'} />
+        {!isSearch && <HeaderComp.Navigation />}
       </FlexRowDiv>
 
       {isSearch && (
@@ -104,9 +99,9 @@ const SearchHeader = () => {
       )}
 
       <FlexRowDiv>
-        {!isSearch && <SearchButton onClick={handleSearchClick} />}
-        <AlertButton />
-        <ProfileButton />
+        {!isSearch && <HeaderComp.SearchButton onClick={handleSearchClick} />}
+        <HeaderComp.AlertButton />
+        <HeaderComp.ProfileButton />
       </FlexRowDiv>
     </ContainerFlex>
   );

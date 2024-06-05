@@ -35,3 +35,4 @@ const Navigation = () => {
 };
 
 export default Navigation;
+export type NavigationType = { Navigation: typeof Navigation };
