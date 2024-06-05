@@ -1,7 +1,7 @@
 'use client';
 
 import HeaderComp from '@/app/components/common/\bHeaderComp';
-import SectionComp from '@/app/components/common/SectionComp';
+import Section from '@/app/components/common/Section';
 import useAuth from '@/app/hooks/useAuth';
 import { getHost } from '@/app/utils/host';
 import Image from 'next/image';
@@ -177,7 +177,7 @@ export default function Login() {
   return (
     <ContainerMain>
       <HeaderComp.BasicHeader />
-      <SectionComp direction="column" padding="0 20px">
+      <Section direction="column" padding="0 20px">
         <TitleP>{`풀리지 않던 궁금증을\n해소하는 곳`}</TitleP>
 
         <TempImageRegionDiv />
@@ -192,9 +192,9 @@ export default function Login() {
             </DescItemLi>
           ))}
         </DescUl>
-      </SectionComp>
+      </Section>
 
-      <SectionComp direction="column" padding="64px 20px 166px">
+      <Section direction="column" padding="64px 20px 166px">
         <LoginTitleP>지금 바로 함께하세요!</LoginTitleP>
         {/* TODO: 디자인 가이드 배포 후, 공용 모듈화 필요 */}
         <KakaoLoginButton onClick={handleClickKakao}>
@@ -203,7 +203,7 @@ export default function Login() {
         </KakaoLoginButton>
 
         <SignUpButton onClick={handleClickSignUp}>회원가입</SignUpButton>
-      </SectionComp>
+      </Section>
     </ContainerMain>
   );
 }

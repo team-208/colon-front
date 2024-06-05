@@ -11,19 +11,19 @@ interface Props {
   padding?: string;
 }
 
-const Section = styled.section<{ $dir: Direction; $padding: string }>`
+const Container = styled.section<{ $dir: Direction; $padding: string }>`
   display: flex;
   flex-direction: ${({ $dir }) => $dir};
   padding: ${({ $padding }) => $padding};
 `;
 
-const SectionComp = (props: Props) => {
+const Section = (props: Props) => {
   const { direction, children, padding } = props;
   return (
-    <Section $dir={direction} $padding={padding ?? '16px'}>
+    <Container $dir={direction} $padding={padding ?? '16px'}>
       {children}
-    </Section>
+    </Container>
   );
 };
 
-export default SectionComp;
+export default Section;

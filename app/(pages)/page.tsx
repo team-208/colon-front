@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import SectionComp from '../components/common/SectionComp';
+import Section from '../components/common/Section';
 import HeaderComp from '../components/common/\bHeaderComp';
 import icon_arrow from '../assets/images/home/icon_arrow.png';
 import logo_kakao from '../assets/images/home/logo_kakao.png';
@@ -146,9 +146,9 @@ export default function Home() {
 
   return (
     <main style={{ maxWidth: 'none' }}>
-      <HeaderComp.BasicHeader/>
+      <HeaderComp.BasicHeader />
       <ContainerInnerDiv>
-        <SectionComp direction="column" padding="0">
+        <Section direction="column" padding="0">
           <SquareP />
           <DescP2>
             <span>기획자</span> <span>개발자</span> <span>디자이너</span>가
@@ -158,9 +158,9 @@ export default function Home() {
             <br />
             소통하는 공간
           </DescP1>
-        </SectionComp>
+        </Section>
 
-        <SectionComp direction="column" padding="0">
+        <Section direction="column" padding="0">
           {/* TODO: publishing 예정. */}
           <BoxInnerDiv>
             {[1, 2, 3, 4, 5].map((v) => (
@@ -169,9 +169,9 @@ export default function Home() {
               </BoxDiv>
             ))}
           </BoxInnerDiv>
-        </SectionComp>
+        </Section>
 
-        <SectionComp direction="column" padding="0">
+        <Section direction="column" padding="0">
           <ImgContainerDiv>
             <Image alt="" src={icon_arrow} width={14} height={14} />
           </ImgContainerDiv>
@@ -179,7 +179,7 @@ export default function Home() {
             <Image alt="" src={logo_kakao} width={18} height={18} />
             카카오 로그인
           </KakaoLoginButton>
-        </SectionComp>
+        </Section>
       </ContainerInnerDiv>
     </main>
   );

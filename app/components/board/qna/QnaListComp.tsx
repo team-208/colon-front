@@ -2,8 +2,8 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import FilterHeaderComp from '@/app/components/common/FilterHeaderComp';
-import SelectorComp from '../../common/SelectorComp';
+import FilterHeader from '@/app/components/common/FilterHeader';
+import Selector from '../../common/Selector';
 import usePostListQuery from '@/app/api/post/queries';
 import { GetPostListQuery, PostListItem } from '@/app/api/post/type';
 import QuestionCard from '../../common/QuestionCard';
@@ -57,19 +57,19 @@ const QnaListComp = () => {
 
   return (
     <>
-      <FilterHeaderComp>
-        <FilterHeaderComp.Menu idx={0} text="전체" clickEvent={() => chagneFilter('ALL')} />
-        <FilterHeaderComp.Menu idx={1} text="기획" clickEvent={() => chagneFilter('PLANNING')} />
-        <FilterHeaderComp.Menu idx={2} text="개발" clickEvent={() => chagneFilter('DEVELOP')} />
-        <FilterHeaderComp.Menu idx={3} text="디자인" clickEvent={() => chagneFilter('DESIGN')} />
-      </FilterHeaderComp>
+      <FilterHeader>
+        <FilterHeader.Menu idx={0} text="전체" clickEvent={() => chagneFilter('ALL')} />
+        <FilterHeader.Menu idx={1} text="기획" clickEvent={() => chagneFilter('PLANNING')} />
+        <FilterHeader.Menu idx={2} text="개발" clickEvent={() => chagneFilter('DEVELOP')} />
+        <FilterHeader.Menu idx={3} text="디자인" clickEvent={() => chagneFilter('DESIGN')} />
+      </FilterHeader>
       <SelectorContainerDiv>
-        <SelectorComp defaultOption={{ idx: 0, text: '최신순' }}>
-          <SelectorComp.Option idx={0} text="최신순" clickEvent={changeSort} />
-          <SelectorComp.Option idx={1} text="반응순" clickEvent={changeSort} />
-          <SelectorComp.Option idx={2} text="답변순" clickEvent={changeSort} />
-          <SelectorComp.Option idx={3} text="스크랩순" clickEvent={changeSort} />
-        </SelectorComp>
+        <Selector defaultOption={{ idx: 0, text: '최신순' }}>
+          <Selector.Option idx={0} text="최신순" clickEvent={changeSort} />
+          <Selector.Option idx={1} text="반응순" clickEvent={changeSort} />
+          <Selector.Option idx={2} text="답변순" clickEvent={changeSort} />
+          <Selector.Option idx={3} text="스크랩순" clickEvent={changeSort} />
+        </Selector>
       </SelectorContainerDiv>
       {/* 질문카드 영역 */}
 

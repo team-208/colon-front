@@ -64,7 +64,7 @@ const OptionLi = styled.li<{ $isActive: boolean }>`
 
 const SelectorContext = createContext<Context | null>(null);
 
-const SelectorComp = ({ defaultOption, children }: Props) => {
+const Selector = ({ defaultOption, children }: Props) => {
   const [toggle, setToggle] = useState(false);
   const [curIdx, setCurIdx] = useState(defaultOption.idx);
   const [curText, setCurText] = useState(defaultOption.text);
@@ -116,6 +116,6 @@ const Option = ({ text, idx, clickEvent }: OptionProps) => {
   );
 };
 
-SelectorComp.Option = Option;
+Selector.Option = Option;
 
-export default SelectorComp;
+export default Selector;

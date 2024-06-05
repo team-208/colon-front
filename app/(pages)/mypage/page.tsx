@@ -2,9 +2,9 @@
 
 import styled from 'styled-components';
 import HeaderComp from '@/app/components/common/\bHeaderComp';
-import SectionComp from '@/app/components/common/SectionComp';
-import ProfileComp from '@/app/components/mypage/ProfileComp';
-import TabsComp from '@/app/components/mypage/TabsComp';
+import Section from '@/app/components/common/Section';
+import ProfileBox from '@/app/components/mypage/ProfileBox';
+import Tabs from '@/app/components/mypage/Tabs';
 import DeleteUserButton from '@/app/components/mypage/DeleteUserButton';
 
 const ContainerMain = styled.main`
@@ -29,12 +29,12 @@ export default function MyPage() {
   return (
     <ContainerMain>
       <HeaderComp.BasicHeader />
-      <SectionComp direction="row" padding="0">
-        <ProfileComp />
-      </SectionComp>
+      <Section direction="row" padding="0">
+        <ProfileBox />
+      </Section>
 
       <StaticHeightDiv>
-        <TabsComp />
+        <Tabs />
       </StaticHeightDiv>
 
       {/* <DeleteUserButton /> */}

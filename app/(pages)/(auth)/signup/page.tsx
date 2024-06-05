@@ -1,12 +1,12 @@
 import SignUpFormComp from '@/app/components/auth/signup/SignUpFormComp';
-import SectionComp from '@/app/components/common/SectionComp';
+import Section from '@/app/components/common/Section';
 
 export default function SignUp() {
   return (
     <main>
-      <SectionComp direction="column" padding="0">
+      <Section direction="column" padding="0">
         <SignUpFormComp />
-      </SectionComp>
+      </Section>
     </main>
   );
 }
