@@ -5,20 +5,22 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import logoImg from '../../../assets/images/logo.png';
 
-const LogoContainer = styled.div`
+interface Props {
+  margin?: string;
+}
+
+const LogoLink = styled(Link)<{ $margin: string }>`
   position: relative;
   width: 80px;
   height: 18px;
-  margin-right: 24px;
+  margin: ${({ $margin }) => $margin};
 `;
 
-const Logo = () => {
+const Logo = ({ margin }: Props) => {
   return (
-    <Link href="/">
-      <LogoContainer>
-        <Image alt="" src={logoImg} sizes="80px" fill />
-      </LogoContainer>
-    </Link>
+    <LogoLink href="/" $margin={margin || '0'}>
+      <Image alt="" src={logoImg} sizes="80px" fill />
+    </LogoLink>
   );
 };
 

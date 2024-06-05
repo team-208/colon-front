@@ -27,7 +27,7 @@ const BasicHeader = () => {
   return (
     <ContainerFlex>
       <FlexRowDiv>
-        <Logo />
+        <Logo margin="0 24px 0 0" />
         <Navigation />
       </FlexRowDiv>
 
