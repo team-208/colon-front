@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 
 interface Props {
-  children?: ReactNode;
+  children: ReactNode;
   isActive: boolean;
   defaultHeight?: number;
 }
