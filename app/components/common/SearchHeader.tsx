@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import HeaderComp from './\bHeaderComp';
+import Divider from './DividerComp';
+import DropDown from './DropDown';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import icon_search from '@/app/assets/images/header/icon_search.png';
 
@@ -23,7 +25,6 @@ const FlexRowDiv = styled.div`
 
 const SearchInputContainer = styled.div`
   position: relative;
-  display: flex;
   max-width: 700px;
   width: 100%;
   height: 100%;
@@ -56,6 +57,90 @@ const SearchInput = styled.input`
   }
 `;
 
+const DropDownInnerDiv = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 24px 20px;
+`;
+
+const MarginDivider = styled(Divider.Horizonal)`
+  margin: 16px 0;
+`;
+
+const ListTitleP = styled.p`
+  ${({ theme }) => theme.font.heading2}
+  margin-bottom: 16px;
+`;
+
+const PostLi = styled.li`
+  display: flex;
+  flex-direction: row;
+
+  img {
+    margin-right: 12px;
+  }
+
+  p {
+    ${({ theme }) => theme.font.body1}
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  &:not(:last-of-type) {
+    margin-bottom: 8px;
+  }
+`;
+
+const CommentLi = styled.li`
+  display: flex;
+  flex-direction: row;
+
+  img {
+    margin: 0 12px;
+  }
+
+  p {
+    ${({ theme }) => theme.font.body2}
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  &:not(:last-of-type) {
+    margin-bottom: 16px;
+  }
+`;
+
+const DropDownFooterDiv = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 24px;
+`;
+
+const MoreButton = styled.button`
+  width: 160px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    ${({ theme }) => theme.font.body1}
+    color: ${({ theme }) => theme.color.primary.normal};
+    margin-right: 10px;
+  }
+`;
+
 const CancelButton = styled.button`
   display: flex;
   justify-content: center;
@@ -67,39 +152,137 @@ const CancelButton = styled.button`
   transform: translateY(-50%);
 `;
 
+const postList = [
+  {
+    title:
+      '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
+  },
+  {
+    title:
+      '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
+  },
+  {
+    title:
+      '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
+  },
+];
+
+const commentList = [
+  {
+    title: '글 제목',
+    text: '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
+  },
+  {
+    title: '글 제목',
+    text: '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
+  },
+  {
+    title: '글 제목',
+    text: '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
+  },
+];
+
 const SearchHeader = () => {
+  const [isActive, setIsActive] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleSearchClick = useCallback(() => {
-    setIsSearch((v) => !v);
+  const handleSearchButton = useCallback(() => {
+    setIsActive((v) => !v);
   }, []);
 
   const handleCancelButton = useCallback(() => {
-    setIsSearch((v) => !v);
+    setIsActive((v) => !v);
   }, []);
+
+  const handleMoreButton = useCallback(() => {}, []);
 
   const search = useCallback(() => {}, []);
 
   return (
     <ContainerFlex>
       <FlexRowDiv>
-        <HeaderComp.Logo margin={isSearch ? '0' : '0 24px 0 0'} />
-        {!isSearch && <HeaderComp.Navigation />}
+        <HeaderComp.Logo margin={isActive ? '0' : '0 24px 0 0'} />
+        {!isActive && <HeaderComp.Navigation />}
       </FlexRowDiv>
 
-      {isSearch && (
+      {isActive && (
         <SearchInputContainer>
           <SearchImage src={icon_search} alt="검색 아이콘" width={24} height={24} />
-          <SearchInput ref={inputRef} placeholder="검색어를 입력해주세요." onMouseEnter={search} />
+          <SearchInput
+            ref={inputRef}
+            placeholder="검색어를 입력해주세요."
+            onMouseEnter={search}
+            onBlur={() => {
+              setIsSearch(false);
+            }}
+            onFocus={() => {
+              setIsSearch(true);
+            }}
+          />
           <CancelButton onClick={handleCancelButton}>
             <Image src={`${IMAGE_CDN}/icon/Close.png`} alt="취소 아이콘" width={20} height={20} />
           </CancelButton>
+          <DropDown isActive={isSearch} defaultHeight={112}>
+            <DropDownInnerDiv>
+              <ListTitleP>질문</ListTitleP>
+              <ul>
+                {postList.map((post) => (
+                  <PostLi>
+                    <Image
+                      alt=""
+                      src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
+                      width={20}
+                      height={20}
+                    />
+                    <p>{post.title}</p>
+                  </PostLi>
+                ))}
+              </ul>
+              <MarginDivider height={1} />
+              <ListTitleP>답변</ListTitleP>
+              <ul>
+                {commentList.map((comment) => (
+                  <>
+                    <PostLi>
+                      <Image
+                        alt=""
+                        src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
+                        width={20}
+                        height={20}
+                      />
+                      <p>{comment.title}</p>
+                    </PostLi>
+                    <CommentLi>
+                      <Image
+                        alt=""
+                        src={`${IMAGE_CDN}/icon/Icon_Reply_gray.png`}
+                        width={20}
+                        height={20}
+                      />
+                      <p>{comment.text}</p>
+                    </CommentLi>
+                  </>
+                ))}
+              </ul>
+              <DropDownFooterDiv>
+                <MoreButton onClick={handleMoreButton}>
+                  <p>더 찾아보기</p>
+                  <Image
+                    alt="다음 아이콘"
+                    src={`${IMAGE_CDN}/icon/Arrow_Right_Blue.png`}
+                    width={24}
+                    height={24}
+                  />
+                </MoreButton>
+              </DropDownFooterDiv>
+            </DropDownInnerDiv>
+          </DropDown>
         </SearchInputContainer>
       )}
 
       <FlexRowDiv>
-        {!isSearch && <HeaderComp.SearchButton onClick={handleSearchClick} />}
+        {!isActive && <HeaderComp.SearchButton onClick={handleSearchButton} />}
         <HeaderComp.AlertButton />
         <HeaderComp.ProfileButton />
       </FlexRowDiv>
