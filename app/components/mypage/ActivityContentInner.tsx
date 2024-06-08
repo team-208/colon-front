@@ -66,6 +66,7 @@ const filterList = [
   },
 ];
 
+// TODO: api 디렉토리 post, comment type으로 변경 
 type Props = {
   list: Array<UserPost | UserComment>;
 };
@@ -108,7 +109,7 @@ const ActivityContentInner = (props: Props) => {
 
       {filteredList.map((v, idx) =>
         v.type === 'post' || v.type === 'temp_post' ? (
-          <PostCard key={`post-${idx}`} {...(v as UserPost)} isDelete>
+          <PostCard key={`post-${v.id}`} {...(v as UserPost)} isDelete>
             {v.type === 'post' && <PostComp.ReactionCount emojiCount={999} commentCount={3} />}
 
             {/* TODO: post.id로 변경 */}
@@ -122,7 +123,7 @@ const ActivityContentInner = (props: Props) => {
             </ModifyButton>
           </PostCard>
         ) : (
-          <CommentCard key={`comment-${idx}`} {...(v as UserComment)} />
+          <CommentCard key={`comment-${v.id}`} {...(v as UserComment)} />
         ),
       )}
     </>
