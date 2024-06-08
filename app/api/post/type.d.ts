@@ -4,7 +4,7 @@ import { JOB_GROUP_TYPES } from '../auth/user/type';
 export type POST_STATUS_TYPES = 'EDITING' | 'COMPLETE';
 
 export interface InsertPostRequest {
-  status: POST_STATUS;
+  status: POST_STATUS_TYPES;
   requested_major: JOB_GROUP_TYPES | 'ALL';
   title: string;
   body: string;
@@ -29,7 +29,7 @@ export interface GetPostListQuery {
 
 export interface PostListItem {
   id: number;
-  status: POST_STATUS;
+  status: POST_STATUS_TYPES;
   requested_major: JOB_GROUP_TYPES;
   title: string;
   body: string;
