@@ -14,10 +14,11 @@ const FilterListLayoutDiv = styled.div`
   display: flex;
   flex-direction: row;
   padding: 0 25px;
-  margin: 16px 0;
+  margin: 16px 0 !important;
 `;
 
 const FilterListButton = styled.button<{ $isActive: boolean }>`
+  min-width: 60px;
   padding: 4px 8px;
   ${({ theme }) => theme.font.body3}
   background-color: ${({ theme, $isActive }) =>
@@ -65,6 +66,7 @@ const filterList = [
   },
 ];
 
+// TODO: api 디렉토리 post, comment type으로 변경 
 type Props = {
   list: Array<UserPost | UserComment>;
 };
@@ -107,7 +109,7 @@ const ActivityContentInner = (props: Props) => {
 
       {filteredList.map((v, idx) =>
         v.type === 'post' || v.type === 'temp_post' ? (
-          <PostCard key={`post-${idx}`} {...(v as UserPost)} isDelete>
+          <PostCard key={`post-${v.id}`} {...(v as UserPost)} isDelete>
             {v.type === 'post' && <PostComp.ReactionCount emojiCount={999} commentCount={3} />}
 
             {/* TODO: post.id로 변경 */}
@@ -121,7 +123,7 @@ const ActivityContentInner = (props: Props) => {
             </ModifyButton>
           </PostCard>
         ) : (
-          <CommentCard {...(v as UserComment)} />
+          <CommentCard key={`comment-${v.id}`} {...(v as UserComment)} />
         ),
       )}
     </>

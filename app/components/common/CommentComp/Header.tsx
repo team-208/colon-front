@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import { JOB_GROUP_LABELS } from '../constants';
+import { JOB_GROUP_LABELS } from '../../constants';
 import { dateText } from '@/app/utils/text';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import dayjs from 'dayjs';

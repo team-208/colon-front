@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
-import { JOB_GROUP_LABELS } from '../common/constants';
+import { JOB_GROUP_LABELS } from '../constants';
 import { Post } from '@/app/types/data';
 import { ReactNode } from 'react';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
@@ -78,6 +78,7 @@ const MajorP = styled.p`
 
 const NicknameP = styled.p`
   ${({ theme }) => theme.font.caption1}
+  font-weight: 700;
   color: ${({ theme }) => theme.color.label.normal};
   margin-left: 6px;
 `;
@@ -99,6 +100,7 @@ const TitleP = styled.p`
 
 const PreviewBodyP = styled.p`
   ${({ theme }) => theme.font.body2}
+  font-weight: 400;
   color: #333438;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -124,7 +126,6 @@ const PostCard = ({
   children,
   isDelete,
 }: Props) => {
-  
   const handleDeleteClick = () => {
     // TODO: post 삭제 api 연동
   };
