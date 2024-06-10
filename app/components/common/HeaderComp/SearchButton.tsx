@@ -18,7 +18,7 @@ const Button = styled.button`
 const SearchButton = ({ onClick }: Props) => {
   return (
     <Button onClick={onClick}>
-      <Image alt="검색 아이콘" src={icon_search} fill sizes="24px" />
+      <Image alt="검색 아이콘" src={icon_search} width={24} height={24} />
     </Button>
   );
 };
