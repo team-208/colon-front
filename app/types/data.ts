@@ -2,6 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { JOB_GROUP_TYPES } from '../api/auth/user/type';
 
 export interface Post {
+  id: number;
   status: string;
   requestedMajor: JOB_GROUP_TYPES;
   title: string;

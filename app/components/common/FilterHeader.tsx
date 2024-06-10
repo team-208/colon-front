@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useContext, createContext, ReactNode } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface Props {
   defaultIdx?: number;
@@ -30,10 +30,16 @@ const FilterLi = styled.li<{ $isActive: boolean }>`
   cursor: pointer;
   padding: 5px 16.5px;
   ${({ theme }) => theme.font.body3}
-  color: ${({ theme, $isActive }) =>
-    $isActive ? theme.color.label.normal : theme.color.interaction.inactive};
   ${({ theme, $isActive }) =>
-    $isActive && `border-bottom: 2px solid ${theme.color.primary.normal};`}
+    $isActive
+      ? css`
+          color: ${theme.color.label.normal};
+          border-bottom: 2px solid ${theme.color.primary.normal};
+        `
+      : css`
+          color: ${theme.color.interaction.inactive};
+          font-weight: 400;
+        `}
 
   &:not(:last-of-type) {
     margin-right: 4px;

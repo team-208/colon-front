@@ -9,6 +9,7 @@ import ProfileImageComp from './ProfileImage';
 import { isEmpty } from 'lodash';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
+import { JOB_GROUP_LABELS } from '../constants';
 
 interface UpdateUserRequest {
   profile_url?: string;
@@ -87,6 +88,8 @@ const CancelButton = styled.button`
 
 const TagP = styled.p`
   width: fit-content;
+  min-width: 57px;
+  text-align: center;
   ${({ theme }) => theme.font.caption1}
   color: ${({ theme }) => theme.color.primary.normal};
   background-color: ${({ theme }) => theme.color.palette.deepSkyBlue99};
@@ -126,7 +129,7 @@ const ProfileBox = () => {
   const nicknameInputRef = useRef<HTMLInputElement | null>(null);
   const [updateProfile, setUpdateProfile] = useState<File | null>(null);
   const [isModify, setIsModify] = useState(false);
-  const [major, setMajor] = useState<JOB_GROUP_TYPES>((userInfo?.user.major as JOB_GROUP_TYPES));
+  const [major, setMajor] = useState<JOB_GROUP_TYPES>(userInfo?.user.major as JOB_GROUP_TYPES);
 
   const createUpateData = async (): Promise<UpdateUserRequest> => {
     let updateData: UpdateUserRequest = {};
@@ -223,7 +226,7 @@ const ProfileBox = () => {
                     />
                   </ModifyButton>
                 </NicknameP>
-                <TagP>{userInfo.user.major}</TagP>
+                <TagP>{JOB_GROUP_LABELS[userInfo.user.major]}</TagP>
               </>
             )}
           </ProfileTextDiv>

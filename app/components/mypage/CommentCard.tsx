@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
-import { JOB_GROUP_LABELS } from '../common/constants';
+import { JOB_GROUP_LABELS } from '../constants';
 import { UserComment } from '../type';
 import CommentComp from '../common/CommentComp';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
@@ -57,7 +57,7 @@ const TitleP = styled.p`
   align-items: center;
   ${({ theme }) => theme.font.body1}
   color: ${({ theme }) => theme.color.label.normal};
-  margin: 8px 0 20px 0;
+  margin-top: 8px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -116,6 +116,7 @@ const NicknameP = styled.p`
 
 const CommentTextP = styled.p`
   ${({ theme }) => theme.font.body3}
+  font-weight: 400;
   color: ${({ theme }) => theme.color.label.normal};
   margin: 8px 0 10px 0;
 `;
