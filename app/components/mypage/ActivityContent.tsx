@@ -36,6 +36,7 @@ const commentList: Array<UserComment> = [
 
 const postList: Array<UserPost> = [
   {
+    id: 1,
     status: 'COMPLETE',
     requestedMajor: 'DEVELOP',
     title: '글 제목',
@@ -50,6 +51,7 @@ const postList: Array<UserPost> = [
     type: 'post',
   },
   {
+    id: 2,
     status: 'EDITING',
     requestedMajor: 'DEVELOP',
     title: '작성 중인 글 저장 공간 입니다.',

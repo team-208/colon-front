@@ -41,3 +41,4 @@ const Container = ({ children, ...props }: Props) => {
 };
 
 export default Container;
+export type ContainerType = { Container: typeof Container };

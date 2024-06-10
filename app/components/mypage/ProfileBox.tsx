@@ -5,7 +5,7 @@ import { useState, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import useProfileMutation from '@/app/api/auth/profile/mutations';
 import useAuth from '@/app/hooks/useAuth';
-import ProfileImageComp from './ProfileImageComp';
+import ProfileImageComp from './ProfileImage';
 import { isEmpty } from 'lodash';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
@@ -122,7 +122,7 @@ const TagButton = styled.button<{ $isActive: boolean }>`
   }
 `;
 
-const ProfileComp = () => {
+const ProfileBox = () => {
   const { logout, userInfo, updateUser } = useAuth();
   const { mutateAsync: profileMutation } = useProfileMutation();
 
@@ -236,4 +236,4 @@ const ProfileComp = () => {
   );
 };
 
-export default ProfileComp;
+export default ProfileBox;

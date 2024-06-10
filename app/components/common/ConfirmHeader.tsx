@@ -1,9 +1,9 @@
 'use client';
 
 import styled from 'styled-components';
-import Container from './Container';
+import HeaderComp from './HeaderComp';
 
-const ContainerFlex = styled(Container)`
+const ContainerFlex = styled(HeaderComp.Container)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -47,4 +47,3 @@ const ConfirmHeader = () => {
 };
 
 export default ConfirmHeader;
-export type ConfirmHeaderType = { ConfirmHeader: typeof ConfirmHeader };

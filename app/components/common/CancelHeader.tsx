@@ -2,11 +2,9 @@
 
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
-import Container from './Container';
-import AlertButton from './AlertButton';
-import ProfileButton from './ProfileButton';
+import HeaderComp from './HeaderComp';
 
-const ContainerFlex = styled(Container)`
+const ContainerFlex = styled(HeaderComp.Container)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -44,12 +42,11 @@ const CancelHeader = () => {
       <CancelButton onClick={handleCancelClick}>취소</CancelButton>
 
       <FlexRowDiv>
-        <AlertButton />
-        <ProfileButton />
+        <HeaderComp.AlertButton />
+        <HeaderComp.ProfileButton />
       </FlexRowDiv>
     </ContainerFlex>
   );
 };
 
 export default CancelHeader;
-export type CancelHeaderType = { CancelHeader: typeof CancelHeader };

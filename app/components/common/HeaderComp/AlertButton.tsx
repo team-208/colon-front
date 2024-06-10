@@ -13,9 +13,10 @@ const Button = styled.button`
 const AlertButton = () => {
   return (
     <Button>
-      <Image alt="알림 아이콘" src={icon_bell} fill sizes="24px" />
+      <Image alt="알림 아이콘" src={icon_bell} width={24} height={24} />
     </Button>
   );
 };
 
 export default AlertButton;
+export type AlertButtonType = { AlertButton: typeof AlertButton };

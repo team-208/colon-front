@@ -32,9 +32,10 @@ export const ProfileButton = () => {
 
   return (
     <Button onClick={handleProfileClick}>
-      <Image alt="프로필 이미지" src={`${PROFILE_CDN}/${profileUrl}`} fill sizes="36px" />
+      <Image alt="프로필 이미지" src={`${PROFILE_CDN}/${profileUrl}`} width={36} height={36} />
     </Button>
   );
 };
 
 export default ProfileButton;
+export type ProfileButtonType = { ProfileButton: typeof ProfileButton };

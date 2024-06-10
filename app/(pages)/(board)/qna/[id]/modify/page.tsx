@@ -1,8 +1,8 @@
 'use client';
 
 import usePostQuery from '@/app/api/post/[id]/queries';
-import HeaderComp from '@/app/components/common/\bHeaderComp';
-import SectionComp from '@/app/components/common/SectionComp';
+import CancelHeader from '@/app/components/common/CancelHeader';
+import Section from '@/app/components/common/Section';
 import WriteFormComp from '@/app/components/board/qna/write/WriteFormComp';
 
 interface Props {
@@ -14,10 +14,10 @@ const ModifyPage = ({ params }: Props) => {
 
   return (
     <main>
-      <HeaderComp.CancelHeader />
-      <SectionComp direction="column" padding="0">
+      <CancelHeader />
+      <Section direction="column" padding="0">
         {data && <WriteFormComp defaultPost={data} />}
-      </SectionComp>
+      </Section>
     </main>
   );
 };

@@ -38,7 +38,7 @@ const ModifyImageDiv = styled.div`
   z-index: 5;
 `;
 
-const ProfileImageComp = (props: Props) => {
+const ProfileImage = (props: Props) => {
   const { userInfo } = useAuth();
   const { isModify, updateProfileFile } = props;
   const [profile, setProfile] = useState<File | null>(null);
@@ -88,4 +88,4 @@ const ProfileImageComp = (props: Props) => {
   );
 };
 
-export default ProfileImageComp;
+export default ProfileImage;

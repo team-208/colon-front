@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import FilterHeaderComp from '../common/FilterHeaderComp';
+import FilterHeader from '../common/FilterHeader';
 import ReactionContent from '@/app/components/mypage/ReactionContent';
 import ScrapContent from '@/app/components/mypage/ScrapContent';
 import ActivityContent from '@/app/components/mypage/ActivityContent';
@@ -21,7 +21,7 @@ const TabContentDiv = styled.div`
 
 const contentList: JSX.Element[] = [<ReactionContent />, <ScrapContent />, <ActivityContent />];
 
-const TabsComp = () => {
+const Tabs = () => {
   const [content, setContent] = useState<JSX.Element>(contentList[0]);
 
   const changeFilter = (idx: number) => {
@@ -30,11 +30,11 @@ const TabsComp = () => {
 
   return (
     <TabTableDiv>
-      <FilterHeaderComp>
-        <FilterHeaderComp.Menu idx={0} text="반응한 글" clickEvent={changeFilter} />
-        <FilterHeaderComp.Menu idx={1} text="스크랩" clickEvent={changeFilter} />
-        <FilterHeaderComp.Menu idx={2} text="활동 내역" clickEvent={changeFilter} />
-      </FilterHeaderComp>
+      <FilterHeader>
+        <FilterHeader.Menu idx={0} text="반응한 글" clickEvent={changeFilter} />
+        <FilterHeader.Menu idx={1} text="스크랩" clickEvent={changeFilter} />
+        <FilterHeader.Menu idx={2} text="활동 내역" clickEvent={changeFilter} />
+      </FilterHeader>
       <React.Suspense fallback={<div>...loading</div>}>
         <TabContentDiv>{content}</TabContentDiv>
       </React.Suspense>
@@ -42,4 +42,4 @@ const TabsComp = () => {
   );
 };
 
-export default TabsComp;
+export default Tabs;

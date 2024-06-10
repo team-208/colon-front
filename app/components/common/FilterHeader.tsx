@@ -48,7 +48,7 @@ const FilterLi = styled.li<{ $isActive: boolean }>`
 
 const FilterHeaderContext = createContext<FilterHeaderContext | null>(null);
 
-const FilterHeaderComp = ({ defaultIdx, children }: Props) => {
+const FilterHeader = ({ defaultIdx, children }: Props) => {
   const [curIdx, setCurIdx] = useState(defaultIdx ?? 0);
 
   const provider = { curIdx, setCurIdx };
@@ -78,6 +78,6 @@ const Menu = ({ idx, text, clickEvent }: MenuProps) => {
   );
 };
 
-FilterHeaderComp.Menu = Menu;
+FilterHeader.Menu = Menu;
 
-export default FilterHeaderComp;
+export default FilterHeader;

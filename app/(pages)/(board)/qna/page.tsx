@@ -1,8 +1,8 @@
 'use client';
 
 import styled from 'styled-components';
-import HeaderComp from '@/app/components/common/\bHeaderComp';
-import SectionComp from '@/app/components/common/SectionComp';
+import SearchHeader from '@/app/components/common/SearchHeader';
+import Section from '@/app/components/common/Section';
 import TopArea from '@/app/components/board/qna/TopArea';
 import QnaListComp from '@/app/components/board/qna/QnaListComp';
 
@@ -19,11 +19,11 @@ const ContainerMain = styled.main`
 const QnaPage = () => {
   return (
     <ContainerMain>
-      <HeaderComp.SearchHeader />
-      <SectionComp direction="column" padding="0">
+      <SearchHeader />
+      <Section direction="column" padding="0">
         <TopArea />
         <QnaListComp />
-      </SectionComp>
+      </Section>
     </ContainerMain>
   );
 };

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import HeaderComp from '@/app/components/common/\bHeaderComp';
-import SectionComp from '@/app/components/common/SectionComp';
+import SearchHeader from '@/app/components/common/SearchHeader';
+import Section from '@/app/components/common/Section';
 import QnADetailContent from '@/app/components/board/qna/QnADetail/QnADetailContent';
 import QnACommentList from '@/app/components/board/qna/QnADetail/QnACommentList';
 import QnACommentWrite from '@/app/components/board/qna/QnADetail/QnACommentWrite';
@@ -27,16 +27,16 @@ const QuestionPage = async ({ params }: Props) => {
 
   return (
     <main>
-      <HeaderComp.SearchHeader />
-      <SectionComp direction="column" padding="0">
+      <SearchHeader />
+      <Section direction="column" padding="0">
         <QnADetailContent post={post} />
-      </SectionComp>
-      <SectionComp direction="column" padding="0">
+      </Section>
+      <Section direction="column" padding="0">
         <QnACommentList postId={params.id} acceptedCommentId={post.accepted_comment_id} />
-      </SectionComp>
-      <SectionComp direction="column" padding="0">
+      </Section>
+      <Section direction="column" padding="0">
         <QnACommentWrite postId={params.id} />
-      </SectionComp>
+      </Section>
     </main>
   );
 };
