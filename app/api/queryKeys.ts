@@ -1,3 +1,4 @@
+import { GetHistoryQuery } from './auth/history/type';
 import { GetPostListQuery } from './post/type';
 
 const authUserSession = ['auth', 'user'];
@@ -11,6 +12,7 @@ const postList = ({ order, major }: Omit<GetPostListQuery, 'offset'>) => [
 ];
 const postSearch = (word: string) => ['post', `/${word}`];
 const commentList = (postId: string) => ['comment', `/${postId}`];
+const historyList = ({ historyType }: GetHistoryQuery) => ['history', `/${historyType}`];
 
 const QUERY_KEYS = {
   authUserSession,
@@ -19,6 +21,7 @@ const QUERY_KEYS = {
   postSearch,
   postList,
   commentList,
+  historyList,
 };
 
 export default QUERY_KEYS;
