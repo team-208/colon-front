@@ -67,6 +67,7 @@ interface ReactionPost extends Post {
 const time = dayjs();
 const postList: Array<ReactionPost> = [
   {
+    id: 1,
     reaction: '👍🏻',
     scrap: true,
     status: 'COMPLETE',
@@ -82,6 +83,7 @@ const postList: Array<ReactionPost> = [
     author_profile_url: '/',
   },
   {
+    id: 2,
     reaction: '🥰',
     scrap: true,
     status: 'COMPLETE',
@@ -97,6 +99,7 @@ const postList: Array<ReactionPost> = [
     author_profile_url: '/',
   },
   {
+    id: 3,
     reaction: '🥰',
     scrap: true,
     status: 'COMPLETE',
@@ -112,6 +115,7 @@ const postList: Array<ReactionPost> = [
     author_profile_url: '/',
   },
   {
+    id: 4,
     reaction: '🥰',
     scrap: true,
     status: 'COMPLETE',
@@ -127,6 +131,7 @@ const postList: Array<ReactionPost> = [
     author_profile_url: '/',
   },
   {
+    id: 5,
     reaction: '👍🏻',
     scrap: false,
     status: 'COMPLETE',

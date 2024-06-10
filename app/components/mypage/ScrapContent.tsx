@@ -28,6 +28,7 @@ const ScrapButton = styled.button`
 
 const postList: Array<Post> = [
   {
+    id: 1,
     status: 'COMPLETE',
     requestedMajor: 'DEVELOP',
     title: '글 제목',
@@ -41,6 +42,7 @@ const postList: Array<Post> = [
     author_profile_url: '/',
   },
   {
+    id: 2,
     status: 'COMPLETE',
     requestedMajor: 'DEVELOP',
     title: '글 제목',
@@ -54,6 +56,7 @@ const postList: Array<Post> = [
     author_profile_url: '/',
   },
   {
+    id: 3,
     status: 'COMPLETE',
     requestedMajor: 'DEVELOP',
     title: '글 제목',
@@ -67,6 +70,7 @@ const postList: Array<Post> = [
     author_profile_url: '/',
   },
   {
+    id: 4,
     status: 'COMPLETE',
     requestedMajor: 'DEVELOP',
     title: '글 제목',
@@ -80,6 +84,7 @@ const postList: Array<Post> = [
     author_profile_url: '/',
   },
   {
+    id: 5,
     status: 'COMPLETE',
     requestedMajor: 'DEVELOP',
     title: '글 제목',
