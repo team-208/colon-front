@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
 import logoImg from '../../../assets/images/logo.png';
+import useAuth from '@/app/hooks/useAuth';
 
 interface Props {
   margin?: string;
@@ -17,8 +18,10 @@ const LogoLink = styled(Link)<{ $margin: string }>`
 `;
 
 const Logo = ({ margin }: Props) => {
+  const { userInfo } = useAuth();
+
   return (
-    <LogoLink href="/" $margin={margin || '0'}>
+    <LogoLink href={`${userInfo?.user ? '/qna' : '/'}`} $margin={margin || '0'}>
       <Image alt="" src={logoImg} sizes="80px" fill />
     </LogoLink>
   );
