@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import HeaderComp from './\bHeaderComp';
+import HeaderComp from './HeaderComp';
 
 const ContainerFlex = styled(HeaderComp.Container)`
   display: flex;

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
-import HeaderComp from './\bHeaderComp';
+import HeaderComp from './HeaderComp';
 import Divider from './DividerComp';
 import DropDown from './DropDown';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
