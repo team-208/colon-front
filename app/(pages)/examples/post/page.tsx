@@ -5,6 +5,7 @@ import usePostQuery from '@/app/api/post/[id]/queries';
 import { useInsertPostMutation } from '@/app/api/post/mutations';
 import usePostListQuery from '@/app/api/post/queries';
 import { useInsertPostScrapMutation } from '@/app/api/post/scrap/mutations';
+import usePostScrapQuery from '@/app/api/post/scrap/queries';
 
 export default function PostPage() {
   const { data } = usePostQuery('7');
@@ -13,6 +14,8 @@ export default function PostPage() {
   const { fetchNextPage, hasNextPage } = usePostListQuery({ order: 'DATE_DESC', major: 'ALL' });
 
   const { data: test } = useHistoryQuery({ historyType: 'ACTIVITY' });
+
+  const { data: scrapData } = usePostScrapQuery();
 
   const handleClick = async () => {
     await mutateAsync({
