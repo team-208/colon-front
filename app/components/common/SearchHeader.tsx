@@ -154,14 +154,17 @@ const CancelButton = styled.button`
 
 const postList = [
   {
+    id: 1,
     title:
       '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
   },
   {
+    id: 2,
     title:
       '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
   },
   {
+    id: 3,
     title:
       '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
   },
@@ -169,14 +172,17 @@ const postList = [
 
 const commentList = [
   {
+    id: 1,
     title: '글 제목',
     text: '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
   },
   {
+    id: 2,
     title: '글 제목',
     text: '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
   },
   {
+    id: 3,
     title: '글 제목',
     text: '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
   },
@@ -228,7 +234,7 @@ const SearchHeader = () => {
               <ListTitleP>질문</ListTitleP>
               <ul>
                 {postList.map((post) => (
-                  <PostLi>
+                  <PostLi key={`post-${post.id}`}>
                     <Image
                       alt=""
                       src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
@@ -243,7 +249,7 @@ const SearchHeader = () => {
               <ListTitleP>답변</ListTitleP>
               <ul>
                 {commentList.map((comment) => (
-                  <>
+                  <div key={`comment-${comment.id}`}>
                     <PostLi>
                       <Image
                         alt=""
@@ -262,7 +268,7 @@ const SearchHeader = () => {
                       />
                       <p>{comment.text}</p>
                     </CommentLi>
-                  </>
+                  </div>
                 ))}
               </ul>
               <DropDownFooterDiv>
