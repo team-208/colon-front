@@ -1,7 +1,6 @@
 import React from 'react';
 
 import ModalComp from '@/app/components/common/ModalComp';
-import styled from 'styled-components';
 
 interface Props {
   onConfirm: () => void;

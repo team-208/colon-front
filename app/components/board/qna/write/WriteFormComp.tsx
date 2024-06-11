@@ -168,6 +168,7 @@ export const WriteFormComp = (props: Props) => {
           <TempSaveCompleteModal
             onConfirm={() => {
               closeModal();
+              push(`/qna/${postId}/modify`);
             }}
             onCancel={() => {
               closeModal();
