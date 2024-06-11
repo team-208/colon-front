@@ -2,16 +2,21 @@
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { writeHeaderState } from '@/app/recoils';
+import { useSetRecoilState } from 'recoil';
 import { UnprivilegedEditor } from 'react-quill';
 import styled, { css } from 'styled-components';
 import { isEmpty } from 'lodash';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import useAuth from '@/app/hooks/useAuth';
+import useModal from '@/app/hooks/useModal';
 import { useInsertPostMutation } from '@/app/api/post/mutations';
 import { GetPostResponse } from '@/app/api/post/[id]/type';
 import { InsertPostRequest } from '@/app/api/post/type';
 import JobGroupList, { JOB_GROUP_LIST_TYPES } from './JobGroupList';
+import TempSaveModal from './TempSaveModal';
+import TempSaveCompleteModal from './TempSaveCompleteModal';
 import TagList from './TagList';
 import ButtonComp from '@/app/components/common/ButtomComp';
 
@@ -96,15 +101,20 @@ export const WriteFormComp = (props: Props) => {
     isCheck: false,
     list: [],
   });
+  const setHeader = useSetRecoilState(writeHeaderState);
 
+  const { openModal, closeModal } = useModal();
   const { userInfo } = useAuth();
   const { mutateAsync: postMutation } = useInsertPostMutation();
   const { push } = useRouter();
 
-  const handleClickSave = async (isTemporary: boolean) => {
+  const handleClickSave = async (isTemporary: boolean, callback: (id: number) => void) => {
     if (pendingRef.current) return;
 
-    // TODO: 로그인한 유저가 아니라면 접근 자체를 막기 - 작성메이지 단에서 처리
+    // TODO: 임시저장글 작성 or 글 수정 처리
+    if (defaultPost) return;
+
+    // TODO: 로그인한 유저가 아니라면 접근 자체를 막기 - 작성페이지 단에서 처리
     if (isEmpty(userInfo)) return;
     if (validate()) return;
 
@@ -121,9 +131,9 @@ export const WriteFormComp = (props: Props) => {
       // tags: [],
     };
 
-    await postMutation(post);
+    const { postId } = await postMutation(post);
     pendingRef.current = false;
-    push('/qna');
+    callback(postId);
   };
 
   const validate = (): boolean => {
@@ -146,14 +156,64 @@ export const WriteFormComp = (props: Props) => {
     return val.isCheck && val.list.includes(str);
   };
 
-  const setEditor = (editor: UnprivilegedEditor) => {
+  const setEditor = useCallback((editor: UnprivilegedEditor) => {
     contentRef.current.html = editor.getHTML();
     contentRef.current.text = editor.getText().replaceAll('\n', ' ');
-  };
+  }, []);
+
+  const oepnTempSaveCompleteModal = useCallback((postId: number) => {
+    openModal({
+      modalProps: {
+        contents: (
+          <TempSaveCompleteModal
+            onConfirm={() => {
+              closeModal();
+            }}
+            onCancel={() => {
+              closeModal();
+              push(`/qna/${postId}`);
+            }}
+          />
+        ),
+      },
+    });
+  }, []);
+
+  const openTempSaveModal = useCallback(() => {
+    openModal({
+      modalProps: {
+        contents: (
+          <TempSaveModal
+            onConfirm={() => {
+              handleClickSave(true, (id) => {
+                oepnTempSaveCompleteModal(id);
+              });
+              closeModal();
+            }}
+            onCancel={() => {
+              closeModal();
+              push('/qna');
+            }}
+          />
+        ),
+      },
+    });
+  }, [oepnTempSaveCompleteModal, handleClickSave]);
+
+  useEffect(() => {
+    setHeader({
+      onCancel: openTempSaveModal,
+    });
+  }, [openTempSaveModal]);
 
   return (
     <ContainerDiv>
-      <JobGroupList jobGroup={major} onClick={(v) => setMajor(v)} />
+      <JobGroupList
+        jobGroup={major}
+        onClick={(v) => {
+          setMajor(v);
+        }}
+      />
       <ErrorDiv $isError={errorCheck('title')}>
         <TitleInputDiv>
           <input
@@ -171,13 +231,21 @@ export const WriteFormComp = (props: Props) => {
         <ButtonComp.Solid
           text="질문하기"
           size="lg"
-          onClick={() => handleClickSave(false)}
+          onClick={() =>
+            handleClickSave(false, () => {
+              push('/qna');
+            })
+          }
           isActive
         />
         <ButtonComp.OutlinedPrimary
           text="임시저장"
           size="lg"
-          onClick={() => handleClickSave(true)}
+          onClick={() =>
+            handleClickSave(true, () => {
+              push('/qna');
+            })
+          }
           isActive
         />
       </ButtonLayoutDiv>

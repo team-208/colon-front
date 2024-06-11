@@ -1,11 +1,11 @@
 import Section from '@/app/components/common/Section';
 import WriteFormcomp from '@/app/components/board/qna/write/WriteFormComp';
-import CancelHeader from '@/app/components/common/CancelHeader';
+import WriteHeader from '@/app/components/board/qna/write/WriteHeader';
 
 const WritePage = () => {
   return (
     <main>
-      <CancelHeader/>
+      <WriteHeader />
       <Section direction="column" padding="0">
         <WriteFormcomp />
       </Section>

@@ -3,6 +3,10 @@
 import styled from 'styled-components';
 import HeaderComp from './HeaderComp';
 
+interface Props {
+  onCancel: () => void;
+}
+
 const ContainerFlex = styled(HeaderComp.Container)`
   display: flex;
   justify-content: space-between;
@@ -27,10 +31,10 @@ const CancelButton = styled.button`
   }
 `;
 
-const CancelHeader = () => {
+const CancelHeader = ({ onCancel }: Props) => {
   return (
     <ContainerFlex>
-      <CancelButton>취소</CancelButton>
+      <CancelButton onClick={onCancel}>취소</CancelButton>
 
       <FlexRowDiv>
         <HeaderComp.AlertButton />

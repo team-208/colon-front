@@ -1,13 +1,15 @@
 interface RecoilKeyProps {
   scrollState: string;
   modalState: string;
-  headerState: string;
+  mypageHeaderState: string;
+  writeHeaderState: string;
 }
 
 const RECOIL_KEYS: RecoilKeyProps = {
   scrollState: 'scrollState',
   modalState: 'modalState',
-  headerState: 'headerState',
+  mypageHeaderState: 'mypageHeaderState',
+  writeHeaderState: 'writeHeaderState',
 };
 
 export {

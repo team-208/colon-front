@@ -7,9 +7,8 @@ const myPageHeaderInitValue = {
   onCancel: () => {},
 };
 
-// /mypage 가 아니면 isModify false
 export const myPageHeaderState = atom({
-  key: RECOIL_KEYS.headerState,
+  key: RECOIL_KEYS.mypageHeaderState,
   default: myPageHeaderInitValue,
   effects: [
     ({ setSelf, onSet }: any) => {
@@ -18,4 +17,11 @@ export const myPageHeaderState = atom({
       });
     },
   ],
+});
+
+export const writeHeaderState = atom({
+  key: RECOIL_KEYS.writeHeaderState,
+  default: {
+    onCancel: () => {},
+  },
 });

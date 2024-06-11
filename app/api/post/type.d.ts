@@ -17,6 +17,7 @@ export interface InsertPostRequest {
 
 export interface InsertPostResponse {
   success: boolean;
+  postId: number;
 }
 
 export type PostListOrderTypes = 'DATE_DESC';
