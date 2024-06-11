@@ -5,7 +5,7 @@ import CancelHeader from '@/app/components/common/CancelHeader';
 const WritePage = () => {
   return (
     <main>
-      <CancelHeader />
+      <CancelHeader/>
       <Section direction="column" padding="0">
         <WriteFormcomp />
       </Section>

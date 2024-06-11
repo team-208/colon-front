@@ -1,7 +1,6 @@
 'use client';
 
 import styled from 'styled-components';
-import { useRouter } from 'next/navigation';
 import HeaderComp from './HeaderComp';
 
 const ContainerFlex = styled(HeaderComp.Container)`
@@ -21,7 +20,6 @@ const CancelButton = styled.button`
   height: 36px;
   padding: 8px 10px;
   color: #989ba2;
-  margin-left: 95px;
   ${({ theme }) => theme.font.body2}
 
   ${({ theme }) => theme.mediaQuery.mobile} {
@@ -30,16 +28,9 @@ const CancelButton = styled.button`
 `;
 
 const CancelHeader = () => {
-  const { push } = useRouter();
-
-  // 임시
-  const handleCancelClick = () => {
-    push('/qna');
-  };
-
   return (
     <ContainerFlex>
-      <CancelButton onClick={handleCancelClick}>취소</CancelButton>
+      <CancelButton>취소</CancelButton>
 
       <FlexRowDiv>
         <HeaderComp.AlertButton />
