@@ -93,8 +93,8 @@ const QnaListComp = () => {
             author_profile_url,
           } = post;
           return idx === postList.length - 1 ? (
-            <div key={`post-list-item-${post.id}`} ref={observerRef}>
-              <li>
+            <li key={`post-list-item-${post.id}`}>
+              <div ref={observerRef}>
                 <Link href={`/qna/${post.id}`}>
                   <QuestionCard
                     id={id}
@@ -111,8 +111,8 @@ const QnaListComp = () => {
                     author_profile_url={author_profile_url}
                   />
                 </Link>
-              </li>
-            </div>
+              </div>
+            </li>
           ) : (
             <li key={`post-list-item-${post.id}`}>
               <Link href={`/qna/${post.id}`}>
