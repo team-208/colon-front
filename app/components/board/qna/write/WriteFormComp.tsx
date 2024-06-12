@@ -205,6 +205,12 @@ export const WriteFormComp = (props: Props) => {
     setHeader({
       onCancel: openTempSaveModal,
     });
+
+    return () => {
+      setHeader({
+        onCancel: () => {},
+      });
+    };
   }, [openTempSaveModal]);
 
   return (

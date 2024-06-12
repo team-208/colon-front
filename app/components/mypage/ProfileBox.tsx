@@ -212,8 +212,9 @@ const ProfileBox = () => {
     return () => {
       setHeader((cur) => {
         return {
-          ...cur,
           isModify: false,
+          onConfirm: () => {},
+          onCancel: () => {},
         };
       });
     };
