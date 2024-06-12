@@ -125,7 +125,7 @@ const TagButton = styled.button<{ $isActive: boolean }>`
 `;
 
 const ProfileBox = () => {
-  const { logout, userInfo, updateUser } = useAuth();
+  const { userInfo, updateUser } = useAuth();
   const { mutateAsync: profileMutation } = useProfileMutation();
   const setHeader = useSetRecoilState(myPageHeaderState);
 
@@ -179,31 +179,44 @@ const ProfileBox = () => {
       await updateUser(updateData);
       handleHeaderCancel();
     }
-  }, []);
+  }, [createUpateData]);
 
-  const handleModifyButton = () => {
+  const handleModifyButton = useCallback(() => {
     setIsModify(true);
 
-    setHeader({
-      isModify: true,
-      onConfirm: handleHeaderConfirm,
-      onCancel: handleHeaderCancel,
+    setHeader((cur) => {
+      return {
+        ...cur,
+        isModify: true,
+      };
     });
-  };
+  }, []);
 
-  const handleCancelButton = () => {
+  const handleCancelButton = useCallback(() => {
     if (!nicknameInputRef.current) return;
 
     nicknameInputRef.current.value = '';
-  };
+  }, []);
 
   useEffect(() => {
     setHeader((cur) => {
       return {
         ...cur,
-        isModify: false,
+        onConfirm: handleHeaderConfirm,
+        onCancel: handleHeaderCancel,
       };
     });
+  }, [handleHeaderConfirm, handleHeaderCancel]);
+
+  useEffect(() => {
+    return () => {
+      setHeader((cur) => {
+        return {
+          ...cur,
+          isModify: false,
+        };
+      });
+    };
   }, []);
 
   return (

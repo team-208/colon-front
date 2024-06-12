@@ -32,7 +32,6 @@ const CompleteButton = styled.button`
   background: ${({ theme }) => theme.color.palette.deepSkyBlue99};
   border-radius: 10px;
   padding: 8px 16px;
-  margin-right: 95px;
   ${({ theme }) => theme.font.body2}
   color: ${({ theme }) => theme.color.primary.normal};
 
