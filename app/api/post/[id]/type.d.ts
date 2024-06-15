@@ -19,7 +19,7 @@ export interface GetPostResponse {
 
 export interface UpdatePostRequest {
   id: number;
-  status?: POST_STATUS_TYPES;
+  status: POST_STATUS_TYPES;
   requested_major?: JOB_GROUP_TYPES;
   title?: string;
   body?: { data: string; created_at: string };

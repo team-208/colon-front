@@ -48,6 +48,7 @@ export default function PostPage() {
 
     postModifyMutation({
       id: 34,
+      status: 'COMPLETE',
       title: '타이틀 변경',
       body: { data: '변경', created_at: data?.created_at },
     });
