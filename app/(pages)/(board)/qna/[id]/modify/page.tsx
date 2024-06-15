@@ -12,6 +12,8 @@ interface Props {
 const ModifyPage = ({ params }: Props) => {
   const { data } = usePostQuery(params.id);
 
+  // TODO: 글 수정권한 체크 페이지 리라우팅 처리
+
   return (
     <main>
       <CancelHeader />
