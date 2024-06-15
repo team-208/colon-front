@@ -22,7 +22,7 @@ export interface UpdatePostRequest {
   status?: POST_STATUS_TYPES;
   requested_major?: JOB_GROUP_TYPES;
   title?: string;
-  body?: string;
+  body?: { data: string; created_at: string };
   preview_body?: string;
   tags?: string[];
 }

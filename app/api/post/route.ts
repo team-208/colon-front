@@ -19,9 +19,11 @@ export async function POST(request: Request) {
       const { session } = userSession;
       const userId = session?.user.id;
 
+      const createdDate = dayjs();
+
       const { data: postData, error: postError } = await supabase.storage
         .from('posts')
-        .upload(`${dayjs().format('YYYYMMDDHHmmss')}_${userId}.txt`, bodyData.body, {
+        .upload(`${createdDate.format('YYYYMMDDHHmmss')}_${userId}.txt`, bodyData.body, {
           upsert: true,
         });
       if (postError) {
@@ -50,7 +52,7 @@ export async function POST(request: Request) {
           author_profile_url,
           author_nickname,
           body_url: postData?.path,
-          created_at: dayjs(),
+          created_at: createdDate,
           updated_at: dayjs(),
         },
       ]);

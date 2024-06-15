@@ -56,6 +56,23 @@ export async function PUT(request: Request, { params }: { params: Params }) {
   const bodyData = await request.json();
 
   try {
+    const { data: userSession } = await supabase.auth.getSession();
+
+    const { session } = userSession;
+    const userId = session?.user.id;
+    if (bodyData.body) {
+      const { created_at, data } = bodyData.body;
+      const { error: storageError } = await supabase.storage
+        .from('posts')
+        .update(`${dayjs(created_at).format('YYYYMMDDHHmmss')}_${userId}.txt`, data);
+
+      if (storageError) {
+        return NextResponse.json({ success: false, storageError });
+      }
+    }
+
+    delete bodyData.body;
+
     const { error } = await supabase
       .from('posts')
       .update({ ...bodyData, updated_at: dayjs() })

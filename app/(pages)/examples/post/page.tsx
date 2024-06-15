@@ -9,7 +9,7 @@ import usePostScrapQuery from '@/app/api/post/scrap/queries';
 import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
 
 export default function PostPage() {
-  const { data } = usePostQuery('7');
+  const { data } = usePostQuery('34');
   const { mutateAsync } = useInsertPostMutation();
   const { mutateAsync: postScrapMutation } = useInsertPostScrapMutation();
   const { mutateAsync: postModifyMutation } = useModifyPostMutation();
@@ -44,9 +44,12 @@ export default function PostPage() {
   };
 
   const handleClickUpdate = async () => {
+    if (!data) return;
+
     postModifyMutation({
-      id: 33,
+      id: 34,
       title: '타이틀 변경',
+      body: { data: '변경', created_at: data?.created_at },
     });
   };
 
