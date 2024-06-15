@@ -7,6 +7,10 @@ const useTooltip = () => {
 
   const visibleTooltip = (props: TooltipTypes) => {
     setTooltipState({ ...props, isVisible: true });
+
+    setTimeout(() => {
+      setTooltipState({ ...props, isVisible: false });
+    }, 2000);
   };
 
   return {
