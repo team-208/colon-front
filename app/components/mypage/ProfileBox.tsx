@@ -1,7 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { myPageHeaderState } from '@/app/recoils';
+import { useSetRecoilState } from 'recoil';
 import styled, { css } from 'styled-components';
 import useProfileMutation from '@/app/api/auth/profile/mutations';
 import useAuth from '@/app/hooks/useAuth';
@@ -123,8 +125,9 @@ const TagButton = styled.button<{ $isActive: boolean }>`
 `;
 
 const ProfileBox = () => {
-  const { logout, userInfo, updateUser } = useAuth();
+  const { userInfo, updateUser } = useAuth();
   const { mutateAsync: profileMutation } = useProfileMutation();
+  const setHeader = useSetRecoilState(myPageHeaderState);
 
   const nicknameInputRef = useRef<HTMLInputElement | null>(null);
   const [updateProfile, setUpdateProfile] = useState<File | null>(null);
@@ -135,7 +138,7 @@ const ProfileBox = () => {
     let updateData: UpdateUserRequest = {};
 
     const updateNickName = nicknameInputRef.current?.value as string;
-    if (updateNickName !== userInfo?.user.nick_name) {
+    if (updateNickName && updateNickName !== userInfo?.user.nick_name) {
       updateData.nick_name = updateNickName;
     }
 
@@ -157,22 +160,65 @@ const ProfileBox = () => {
     return updateData;
   };
 
-  const handleModifyButton = async () => {
-    setIsModify((v) => !v);
-    if (isModify) {
-      const updateData = await createUpateData();
-
-      if (!isEmpty(updateData)) {
-        await updateUser(updateData);
-        setUpdateProfile(null);
-      }
-    }
-  };
-
-  const handleCancelButton = () => {
+  const handleHeaderCancel = useCallback(() => {
     setIsModify(false);
     setUpdateProfile(null);
-  };
+
+    setHeader((cur) => {
+      return {
+        ...cur,
+        isModify: false,
+      };
+    });
+  }, []);
+
+  const handleHeaderConfirm = useCallback(async () => {
+    const updateData = await createUpateData();
+
+    if (!isEmpty(updateData)) {
+      await updateUser(updateData);
+      handleHeaderCancel();
+    }
+  }, [createUpateData]);
+
+  const handleModifyButton = useCallback(() => {
+    setIsModify(true);
+
+    setHeader((cur) => {
+      return {
+        ...cur,
+        isModify: true,
+      };
+    });
+  }, []);
+
+  const handleCancelButton = useCallback(() => {
+    if (!nicknameInputRef.current) return;
+
+    nicknameInputRef.current.value = '';
+  }, []);
+
+  useEffect(() => {
+    setHeader((cur) => {
+      return {
+        ...cur,
+        onConfirm: handleHeaderConfirm,
+        onCancel: handleHeaderCancel,
+      };
+    });
+  }, [handleHeaderConfirm, handleHeaderCancel]);
+
+  useEffect(() => {
+    return () => {
+      setHeader((cur) => {
+        return {
+          isModify: false,
+          onConfirm: () => {},
+          onCancel: () => {},
+        };
+      });
+    };
+  }, []);
 
   return (
     <>
@@ -193,7 +239,7 @@ const ProfileBox = () => {
                     <CancelButton onClick={handleCancelButton}>
                       <Image
                         src={`${IMAGE_CDN}/icon/Close.png`}
-                        alt="수정 아이콘"
+                        alt="취소 아이콘"
                         width={18}
                         height={18}
                       />
@@ -203,13 +249,13 @@ const ProfileBox = () => {
                 <LabelDiv>
                   <label>직군</label>
                   <TagButton $isActive={major === 'DEVELOP'} onClick={() => setMajor('DEVELOP')}>
-                    개발자
+                    {JOB_GROUP_LABELS['DEVELOP']}
                   </TagButton>
                   <TagButton $isActive={major === 'PLANNING'} onClick={() => setMajor('PLANNING')}>
-                    기획자
+                    {JOB_GROUP_LABELS['PLANNING']}
                   </TagButton>
                   <TagButton $isActive={major === 'DESIGN'} onClick={() => setMajor('DESIGN')}>
-                    디자이너
+                    {JOB_GROUP_LABELS['DESIGN']}
                   </TagButton>
                 </LabelDiv>
               </>
