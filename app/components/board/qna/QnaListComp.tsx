@@ -9,6 +9,7 @@ import { GetPostListQuery, PostListItem } from '@/app/api/post/type';
 import QuestionCard from '../../common/QuestionCard';
 import Link from 'next/link';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
+import useObserver from '@/app/hooks/useObserver';
 
 const SelectorContainerDiv = styled.div`
   width: 100%;
@@ -39,6 +40,9 @@ const QnaListComp = () => {
   });
 
   const { data } = usePostListQuery(filter);
+  const { observerRef } = useObserver(true, () => {
+    // TODO: Infinity scroll 구현
+  });
 
   const chagneFilter = useCallback((major: JOB_GROUP_TYPES | 'ALL') => {
     setFilter((prev) => ({ ...prev, major }));
@@ -52,7 +56,6 @@ const QnaListComp = () => {
     if (data?.pages) {
       setPostList(data?.pages[0].list);
     }
-    // TODO: infinite scroll 적용 필요.
   }, [data]);
 
   return (
@@ -74,7 +77,7 @@ const QnaListComp = () => {
       {/* 질문카드 영역 */}
 
       <ListWrapperUl>
-        {postList.map((post) => {
+        {postList.map((post, idx) => {
           const {
             id,
             status,
@@ -89,7 +92,28 @@ const QnaListComp = () => {
             author_major,
             author_profile_url,
           } = post;
-          return (
+          return idx === postList.length - 1 ? (
+            <li key={`post-list-item-${post.id}`}>
+              <div ref={observerRef}>
+                <Link href={`/qna/${post.id}`}>
+                  <QuestionCard
+                    id={id}
+                    status={status}
+                    requested_major={requested_major}
+                    title={title}
+                    body={body}
+                    preview_body={preview_body}
+                    tags={tags}
+                    created_at={created_at}
+                    updated_at={updated_at}
+                    author_nickname={author_nickname}
+                    author_major={author_major}
+                    author_profile_url={author_profile_url}
+                  />
+                </Link>
+              </div>
+            </li>
+          ) : (
             <li key={`post-list-item-${post.id}`}>
               <Link href={`/qna/${post.id}`}>
                 <QuestionCard
