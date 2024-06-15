@@ -15,7 +15,7 @@ interface Props {
   postId: number;
   emojiCount: number;
   commentCount: number;
-  isScrap: boolean;
+  isScrap?: boolean;
 }
 
 const ContainerDiv = styled.div`
