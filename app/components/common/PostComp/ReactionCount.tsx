@@ -50,6 +50,10 @@ const ReactionCount = ({ className, postId, emojiCount, commentCount, isScrap }:
   const { mutateAsync } = useInsertPostScrapMutation();
 
   const handleClickScrap = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (isScrap === undefined) {
+      return;
+    }
+
     e.preventDefault();
     const res = await mutateAsync({ postId });
     if (res.success) {
