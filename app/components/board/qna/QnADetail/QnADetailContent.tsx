@@ -9,6 +9,8 @@ import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import React, { useMemo } from 'react';
 import { GetPostResponse } from '@/app/api/post/[id]/type';
+import usePostScrapQuery from '@/app/api/post/scrap/queries';
+import usePostQuery from '@/app/api/post/[id]/queries';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -108,6 +110,7 @@ const QnAReactionCount = styled(PostComp.ReactionCount)`
 
 const QnADetailContent = ({ post }: Props) => {
   const {
+    id,
     status,
     requested_major,
     title,
@@ -118,7 +121,15 @@ const QnADetailContent = ({ post }: Props) => {
     author_nickname,
     author_major,
   } = post;
+
+  // TODO: tanstack query hydrate 적용 필요.
+  const { data: userScrapData } = usePostScrapQuery();
+
   const isComplete = useMemo(() => status === 'COMPLETE', []);
+  const isScrap = useMemo(
+    () => userScrapData?.list.find((item) => item.post_id === id),
+    [userScrapData],
+  );
 
   return (
     <ConatinerArticle>
@@ -148,7 +159,7 @@ const QnADetailContent = ({ post }: Props) => {
 
       <TagListUl>{tags?.map((tag, idx) => <li key={`qna-tag-${idx}`}>{tag}</li>)}</TagListUl>
 
-      <QnAReactionCount emojiCount={8} commentCount={3} />
+      <QnAReactionCount postId={id} emojiCount={8} commentCount={3} isScrap={!!isScrap} />
 
       <DividerComp.Horizonal height={1} />
     </ConatinerArticle>

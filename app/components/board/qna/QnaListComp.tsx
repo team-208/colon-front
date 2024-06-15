@@ -9,6 +9,7 @@ import { GetPostListQuery, PostListItem } from '@/app/api/post/type';
 import QuestionCard from '../../common/QuestionCard';
 import Link from 'next/link';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
+import usePostScrapQuery from '@/app/api/post/scrap/queries';
 
 const SelectorContainerDiv = styled.div`
   width: 100%;
@@ -39,6 +40,7 @@ const QnaListComp = () => {
   });
 
   const { data } = usePostListQuery(filter);
+  const { data: userScrapData } = usePostScrapQuery();
 
   const chagneFilter = useCallback((major: JOB_GROUP_TYPES | 'ALL') => {
     setFilter((prev) => ({ ...prev, major }));
@@ -89,6 +91,9 @@ const QnaListComp = () => {
             author_major,
             author_profile_url,
           } = post;
+
+          const isScrap = userScrapData?.list.find((item) => item.post_id === id);
+
           return (
             <li key={`post-list-item-${post.id}`}>
               <Link href={`/qna/${post.id}`}>
@@ -105,6 +110,7 @@ const QnaListComp = () => {
                   author_nickname={author_nickname}
                   author_major={author_major}
                   author_profile_url={author_profile_url}
+                  isScrap={!!isScrap}
                 />
               </Link>
             </li>
