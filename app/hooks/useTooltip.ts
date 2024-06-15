@@ -6,7 +6,7 @@ const useTooltip = () => {
   const [_tooltipState, setTooltipState] = useRecoilState(tooltipState);
 
   const visibleTooltip = (props: TooltipTypes) => {
-    setTooltipState({ ...props, visible: true });
+    setTooltipState({ ...props, isVisible: true });
   };
 
   return {

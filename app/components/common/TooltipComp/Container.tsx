@@ -11,10 +11,10 @@ const ContainerDiv = styled.div`
 `;
 
 const Container = () => {
-  const [{ visible, tooltipProps }, setTooltip] = useRecoilState(tooltipState);
+  const [{ isVisible, tooltipProps }, setTooltip] = useRecoilState(tooltipState);
 
   useEffect(() => {
-    if (visible)
+    if (isVisible)
       setTimeout(() => {
         setTooltip((cur) => {
           return {
@@ -23,9 +23,9 @@ const Container = () => {
           };
         });
       }, 2000);
-  }, [visible]);
+  }, [isVisible]);
 
-  return <>{visible && <ContainerDiv>{tooltipProps.contents}</ContainerDiv>}</>;
+  return <>{isVisible && <ContainerDiv>{tooltipProps.contents}</ContainerDiv>}</>;
 };
 
 export default Container;

@@ -1,9 +1,9 @@
 export interface TooltipTypes {
   tooltipProps: {
-    contents: BasicType
+    contents: BasicType;
   };
 }
 
 export interface TooltipRecoilStateProps extends TooltipTypes {
-  visible: boolean;
+  isVisible: boolean;
 }

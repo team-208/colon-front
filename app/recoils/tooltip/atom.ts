@@ -3,9 +3,9 @@ import { TooltipRecoilStateProps } from '@/app/types/tooltipType';
 import { RECOIL_KEYS } from '../key.d';
 
 export const tooltipInitValue: TooltipRecoilStateProps = {
-  visible: false,
+  isVisible: false,
   tooltipProps: {
-    contents: ''
+    contents: '',
   },
 };
 
