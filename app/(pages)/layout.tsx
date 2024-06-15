@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import GlobalContainer from '../components/common/GlobalContainer';
 import ScrollBox from '../components/common/ScrollBox';
 import ModalComp from '../components/common/ModalComp';
+import TooltipComp from '../components/common/TooltipComp';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ScrollBox />
           {children}
           <ModalComp.Container />
+          <TooltipComp.Container />
         </GlobalContainer>
       </body>
     </html>

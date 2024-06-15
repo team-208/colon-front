@@ -3,6 +3,7 @@ interface RecoilKeyProps {
   modalState: string;
   mypageHeaderState: string;
   writeHeaderState: string;
+  tooltipState: string;
 }
 
 const RECOIL_KEYS: RecoilKeyProps = {
@@ -10,6 +11,7 @@ const RECOIL_KEYS: RecoilKeyProps = {
   modalState: 'modalState',
   mypageHeaderState: 'mypageHeaderState',
   writeHeaderState: 'writeHeaderState',
+  tooltipState: 'tooltipState',
 };
 
 export {
