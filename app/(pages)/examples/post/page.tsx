@@ -6,11 +6,13 @@ import { useInsertPostMutation } from '@/app/api/post/mutations';
 import usePostListQuery from '@/app/api/post/queries';
 import { useInsertPostScrapMutation } from '@/app/api/post/scrap/mutations';
 import usePostScrapQuery from '@/app/api/post/scrap/queries';
+import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
 
 export default function PostPage() {
   const { data } = usePostQuery('7');
   const { mutateAsync } = useInsertPostMutation();
   const { mutateAsync: postScrapMutation } = useInsertPostScrapMutation();
+  const { mutateAsync: postModifyMutation } = useModifyPostMutation();
   const { fetchNextPage, hasNextPage } = usePostListQuery({ order: 'DATE_DESC', major: 'ALL' });
 
   const { data: test } = useHistoryQuery({ historyType: 'ACTIVITY' });
@@ -41,6 +43,13 @@ export default function PostPage() {
     postScrapMutation({ postId: 7 });
   };
 
+  const handleClickUpdate = async () => {
+    postModifyMutation({
+      id: 33,
+      title: '타이틀 변경',
+    });
+  };
+
   return (
     <main>
       <p>post title : {data?.title}</p>
@@ -52,6 +61,7 @@ export default function PostPage() {
       <button onClick={handleClick}>post 추가</button>
       <button onClick={handleClickList}>다음 post list 조회</button>
       <button onClick={handleClickScrap}>7 post scrap</button>
+      <button onClick={handleClickUpdate}>33 post title update</button>
     </main>
   );
 }
