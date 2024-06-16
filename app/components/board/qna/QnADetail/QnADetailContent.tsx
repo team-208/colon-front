@@ -98,7 +98,9 @@ const TagListUl = styled.ul`
   }
 `;
 
-const QnAReactionCount = styled(PostComp.ReactionCount)`
+const PostFooterDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
   padding: 0 20px;
   margin: 28px 0 32px;
 
@@ -159,7 +161,10 @@ const QnADetailContent = ({ post }: Props) => {
 
       <TagListUl>{tags?.map((tag, idx) => <li key={`qna-tag-${idx}`}>{tag}</li>)}</TagListUl>
 
-      <QnAReactionCount postId={id} emojiCount={8} commentCount={3} isScrap={!!isScrap} />
+      <PostFooterDiv>
+        <PostComp.ReactionCount postId={id} emojiCount={8} commentCount={3} />
+        <PostComp.ScrapButton postId={id} isScrap={!!isScrap} />
+      </PostFooterDiv>
 
       <DividerComp.Horizonal height={1} />
     </ConatinerArticle>

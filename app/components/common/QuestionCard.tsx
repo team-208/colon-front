@@ -72,7 +72,9 @@ const ContentPreviewBodyP = styled.p`
   }
 `;
 
-const QnAReactionCount = styled(PostComp.ReactionCount)`
+const ContentFooterDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
   margin-top: 26px;
   color: ${({ theme }) => theme.color.label.normal};
 
@@ -178,7 +180,10 @@ const QuestionCard = ({
 
           <ContentPreviewBodyP>{preview_body}</ContentPreviewBodyP>
 
-          <QnAReactionCount postId={id} emojiCount={8} commentCount={3} isScrap={isScrap} />
+          <ContentFooterDiv>
+            <PostComp.ReactionCount postId={id} emojiCount={8} commentCount={3} />
+            <PostComp.ScrapButton postId={id} isScrap={!!isScrap} />
+          </ContentFooterDiv>
         </ContentDiv>
 
         <CommentDiv>
