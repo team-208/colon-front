@@ -44,7 +44,7 @@ const QnaListComp = () => {
     // TODO: Infinity scroll 구현
   });
 
-  const chagneFilter = useCallback((major: JOB_GROUP_TYPES | 'ALL') => {
+  const chagneFilter = useCallback((major: JOB_GROUP_TYPES) => {
     setFilter((prev) => ({ ...prev, major }));
   }, []);
 

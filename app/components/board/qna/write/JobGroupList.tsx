@@ -3,11 +3,9 @@ import React from 'react';
 import styled from 'styled-components';
 import ButtonComp from '@/app/components/common/ButtomComp';
 
-export type JOB_GROUP_LIST_TYPES = JOB_GROUP_TYPES | 'ALL';
-
 interface Props {
-  jobGroup: JOB_GROUP_LIST_TYPES | undefined;
-  onClick: (jopGrop: JOB_GROUP_LIST_TYPES) => void;
+  jobGroup: JOB_GROUP_TYPES | undefined;
+  onClick: (jopGrop: JOB_GROUP_TYPES) => void;
 }
 
 const ContainerDiv = styled.div`
