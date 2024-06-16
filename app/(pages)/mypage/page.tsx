@@ -1,8 +1,8 @@
 'use client';
 
 import styled from 'styled-components';
-import BasicHeader from '@/app/components/common/BasicHeader';
 import Section from '@/app/components/common/Section';
+import MyPageHeader from '@/app/components/mypage/MypageHeader';
 import ProfileBox from '@/app/components/mypage/ProfileBox';
 import Tabs from '@/app/components/mypage/Tabs';
 import DeleteUserButton from '@/app/components/mypage/DeleteUserButton';
@@ -28,7 +28,7 @@ const StaticHeightDiv = styled.div`
 export default function MyPage() {
   return (
     <ContainerMain>
-      <BasicHeader />
+      <MyPageHeader />
       <Section direction="row" padding="0">
         <ProfileBox />
       </Section>
@@ -36,7 +36,6 @@ export default function MyPage() {
       <StaticHeightDiv>
         <Tabs />
       </StaticHeightDiv>
-
       {/* <DeleteUserButton /> */}
     </ContainerMain>
   );

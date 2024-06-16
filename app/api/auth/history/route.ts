@@ -3,7 +3,7 @@ import { createClient } from '@/app/utils/supabase/server';
 import { getHost } from '@/app/utils/host';
 import { HISTORY_TYPES } from './type';
 import { PostListItem } from '../../post/type';
-import { GetCommentsResponseItem } from '../../comment/[postId]/type';
+import { PostScrapListItem } from '../../post/scrap/type';
 
 export async function GET(request: NextRequest, response: Response) {
   const host = getHost();
@@ -108,6 +108,51 @@ export async function GET(request: NextRequest, response: Response) {
       return NextResponse.json({
         success: true,
         list: res,
+      });
+    }
+
+    if (historyType === 'SCRAP') {
+      const { data: postHistory, error: postGetError } = await postQuery;
+
+      if (postGetError) {
+        return NextResponse.json({ success: false, postGetError });
+      }
+
+      const { data: scrapList, error: scrapGetError } = await supabase
+        .from('scraps')
+        .select('id, post_id, created_at')
+        .eq('user_id', userId);
+
+      if (scrapGetError) {
+        return NextResponse.json({ success: false, scrapGetError });
+      }
+
+      const postHistoryList = scrapList.map((scrap: PostScrapListItem) => {
+        const { post_id } = scrap;
+        const scrapedPost = postHistory.find((post) => post.id === post_id);
+
+        if (!scrapedPost) {
+          return undefined;
+        }
+
+        return {
+          type: 'POST',
+          post: {
+            postId: scrapedPost.id,
+            postStatus: scrapedPost.status,
+            postAuthorMajor: scrapedPost.author_major,
+            postRequestedMajor: scrapedPost.requested_major,
+            authorNickname: scrapedPost.author_nickname,
+            title: scrapedPost.title,
+            previewBody: scrapedPost.preview_body,
+          },
+          updatedAt: scrapedPost.updated_at,
+        };
+      });
+
+      return NextResponse.json({
+        success: true,
+        list: postHistoryList.filter((post) => !!post),
       });
     }
 
