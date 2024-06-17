@@ -11,14 +11,18 @@ import { isEmpty } from 'lodash';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import useAuth from '@/app/hooks/useAuth';
 import useModal from '@/app/hooks/useModal';
+import useTooltip from '@/app/hooks/useTooltip';
 import { useInsertPostMutation } from '@/app/api/post/mutations';
-import { GetPostResponse } from '@/app/api/post/[id]/type';
+import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
+import { GetPostResponse, UpdatePostRequest } from '@/app/api/post/[id]/type';
 import { InsertPostRequest } from '@/app/api/post/type';
 import JobGroupList from './JobGroupList';
 import TempSaveModal from './TempSaveModal';
 import TempSaveCompleteModal from './TempSaveCompleteModal';
 import TagList from './TagList';
 import ButtonComp from '@/app/components/common/ButtomComp';
+import TooltipComp from '@/app/components/common/TooltipComp';
+import { removeUndefinedValue } from '@/app/utils/converter';
 
 const QuillEditor = dynamic(() => import('@/app/components/common/QuillEditor'), { ssr: false });
 
@@ -91,7 +95,7 @@ const ErrorDiv = styled.div<{ $isError: boolean }>`
 export const WriteFormComp = (props: Props) => {
   const { defaultPost } = props;
   const titleRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef({ html: '', text: '' });
+  const contentRef = useRef({ html: defaultPost?.body || '', text: defaultPost?.preview_body || '' });
   const pendingRef = useRef(false);
 
   const [major, setMajor] = useState<JOB_GROUP_TYPES | undefined>(defaultPost?.requested_major);
@@ -99,39 +103,57 @@ export const WriteFormComp = (props: Props) => {
     isCheck: false,
     list: [],
   });
+
   const setHeader = useSetRecoilState(writeHeaderState);
 
   const { openModal, closeModal } = useModal();
+  const { visibleTooltip } = useTooltip();
   const { userInfo } = useAuth();
   const { mutateAsync: postMutation } = useInsertPostMutation();
-  const { push } = useRouter();
+  const { mutateAsync: modifyPostMutation } = useModifyPostMutation();
+  const { push, replace } = useRouter();
 
   const handleClickSave = async (isTemporary: boolean, callback: (id: number) => void) => {
     if (pendingRef.current) return;
 
-    // TODO: 임시저장글 작성 or 글 수정 처리
-    if (defaultPost) return;
-
     // TODO: 로그인한 유저가 아니라면 접근 자체를 막기 - 작성페이지 단에서 처리
     if (isEmpty(userInfo)) return;
-    if (validate()) return;
+    if (!validate()) return;
 
     pendingRef.current = true;
-    const post: InsertPostRequest = {
-      status: isTemporary ? 'EDITING' : 'COMPLETE',
-      requested_major: major as JOB_GROUP_TYPES,
-      title: titleRef.current?.value ?? '',
-      body: contentRef.current.html,
-      preview_body: contentRef.current.text,
-      author_major: userInfo?.user.major as JOB_GROUP_TYPES,
-      author_nickname: userInfo?.user.nick_name,
-      author_profile_url: userInfo?.user.profile_url,
-      // tags: [],
-    };
 
-    const { postId } = await postMutation(post);
+    if (defaultPost) {
+      const { id, requested_major, title, body, preview_body, created_at } = defaultPost;
+
+      const post: UpdatePostRequest = {
+        id,
+        status: isTemporary ? 'EDITING' : 'COMPLETE',
+        requested_major: requested_major !== major ? major : undefined,
+        title: title !== titleRef.current?.value ? titleRef.current?.value : undefined,
+        body: body !== contentRef.current.html ? { data: contentRef.current.html, created_at } : undefined,
+        preview_body: preview_body !== contentRef.current.text ? contentRef.current.text : undefined,
+      };
+
+      await modifyPostMutation(removeUndefinedValue(post) as UpdatePostRequest);
+      callback(id);
+    } else {
+      const post: InsertPostRequest = {
+        status: isTemporary ? 'EDITING' : 'COMPLETE',
+        requested_major: major as JOB_GROUP_TYPES,
+        title: titleRef.current?.value ?? '',
+        body: contentRef.current.html,
+        preview_body: contentRef.current.text,
+        author_major: userInfo?.user.major as JOB_GROUP_TYPES,
+        author_nickname: userInfo?.user.nick_name,
+        author_profile_url: userInfo?.user.profile_url,
+        // tags: [],
+      };
+
+      const { postId } = await postMutation(post);
+      callback(postId);
+    }
+
     pendingRef.current = false;
-    callback(postId);
   };
 
   const validate = (): boolean => {
@@ -140,14 +162,19 @@ export const WriteFormComp = (props: Props) => {
 
     const valList: VAL_TYPE[] = [];
 
-    // TODO: tooltip 알림 띄우기
     if (!major) valList.push('major');
     if (title.length < 10) valList.push('title');
     if (content.length < 30) valList.push('content');
 
+    if (valList.indexOf('major') > -1) {
+      openTooltip('질문할 직군을 선택해주세요.');
+    } else if (valList.indexOf('content') > -1) {
+      openTooltip('더 구체적으로 작성해주세요!');
+    }
+
     setVal({ isCheck: true, list: valList });
 
-    return valList.length > 0 ? true : false;
+    return valList.length === 0;
   };
 
   const errorCheck = (str: VAL_TYPE): boolean => {
@@ -166,11 +193,13 @@ export const WriteFormComp = (props: Props) => {
           <TempSaveCompleteModal
             onConfirm={() => {
               closeModal();
-              push(`/qna/${postId}/modify`);
+              replace(`/qna/${postId}/modify`);
             }}
             onCancel={() => {
               closeModal();
-              push(`/qna/${postId}`);
+
+              // TODO: 활동내역(임시저장) 탭 보이도록 추후 처리
+              replace(`/mypage`);
             }}
           />
         ),
@@ -198,6 +227,14 @@ export const WriteFormComp = (props: Props) => {
       },
     });
   }, [oepnTempSaveCompleteModal, handleClickSave]);
+
+  const openTooltip = useCallback((text: string) => {
+    visibleTooltip({
+      tooltipProps: {
+        contents: <TooltipComp.Basic position="center" text={text} />,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     setHeader({
@@ -237,8 +274,8 @@ export const WriteFormComp = (props: Props) => {
           text="질문하기"
           size="lg"
           onClick={() =>
-            handleClickSave(false, () => {
-              push('/qna');
+            handleClickSave(false, (id) => {
+              replace(`/qna/${id}`);
             })
           }
           isActive
@@ -247,8 +284,8 @@ export const WriteFormComp = (props: Props) => {
           text="임시저장"
           size="lg"
           onClick={() =>
-            handleClickSave(true, () => {
-              push('/qna');
+            handleClickSave(true, (id) => {
+              oepnTempSaveCompleteModal(id);
             })
           }
           isActive
