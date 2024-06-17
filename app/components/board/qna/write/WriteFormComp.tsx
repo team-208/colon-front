@@ -118,7 +118,7 @@ export const WriteFormComp = (props: Props) => {
 
     // TODO: 로그인한 유저가 아니라면 접근 자체를 막기 - 작성페이지 단에서 처리
     if (isEmpty(userInfo)) return;
-    if (validate()) return;
+    if (!validate()) return;
 
     pendingRef.current = true;
 
@@ -174,7 +174,7 @@ export const WriteFormComp = (props: Props) => {
 
     setVal({ isCheck: true, list: valList });
 
-    return valList.length > 0 ? true : false;
+    return valList.length === 0;
   };
 
   const errorCheck = (str: VAL_TYPE): boolean => {
