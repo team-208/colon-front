@@ -95,7 +95,7 @@ const ErrorDiv = styled.div<{ $isError: boolean }>`
 export const WriteFormComp = (props: Props) => {
   const { defaultPost } = props;
   const titleRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef({ html: '', text: '' });
+  const contentRef = useRef({ html: defaultPost?.body || '', text: defaultPost?.preview_body || '' });
   const pendingRef = useRef(false);
 
   const [major, setMajor] = useState<JOB_GROUP_TYPES | undefined>(defaultPost?.requested_major);
