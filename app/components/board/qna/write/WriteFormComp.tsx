@@ -22,6 +22,7 @@ import TempSaveCompleteModal from './TempSaveCompleteModal';
 import TagList from './TagList';
 import ButtonComp from '@/app/components/common/ButtomComp';
 import TooltipComp from '@/app/components/common/TooltipComp';
+import { removeUndefinedValue } from '@/app/utils/converter';
 
 const QuillEditor = dynamic(() => import('@/app/components/common/QuillEditor'), { ssr: false });
 
@@ -127,25 +128,13 @@ export const WriteFormComp = (props: Props) => {
       const post: UpdatePostRequest = {
         id,
         status: isTemporary ? 'EDITING' : 'COMPLETE',
+        requested_major: requested_major !== major ? major : undefined,
+        title: title !== titleRef.current?.value ? titleRef.current?.value : undefined,
+        body: body !== contentRef.current.html ? { data: contentRef.current.html, created_at } : undefined,
+        preview_body: preview_body !== contentRef.current.text ? contentRef.current.text : undefined,
       };
 
-      if (requested_major !== major) {
-        post['requested_major'] = major as JOB_GROUP_TYPES;
-      }
-
-      if (title !== titleRef.current?.value) {
-        post['title'] = titleRef.current?.value;
-      }
-
-      if (body !== contentRef.current.html) {
-        post['body'] = { data: contentRef.current.html, created_at };
-      }
-
-      if (preview_body !== contentRef.current.text) {
-        post['preview_body'] = contentRef.current.text;
-      }
-
-      await modifyPostMutation(post);
+      await modifyPostMutation(removeUndefinedValue(post) as UpdatePostRequest);
       callback(id);
     } else {
       const post: InsertPostRequest = {
