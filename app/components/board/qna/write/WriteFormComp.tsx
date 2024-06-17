@@ -11,6 +11,7 @@ import { isEmpty } from 'lodash';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import useAuth from '@/app/hooks/useAuth';
 import useModal from '@/app/hooks/useModal';
+import useTooltip from '@/app/hooks/useTooltip';
 import { useInsertPostMutation } from '@/app/api/post/mutations';
 import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
 import { GetPostResponse, UpdatePostResponse, UpdatePostRequest } from '@/app/api/post/[id]/type';
@@ -20,6 +21,7 @@ import TempSaveModal from './TempSaveModal';
 import TempSaveCompleteModal from './TempSaveCompleteModal';
 import TagList from './TagList';
 import ButtonComp from '@/app/components/common/ButtomComp';
+import TooltipComp from '@/app/components/common/TooltipComp';
 
 const QuillEditor = dynamic(() => import('@/app/components/common/QuillEditor'), { ssr: false });
 
@@ -105,6 +107,7 @@ export const WriteFormComp = (props: Props) => {
   const setHeader = useSetRecoilState(writeHeaderState);
 
   const { openModal, closeModal } = useModal();
+  const { visibleTooltip } = useTooltip();
   const { userInfo } = useAuth();
   const { mutateAsync: postMutation } = useInsertPostMutation();
   const { mutateAsync: modifyPostMutation } = useModifyPostMutation();
@@ -171,10 +174,15 @@ export const WriteFormComp = (props: Props) => {
 
     const valList: VAL_TYPE[] = [];
 
-    // TODO: tooltip 알림 띄우기
     if (!major) valList.push('major');
     if (title.length < 10) valList.push('title');
     if (content.length < 30) valList.push('content');
+
+    if (valList.indexOf('major') > -1) {
+      openTooltip('질문할 직군을 선택해주세요.');
+    } else if (valList.indexOf('content') > -1) {
+      openTooltip('더 구체적으로 작성해주세요!');
+    }
 
     setVal({ isCheck: true, list: valList });
 
@@ -201,9 +209,7 @@ export const WriteFormComp = (props: Props) => {
             }}
             onCancel={() => {
               closeModal();
-
-              // TODO: 회의 후 routing 변경
-              push(`/qna`);
+              push(`/mypage`);
             }}
           />
         ),
@@ -231,6 +237,14 @@ export const WriteFormComp = (props: Props) => {
       },
     });
   }, [oepnTempSaveCompleteModal, handleClickSave]);
+
+  const openTooltip = useCallback((text: string) => {
+    visibleTooltip({
+      tooltipProps: {
+        contents: <TooltipComp.Basic position="center" text={text} />,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     setHeader({
