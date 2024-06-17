@@ -15,7 +15,7 @@ export interface HistoryItemProps {
     postId: number;
     postStatus?: POST_STATUS_TYPES;
     postAuthorMajor: JOB_GROUP_TYPES;
-    postRequestedMajor: JOB_GROUP_TYPES | 'ALL';
+    postRequestedMajor: JOB_GROUP_TYPES;
     authorNickname: string;
     title: string;
     previewBody: string;
