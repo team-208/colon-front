@@ -16,7 +16,7 @@ import { useInsertPostMutation } from '@/app/api/post/mutations';
 import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
 import { GetPostResponse, UpdatePostRequest } from '@/app/api/post/[id]/type';
 import { InsertPostRequest } from '@/app/api/post/type';
-import JobGroupList, { JOB_GROUP_LIST_TYPES } from './JobGroupList';
+import JobGroupList from './JobGroupList';
 import TempSaveModal from './TempSaveModal';
 import TempSaveCompleteModal from './TempSaveCompleteModal';
 import TagList from './TagList';
@@ -97,9 +97,7 @@ export const WriteFormComp = (props: Props) => {
   const contentRef = useRef({ html: '', text: '' });
   const pendingRef = useRef(false);
 
-  const [major, setMajor] = useState<JOB_GROUP_LIST_TYPES | undefined>(
-    defaultPost?.requested_major,
-  );
+  const [major, setMajor] = useState<JOB_GROUP_TYPES | undefined>(defaultPost?.requested_major);
   const [val, setVal] = useState<{ isCheck: boolean; list: string[] }>({
     isCheck: false,
     list: [],
@@ -132,7 +130,7 @@ export const WriteFormComp = (props: Props) => {
       };
 
       if (requested_major !== major) {
-        post['requested_major'] = major as JOB_GROUP_LIST_TYPES;
+        post['requested_major'] = major as JOB_GROUP_TYPES;
       }
 
       if (title !== titleRef.current?.value) {
@@ -152,7 +150,7 @@ export const WriteFormComp = (props: Props) => {
     } else {
       const post: InsertPostRequest = {
         status: isTemporary ? 'EDITING' : 'COMPLETE',
-        requested_major: major as JOB_GROUP_LIST_TYPES,
+        requested_major: major as JOB_GROUP_TYPES,
         title: titleRef.current?.value ?? '',
         body: contentRef.current.html,
         preview_body: contentRef.current.text,

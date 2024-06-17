@@ -121,7 +121,7 @@ const ScrapContent = async () => {
         <PostCard key={`reaction-${idx}`} {...post}>
           <>
             <div>
-              <PostComp.ReactionCount emojiCount={999} commentCount={3} />
+              <PostComp.ReactionCount postId={post.id} emojiCount={999} commentCount={3} />
             </div>
 
             <div>

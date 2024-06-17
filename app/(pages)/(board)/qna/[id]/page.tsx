@@ -5,7 +5,6 @@ import QnADetailContent from '@/app/components/board/qna/QnADetail/QnADetailCont
 import QnACommentList from '@/app/components/board/qna/QnADetail/QnACommentList';
 import QnACommentWrite from '@/app/components/board/qna/QnADetail/QnACommentWrite';
 import { fetchGetPost } from '@/app/api/post/[id]/fetch';
-import { fetchGetComments } from '@/app/api/comment/[postId]/fetch';
 
 interface Props {
   params: { id: string };

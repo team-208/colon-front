@@ -5,7 +5,7 @@ export type POST_STATUS_TYPES = 'EDITING' | 'COMPLETE';
 
 export interface InsertPostRequest {
   status: POST_STATUS_TYPES;
-  requested_major: JOB_GROUP_TYPES | 'ALL';
+  requested_major: JOB_GROUP_TYPES;
   title: string;
   body: string;
   preview_body: string;
@@ -24,7 +24,7 @@ export type PostListOrderTypes = 'DATE_DESC';
 
 export interface GetPostListQuery {
   order: PostListOrderTypes;
-  major: JOB_GROUP_TYPES | 'ALL';
+  major: JOB_GROUP_TYPES;
   offset: number;
 }
 

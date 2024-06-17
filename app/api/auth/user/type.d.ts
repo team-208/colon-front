@@ -1,7 +1,7 @@
 import { Session } from '@supabase/supabase-js';
 import dayjs from 'dayjs';
 
-export type JOB_GROUP_TYPES = 'PLANNING' | 'DESIGN' | 'DEVELOP';
+export type JOB_GROUP_TYPES = 'PLANNING' | 'DESIGN' | 'DEVELOP' | 'ALL';
 
 export interface SignUpUserRequest {
   major: JOB_GROUP_TYPES;

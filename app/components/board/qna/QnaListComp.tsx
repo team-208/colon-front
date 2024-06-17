@@ -9,6 +9,7 @@ import { GetPostListQuery, PostListItem } from '@/app/api/post/type';
 import QuestionCard from '../../common/QuestionCard';
 import Link from 'next/link';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
+import usePostScrapQuery from '@/app/api/post/scrap/queries';
 import useObserver from '@/app/hooks/useObserver';
 
 const SelectorContainerDiv = styled.div`
@@ -40,11 +41,12 @@ const QnaListComp = () => {
   });
 
   const { data } = usePostListQuery(filter);
+  const { data: userScrapData } = usePostScrapQuery();
   const { observerRef } = useObserver(true, () => {
     // TODO: Infinity scroll 구현
   });
 
-  const chagneFilter = useCallback((major: JOB_GROUP_TYPES | 'ALL') => {
+  const chagneFilter = useCallback((major: JOB_GROUP_TYPES) => {
     setFilter((prev) => ({ ...prev, major }));
   }, []);
 
@@ -92,6 +94,9 @@ const QnaListComp = () => {
             author_major,
             author_profile_url,
           } = post;
+
+          const isScrap = userScrapData?.list.find((item) => item.post_id === id);
+
           return idx === postList.length - 1 ? (
             <li key={`post-list-item-${post.id}`}>
               <div ref={observerRef}>
@@ -109,6 +114,7 @@ const QnaListComp = () => {
                     author_nickname={author_nickname}
                     author_major={author_major}
                     author_profile_url={author_profile_url}
+                    isScrap={!!isScrap}
                   />
                 </Link>
               </div>
@@ -129,6 +135,7 @@ const QnaListComp = () => {
                   author_nickname={author_nickname}
                   author_major={author_major}
                   author_profile_url={author_profile_url}
+                  isScrap={!!isScrap}
                 />
               </Link>
             </li>
