@@ -14,7 +14,7 @@ import useModal from '@/app/hooks/useModal';
 import useTooltip from '@/app/hooks/useTooltip';
 import { useInsertPostMutation } from '@/app/api/post/mutations';
 import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
-import { GetPostResponse, UpdatePostResponse, UpdatePostRequest } from '@/app/api/post/[id]/type';
+import { GetPostResponse, UpdatePostRequest } from '@/app/api/post/[id]/type';
 import { InsertPostRequest } from '@/app/api/post/type';
 import JobGroupList, { JOB_GROUP_LIST_TYPES } from './JobGroupList';
 import TempSaveModal from './TempSaveModal';
@@ -104,6 +104,7 @@ export const WriteFormComp = (props: Props) => {
     isCheck: false,
     list: [],
   });
+
   const setHeader = useSetRecoilState(writeHeaderState);
 
   const { openModal, closeModal } = useModal();
@@ -111,7 +112,7 @@ export const WriteFormComp = (props: Props) => {
   const { userInfo } = useAuth();
   const { mutateAsync: postMutation } = useInsertPostMutation();
   const { mutateAsync: modifyPostMutation } = useModifyPostMutation();
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
 
   const handleClickSave = async (isTemporary: boolean, callback: (id: number) => void) => {
     if (pendingRef.current) return;
@@ -205,13 +206,13 @@ export const WriteFormComp = (props: Props) => {
           <TempSaveCompleteModal
             onConfirm={() => {
               closeModal();
-              push(`/qna/${postId}/modify`);
+              replace(`/qna/${postId}/modify`);
             }}
             onCancel={() => {
               closeModal();
 
               // TODO: 활동내역(임시저장) 탭 보이도록 추후 처리
-              push(`/mypage`);
+              replace(`/mypage`);
             }}
           />
         ),
@@ -287,7 +288,7 @@ export const WriteFormComp = (props: Props) => {
           size="lg"
           onClick={() =>
             handleClickSave(false, (id) => {
-              push(`/qna${id}`);
+              replace(`/qna/${id}`);
             })
           }
           isActive
