@@ -1,4 +1,4 @@
-import { GetPostScrapListResponse, InsertPostScrapRequest } from './type';
+import { GetPostScrapListResponse, InsertPostScrapRequest, InsertPostScrapResponse } from './type';
 
 export const fetchGetPostScrap = async () => {
   const res = await fetch('/api/post/scrap');
@@ -12,6 +12,6 @@ export const fetchInsertPostScrap = async (body: InsertPostScrapRequest) => {
     body: JSON.stringify(body),
   });
 
-  const jsonData = (await res.json()) as InsertPostScrapRequest;
+  const jsonData = (await res.json()) as InsertPostScrapResponse;
   return jsonData;
 };

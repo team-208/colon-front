@@ -19,6 +19,7 @@ export default function Home() {
         author_nickname="우아한 코끼리"
         author_major="PLANNING"
         author_profile_url="/"
+        isScrap
       />
     </main>
   );

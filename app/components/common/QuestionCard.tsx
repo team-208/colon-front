@@ -10,7 +10,9 @@ import PostComp from './PostComp';
 import React from 'react';
 import { PostListItem } from '@/app/api/post/type';
 
-interface Props extends PostListItem {}
+interface Props extends PostListItem {
+  isScrap: boolean;
+}
 
 const ContainerArticle = styled.article`
   padding: 0 20px;
@@ -70,7 +72,9 @@ const ContentPreviewBodyP = styled.p`
   }
 `;
 
-const QnAReactionCount = styled(PostComp.ReactionCount)`
+const ContentFooterDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
   margin-top: 26px;
   color: ${({ theme }) => theme.color.label.normal};
 
@@ -137,6 +141,7 @@ const CommentBodyP = styled.p`
 `;
 
 const QuestionCard = ({
+  id,
   status,
   requested_major,
   title,
@@ -148,6 +153,7 @@ const QuestionCard = ({
   author_nickname,
   author_major,
   author_profile_url,
+  isScrap,
 }: Props) => {
   return (
     <ContainerArticle>
@@ -174,7 +180,10 @@ const QuestionCard = ({
 
           <ContentPreviewBodyP>{preview_body}</ContentPreviewBodyP>
 
-          <QnAReactionCount emojiCount={8} commentCount={3} />
+          <ContentFooterDiv>
+            <PostComp.ReactionCount postId={id} emojiCount={8} commentCount={3} />
+            <PostComp.ScrapButton postId={id} isScrap={!!isScrap} />
+          </ContentFooterDiv>
         </ContentDiv>
 
         <CommentDiv>

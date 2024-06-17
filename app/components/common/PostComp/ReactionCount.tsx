@@ -6,11 +6,18 @@ import { IMAGE_CDN } from '@/app/constants/externalUrls';
 
 interface Props {
   className?: string;
+  postId: number;
   emojiCount: number;
   commentCount: number;
 }
 
 const ContainerDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const CountBoxDiv = styled.div`
   ${({ theme }) => theme.font.body3};
   display: flex;
   align-items: center;
@@ -31,9 +38,9 @@ const SeperatorSpan = styled.span`
   font-weight: 400;
 `;
 
-const ReactionCount = ({ className, emojiCount, commentCount }: Props) => {
-  return (
-    <ContainerDiv className={className}>
+const ReactionCount = ({ className, emojiCount, commentCount }: Props) => (
+  <ContainerDiv className={className}>
+    <CountBoxDiv>
       <Image
         alt="엄지척 이모지"
         src={`${IMAGE_CDN}/qna/EmojiThumbsUp.png`}
@@ -47,9 +54,9 @@ const ReactionCount = ({ className, emojiCount, commentCount }: Props) => {
       <CountSpan>
         <strong>CO:</strong> {commentCount}
       </CountSpan>
-    </ContainerDiv>
-  );
-};
+    </CountBoxDiv>
+  </ContainerDiv>
+);
 
 export default ReactionCount;
 export type ReactionCountType = { ReactionCount: typeof ReactionCount };
