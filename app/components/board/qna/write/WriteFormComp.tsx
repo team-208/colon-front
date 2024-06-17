@@ -209,6 +209,8 @@ export const WriteFormComp = (props: Props) => {
             }}
             onCancel={() => {
               closeModal();
+
+              // TODO: 활동내역(임시저장) 탭 보이도록 추후 처리
               push(`/mypage`);
             }}
           />
