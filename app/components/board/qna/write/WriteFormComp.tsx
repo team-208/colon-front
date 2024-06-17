@@ -12,7 +12,8 @@ import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import useAuth from '@/app/hooks/useAuth';
 import useModal from '@/app/hooks/useModal';
 import { useInsertPostMutation } from '@/app/api/post/mutations';
-import { GetPostResponse } from '@/app/api/post/[id]/type';
+import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
+import { GetPostResponse, UpdatePostResponse, UpdatePostRequest } from '@/app/api/post/[id]/type';
 import { InsertPostRequest } from '@/app/api/post/type';
 import JobGroupList, { JOB_GROUP_LIST_TYPES } from './JobGroupList';
 import TempSaveModal from './TempSaveModal';
@@ -106,34 +107,62 @@ export const WriteFormComp = (props: Props) => {
   const { openModal, closeModal } = useModal();
   const { userInfo } = useAuth();
   const { mutateAsync: postMutation } = useInsertPostMutation();
+  const { mutateAsync: modifyPostMutation } = useModifyPostMutation();
   const { push } = useRouter();
 
   const handleClickSave = async (isTemporary: boolean, callback: (id: number) => void) => {
     if (pendingRef.current) return;
-
-    // TODO: 임시저장글 작성 or 글 수정 처리
-    if (defaultPost) return;
 
     // TODO: 로그인한 유저가 아니라면 접근 자체를 막기 - 작성페이지 단에서 처리
     if (isEmpty(userInfo)) return;
     if (validate()) return;
 
     pendingRef.current = true;
-    const post: InsertPostRequest = {
-      status: isTemporary ? 'EDITING' : 'COMPLETE',
-      requested_major: major as JOB_GROUP_LIST_TYPES,
-      title: titleRef.current?.value ?? '',
-      body: contentRef.current.html,
-      preview_body: contentRef.current.text,
-      author_major: userInfo?.user.major as JOB_GROUP_TYPES,
-      author_nickname: userInfo?.user.nick_name,
-      author_profile_url: userInfo?.user.profile_url,
-      // tags: [],
-    };
 
-    const { postId } = await postMutation(post);
+    if (defaultPost) {
+      const { id, requested_major, title, body, preview_body, created_at } = defaultPost;
+
+      const post: UpdatePostRequest = {
+        id,
+        status: isTemporary ? 'EDITING' : 'COMPLETE',
+      };
+
+      if (requested_major !== major) {
+        post['requested_major'] = major as JOB_GROUP_LIST_TYPES;
+      }
+
+      if (title !== titleRef.current?.value) {
+        post['title'] = titleRef.current?.value;
+      }
+
+      if (body !== contentRef.current.html) {
+        post['body'] = { data: contentRef.current.html, created_at };
+      }
+
+      if (preview_body !== contentRef.current.text) {
+        post['preview_body'] = contentRef.current.text;
+      }
+
+      await modifyPostMutation(post);
+      callback(id);
+    } else {
+      const post: InsertPostRequest = {
+        status: isTemporary ? 'EDITING' : 'COMPLETE',
+        requested_major: major as JOB_GROUP_LIST_TYPES,
+        title: titleRef.current?.value ?? '',
+        body: contentRef.current.html,
+        preview_body: contentRef.current.text,
+        author_major: userInfo?.user.major as JOB_GROUP_TYPES,
+        author_nickname: userInfo?.user.nick_name,
+        author_profile_url: userInfo?.user.profile_url,
+        // tags: [],
+      };
+
+      const { postId } = await postMutation(post);
+      callback(postId);
+    }
+
     pendingRef.current = false;
-    callback(postId);
   };
 
   const validate = (): boolean => {
@@ -172,7 +201,9 @@ export const WriteFormComp = (props: Props) => {
             }}
             onCancel={() => {
               closeModal();
-              push(`/qna/${postId}`);
+
+              // TODO: 회의 후 routing 변경
+              push(`/qna`);
             }}
           />
         ),
@@ -239,8 +270,8 @@ export const WriteFormComp = (props: Props) => {
           text="질문하기"
           size="lg"
           onClick={() =>
-            handleClickSave(false, () => {
-              push('/qna');
+            handleClickSave(false, (id) => {
+              push(`/qna${id}`);
             })
           }
           isActive
@@ -249,8 +280,8 @@ export const WriteFormComp = (props: Props) => {
           text="임시저장"
           size="lg"
           onClick={() =>
-            handleClickSave(true, () => {
-              push('/qna');
+            handleClickSave(true, (id) => {
+              oepnTempSaveCompleteModal(id);
             })
           }
           isActive
