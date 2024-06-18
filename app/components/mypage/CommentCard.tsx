@@ -101,7 +101,7 @@ const MajorP = styled.p`
 
 const TagP = styled.p`
   padding: 2px 4px;
-  width: 29px;
+  min-width: 29px;
   height: 18px;
   ${({ theme }) => theme.font.caption1}
   background: ${({ theme }) => theme.color.palette.coolNeutral97};
