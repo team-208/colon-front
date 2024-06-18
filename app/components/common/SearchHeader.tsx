@@ -69,6 +69,12 @@ const MarginDivider = styled(Divider.Horizonal)`
   margin: 16px 0;
 `;
 
+const MarginUl = styled.ul<{ $margin: number }>`
+  > *:not(:last-of-type) {
+    margin-bottom: ${({ $margin }) => $margin}px;
+  }
+`;
+
 const ListTitleP = styled.p`
   ${({ theme }) => theme.font.heading2}
   margin-bottom: 16px;
@@ -90,10 +96,6 @@ const PostLi = styled.li`
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
   }
-
-  &:not(:last-of-type) {
-    margin-bottom: 8px;
-  }
 `;
 
 const CommentLi = styled.li`
@@ -112,10 +114,6 @@ const CommentLi = styled.li`
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
   }
-
-  &:not(:last-of-type) {
-    margin-bottom: 16px;
-  }
 `;
 
 const DropDownFooterDiv = styled.div`
@@ -133,11 +131,17 @@ const MoreButton = styled.button`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  border-radius: 15px;
 
   p {
     ${({ theme }) => theme.font.body1}
     color: ${({ theme }) => theme.color.primary.normal};
     margin-right: 10px;
+  }
+
+  &:hover {
+    /* theme.color.primary.normal */
+    background-color: rgba(0, 161, 255, 0.04);
   }
 `;
 
@@ -232,7 +236,7 @@ const SearchHeader = () => {
           <DropDown isActive={isSearch} defaultHeight={112}>
             <DropDownInnerDiv>
               <ListTitleP>질문</ListTitleP>
-              <ul>
+              <MarginUl $margin={8}>
                 {postList.map((post) => (
                   <PostLi key={`post-${post.id}`}>
                     <Image
@@ -244,10 +248,10 @@ const SearchHeader = () => {
                     <p>{post.title}</p>
                   </PostLi>
                 ))}
-              </ul>
+              </MarginUl>
               <MarginDivider height={1} />
               <ListTitleP>답변</ListTitleP>
-              <ul>
+              <MarginUl $margin={16}>
                 {commentList.map((comment) => (
                   <div key={`comment-${comment.id}`}>
                     <PostLi>
@@ -270,7 +274,7 @@ const SearchHeader = () => {
                     </CommentLi>
                   </div>
                 ))}
-              </ul>
+              </MarginUl>
               <DropDownFooterDiv>
                 <MoreButton onClick={handleMoreButton}>
                   <p>더 찾아보기</p>
