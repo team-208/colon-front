@@ -70,7 +70,7 @@ const MarginDivider = styled(Divider.Horizonal)`
 `;
 
 const MarginUl = styled.ul<{ $margin: number }>`
-  > *:not(:last-of-type) {
+  > li:not(:last-of-type) {
     margin-bottom: ${({ $margin }) => $margin}px;
   }
 `;
@@ -80,7 +80,7 @@ const ListTitleP = styled.p`
   margin-bottom: 16px;
 `;
 
-const PostLi = styled.li`
+const PostDiv = styled.div`
   display: flex;
   flex-direction: row;
 
@@ -98,7 +98,7 @@ const PostLi = styled.li`
   }
 `;
 
-const CommentLi = styled.li`
+const CommentDiv = styled.div`
   display: flex;
   flex-direction: row;
 
@@ -238,23 +238,25 @@ const SearchHeader = () => {
               <ListTitleP>질문</ListTitleP>
               <MarginUl $margin={8}>
                 {postList.map((post) => (
-                  <PostLi key={`post-${post.id}`}>
-                    <Image
-                      alt=""
-                      src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
-                      width={20}
-                      height={20}
-                    />
-                    <p>{post.title}</p>
-                  </PostLi>
+                  <li key={`post-${post.id}`}>
+                    <PostDiv>
+                      <Image
+                        alt=""
+                        src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
+                        width={20}
+                        height={20}
+                      />
+                      <p>{post.title}</p>
+                    </PostDiv>
+                  </li>
                 ))}
               </MarginUl>
               <MarginDivider height={1} />
               <ListTitleP>답변</ListTitleP>
               <MarginUl $margin={16}>
                 {commentList.map((comment) => (
-                  <div key={`comment-${comment.id}`}>
-                    <PostLi>
+                  <li key={`comment-${comment.id}`}>
+                    <PostDiv>
                       <Image
                         alt=""
                         src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
@@ -262,8 +264,8 @@ const SearchHeader = () => {
                         height={20}
                       />
                       <p>{comment.title}</p>
-                    </PostLi>
-                    <CommentLi>
+                    </PostDiv>
+                    <CommentDiv>
                       <Image
                         alt=""
                         src={`${IMAGE_CDN}/icon/Icon_Reply_gray.png`}
@@ -271,8 +273,8 @@ const SearchHeader = () => {
                         height={20}
                       />
                       <p>{comment.text}</p>
-                    </CommentLi>
-                  </div>
+                    </CommentDiv>
+                  </li>
                 ))}
               </MarginUl>
               <DropDownFooterDiv>
