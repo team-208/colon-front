@@ -37,7 +37,9 @@ const ContainerUl = styled.ul`
 `;
 
 const JobGroupButton = styled(ButtonComp.Solid)`
-  width: 56px;
+  min-width: 56px;
+  width: fit-content;
+  height: fit-content;
   padding: 4px 8px !important;
   border-radius: 8px !important;
   text-align: center;

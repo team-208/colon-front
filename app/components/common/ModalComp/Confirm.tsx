@@ -65,10 +65,10 @@ const Confirm = ({
       {children}
       <ButtonBoxUl $isReverse={!!isReverseButton}>
         <li>
-          <StyledButton size={'md'} text={confirmLabel} onClick={onConfirm} isActive />
+          <StyledButton size={'lg'} text={confirmLabel} onClick={onConfirm} isActive />
         </li>
         <li>
-          <StyledButton size={'md'} text={cancelLabel} onClick={onCancel} isActive />
+          <StyledButton size={'lg'} text={cancelLabel} onClick={onCancel} isActive />
         </li>
       </ButtonBoxUl>
     </ContainerDiv>
