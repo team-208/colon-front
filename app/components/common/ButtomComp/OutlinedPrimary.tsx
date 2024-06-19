@@ -8,7 +8,9 @@ interface Props extends ButtonProps {
 }
 
 const OutlinedPrimaryButton = styled.button<{ $isActive: boolean; $sizeStyle: RuleSet<object> }>`
+  ${({$sizeStyle}) => $sizeStyle}
   background: transparent;
+  
   ${({ theme, $isActive }) =>
     $isActive
       ? css`
@@ -21,7 +23,7 @@ const OutlinedPrimaryButton = styled.button<{ $isActive: boolean; $sizeStyle: Ru
         `}
 `;
 
-const OutlinedPrimary = ({ text, isActive, onClick, size, ...props }: Props) => {
+const OutlinedPrimary = ({ children, text, isActive, onClick, size, ...props }: Props) => {
   return (
     <OutlinedPrimaryButton
       {...props}
@@ -29,7 +31,7 @@ const OutlinedPrimary = ({ text, isActive, onClick, size, ...props }: Props) => 
       $isActive={isActive}
       onClick={onClick}
     >
-      {text}
+      {children || text}
     </OutlinedPrimaryButton>
   );
 };

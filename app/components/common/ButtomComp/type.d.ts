@@ -1,5 +1,6 @@
 export interface ButtonProps {
-  text: string;
+  children?: ReactNode;
+  text?: string;
   isActive: boolean;
   onClick: () => void;
   size?: 'lg' | 'md' | 'sm';
