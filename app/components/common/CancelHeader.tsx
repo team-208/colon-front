@@ -20,7 +20,7 @@ const FlexRowDiv = styled.div`
 `;
 
 const CancelButton = styled.button`
-  width: 44px;
+  min-width: 44px;
   height: 36px;
   padding: 8px 10px;
   color: #989ba2;

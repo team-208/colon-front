@@ -15,7 +15,7 @@ const ContainerFlex = styled(HeaderComp.Container)`
 `;
 
 const CancelButton = styled.button`
-  width: 44px;
+  min-width: 44px;
   height: 36px;
   padding: 8px 10px;
   color: #989ba2;
@@ -27,7 +27,7 @@ const CancelButton = styled.button`
 `;
 
 const CompleteButton = styled.button`
-  width: 56px;
+  min-width: 56px;
   height: 36px;
   background: ${({ theme }) => theme.color.palette.deepSkyBlue99};
   border-radius: 10px;

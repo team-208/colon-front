@@ -69,12 +69,18 @@ const MarginDivider = styled(Divider.Horizonal)`
   margin: 16px 0;
 `;
 
+const MarginUl = styled.ul<{ $margin: number }>`
+  > li:not(:last-of-type) {
+    margin-bottom: ${({ $margin }) => $margin}px;
+  }
+`;
+
 const ListTitleP = styled.p`
   ${({ theme }) => theme.font.heading2}
   margin-bottom: 16px;
 `;
 
-const PostLi = styled.li`
+const PostDiv = styled.div`
   display: flex;
   flex-direction: row;
 
@@ -90,13 +96,9 @@ const PostLi = styled.li`
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
   }
-
-  &:not(:last-of-type) {
-    margin-bottom: 8px;
-  }
 `;
 
-const CommentLi = styled.li`
+const CommentDiv = styled.div`
   display: flex;
   flex-direction: row;
 
@@ -111,10 +113,6 @@ const CommentLi = styled.li`
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
-  }
-
-  &:not(:last-of-type) {
-    margin-bottom: 16px;
   }
 `;
 
@@ -133,11 +131,17 @@ const MoreButton = styled.button`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  border-radius: 15px;
 
   p {
     ${({ theme }) => theme.font.body1}
     color: ${({ theme }) => theme.color.primary.normal};
     margin-right: 10px;
+  }
+
+  &:hover {
+    /* theme.color.primary.normal */
+    background-color: rgba(0, 161, 255, 0.04);
   }
 `;
 
@@ -232,25 +236,27 @@ const SearchHeader = () => {
           <DropDown isActive={isSearch} defaultHeight={112}>
             <DropDownInnerDiv>
               <ListTitleP>질문</ListTitleP>
-              <ul>
+              <MarginUl $margin={8}>
                 {postList.map((post) => (
-                  <PostLi key={`post-${post.id}`}>
-                    <Image
-                      alt=""
-                      src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
-                      width={20}
-                      height={20}
-                    />
-                    <p>{post.title}</p>
-                  </PostLi>
+                  <li key={`post-${post.id}`}>
+                    <PostDiv>
+                      <Image
+                        alt=""
+                        src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
+                        width={20}
+                        height={20}
+                      />
+                      <p>{post.title}</p>
+                    </PostDiv>
+                  </li>
                 ))}
-              </ul>
+              </MarginUl>
               <MarginDivider height={1} />
               <ListTitleP>답변</ListTitleP>
-              <ul>
+              <MarginUl $margin={16}>
                 {commentList.map((comment) => (
-                  <div key={`comment-${comment.id}`}>
-                    <PostLi>
+                  <li key={`comment-${comment.id}`}>
+                    <PostDiv>
                       <Image
                         alt=""
                         src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
@@ -258,8 +264,8 @@ const SearchHeader = () => {
                         height={20}
                       />
                       <p>{comment.title}</p>
-                    </PostLi>
-                    <CommentLi>
+                    </PostDiv>
+                    <CommentDiv>
                       <Image
                         alt=""
                         src={`${IMAGE_CDN}/icon/Icon_Reply_gray.png`}
@@ -267,10 +273,10 @@ const SearchHeader = () => {
                         height={20}
                       />
                       <p>{comment.text}</p>
-                    </CommentLi>
-                  </div>
+                    </CommentDiv>
+                  </li>
                 ))}
-              </ul>
+              </MarginUl>
               <DropDownFooterDiv>
                 <MoreButton onClick={handleMoreButton}>
                   <p>더 찾아보기</p>
