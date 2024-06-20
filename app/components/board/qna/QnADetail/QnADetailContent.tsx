@@ -1,7 +1,5 @@
 'use client';
 
-import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
-import { Dayjs } from 'dayjs';
 import PostComp from '../../../common/PostComp';
 import DividerComp from '@/app/components/common/DividerComp';
 import styled from 'styled-components';
@@ -10,7 +8,9 @@ import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import React, { useMemo } from 'react';
 import { GetPostResponse } from '@/app/api/post/[id]/type';
 import usePostScrapQuery from '@/app/api/post/scrap/queries';
-import usePostQuery from '@/app/api/post/[id]/queries';
+import Selector from '@/app/components/common/Selector';
+import { useRouter } from 'next/navigation';
+import useAuth from '@/app/hooks/useAuth';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -33,8 +33,10 @@ const QnAHeader = styled(PostComp.Header)`
   }
 `;
 
-const CheckLabelBoxDiv = styled.div`
+const SubtitleBoxDiv = styled.div`
   display: flex;
+  justify-content: space-between;
+  width: 100%;
   padding: 0 20px;
   margin-top: 20px;
 
@@ -42,6 +44,18 @@ const CheckLabelBoxDiv = styled.div`
     margin-top: 16px;
     padding: 0 17px 0 20px;
   }
+`;
+
+const ModifyOption = styled(Selector.Option)`
+  color: ${({ theme }) => theme.color.label.normal};
+`;
+
+const DeleteOption = styled(Selector.Option)`
+  color: ${({ theme }) => theme.color.status.destructive};
+`;
+
+const CheckLabelBoxDiv = styled.div`
+  display: flex;
 `;
 
 const CheckLabelP = styled.p<{ $isComplete: boolean }>`
@@ -127,12 +141,16 @@ const QnADetailContent = ({ post }: Props) => {
   // TODO: tanstack query hydrate 적용 필요.
   const { data: userScrapData } = usePostScrapQuery();
 
+  const { push } = useRouter();
+  const { userInfo } = useAuth();
+
   const isComplete = useMemo(() => status === 'COMPLETE', []);
   const isScrap = useMemo(
     () => userScrapData?.list.find((item) => item.post_id === id),
     [userScrapData],
   );
 
+  // console.log(userInfo);
   return (
     <ConatinerArticle>
       <QnAHeader
@@ -144,17 +162,42 @@ const QnADetailContent = ({ post }: Props) => {
 
       <DividerComp.Horizonal height={1} />
 
-      <CheckLabelBoxDiv>
-        <Image
-          alt="답변 체크"
-          src={`${IMAGE_CDN}/qna/CheckMarkButton${isComplete ? '_checked' : '_disable'}.png`}
-          width={28}
-          height={28}
-        />
-        <CheckLabelP $isComplete={isComplete}>
-          {isComplete ? '답변 채택 완료!' : '답변 대기중'}
-        </CheckLabelP>
-      </CheckLabelBoxDiv>
+      <SubtitleBoxDiv>
+        <CheckLabelBoxDiv>
+          <Image
+            alt="답변 체크"
+            src={`${IMAGE_CDN}/qna/CheckMarkButton${isComplete ? '_checked' : '_disable'}.png`}
+            width={28}
+            height={28}
+          />
+          <CheckLabelP $isComplete={isComplete}>
+            {isComplete ? '답변 채택 완료!' : '답변 대기중'}
+          </CheckLabelP>
+        </CheckLabelBoxDiv>
+
+        {userInfo?.user.nick_name === author_nickname && (
+          <Selector
+            defaultOption={{ idx: 0, text: '최신순' }}
+            selectorButton={
+              <Image
+                alt="더보기 아이콘"
+                src={`${IMAGE_CDN}/icon/dots.png`}
+                width={16}
+                height={16}
+              />
+            }
+          >
+            <ModifyOption
+              idx={0}
+              text="수정"
+              clickEvent={() => {
+                push(`/qna/${id}/modify`);
+              }}
+            />
+            <DeleteOption idx={1} text="삭제" clickEvent={() => {}} />
+          </Selector>
+        )}
+      </SubtitleBoxDiv>
 
       <TitleP>{title}</TitleP>
       <BodyDiv dangerouslySetInnerHTML={{ __html: body }} />
