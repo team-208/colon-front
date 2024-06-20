@@ -46,7 +46,7 @@ const ButtonBoxUl = styled.ul<{ $isReverse: boolean }>`
 const StyledButton = styled(ButtonComp.OutlinedPrimary)`
   &:hover {
     color: ${({ theme }) => theme.color.static.light};
-    background-color: ${({ theme }) => theme.color.primary.normal};
+    background-color: ${({ theme }) => theme.color.primary.normal} !important;
   }
 `;
 
