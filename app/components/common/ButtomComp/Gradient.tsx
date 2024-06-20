@@ -1,14 +1,13 @@
 'use client';
 
-import styled, {RuleSet, css} from 'styled-components';
+import styled, { RuleSet, css } from 'styled-components';
 import { ButtonProps } from './type';
 import { ButtonSizeStyle } from './style';
 
-interface Props extends ButtonProps {
-}
+interface Props extends ButtonProps {}
 
 const GradientButton = styled.button<{ $isActive: boolean; $sizeStyle: RuleSet<object> }>`
-  ${({$sizeStyle}) => $sizeStyle}
+  ${({ $sizeStyle }) => $sizeStyle}
   background: ${({ theme }) => theme.color.gradient.normal};
   border: 1px solid rgba(255, 255, 255, 0.5);
 
@@ -21,6 +20,16 @@ const GradientButton = styled.button<{ $isActive: boolean; $sizeStyle: RuleSet<o
           background: ${theme.color.interaction.disable};
           color: ${theme.color.label.disable};
         `}
+
+  &:hover {
+    background: ${({ theme }) => theme.color.gradient.hover};
+  }
+
+  &:focus {
+    /* Sementic/Primary/Heavy */
+    background: #0080db;
+    filter: rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const Gradient = ({ children, text, isActive, onClick, size, ...props }: Props) => {

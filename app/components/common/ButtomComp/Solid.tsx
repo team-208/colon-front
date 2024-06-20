@@ -1,10 +1,9 @@
 'use client';
 
-import styled, {RuleSet, css} from 'styled-components';
+import styled, { RuleSet, css } from 'styled-components';
 import { ButtonProps } from './type';
 import { ButtonSizeStyle } from './style';
-interface Props extends ButtonProps{
-}
+interface Props extends ButtonProps {}
 
 const SolidButton = styled.button<{ $isActive: boolean; $sizeStyle: RuleSet<object> }>`
   ${({ $sizeStyle }) => $sizeStyle}
@@ -20,9 +19,20 @@ const SolidButton = styled.button<{ $isActive: boolean; $sizeStyle: RuleSet<obje
           background-color: ${theme.color.palette.coolNeutral99};
           color: ${theme.color.label.normal};
         `}
+
+  &:hover {
+    /* Sementic/Primary/Strong */
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), #00a1ff;
+  }
+
+  &:focus {
+    /* Sementic/Primary/Heavy */
+    background: #0080db;
+    filter: rgba(0, 0, 0, 0.1);
+  }
 `;
 
-const Solid = ({children, text, isActive, onClick, size, ...props }: Props) => {
+const Solid = ({ children, text, isActive, onClick, size, ...props }: Props) => {
   return (
     <SolidButton
       {...props}
