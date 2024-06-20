@@ -5,12 +5,13 @@ import DividerComp from '@/app/components/common/DividerComp';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { GetPostResponse } from '@/app/api/post/[id]/type';
 import usePostScrapQuery from '@/app/api/post/scrap/queries';
 import Selector from '@/app/components/common/Selector';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/app/hooks/useAuth';
+import { useDeletePostMutation } from '@/app/api/post/[id]/mutations';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -140,8 +141,9 @@ const QnADetailContent = ({ post }: Props) => {
 
   // TODO: tanstack query hydrate 적용 필요.
   const { data: userScrapData } = usePostScrapQuery();
+  const { mutateAsync } = useDeletePostMutation();
 
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
   const { userInfo } = useAuth();
 
   const isComplete = useMemo(() => status === 'COMPLETE', []);
@@ -150,7 +152,18 @@ const QnADetailContent = ({ post }: Props) => {
     [userScrapData],
   );
 
-  // console.log(userInfo);
+  const handleDeletePost = () => {
+    mutateAsync(id.toString());
+    push('/qna');
+  };
+
+  useEffect(() => {
+    if (!post.success) {
+      replace('/qna');
+      // TODO: usePostListQuery refetch 필요. filter query string으로 Or recoil로 바꾸기.
+    }
+  }, []);
+
   return (
     <ConatinerArticle>
       <QnAHeader
@@ -194,7 +207,7 @@ const QnADetailContent = ({ post }: Props) => {
                 push(`/qna/${id}/modify`);
               }}
             />
-            <DeleteOption idx={1} text="삭제" clickEvent={() => {}} />
+            <DeleteOption idx={1} text="삭제" clickEvent={handleDeletePost} />
           </Selector>
         )}
       </SubtitleBoxDiv>
