@@ -38,6 +38,7 @@ const ContainerUl = styled.ul`
 
 const JobGroupButton = styled(ButtonComp.Solid)`
   min-width: 56px;
+  height: fit-content;
   padding: 4px 8px !important;
   border-radius: 8px !important;
   text-align: center;
@@ -46,39 +47,45 @@ const JobGroupButton = styled(ButtonComp.Solid)`
     isActive ? theme.color.static.light : theme.color.interaction.inactive} !important;
 `;
 
+const jobList: { id: number; text: string; value: JOB_GROUP_TYPES }[] = [
+  {
+    id: 1,
+    text: '전체',
+    value: 'ALL',
+  },
+  {
+    id: 2,
+    text: '기획',
+    value: 'PLANNING',
+  },
+  {
+    id: 3,
+    text: '디자인',
+    value: 'DESIGN',
+  },
+  {
+    id: 4,
+    text: '개발',
+    value: 'DEVELOP',
+  },
+];
+
 const JobGroupList = ({ jobGroup, onClick }: Props) => {
   return (
     <ContainerDiv>
       <TitleP>질문할 직군</TitleP>
       <ContainerUl>
-        <li>
-          <JobGroupButton
-            text="전체"
-            isActive={jobGroup === 'ALL'}
-            onClick={() => onClick('ALL')}
-          />
-        </li>
-        <li>
-          <JobGroupButton
-            text="기획"
-            isActive={jobGroup === 'PLANNING'}
-            onClick={() => onClick('PLANNING')}
-          />
-        </li>
-        <li>
-          <JobGroupButton
-            text="디자인"
-            isActive={jobGroup === 'DESIGN'}
-            onClick={() => onClick('DESIGN')}
-          />
-        </li>
-        <li>
-          <JobGroupButton
-            text="개발"
-            isActive={jobGroup === 'DEVELOP'}
-            onClick={() => onClick('DEVELOP')}
-          />
-        </li>
+        {jobList.map((job) => (
+          <li key={`li-${job.id}`}>
+            <JobGroupButton
+              text={job.text}
+              isActive={jobGroup === job.value}
+              onClick={() => onClick(job.value)}
+              hoverEffect={false}
+              focusEffect={false}
+            />
+          </li>
+        ))}
       </ContainerUl>
     </ContainerDiv>
   );

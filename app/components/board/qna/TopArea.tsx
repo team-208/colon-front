@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import useAuth from '@/app/hooks/useAuth';
 import { useRecoilValue } from 'recoil';
 import { scrollState } from '@/app/recoils';
+import ButtonComp from '../../common/ButtomComp';
 
 const ContainerDiv = styled.div`
   display: flex;
@@ -39,7 +40,7 @@ const DescP2 = styled.p`
   color: ${({ theme }) => theme.color.label.normal};
 `;
 
-const FloatingButton = styled.button<{ $isScroll: boolean }>`
+const FloatingButton = styled(ButtonComp.Gradient)<{ $isScroll: boolean }>`
   ${({ theme }) => theme.font.body1}
   display: flex;
   flex-direction: row;
@@ -47,11 +48,8 @@ const FloatingButton = styled.button<{ $isScroll: boolean }>`
   align-items: center;
 
   width: 120px;
-  height: 50px;
-  color: #ffffff;
-  background: linear-gradient(90deg, #0080db 0%, #00a1ff 31.73%, #3ecdde 100%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 15px;
+  height: 50px; 
+  padding: 0;
   margin-left: 24px;
   z-index: 2;
 
@@ -119,7 +117,7 @@ const TopArea = () => {
         <DescP1>여러 직군에 있는 동료에게 물어보는 장소</DescP1>
         <DescP2>소통이 어려웠던 이유, 추가로 공부할 내용을 얻을 수 있어요.</DescP2>
       </TextBoxDiv>
-      <FloatingButton $isScroll={scroll} onClick={handleClick}>
+      <FloatingButton isActive onClick={handleClick} $isScroll={scroll}>
         <span>질문하기</span>
         <Image alt="" src={`${IMAGE_CDN}/icon/Write.png`} width={20} height={20} />
       </FloatingButton>

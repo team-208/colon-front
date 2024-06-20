@@ -28,30 +28,38 @@ const JobGroupButton = styled(ButtonComp.Solid)`
   padding: 11px 0;
 `;
 
+const jobList: { id: number; text: string; value: JOB_GROUP_TYPES }[] = [
+  {
+    id: 1,
+    text: '기획',
+    value: 'PLANNING',
+  },
+  {
+    id: 2,
+    text: '디자인',
+    value: 'DESIGN',
+  },
+  {
+    id: 3,
+    text: '개발',
+    value: 'DEVELOP',
+  },
+];
+
 const JobGroupList = ({ jobGroup, onClick }: JobGroupListProps) => {
   return (
     <ContainerUl>
-      <li>
-        <JobGroupButton
-          text="기획"
-          isActive={jobGroup === 'PLANNING'}
-          onClick={() => onClick('PLANNING')}
-        />
-      </li>
-      <li>
-        <JobGroupButton
-          text="디자인"
-          isActive={jobGroup === 'DESIGN'}
-          onClick={() => onClick('DESIGN')}
-        />
-      </li>
-      <li>
-        <JobGroupButton
-          text="개발"
-          isActive={jobGroup === 'DEVELOP'}
-          onClick={() => onClick('DEVELOP')}
-        />
-      </li>
+      {jobList.map((job) => (
+        <li key={`li-${job.id}`}>
+          <JobGroupButton
+            text={job.text}
+            isActive={jobGroup === job.value}
+            onClick={() => onClick(job.value)}
+            hoverEffect={false}
+            focusEffect={false}
+          />
+        </li>
+      ))}
     </ContainerUl>
   );
 };

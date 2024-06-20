@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
     const orderOption =
       order === 'DATE_DESC'
         ? { column: 'created_at', sort: { ascending: false } }
-        : { column: 'created_at', sort: { ascending: false } };
+        : { column: 'created_at', sort: { ascending: true } };
 
     const { error: totalPostGetError, count: totalCount } = await supabase
       .from('posts')
@@ -99,7 +99,11 @@ export async function GET(request: NextRequest) {
       .neq('status', POST_STATUS.EDITING)
       .order(orderOption.column, { ...orderOption.sort });
 
-    const postQuery = supabase.from('posts').select('*').neq('status', POST_STATUS.EDITING);
+    const postQuery = supabase
+      .from('posts')
+      .select('*')
+      .neq('status', POST_STATUS.EDITING)
+      .order(orderOption.column, { ...orderOption.sort });
 
     if (!!major) {
       postQuery.eq('requested_major', major);
