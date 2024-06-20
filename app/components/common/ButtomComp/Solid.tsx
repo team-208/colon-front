@@ -1,37 +1,74 @@
 'use client';
 
-import styled from 'styled-components';
-
-interface Props {
-  text: string;
-  isActive: boolean;
-  onClick: () => void;
-  size?: 'lg' | 'md' | 'sm';
+import styled, { RuleSet, css } from 'styled-components';
+import { ButtonProps } from './type';
+import { ButtonSizeStyle } from './style';
+interface Props extends ButtonProps {
+  hoverEffect?: boolean;
+  focusEffect?: boolean;
 }
 
-const SolidButton = styled.button<{ $isActive: boolean; $size: string }>`
+const SolidButton = styled.button<{
+  $isActive: boolean;
+  $hoverEffect: boolean;
+  $focusEffect: boolean;
+  $sizeStyle: RuleSet<object>;
+}>`
+  ${({ $sizeStyle }) => $sizeStyle}
   border-radius: 15px;
-  background-color: ${({ theme, $isActive }) =>
-    $isActive ? theme.color.primary.normal : theme.color.palette.coolNeutral99};
-  color: ${({ theme, $isActive }) =>
-    $isActive ? theme.color.static.light : theme.color.label.normal};
 
-  /* TODO: ButtonComp 개발 시 분리 */
-  ${({ theme, $size }) =>
-    $size === 'lg' ? theme.font.body1 : $size === 'md' ? theme.font.body2 : theme.font.body3}
-  border-radius: ${({ $size }) => ($size === 'lg' ? 15 : $size === 'md' ? 13 : 12)}px;
-  padding: ${({ $size }) =>
-    $size === 'lg' ? '12px 28px' : $size === 'md' ? '10px 24px' : '8px 20px'};
+  ${({ theme, $isActive }) =>
+    $isActive
+      ? css`
+          background-color: ${theme.color.primary.normal};
+          color: ${theme.color.static.light};
+        `
+      : css`
+          background-color: ${theme.color.palette.coolNeutral99};
+          color: ${theme.color.label.normal};
+        `}
 
-  ${({ theme }) => theme.mediaQuery.mobile} {
-    ${({ theme }) => theme.font.body3}
-  }
+  ${({ $hoverEffect }) =>
+    $hoverEffect &&
+    css`
+      &:hover {
+        /* Sementic/Primary/Strong */
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), #00a1ff;
+      }
+    `}
+
+
+  ${({ $focusEffect }) =>
+    $focusEffect &&
+    css`
+      &:focus {
+        /* Sementic/Primary/Heavy */
+        background: #0080db;
+        filter: rgba(0, 0, 0, 0.1);
+      }
+    `}
 `;
 
-const Solid = ({ text, isActive, onClick, size, ...props }: Props) => {
+const Solid = ({
+  children,
+  text,
+  isActive,
+  hoverEffect = true,
+  focusEffect = true,
+  onClick,
+  size,
+  ...props
+}: Props) => {
   return (
-    <SolidButton {...props} $size={size ?? 'md'} $isActive={isActive} onClick={onClick}>
-      {text}
+    <SolidButton
+      {...props}
+      $sizeStyle={ButtonSizeStyle(size ?? 'md')}
+      $isActive={isActive}
+      $hoverEffect={hoverEffect}
+      $focusEffect={focusEffect}
+      onClick={onClick}
+    >
+      {children || text}
     </SolidButton>
   );
 };

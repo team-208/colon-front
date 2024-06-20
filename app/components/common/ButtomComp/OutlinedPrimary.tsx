@@ -1,39 +1,44 @@
 'use client';
 
-import styled from 'styled-components';
+import styled, { RuleSet, css } from 'styled-components';
+import { ButtonProps } from './type';
+import { ButtonSizeStyle } from './style';
 
-interface Props {
-  text: string;
-  isActive: boolean;
-  onClick: () => void;
-  size?: 'lg' | 'md' | 'sm';
-}
+interface Props extends ButtonProps {}
 
-const OutlinedPrimaryButton = styled.button<{ $isActive: boolean; $size: string }>`
+const OutlinedPrimaryButton = styled.button<{ $isActive: boolean; $sizeStyle: RuleSet<object> }>`
+  ${({ $sizeStyle }) => $sizeStyle}
   background: transparent;
-  border: 1px solid
-    ${({ theme, $isActive }) =>
-      $isActive ? theme.color.primary.normal : theme.color.interaction.disable};
-  color: ${({ theme, $isActive }) =>
-    $isActive ? theme.color.primary.normal : theme.color.label.disable};
 
-/* TODO: ButtonComp 개발 시 분리 */
+  ${({ theme, $isActive }) =>
+    $isActive
+      ? css`
+          border: 1px solid ${theme.color.primary.normal};
+          color: ${theme.color.primary.normal};
+        `
+      : css`
+          border: 1px solid ${theme.color.interaction.disable};
+          color: ${theme.color.interaction.disable};
+        `}
 
-${({ theme, $size }) =>
-    $size === 'lg' ? theme.font.body1 : $size === 'md' ? theme.font.body2 : theme.font.body3}
-  border-radius: ${({ $size }) => ($size === 'lg' ? 15 : $size === 'md' ? 13 : 12)}px;
-  padding: ${({ $size }) =>
-    $size === 'lg' ? '12px 28px' : $size === 'md' ? '10px 24px' : '8px 20px'};
+  &:hover {
+    background: rgba(0, 161, 255, 0.04);
+  }
 
-  ${({ theme }) => theme.mediaQuery.mobile} {
-    ${({ theme }) => theme.font.body3}
+  &:focus {
+    background: rgba(0, 161, 255, 0.1);
   }
 `;
 
-const OutlinedPrimary = ({ text, isActive, onClick, size, ...props }: Props) => {
+const OutlinedPrimary = ({ children, text, isActive, onClick, size, ...props }: Props) => {
   return (
-    <OutlinedPrimaryButton {...props} $size={size ?? 'md'} $isActive={isActive} onClick={onClick}>
-      {text}
+    <OutlinedPrimaryButton
+      {...props}
+      $sizeStyle={ButtonSizeStyle(size ?? 'md')}
+      $isActive={isActive}
+      onClick={onClick}
+    >
+      {children || text}
     </OutlinedPrimaryButton>
   );
 };
