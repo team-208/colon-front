@@ -83,3 +83,49 @@ export async function PUT(request: Request, { params }: { params: Params }) {
     return NextResponse.redirect(`${host}/error/500`);
   }
 }
+
+export async function DELETE(request: Request, { params }: { params: Params }) {
+  const host = getHost();
+
+  const supabase = await createClient();
+
+  try {
+    const { data: userSession } = await supabase.auth.getSession();
+
+    const { session } = userSession;
+    const userId = session?.user.id;
+
+    const { data, error: postGetError } = await supabase
+      .from('posts')
+      .select('body_url, user_id')
+      .eq('id', params.id)
+      .limit(1)
+      .single();
+
+    if (postGetError || data.user_id !== userId) {
+      const userIdError = data?.user_id !== userId ? 'User without permission' : '';
+      return NextResponse.json({
+        success: false,
+        ...postGetError,
+        userIdError,
+      });
+    }
+
+    const { error: storageError } = await supabase.storage.from('posts').remove(data.body_url);
+
+    if (storageError) {
+      return NextResponse.json({
+        success: false,
+        ...storageError,
+      });
+    }
+
+    const { error } = await supabase.from('posts').delete().eq('id', params.id);
+
+    // TODO: scraps, reactions 도 제거 필요.
+
+    return NextResponse.json({ success: error ? false : true, error });
+  } catch (error) {
+    return NextResponse.redirect(`${host}/error/500`);
+  }
+}
