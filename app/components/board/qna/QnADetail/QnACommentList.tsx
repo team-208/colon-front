@@ -2,16 +2,20 @@
 
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import useCommentsQuery from '@/app/api/comment/[postId]/queries';
+import ButtonComp from '@/app/components/common/ButtomComp';
 import CommentComp from '@/app/components/common/CommentComp';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
+import useAuth from '@/app/hooks/useAuth';
 import dayjs from 'dayjs';
+import { isEmpty } from 'lodash';
 import Image from 'next/image';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
 interface Props {
   postId: string;
   acceptedCommentId: number;
+  postAuthor: string;
 }
 
 const ConatinerDiv = styled.div`
@@ -81,14 +85,32 @@ const commentList = [
   },
 ];
 
+const FooterBoxDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const ChoiceButton = styled(ButtonComp.Solid)`
+  padding: 4px 10px;
+  height: 26px;
+  border-radius: 8px;
+`;
+
 const emojis = {
   thumbsUp: 2,
   smilingHeart: 4,
   heart: 0,
 };
 
-const QnACommentList = ({ postId, acceptedCommentId }: Props) => {
+const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
   const { data } = useCommentsQuery(postId);
+
+  const { userInfo } = useAuth();
+
+  const isAuthor = useMemo(() => postAuthor === userInfo?.user.nick_name, [userInfo]);
+
+  const handleClickChoice = useCallback((commentId: number) => {}, []);
 
   return (
     <ConatinerDiv>
@@ -129,23 +151,40 @@ const QnACommentList = ({ postId, acceptedCommentId }: Props) => {
                       isSelected={acceptedCommentId === id}
                     />
                     <CommentP>{comment}</CommentP>
-                    <CommentComp.Emojis emojis={emojis} />
+                    <FooterBoxDiv>
+                      <CommentComp.Emojis emojis={emojis} />
+                      {isAuthor && !acceptedCommentId && (
+                        <ChoiceButton isActive onClick={() => handleClickChoice(id)}>
+                          글쓴이 채택
+                        </ChoiceButton>
+                      )}
+                    </FooterBoxDiv>
                   </CommentComp.Wrapper>
                 </li>
-                {nestedComments?.map((item, idx) => (
-                  <li key={`nested-comment-item-${item.id}`}>
-                    <CommentComp.Wrapper isNestedComment={true}>
-                      <CommentComp.Header
-                        major={author_major}
-                        nickname={item.author_nickname}
-                        updatedAt={item.updated_at || item.created_at}
-                        isSelected={acceptedCommentId === item.id}
-                      />
-                      <CommentP>{item.comment}</CommentP>
-                      <CommentComp.Emojis emojis={item.emojis} />
-                    </CommentComp.Wrapper>
-                  </li>
-                ))}
+                {nestedComments?.map((item, idx) => {
+                  const isAuthorComment = userInfo?.user.nick_name === item.author_nickname;
+                  return (
+                    <li key={`nested-comment-item-${item.id}`}>
+                      <CommentComp.Wrapper isNestedComment={true}>
+                        <CommentComp.Header
+                          major={author_major}
+                          nickname={item.author_nickname}
+                          updatedAt={item.updated_at || item.created_at}
+                          isSelected={acceptedCommentId === item.id}
+                        />
+                        <CommentP>{item.comment}</CommentP>
+                        <FooterBoxDiv>
+                          <CommentComp.Emojis emojis={emojis} />
+                          {isAuthor && !isAuthorComment && !acceptedCommentId && (
+                            <ChoiceButton isActive onClick={() => handleClickChoice(item.id)}>
+                              글쓴이 채택
+                            </ChoiceButton>
+                          )}
+                        </FooterBoxDiv>
+                      </CommentComp.Wrapper>
+                    </li>
+                  );
+                })}
               </React.Fragment>
             );
           },
