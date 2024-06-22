@@ -95,18 +95,18 @@ export async function DELETE(request: Request, { params }: { params: Params }) {
     const { session } = userSession;
     const userId = session?.user.id;
 
-    const { data, error: postGetError } = await supabase
+    const { data, error: postDeleteError } = await supabase
       .from('posts')
-      .select('body_url, user_id')
+      .delete()
       .eq('id', params.id)
-      .limit(1)
+      .select('body_url, user_id')
       .single();
 
-    if (postGetError || data.user_id !== userId) {
+    if (postDeleteError || data.user_id !== userId) {
       const userIdError = data?.user_id !== userId ? 'User without permission' : '';
       return NextResponse.json({
         success: false,
-        ...postGetError,
+        ...postDeleteError,
         userIdError,
       });
     }
@@ -120,11 +120,9 @@ export async function DELETE(request: Request, { params }: { params: Params }) {
       });
     }
 
-    const { error } = await supabase.from('posts').delete().eq('id', params.id);
-
     // TODO: scraps, reactions 도 제거 필요.
 
-    return NextResponse.json({ success: error ? false : true, error });
+    return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.redirect(`${host}/error/500`);
   }
