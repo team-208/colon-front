@@ -1,14 +1,14 @@
 'use client';
 
-import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import useCommentsQuery from '@/app/api/comment/[postId]/queries';
+import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
 import ButtonComp from '@/app/components/common/ButtomComp';
 import CommentComp from '@/app/components/common/CommentComp';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import useAuth from '@/app/hooks/useAuth';
 import dayjs from 'dayjs';
-import { isEmpty } from 'lodash';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -105,12 +105,17 @@ const emojis = {
 
 const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
   const { data } = useCommentsQuery(postId);
+  const { mutateAsync } = useModifyPostMutation();
 
   const { userInfo } = useAuth();
+  const { refresh } = useRouter();
 
   const isAuthor = useMemo(() => postAuthor === userInfo?.user.nick_name, [userInfo]);
 
-  const handleClickChoice = useCallback((commentId: number) => {}, []);
+  const handleClickChoice = useCallback(async (commentId: number) => {
+    await mutateAsync({ id: parseInt(postId), status: 'COMPLETE', accept_comment_id: commentId });
+    refresh();
+  }, []);
 
   return (
     <ConatinerDiv>
