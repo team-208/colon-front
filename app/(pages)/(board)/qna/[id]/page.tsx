@@ -33,7 +33,7 @@ const QuestionPage = async ({ params }: Props) => {
       <Section direction="column" padding="0">
         <QnACommentList
           postId={params.id}
-          acceptedCommentId={post.accepted_comment_id}
+          acceptedCommentId={post.accept_comment_id}
           postAuthor={post.author_nickname}
         />
       </Section>
