@@ -63,11 +63,11 @@ const ReactionCount = ({ reactionCountObj, userReaction }: ReactionProps) => {
               height={20}
             />
           ))}
+          <CountSpan>{emojiCount.sum}</CountSpan>
         </>
       ) : (
         <Image alt="이모지" src={`${IMAGE_CDN}/qna/EmojiAdd.png`} width={24} height={24} />
       )}
-      <CountSpan>{emojiCount.sum}</CountSpan>
     </CountBoxDiv>
   );
 };
