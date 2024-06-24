@@ -8,10 +8,13 @@ import Tabs from '@/app/components/mypage/Tabs';
 import DeleteUserButton from '@/app/components/mypage/DeleteUserButton';
 
 const ContainerMain = styled.main`
+  // ScrollBox height 처리
+  height: ${({ theme }) => `calc(100% - ${theme.heightSizes.header.desktop}px)`};
   padding-left: 200px;
   padding-right: 200px;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
+    height: ${({ theme }) => `calc(100% - ${theme.heightSizes.header.mobile}px)`};
     padding-left: 0;
     padding-right: 0;
   }
