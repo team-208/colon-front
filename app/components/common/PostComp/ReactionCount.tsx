@@ -45,7 +45,7 @@ const FloatingBoxDiv = styled.div<{ $isActive: boolean }>`
   /* Palette/Blue/99 */
   background: rgba(221, 243, 255, 0.8);
   border-radius: 8px;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -95,16 +95,19 @@ const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: Rea
     return { list, sum };
   }, []);
 
-const handleCountBoxClick = useCallback(() => {
-  if(reactionDisabled) return;
+  const handleCountBoxClick = useCallback(() => {
+    if (reactionDisabled) return;
 
-  setIsActive((v) => !v);
-}, [reactionDisabled])
+    setIsActive((v) => !v);
+  }, [reactionDisabled]);
 
-const handleEmojiClick = useCallback((emoji: string) => {
-  if (emoji === userReaction) return;
-    // TODO: Reaction 변경 API 연동
-}, [userReaction])
+  const handleEmojiClick = useCallback(
+    (emoji: string) => {
+      if (emoji === userReaction) return;
+      // TODO: Reaction 변경 API 연동
+    },
+    [userReaction],
+  );
 
   return (
     <CountBoxDiv
@@ -135,6 +138,7 @@ const handleEmojiClick = useCallback((emoji: string) => {
       <FloatingBoxDiv $isActive={isActive}>
         {emojiCount.list.map((v) => (
           <EmojiBoxDiv
+            key={`emoji-box-${v.key}`}
             $isSelect={v.key === userReaction}
             onClick={() => {
               handleEmojiClick(v.key);
