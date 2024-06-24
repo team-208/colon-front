@@ -126,6 +126,8 @@ const ScrapContent = async () => {
                 reactionCountObj={{
                   ThumbsUp: 1,
                   Pushpin: 2,
+                  FaceWithMonocle: 0,
+                  ExplodingHead: 0,
                   SmilingHeart: 5,
                 }}
                 userReaction="ThumbsUp"

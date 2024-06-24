@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
@@ -12,6 +12,7 @@ export interface ReactionProps {
 }
 
 const CountBoxDiv = styled.div<{ $isSelect: boolean; $isActive: boolean }>`
+  position: relative;
   display: flex;
   align-items: center;
 
@@ -26,6 +27,52 @@ const CountBoxDiv = styled.div<{ $isSelect: boolean; $isActive: boolean }>`
       : $isActive
         ? theme.color.palette.coolNeutral97
         : 'none'};
+`;
+
+const FloatingBoxDiv = styled.div<{ $isActive: boolean }>`
+  visibility: ${({ $isActive }) => ($isActive ? 'visible' : 'hidden')};
+  position: absolute;
+  left: 0;
+  top: -100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  transform: translateY(-18px);
+
+  padding: 4px 0;
+  /* Palette/Blue/99 */
+  background: rgba(221, 243, 255, 0.8);
+  border-radius: 8px;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    left: 32px;
+    bottom: -20px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid rgba(221, 243, 255, 0.8);
+    border-bottom: 10px solid transparent;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+  }
+`;
+
+const EmojiBoxDiv = styled.div<{ $isSelect: boolean }>`
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  padding: 4px 8px;
+  background: ${({ theme, $isSelect }) => $isSelect && theme.color.palette.deepSkyBlue90};
+  border-radius: 8px;
+
+  &:hover {
+    background: ${({ theme }) => theme.color.palette.deepSkyBlue90};
+  }
+
+  &:not(:last-of-type) {
+    margin-right: 8px;
+  }
 `;
 
 const CountSpan = styled.span`
@@ -46,6 +93,11 @@ const ReactionCount = ({ reactionCountObj, userReaction }: ReactionProps) => {
     return { list, sum };
   }, []);
 
+const handleEmojiClick = useCallback((emoji: string) => {
+  if (emoji === userReaction) return;
+    // TODO: Reaction 변경 API 연동
+}, [userReaction])
+
   return (
     <CountBoxDiv
       $isSelect={!!userReaction}
@@ -54,20 +106,36 @@ const ReactionCount = ({ reactionCountObj, userReaction }: ReactionProps) => {
     >
       {emojiCount.sum > 0 ? (
         <>
-          {emojiCount.list.map((v) => (
-            <Image
-              key={`emoji-${v.key}`}
-              alt="이모지"
-              src={`${IMAGE_CDN}/qna/Emoji${v.key}.png`}
-              width={20}
-              height={20}
-            />
-          ))}
+          {emojiCount.list.map(
+            (v) =>
+              v.value > 0 && (
+                <Image
+                  key={`emoji-${v.key}`}
+                  alt="이모지"
+                  src={`${IMAGE_CDN}/qna/Emoji${v.key}.png`}
+                  width={20}
+                  height={20}
+                />
+              ),
+          )}
           <CountSpan>{emojiCount.sum}</CountSpan>
         </>
       ) : (
         <Image alt="이모지" src={`${IMAGE_CDN}/qna/EmojiAdd.png`} width={24} height={24} />
       )}
+      <FloatingBoxDiv $isActive={isActive}>
+        {emojiCount.list.map((v) => (
+          <EmojiBoxDiv
+            $isSelect={v.key === userReaction}
+            onClick={() => {
+              handleEmojiClick(v.key);
+            }}
+          >
+            <Image alt="이모지" src={`${IMAGE_CDN}/qna/Emoji${v.key}.png`} width={20} height={20} />
+            {v.value > 0 && <CountSpan>{v.value}</CountSpan>}
+          </EmojiBoxDiv>
+        ))}
+      </FloatingBoxDiv>
     </CountBoxDiv>
   );
 };
