@@ -181,7 +181,7 @@ const QuestionCard = ({
           <ContentPreviewBodyP>{preview_body}</ContentPreviewBodyP>
 
           <ContentFooterDiv>
-            <PostComp.ReactionCount postId={id} emojiCount={8} commentCount={3} />
+            <PostComp.CountBox postId={id} emojiCount={8} commentCount={3} />
             <PostComp.ScrapButton postId={id} isScrap={!!isScrap} />
           </ContentFooterDiv>
         </ContentDiv>

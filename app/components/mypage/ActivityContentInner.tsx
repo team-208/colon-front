@@ -111,7 +111,7 @@ const ActivityContentInner = (props: Props) => {
         v.type === 'post' || v.type === 'temp_post' ? (
           <PostCard key={`post-${v.id}`} {...(v as UserPost)} isDelete>
             {v.type === 'post' && (
-              <PostComp.ReactionCount postId={v.id} emojiCount={999} commentCount={3} />
+              <PostComp.CountBox postId={v.id} emojiCount={999} commentCount={3} />
             )}
 
             {/* TODO: post.id로 변경 */}
