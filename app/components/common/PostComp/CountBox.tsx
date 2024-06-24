@@ -1,14 +1,12 @@
 'use client';
 
 import styled from 'styled-components';
-import ReactionCount from './ReactionCount';
-import CommentCount from './CommentCount';
+import ReactionCount, { ReactionProps } from './ReactionCount';
+import CommentCount, { CommentProps } from './CommentCount';
 
-interface Props {
+interface Props extends CommentProps, ReactionProps {
   className?: string;
   postId: number;
-  emojiCount: number;
-  commentCount: number;
 }
 
 const ContainerDiv = styled.div`
@@ -24,12 +22,12 @@ const SeperatorSpan = styled.span`
   font-weight: 400;
 `;
 
-const CountBox = ({ className, emojiCount, commentCount }: Props) => {
+const CountBox = ({ className, reactionCountObj, userReaction, commentCount }: Props) => {
   return (
     <ContainerDiv className={className}>
-      <ReactionCount count={emojiCount} />
+      <ReactionCount reactionCountObj={reactionCountObj} userReaction={userReaction} />
       <SeperatorSpan>|</SeperatorSpan>
-      <CommentCount count={commentCount} />
+      <CommentCount commentCount={commentCount} />
     </ContainerDiv>
   );
 };

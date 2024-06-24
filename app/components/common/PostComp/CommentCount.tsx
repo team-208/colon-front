@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import styled from 'styled-components';
 
-interface Props {
-  count: number;
+export interface CommentProps {
+  commentCount: number;
 }
 
 const Container = styled.div`
@@ -18,11 +18,11 @@ const Container = styled.div`
   }
 `;
 
-const CommentCount = ({ count }: Props) => {
+const CommentCount = ({ commentCount }: CommentProps) => {
   return (
     <Container>
       <Image alt="댓글 아이콘" src={`${IMAGE_CDN}/qna/Icon_Comment.png`} width={24} height={24} />
-      <span>{' ' + (count > 999 ? '999+' : count)}</span>
+      <span>{' ' + (commentCount > 999 ? '999+' : commentCount)}</span>
     </Container>
   );
 };
