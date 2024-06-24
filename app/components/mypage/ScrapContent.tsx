@@ -130,7 +130,7 @@ const ScrapContent = async () => {
                   ExplodingHead: 0,
                   SmilingHeart: 5,
                 }}
-                userReaction="ThumbsUp"
+                reactionDisabled
                 commentCount={3}
               />
             </div>

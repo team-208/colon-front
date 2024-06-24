@@ -22,10 +22,14 @@ const SeperatorSpan = styled.span`
   font-weight: 400;
 `;
 
-const CountBox = ({ className, reactionCountObj, userReaction, commentCount }: Props) => {
+const CountBox = ({ className, reactionCountObj, userReaction, reactionDisabled, commentCount }: Props) => {
   return (
     <ContainerDiv className={className}>
-      <ReactionCount reactionCountObj={reactionCountObj} userReaction={userReaction} />
+      <ReactionCount
+        reactionCountObj={reactionCountObj}
+        userReaction={userReaction}
+        reactionDisabled={reactionDisabled}
+      />
       <SeperatorSpan>|</SeperatorSpan>
       <CommentCount commentCount={commentCount} />
     </ContainerDiv>

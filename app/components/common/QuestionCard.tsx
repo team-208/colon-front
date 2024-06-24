@@ -190,6 +190,7 @@ const QuestionCard = ({
                 ExplodingHead: 4,
                 SmilingHeart: 5,
               }}
+              reactionDisabled
               commentCount={3}
             />
             <PostComp.ScrapButton postId={id} isScrap={!!isScrap} />

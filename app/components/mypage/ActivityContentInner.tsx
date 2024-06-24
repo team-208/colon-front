@@ -120,6 +120,7 @@ const ActivityContentInner = (props: Props) => {
                   ExplodingHead: 4,
                   SmilingHeart: 5,
                 }}
+                reactionDisabled
                 commentCount={3}
               />
             )}

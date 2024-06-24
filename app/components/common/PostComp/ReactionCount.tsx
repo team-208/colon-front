@@ -9,9 +9,11 @@ import { ReactionType, ReactionObjType } from './type';
 export interface ReactionProps {
   reactionCountObj: ReactionObjType;
   userReaction?: ReactionType | undefined;
+  reactionDisabled?: boolean;
 }
 
-const CountBoxDiv = styled.div<{ $isSelect: boolean; $isActive: boolean }>`
+const CountBoxDiv = styled.div<{ $isSelect: boolean; $isActive: boolean; $isDisabled: boolean }>`
+  cursor: ${({ $isDisabled }) => !$isDisabled && 'pointer'};
   position: relative;
   display: flex;
   align-items: center;
@@ -80,7 +82,7 @@ const CountSpan = styled.span`
   margin-left: 4px;
 `;
 
-const ReactionCount = ({ reactionCountObj, userReaction }: ReactionProps) => {
+const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: ReactionProps) => {
   const [isActive, setIsActive] = useState(false);
 
   const emojiCount = useMemo(() => {
@@ -93,6 +95,12 @@ const ReactionCount = ({ reactionCountObj, userReaction }: ReactionProps) => {
     return { list, sum };
   }, []);
 
+const handleCountBoxClick = useCallback(() => {
+  if(reactionDisabled) return;
+
+  setIsActive((v) => !v);
+}, [reactionDisabled])
+
 const handleEmojiClick = useCallback((emoji: string) => {
   if (emoji === userReaction) return;
     // TODO: Reaction 변경 API 연동
@@ -100,9 +108,10 @@ const handleEmojiClick = useCallback((emoji: string) => {
 
   return (
     <CountBoxDiv
+      $isDisabled={!!reactionDisabled}
       $isSelect={!!userReaction}
       $isActive={isActive}
-      onClick={() => setIsActive((v) => !v)}
+      onClick={handleCountBoxClick}
     >
       {emojiCount.sum > 0 ? (
         <>
