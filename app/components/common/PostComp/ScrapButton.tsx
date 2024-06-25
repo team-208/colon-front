@@ -5,6 +5,7 @@ import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { useCallback } from 'react';
 import { useInsertPostScrapMutation } from '@/app/api/post/scrap/mutations';
 import usePostScrapQuery from '@/app/api/post/scrap/queries';
+import useHistoryQuery from '@/app/api/auth/history/queries';
 
 interface Props {
   className?: string;
@@ -13,7 +14,8 @@ interface Props {
 }
 
 const ScrapButton = ({ className, postId, isScrap }: Props) => {
-  const { refetch } = usePostScrapQuery();
+  const { refetch: postRefetch } = usePostScrapQuery();
+  const { refetch: historyRefetch } = useHistoryQuery({ historyType: 'SCRAP' });
   const { mutateAsync } = useInsertPostScrapMutation();
 
   const handleClickScrap = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,7 +26,8 @@ const ScrapButton = ({ className, postId, isScrap }: Props) => {
     e.preventDefault();
     const res = await mutateAsync({ postId });
     if (res.success) {
-      refetch();
+      postRefetch();
+      historyRefetch();
     }
   }, []);
 

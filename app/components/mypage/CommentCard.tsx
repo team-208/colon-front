@@ -4,9 +4,11 @@ import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
 import { JOB_GROUP_LABELS } from '../constants';
-import { UserComment } from '../type';
 import CommentComp from '../common/CommentComp';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
+import { HistoryPost, HistoryComment } from '@/app/api/auth/history/type';
+
+interface Props extends HistoryPost, HistoryComment {}
 
 const CommentCardWrapper = styled.div`
   display: flex;
@@ -134,13 +136,14 @@ const ModifyButton = styled.button`
 `;
 
 const CommentCard = ({
+  postAuthorMajor,
+  postRequestedMajor,
+  postStatus,
+  title,
+  commentAuthorMajor,
+  commentAuthorNickname,
   comment,
-  postInfo,
-  recommend_count,
-  comment_count,
-  author_major,
-  author_nickname,
-}: UserComment) => {
+}: Props) => {
   const handleDeleteClick = () => {
     // TODO: 댓글 삭제 api 연동
   };
@@ -153,29 +156,29 @@ const CommentCard = ({
     <CommentCardWrapper>
       <PostAreaContainer>
         <MajorP>
-          <span>{JOB_GROUP_LABELS[postInfo.author_major] ?? ''}</span>
+          <span>{JOB_GROUP_LABELS[postAuthorMajor] ?? ''}</span>
           <span>
             {`>`}
-            {JOB_GROUP_LABELS[postInfo.requestedMajor] ?? ''}
+            {JOB_GROUP_LABELS[postRequestedMajor] ?? ''}
           </span>
         </MajorP>
         <TitleP>
           <Image
             alt="답변 체크"
             src={`${IMAGE_CDN}/qna/CheckMarkButton${
-              postInfo.status === 'COMPLETE' ? '_checked' : '_disable'
+              postStatus === 'COMPLETE' ? '_checked' : '_disable'
             }.png`}
             width={20}
             height={20}
           />
-          {postInfo.title}
+          {title}
         </TitleP>
       </PostAreaContainer>
       <CommentAreaContainer>
         <CommentAreaHeader>
           <div>
-            <TagP>{JOB_GROUP_LABELS[author_major]}</TagP>
-            <NicknameP>{author_nickname}</NicknameP>
+            <TagP>{JOB_GROUP_LABELS[commentAuthorMajor as string]}</TagP>
+            <NicknameP>{commentAuthorNickname}</NicknameP>
           </div>
           <button onClick={handleDeleteClick}>
             <Image
@@ -188,10 +191,9 @@ const CommentCard = ({
         </CommentAreaHeader>
         <CommentTextP>{comment}</CommentTextP>
         <CommentAreaFooter>
-          <CommentComp.ReactionCount
-            recommendCount={recommend_count}
-            commentCount={comment_count}
-          />
+          {/* TODO: 추천기능 개발시 수정 */}
+          {/* TODO: 대댓글 count */}
+          <CommentComp.ReactionCount recommendCount={1004} commentCount={30} />
           <ModifyButton onClick={handleModifyClick}>
             <Image
               alt="수정 아이콘"
