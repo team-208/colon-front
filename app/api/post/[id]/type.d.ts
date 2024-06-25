@@ -1,3 +1,4 @@
+import { ReactionObjType } from '@/app/components/common/PostComp/type';
 import { JOB_GROUP_TYPES } from '../../auth/user/type';
 import { POST_STATUS, POST_STATUS_TYPES } from '../type';
 
@@ -15,6 +16,7 @@ export interface GetPostResponse {
   author_major: JOB_GROUP_TYPES;
   author_profile_url: string;
   accepted_comment_id: number;
+  reactions: ReactionObjType;
 }
 
 export interface UpdatePostRequest {

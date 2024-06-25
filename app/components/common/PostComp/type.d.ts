@@ -6,9 +6,9 @@ export type ReactionType =
   | 'SmilingHeart';
 
 export interface ReactionObjType extends Object {
-  ThumbsUp: number;
-  Pushpin: number;
-  FaceWithMonocle: number;
-  ExplodingHead: number;
-  SmilingHeart: number;
+  ThumbsUp?: number;
+  Pushpin?: number;
+  FaceWithMonocle?: number;
+  ExplodingHead?: number;
+  SmilingHeart?: number;
 }
