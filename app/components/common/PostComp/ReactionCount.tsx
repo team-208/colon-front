@@ -5,8 +5,11 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { ReactionType, ReactionObjType } from './type';
+import { useModifyPostReactionsMutation } from '@/app/api/post/[id]/reactions/mutations';
+import { useRouter } from 'next/navigation';
 
 export interface ReactionProps {
+  postId: number;
   reactionCountObj: ReactionObjType;
   userReaction?: ReactionType | undefined;
   reactionDisabled?: boolean;
@@ -88,8 +91,17 @@ const CountSpan = styled.span`
   margin-left: 4px;
 `;
 
-const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: ReactionProps) => {
+const ReactionCount = ({
+  postId,
+  reactionCountObj,
+  userReaction,
+  reactionDisabled,
+}: ReactionProps) => {
   const [isActive, setIsActive] = useState(false);
+
+  const { mutateAsync } = useModifyPostReactionsMutation();
+
+  const { refresh } = useRouter();
 
   const emojiCount = useMemo(() => {
     if (!reactionCountObj) {
@@ -111,9 +123,16 @@ const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: Rea
   }, [reactionDisabled]);
 
   const handleEmojiClick = useCallback(
-    (emoji: string) => {
+    async (emoji: ReactionType) => {
       if (emoji === userReaction) return;
-      // TODO: Reaction 변경 API 연동
+
+      // TODO: 유저당 1개씩만 반응 하도록 수정 필요.
+      const reactions = { ...reactionCountObj };
+      reactions[emoji] = !(emoji in reactions) ? 1 : (reactions[emoji] as number) + 1;
+      await mutateAsync({ postId, reactions });
+
+      // TODO: tanstack hydrate 적용 필요.
+      refresh();
     },
     [userReaction],
   );
@@ -150,7 +169,7 @@ const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: Rea
             key={`emoji-box-${v.key}`}
             $isSelect={v.key === userReaction}
             onClick={() => {
-              handleEmojiClick(v.key);
+              handleEmojiClick(v.key as ReactionType);
             }}
           >
             <Image alt="이모지" src={`${IMAGE_CDN}/qna/Emoji${v.key}.png`} width={20} height={20} />

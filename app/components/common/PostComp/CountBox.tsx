@@ -27,10 +27,12 @@ const CountBox = ({
   userReaction,
   reactionDisabled,
   commentCount,
+  postId,
 }: Props) => {
   return (
     <ContainerDiv className={className}>
       <ReactionCount
+        postId={postId}
         reactionCountObj={reactionCountObj}
         userReaction={userReaction}
         reactionDisabled={reactionDisabled}
