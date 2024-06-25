@@ -102,7 +102,7 @@ const PostCard = ({
     <PostCardContainer>
       <PostCardHeader>
         <PostComp.MajorBox authorMajor={postAuthorMajor} requestedMajor={postRequestedMajor} />
-        {status === 'COMPLETE' && <NicknameP>{authorNickname}</NicknameP>}
+        {postStatus === 'COMPLETE' && <NicknameP>{authorNickname}</NicknameP>}
         {isDelete && (
           <DeleteButton onClick={handleDeleteClick}>
             <Image
@@ -119,7 +119,7 @@ const PostCard = ({
           <Image
             alt="답변 체크"
             src={`${IMAGE_CDN}/qna/${
-              status === 'COMPLETE' ? 'CheckMarkButton_checked' : 'EmojiSpeechBubble'
+              postStatus === 'COMPLETE' ? 'CheckMarkButton_checked' : 'EmojiSpeechBubble'
             }.png`}
             width={20}
             height={20}
