@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import PostCard from './PostCard';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { HistoryItemProps } from '@/app/api/auth/history/type';
+import useHistoryQuery from '@/app/api/auth/history/queries';
 
 // TODO: reaction, scrap 추후 변경
 interface ReactionPost extends HistoryItemProps {
@@ -153,11 +154,13 @@ const fetchReaction = (): Promise<typeof postList> => {
 };
 
 const ReactionContent = async () => {
+  // const { data } = useHistoryQuery({ historyType: 'REACTIONS' });
   const list: typeof postList = await fetchReaction();
 
   return (
     <ContentContainer>
-      {list?.map((v) => (
+      {/* {data?.list?.map((v) => ( */}
+      {list.map((v) => (
         <PostCard key={`reaction-${v.post.postId}`} {...v.post}>
           <>
             <FlexRowDiv>

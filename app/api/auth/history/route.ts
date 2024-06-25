@@ -152,6 +152,13 @@ export async function GET(request: NextRequest, response: Response) {
       });
     }
 
+    if (historyType === 'REACTIONS') {
+      return NextResponse.json({
+        success: true,
+        list: [],
+      });
+    }
+
     return NextResponse.json({ success: true, list: [] });
   } catch (error) {
     return NextResponse.redirect(`${host}/error/500`);
