@@ -154,6 +154,7 @@ const QuestionCard = ({
   author_major,
   author_profile_url,
   isScrap,
+  reactions,
 }: Props) => {
   return (
     <ContainerArticle>
@@ -183,13 +184,7 @@ const QuestionCard = ({
           <ContentFooterDiv>
             <PostComp.CountBox
               postId={id}
-              reactionCountObj={{
-                ThumbsUp: 1,
-                Pushpin: 2,
-                FaceWithMonocle: 3,
-                ExplodingHead: 4,
-                SmilingHeart: 5,
-              }}
+              reactionCountObj={reactions}
               reactionDisabled
               commentCount={3}
             />

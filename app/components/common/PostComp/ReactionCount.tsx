@@ -92,6 +92,9 @@ const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: Rea
   const [isActive, setIsActive] = useState(false);
 
   const emojiCount = useMemo(() => {
+    if (!reactionCountObj) {
+      return { sum: 0 };
+    }
     const list = [];
     let sum = 0;
     for (const [key, value] of Object.entries(reactionCountObj)) {
@@ -124,7 +127,7 @@ const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: Rea
     >
       {emojiCount.sum > 0 ? (
         <>
-          {emojiCount.list.map(
+          {emojiCount?.list?.map(
             (v) =>
               v.value > 0 && (
                 <Image
@@ -142,7 +145,7 @@ const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: Rea
         <Image alt="이모지" src={`${IMAGE_CDN}/qna/EmojiAdd.png`} width={24} height={24} />
       )}
       <FloatingBoxDiv $isActive={isActive}>
-        {emojiCount.list.map((v) => (
+        {emojiCount?.list?.map((v) => (
           <EmojiBoxDiv
             key={`emoji-box-${v.key}`}
             $isSelect={v.key === userReaction}
