@@ -121,10 +121,12 @@ export async function GET(request: NextRequest, response: Response) {
         return NextResponse.json({ success: false, scrapGetError });
       }
 
-      const { data: postHistory, error: postGetError } = await postQuery.in(
-        'id',
-        scrapList.map((v) => v.post_id),
-      );
+      const { data: postHistory, error: postGetError } = await postQuery
+        .order('id', { ascending: false })
+        .in(
+          'id',
+          scrapList.map((v) => v.post_id),
+        );
 
       if (postGetError) {
         return NextResponse.json({ success: false, postGetError });
