@@ -21,7 +21,7 @@ export async function GET(request: NextRequest, response: Response) {
 
     const userId = data.session?.user.id;
 
-    const postQuery = supabase.from('posts').select('*').eq('user_id', userId);
+    const postQuery = supabase.from('posts').select('*');
     const commentQuery = supabase
       .from('comments')
       .select(
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest, response: Response) {
 
     // 활동내역 list
     if (historyType === 'ACTIVITY') {
-      const { data: postHistory, error: postGetError } = await postQuery;
+      const { data: postHistory, error: postGetError } = await postQuery.eq('user_id', userId);
 
       if (postGetError) {
         return NextResponse.json({ success: false, postGetError });
@@ -112,12 +112,6 @@ export async function GET(request: NextRequest, response: Response) {
     }
 
     if (historyType === 'SCRAP') {
-      const { data: postHistory, error: postGetError } = await postQuery;
-
-      if (postGetError) {
-        return NextResponse.json({ success: false, postGetError });
-      }
-
       const { data: scrapList, error: scrapGetError } = await supabase
         .from('scraps')
         .select('id, post_id, created_at')
@@ -127,32 +121,34 @@ export async function GET(request: NextRequest, response: Response) {
         return NextResponse.json({ success: false, scrapGetError });
       }
 
-      const postHistoryList = scrapList.map((scrap: PostScrapListItem) => {
-        const { post_id } = scrap;
-        const scrapedPost = postHistory.find((post) => post.id === post_id);
+      const { data: postHistory, error: postGetError } = await postQuery.in(
+        'id',
+        scrapList.map((v) => v.post_id),
+      );
 
-        if (!scrapedPost) {
-          return undefined;
-        }
+      if (postGetError) {
+        return NextResponse.json({ success: false, postGetError });
+      }
 
+      const srapHistoryList = postHistory.map((post: PostListItem) => {
         return {
           type: 'POST',
           post: {
-            postId: scrapedPost.id,
-            postStatus: scrapedPost.status,
-            postAuthorMajor: scrapedPost.author_major,
-            postRequestedMajor: scrapedPost.requested_major,
-            authorNickname: scrapedPost.author_nickname,
-            title: scrapedPost.title,
-            previewBody: scrapedPost.preview_body,
+            postId: post.id,
+            postStatus: post.status,
+            postAuthorMajor: post.author_major,
+            postRequestedMajor: post.requested_major,
+            authorNickname: post.author_nickname,
+            title: post.title,
+            previewBody: post.preview_body,
           },
-          updatedAt: scrapedPost.updated_at,
+          updatedAt: post.updated_at,
         };
       });
 
       return NextResponse.json({
         success: true,
-        list: postHistoryList.filter((post) => !!post),
+        list: srapHistoryList,
       });
     }
 

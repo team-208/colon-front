@@ -6,6 +6,7 @@ export interface InsertPostScrapResponse {
   success: boolean;
 }
 
+// TODO: 추후 삭제 가능성 있음
 export interface PostScrapListItem {
   id: number;
   post_id: number;
