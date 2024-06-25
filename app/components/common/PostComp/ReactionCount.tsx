@@ -31,7 +31,8 @@ const CountBoxDiv = styled.div<{ $isSelect: boolean; $isActive: boolean; $isDisa
         : 'none'};
 
   &:hover {
-    background: ${({ theme, $isActive }) => !$isActive && theme.color.palette.deepSkyBlue99};
+    background: ${({ theme, $isDisabled, $isActive }) =>
+      !$isDisabled && !$isActive && theme.color.palette.deepSkyBlue99};
   }
 `;
 
@@ -71,7 +72,7 @@ const EmojiBoxDiv = styled.div<{ $isSelect: boolean }>`
   padding: 4px 8px;
   background: ${({ theme, $isSelect }) => $isSelect && theme.color.palette.deepSkyBlue90};
   border-radius: 8px;
-  transition: background .5s;
+  transition: background 0.5s;
 
   &:hover {
     background: ${({ theme }) => theme.color.palette.deepSkyBlue90};
