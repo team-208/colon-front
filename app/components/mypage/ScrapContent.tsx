@@ -3,10 +3,10 @@
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import { Post } from '@/app/types/data';
 import PostComp from '../common/PostComp';
 import PostCard from './PostCard';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
+import { HistoryItemProps } from '@/app/api/auth/history/type';
 
 const ContentContainer = styled.div`
   padding: 24px 0 20px 0;
@@ -26,76 +26,71 @@ const ScrapButton = styled.button`
   align-items: center;
 `;
 
-const postList: Array<Post> = [
+const postList: Array<HistoryItemProps> = [
   {
-    id: 1,
-    status: 'COMPLETE',
-    requestedMajor: 'DEVELOP',
-    title: '글 제목',
-    bodyUrl: '',
-    previewBody: `여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다. 첫째, 편안한 여행을 위한 양질의 여행 가방. 두 번째는 다양한 환경에 대비할 수 있는 다용도 의류. 세 번째 아이템은 여행 중 긴급 상황에 대비한 응급 키트입니다. 네 번째는 휴대용 충전기와 보조 배터리로, 언제 어디서든 기기를 충전할 수 있게 해줍니다. 다섯 번째는 고성능 카...`,
-    tages: [],
-    createdAt: dayjs(),
-    updatedAt: dayjs(),
-    author_nickname: '우아한 코끼리',
-    author_major: 'PLANNING',
-    author_profile_url: '/',
+    type: 'POST',
+    post: {
+      postId: 1,
+      postStatus: 'COMPLETE',
+      postRequestedMajor: 'DEVELOP',
+      title: '글 제목',
+      previewBody: `여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다. 첫째, 편안한 여행을 위한 양질의 여행 가방. 두 번째는 다양한 환경에 대비할 수 있는 다용도 의류. 세 번째 아이템은 여행 중 긴급 상황에 대비한 응급 키트입니다. 네 번째는 휴대용 충전기와 보조 배터리로, 언제 어디서든 기기를 충전할 수 있게 해줍니다. 다섯 번째는 고성능 카...`,
+      authorNickname: '우아한 코끼리',
+      postAuthorMajor: 'PLANNING',
+    },
+    updatedAt: dayjs().toString(),
   },
   {
-    id: 2,
-    status: 'COMPLETE',
-    requestedMajor: 'DEVELOP',
-    title: '글 제목',
-    bodyUrl: '',
-    previewBody: `여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다. 첫째, 편안한 여행을 위한 양질의 여행 가방. 두 번째는 다양한 환경에 대비할 수 있는 다용도 의류. 세 번째 아이템은 여행 중 긴급 상황에 대비한 응급 키트입니다. 네 번째는 휴대용 충전기와 보조 배터리로, 언제 어디서든 기기를 충전할 수 있게 해줍니다. 다섯 번째는 고성능 카...`,
-    tages: [],
-    createdAt: dayjs(),
-    updatedAt: dayjs(),
-    author_nickname: '우아한 코끼리',
-    author_major: 'PLANNING',
-    author_profile_url: '/',
+    type: 'POST',
+    post: {
+      postId: 2,
+      postStatus: 'COMPLETE',
+      postRequestedMajor: 'DEVELOP',
+      title: '글 제목',
+      previewBody: `여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다. 첫째, 편안한 여행을 위한 양질의 여행 가방. 두 번째는 다양한 환경에 대비할 수 있는 다용도 의류. 세 번째 아이템은 여행 중 긴급 상황에 대비한 응급 키트입니다. 네 번째는 휴대용 충전기와 보조 배터리로, 언제 어디서든 기기를 충전할 수 있게 해줍니다. 다섯 번째는 고성능 카...`,
+      authorNickname: '우아한 코끼리',
+      postAuthorMajor: 'PLANNING',
+    },
+    updatedAt: dayjs().toString(),
   },
   {
-    id: 3,
-    status: 'COMPLETE',
-    requestedMajor: 'DEVELOP',
-    title: '글 제목',
-    bodyUrl: '',
-    previewBody: `여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다. 첫째, 편안한 여행을 위한 양질의 여행 가방. 두 번째는 다양한 환경에 대비할 수 있는 다용도 의류. 세 번째 아이템은 여행 중 긴급 상황에 대비한 응급 키트입니다. 네 번째는 휴대용 충전기와 보조 배터리로, 언제 어디서든 기기를 충전할 수 있게 해줍니다. 다섯 번째는 고성능 카...`,
-    tages: [],
-    createdAt: dayjs(),
-    updatedAt: dayjs(),
-    author_nickname: '우아한 코끼리',
-    author_major: 'PLANNING',
-    author_profile_url: '/',
+    type: 'POST',
+    post: {
+      postId: 3,
+      postStatus: 'COMPLETE',
+      postRequestedMajor: 'DEVELOP',
+      title: '글 제목',
+      previewBody: `여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다. 첫째, 편안한 여행을 위한 양질의 여행 가방. 두 번째는 다양한 환경에 대비할 수 있는 다용도 의류. 세 번째 아이템은 여행 중 긴급 상황에 대비한 응급 키트입니다. 네 번째는 휴대용 충전기와 보조 배터리로, 언제 어디서든 기기를 충전할 수 있게 해줍니다. 다섯 번째는 고성능 카...`,
+      authorNickname: '우아한 코끼리',
+      postAuthorMajor: 'PLANNING',
+    },
+    updatedAt: dayjs().toString(),
   },
   {
-    id: 4,
-    status: 'COMPLETE',
-    requestedMajor: 'DEVELOP',
-    title: '글 제목',
-    bodyUrl: '',
-    previewBody: `여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다. 첫째, 편안한 여행을 위한 양질의 여행 가방. 두 번째는 다양한 환경에 대비할 수 있는 다용도 의류. 세 번째 아이템은 여행 중 긴급 상황에 대비한 응급 키트입니다. 네 번째는 휴대용 충전기와 보조 배터리로, 언제 어디서든 기기를 충전할 수 있게 해줍니다. 다섯 번째는 고성능 카...`,
-    tages: [],
-    createdAt: dayjs(),
-    updatedAt: dayjs(),
-    author_nickname: '우아한 코끼리',
-    author_major: 'PLANNING',
-    author_profile_url: '/',
+    type: 'POST',
+    post: {
+      postId: 4,
+      postStatus: 'COMPLETE',
+      postRequestedMajor: 'DEVELOP',
+      title: '글 제목',
+      previewBody: `여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다. 첫째, 편안한 여행을 위한 양질의 여행 가방. 두 번째는 다양한 환경에 대비할 수 있는 다용도 의류. 세 번째 아이템은 여행 중 긴급 상황에 대비한 응급 키트입니다. 네 번째는 휴대용 충전기와 보조 배터리로, 언제 어디서든 기기를 충전할 수 있게 해줍니다. 다섯 번째는 고성능 카...`,
+      authorNickname: '우아한 코끼리',
+      postAuthorMajor: 'PLANNING',
+    },
+    updatedAt: dayjs().toString(),
   },
   {
-    id: 5,
-    status: 'COMPLETE',
-    requestedMajor: 'DEVELOP',
-    title: '글 제목',
-    bodyUrl: '',
-    previewBody: `여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다. 첫째, 편안한 여행을 위한 양질의 여행 가방. 두 번째는 다양한 환경에 대비할 수 있는 다용도 의류. 세 번째 아이템은 여행 중 긴급 상황에 대비한 응급 키트입니다. 네 번째는 휴대용 충전기와 보조 배터리로, 언제 어디서든 기기를 충전할 수 있게 해줍니다. 다섯 번째는 고성능 카...`,
-    tages: [],
-    createdAt: dayjs(),
-    updatedAt: dayjs(),
-    author_nickname: '우아한 코끼리',
-    author_major: 'PLANNING',
-    author_profile_url: '/',
+    type: 'POST',
+    post: {
+      postId: 5,
+      postStatus: 'COMPLETE',
+      postRequestedMajor: 'DEVELOP',
+      title: '글 제목',
+      previewBody: `여행은 새로운 경험과 추억을 선사하지만, 올바른 준비가 필수입니다. 이번 블로그 포스트에서는 여행자가 가져가야 할 10가지 필수 아이템을 상세히 소개합니다. 첫째, 편안한 여행을 위한 양질의 여행 가방. 두 번째는 다양한 환경에 대비할 수 있는 다용도 의류. 세 번째 아이템은 여행 중 긴급 상황에 대비한 응급 키트입니다. 네 번째는 휴대용 충전기와 보조 배터리로, 언제 어디서든 기기를 충전할 수 있게 해줍니다. 다섯 번째는 고성능 카...`,
+      authorNickname: '우아한 코끼리',
+      postAuthorMajor: 'PLANNING',
+    },
+    updatedAt: dayjs().toString(),
   },
 ];
 
@@ -117,12 +112,12 @@ const ScrapContent = async () => {
 
   return (
     <ContentContainer>
-      {list?.map((post, idx) => (
-        <PostCard key={`reaction-${idx}`} {...post}>
+      {list?.map((v, idx) => (
+        <PostCard key={`reaction-${v.post.postId}`} {...v.post}>
           <>
             <div>
               <PostComp.CountBox
-                postId={post.id}
+                postId={v.post.postId}
                 reactionCountObj={{
                   ThumbsUp: 1,
                   Pushpin: 2,

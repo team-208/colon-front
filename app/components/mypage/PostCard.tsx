@@ -3,13 +3,12 @@
 import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
-import { JOB_GROUP_LABELS } from '../constants';
-import { Post } from '@/app/types/data';
 import { ReactNode } from 'react';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import PostComp from '../common/PostComp';
+import { HistoryPost } from '@/app/api/auth/history/type';
 
-interface Props extends Post {
+interface Props extends HistoryPost {
   isDelete?: boolean;
   reaction?: string;
   children: ReactNode;
@@ -87,11 +86,11 @@ const DeleteButton = styled.button`
 
 const PostCard = ({
   title,
-  status,
+  postStatus,
   previewBody,
-  author_major,
-  author_nickname,
-  requestedMajor,
+  postAuthorMajor,
+  authorNickname,
+  postRequestedMajor,
   children,
   isDelete,
 }: Props) => {
@@ -102,8 +101,8 @@ const PostCard = ({
   return (
     <PostCardContainer>
       <PostCardHeader>
-        <PostComp.MajorBox authorMajor={author_major} requestedMajor={requestedMajor} />
-        {status === 'COMPLETE' && <NicknameP>{author_nickname}</NicknameP>}
+        <PostComp.MajorBox authorMajor={postAuthorMajor} requestedMajor={postRequestedMajor} />
+        {status === 'COMPLETE' && <NicknameP>{authorNickname}</NicknameP>}
         {isDelete && (
           <DeleteButton onClick={handleDeleteClick}>
             <Image

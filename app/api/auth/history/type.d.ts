@@ -11,22 +11,26 @@ export interface GetHistoryQuery {
 
 export interface HistoryItemProps {
   type: 'POST' | 'COMMENT';
-  post: {
-    postId: number;
-    postStatus?: POST_STATUS_TYPES;
-    postAuthorMajor: JOB_GROUP_TYPES;
-    postRequestedMajor: JOB_GROUP_TYPES;
-    authorNickname: string;
-    title: string;
-    previewBody: string;
-  };
-  comment?: {
-    commentId?: number;
-    commentAuthorMajor?: JOB_GROUP_TYPES;
-    commentAuthorNickname?: string;
-    comment?: string;
-  };
+  post: HistoryPost;
+  comment?: HistoryComment;
   updatedAt: string;
+}
+
+export interface HistoryPost {
+  postId: number;
+  postStatus?: POST_STATUS_TYPES;
+  postAuthorMajor: JOB_GROUP_TYPES;
+  postRequestedMajor: JOB_GROUP_TYPES;
+  authorNickname: string;
+  title: string;
+  previewBody: string;
+}
+
+export interface HistoryComment {
+  commentId?: number;
+  commentAuthorMajor?: JOB_GROUP_TYPES;
+  commentAuthorNickname?: string;
+  comment?: string;
 }
 
 export interface GetHistoryResponse extends Session {
