@@ -7,10 +7,12 @@ import styled from 'styled-components';
 
 interface Props {
   defaultOption: { idx: number; text: string };
+  selectorButton?: ReactNode;
   children: ReactNode;
 }
 
 interface OptionProps {
+  className?: string;
   text: string;
   idx: number;
   clickEvent: (v: number) => void;
@@ -64,7 +66,7 @@ const OptionLi = styled.li<{ $isActive: boolean }>`
 
 const SelectorContext = createContext<Context | null>(null);
 
-const Selector = ({ defaultOption, children }: Props) => {
+const Selector = ({ defaultOption, selectorButton, children }: Props) => {
   const [toggle, setToggle] = useState(false);
   const [curIdx, setCurIdx] = useState(defaultOption.idx);
   const [curText, setCurText] = useState(defaultOption.text);
@@ -79,13 +81,19 @@ const Selector = ({ defaultOption, children }: Props) => {
     <SelectorContext.Provider value={provider}>
       <SelectorContainerDiv>
         <SelectorButton onClick={handleClickButton}>
-          {curText}
-          <Image
-            alt="정렬 아이콘"
-            src={`${IMAGE_CDN}/icon/chevron-down.png`}
-            width={8}
-            height={4.5}
-          />
+          {selectorButton ? (
+            selectorButton
+          ) : (
+            <>
+              {curText}
+              <Image
+                alt="정렬 아이콘"
+                src={`${IMAGE_CDN}/icon/chevron-down.png`}
+                width={8}
+                height={4.5}
+              />
+            </>
+          )}
         </SelectorButton>
         {toggle && (
           <OptionDiv>
@@ -97,13 +105,14 @@ const Selector = ({ defaultOption, children }: Props) => {
   );
 };
 
-const Option = ({ text, idx, clickEvent }: OptionProps) => {
+const Option = ({ className, text, idx, clickEvent }: OptionProps) => {
   const context = useContext(SelectorContext);
   const isActive = context?.curIdx === idx;
 
   return (
     <OptionLi
       key={`option-${idx}`}
+      className={className}
       $isActive={isActive}
       onClick={() => {
         context?.setCurIdx(idx);
