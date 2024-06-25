@@ -10,7 +10,7 @@ const useCommentsQuery = (postId: string) =>
       const rootComments = data.data?.filter((comment) => !comment?.original_comment);
 
       // 대댓글 parsing
-      return rootComments.map((comment) => ({
+      return rootComments?.map((comment) => ({
         ...comment,
         nestedComments: data.data.filter(({ original_comment }) => original_comment === comment.id),
       }));
