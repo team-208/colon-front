@@ -16,7 +16,8 @@ export interface GetPostResponse {
   author_major: JOB_GROUP_TYPES;
   author_profile_url: string;
   accepted_comment_id: number;
-  reactions: ReactionObjType;
+  // TODO: tanstack hydrate 적용후 select 에서 ReactionsObjType 변환 필요
+  reactions: string;
 }
 
 export interface UpdatePostRequest {

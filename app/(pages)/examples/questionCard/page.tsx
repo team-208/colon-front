@@ -20,7 +20,7 @@ export default function Home() {
         author_major="PLANNING"
         author_profile_url="/"
         isScrap
-        reactions={{}}
+        reactions={''}
       />
     </main>
   );
