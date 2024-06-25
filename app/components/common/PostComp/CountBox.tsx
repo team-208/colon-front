@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import ReactionCount, { ReactionProps } from './ReactionCount';
 import CommentCount, { CommentProps } from './CommentCount';
+import Divider from '../DividerComp';
 
 interface Props extends CommentProps, ReactionProps {
   className?: string;
@@ -16,13 +17,17 @@ const ContainerDiv = styled.div`
   justify-content: space-between;
 `;
 
-const SeperatorSpan = styled.span`
+const Vertical = styled(Divider.Vertical)`
   margin: 0 8px;
-  ${({ theme }) => theme.font.caption2};
-  font-weight: 400;
 `;
 
-const CountBox = ({ className, reactionCountObj, userReaction, reactionDisabled, commentCount }: Props) => {
+const CountBox = ({
+  className,
+  reactionCountObj,
+  userReaction,
+  reactionDisabled,
+  commentCount,
+}: Props) => {
   return (
     <ContainerDiv className={className}>
       <ReactionCount
@@ -30,7 +35,7 @@ const CountBox = ({ className, reactionCountObj, userReaction, reactionDisabled,
         userReaction={userReaction}
         reactionDisabled={reactionDisabled}
       />
-      <SeperatorSpan>|</SeperatorSpan>
+      <Vertical height={18} color="#171719" />
       <CommentCount commentCount={commentCount} />
     </ContainerDiv>
   );
