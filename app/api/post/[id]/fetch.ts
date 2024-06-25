@@ -16,3 +16,11 @@ export const fetchUpdatePost = async (body: UpdatePostRequest) => {
   const jsonData = (await res.json()) as UpdatePostResponse;
   return jsonData;
 };
+
+export const fetchDeletePost = async (id: string) => {
+  const res = await fetch(`/api/post/${id}`, {
+    method: 'DELETE',
+  });
+  const jsonData = (await res.json()) as UpdatePostResponse;
+  return jsonData;
+};

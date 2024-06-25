@@ -15,6 +15,7 @@ export interface GetPostResponse {
   author_major: JOB_GROUP_TYPES;
   author_profile_url: string;
   accept_comment_id: number;
+  success: boolean;
 }
 
 export interface UpdatePostRequest {
@@ -29,5 +30,9 @@ export interface UpdatePostRequest {
 }
 
 export interface UpdatePostResponse {
+  success: boolean;
+}
+
+export interface DeletePostResponse {
   success: boolean;
 }

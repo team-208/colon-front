@@ -16,9 +16,27 @@ const ContainerDiv = styled.div`
 `;
 
 const Container = () => {
-  const { modalState } = useModal();
+  const { modalState, closeModal } = useModal();
 
-  return <>{modalState.isOpen && <ContainerDiv>{modalState.modalProps.contents}</ContainerDiv>}</>;
+  const handleClick = () => {
+    closeModal();
+  }
+
+  return (
+    <>
+      {modalState.isOpen && (
+        <ContainerDiv onClick={handleClick}>
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            {modalState.modalProps.contents}
+          </div>
+        </ContainerDiv>
+      )}
+    </>
+  );
 };
 
 export default Container;

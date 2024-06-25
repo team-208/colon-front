@@ -1,10 +1,10 @@
 'use client';
 
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import styled from 'styled-components';
-import { JOB_GROUP_LABELS } from '../../constants';
 import { dateText } from '@/app/utils/text';
+import MajorBox from './MajorBox';
 
 interface Props {
   className?: string;
@@ -13,37 +13,6 @@ interface Props {
   nickname: string;
   updatedAt: string;
 }
-
-const MajorP = styled.p`
-  display: flex;
-  align-items: center;
-  ${({ theme }) => theme.font.body3};
-  color: ${({ theme }) => theme.color.label.normal};
-  background-color: ${({ theme }) => theme.color.palette.coolNeutral97};
-  border: 1px solid ${({ theme }) => theme.color.palette.coolNeutral97};
-  width: fit-content;
-  height: 24px;
-  border-radius: 6px;
-  overflow: hidden;
-
-  & > span {
-    padding: 2px 4px;
-  }
-
-  & > span:last-of-type {
-    margin-left: 2px;
-    display: inline-block;
-    border-radius: 5px;
-    overflow: hidden;
-    color: ${({ theme }) => theme.color.primary.normal};
-    background-color: ${({ theme }) => theme.color.static.light};
-  }
-
-  ${({ theme }) => theme.mediaQuery.mobile} {
-    ${({ theme }) => theme.font.caption2};
-    height: 20px;
-  }
-`;
 
 const AuthorP = styled.p`
   display: flex;
@@ -77,13 +46,7 @@ const AuthorP = styled.p`
 const Header = ({ className, authorMajor, requestedMajor, nickname, updatedAt }: Props) => {
   return (
     <div className={className}>
-      <MajorP>
-        <span>{JOB_GROUP_LABELS[authorMajor] ?? ''}</span>
-        <span>
-          {`>`}
-          {JOB_GROUP_LABELS[requestedMajor] ?? ''}
-        </span>
-      </MajorP>
+      <MajorBox authorMajor={authorMajor} requestedMajor={requestedMajor} />
 
       <AuthorP>
         <span>{nickname}</span>

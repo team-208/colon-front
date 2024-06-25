@@ -66,7 +66,13 @@ table {
 main {
   max-width: 1024px;
   margin: 0 auto;
-  height: 100%;
+  
+  // ScrollBox height 처리
+  height: ${({ theme }) => `calc(100% - ${theme.heightSizes.header.desktop}px)`};
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    height: ${({ theme }) => `calc(100% - ${theme.heightSizes.header.mobile}px)`};
+  }
 }
 
 button {
