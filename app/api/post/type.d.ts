@@ -1,5 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { JOB_GROUP_TYPES } from '../auth/user/type';
+import { ReactionObjType } from '@/app/components/common/PostComp/type';
 
 export type POST_STATUS_TYPES = 'EDITING' | 'COMPLETE';
 
@@ -41,6 +42,7 @@ export interface PostListItem {
   author_nickname: string;
   author_major: JOB_GROUP_TYPES;
   author_profile_url: string;
+  reactions: ReactionObjType;
 }
 
 export interface GetPostListResponse {
