@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { InsertPostRequest, PostListOrderTypes } from './type';
 import { PAGE_OFFSET_VALUE, POST_STATUS } from './constants';
 import { JOB_GROUP_TYPES } from '../auth/user/type';
+import { reactionsDefault } from '@/app/constants/reactions';
 
 export async function POST(request: Request) {
   const host = getHost();
@@ -130,7 +131,10 @@ export async function GET(request: NextRequest) {
       offset,
       totalCount,
       count: data.length,
-      list: [...data],
+      list: data.map((item) => ({
+        ...item,
+        reactions: item.reactions ?? JSON.stringify(reactionsDefault),
+      })),
     });
   } catch (error) {
     return NextResponse.redirect(`${host}/error/500`);

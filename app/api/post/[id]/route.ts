@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/app/utils/supabase/server';
 import { getHost } from '@/app/utils/host';
 import dayjs from 'dayjs';
+import { reactionsDefault } from '@/app/constants/reactions';
 
 interface Params {
   id: string;
@@ -42,6 +43,7 @@ export async function GET(request: Request, { params }: { params: Params }) {
     return NextResponse.json({
       success: true,
       ...data,
+      reactions: data.reactions ?? JSON.stringify(reactionsDefault),
       body: bodyData,
     });
   } catch (error) {
