@@ -163,7 +163,7 @@ const QnADetailContent = ({ post }: Props) => {
       <TagListUl>{tags?.map((tag, idx) => <li key={`qna-tag-${idx}`}>{tag}</li>)}</TagListUl>
 
       <PostFooterDiv>
-        <PostComp.CountBox postId={id} reactionCountObj={reactions} commentCount={3} />
+        <PostComp.CountBox postId={id} reactionCountObj={JSON.parse(reactions)} commentCount={3} />
         <PostComp.ScrapButton postId={id} isScrap={!!isScrap} />
       </PostFooterDiv>
 
