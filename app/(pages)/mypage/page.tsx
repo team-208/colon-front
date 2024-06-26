@@ -5,7 +5,6 @@ import Section from '@/app/components/common/Section';
 import MyPageHeader from '@/app/components/mypage/MypageHeader';
 import ProfileBox from '@/app/components/mypage/ProfileBox';
 import Tabs from '@/app/components/mypage/Tabs';
-import DeleteUserButton from '@/app/components/mypage/DeleteUserButton';
 
 const ContainerMain = styled.main`
   padding-left: 200px;
@@ -36,7 +35,6 @@ export default function MyPage() {
       <StaticHeightDiv>
         <Tabs />
       </StaticHeightDiv>
-      {/* <DeleteUserButton /> */}
     </ContainerMain>
   );
 }
