@@ -132,7 +132,7 @@ const ProfileBox = () => {
   const nicknameInputRef = useRef<HTMLInputElement | null>(null);
   const [updateProfile, setUpdateProfile] = useState<File | null>(null);
   const [isModify, setIsModify] = useState(false);
-  const [major, setMajor] = useState<JOB_GROUP_TYPES>(userInfo?.user.major as JOB_GROUP_TYPES);
+  const [major, setMajor] = useState<JOB_GROUP_TYPES>(userInfo?.user?.major as JOB_GROUP_TYPES);
 
   const createUpateData = async (): Promise<UpdateUserRequest> => {
     let updateData: UpdateUserRequest = {};
