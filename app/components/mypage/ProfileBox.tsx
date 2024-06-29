@@ -130,6 +130,7 @@ const ProfileBox = () => {
   const setHeader = useSetRecoilState(myPageHeaderState);
 
   const nicknameInputRef = useRef<HTMLInputElement | null>(null);
+  const pendingRef = useRef(false);
   const [updateProfile, setUpdateProfile] = useState<File | null>(null);
   const [isModify, setIsModify] = useState(false);
   const [major, setMajor] = useState<JOB_GROUP_TYPES>(userInfo?.user?.major as JOB_GROUP_TYPES);
@@ -173,12 +174,16 @@ const ProfileBox = () => {
   }, []);
 
   const handleHeaderConfirm = useCallback(async () => {
+    if(pendingRef.current) return;
     const updateData = await createUpateData();
 
     if (!isEmpty(updateData)) {
+      pendingRef.current = true;
       await updateUser(updateData);
-      handleHeaderCancel();
+      pendingRef.current = false;
     }
+
+    handleHeaderCancel();
   }, [createUpateData]);
 
   const handleModifyButton = useCallback(() => {
