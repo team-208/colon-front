@@ -5,6 +5,7 @@ import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
 import ButtonComp from '@/app/components/common/ButtomComp';
 import CommentComp from '@/app/components/common/CommentComp';
 import Modal from '@/app/components/common/ModalComp';
+import useAuth from '@/app/hooks/useAuth';
 import useModal from '@/app/hooks/useModal';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
@@ -75,6 +76,7 @@ const CommentItem = ({
   const [modifyComment, setModifyComment] = useState<string>('');
 
   const { mutateAsync } = useModifyPostMutation();
+  const { userInfo } = useAuth();
 
   const { refresh } = useRouter();
   const { openModal, closeModal } = useModal();
@@ -119,6 +121,7 @@ const CommentItem = ({
         nickname={authorNickName}
         updatedAt={updatedAt}
         isSelected={isSelected}
+        isAuthor={userInfo?.user?.nick_name === authorNickName}
         onClickModify={handleClickModify}
         onClickDelete={handleClickDelete}
       />

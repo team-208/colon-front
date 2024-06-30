@@ -14,6 +14,7 @@ interface Props {
   nickname: string;
   updatedAt: string;
   isSelected: boolean;
+  isAuthor: boolean;
   onClickModify: () => void;
   onClickDelete: () => void;
 }
@@ -77,6 +78,7 @@ const Header = ({
   nickname,
   updatedAt,
   isSelected,
+  isAuthor,
   onClickModify,
   onClickDelete,
 }: Props) => {
@@ -97,15 +99,17 @@ const Header = ({
         </AuthorP>
       </UserInfoDiv>
 
-      <Selector
-        defaultOption={{ idx: 0, text: '최신순' }}
-        selectorButton={
-          <Image alt="더보기 아이콘" src={`${IMAGE_CDN}/icon/dots.png`} width={16} height={16} />
-        }
-      >
-        <ModifyOption idx={0} text="수정" clickEvent={onClickModify} />
-        <DeleteOption idx={1} text="삭제" clickEvent={onClickDelete} />
-      </Selector>
+      {isAuthor && (
+        <Selector
+          defaultOption={{ idx: 0, text: '최신순' }}
+          selectorButton={
+            <Image alt="더보기 아이콘" src={`${IMAGE_CDN}/icon/dots.png`} width={16} height={16} />
+          }
+        >
+          <ModifyOption idx={0} text="수정" clickEvent={onClickModify} />
+          <DeleteOption idx={1} text="삭제" clickEvent={onClickDelete} />
+        </Selector>
+      )}
     </ContainerDiv>
   );
 };
