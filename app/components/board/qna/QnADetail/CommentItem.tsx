@@ -4,8 +4,11 @@ import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
 import ButtonComp from '@/app/components/common/ButtomComp';
 import CommentComp from '@/app/components/common/CommentComp';
+import Modal from '@/app/components/common/ModalComp';
+import useModal from '@/app/hooks/useModal';
 import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import reactTextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 
 interface Props {
@@ -39,6 +42,17 @@ const ChoiceButton = styled(ButtonComp.Solid)`
   border-radius: 8px;
 `;
 
+const CommentTextarea = styled(reactTextareaAutosize)`
+  margin: 26px 0 12px;
+  width: 100%;
+  border: none;
+  background-color: ${({ theme }) => theme.color.background.normal};
+  padding: 8px 10px;
+  resize: none;
+  outline: none;
+  border-radius: 8px;
+`;
+
 // TODO: 수정필요.
 const emojis = {
   thumbsUp: 2,
@@ -57,26 +71,66 @@ const CommentItem = ({
   comment,
   isVisibleChoice,
 }: Props) => {
+  const [isModify, setIsModify] = useState<boolean>(false);
+  const [modifyComment, setModifyComment] = useState<string>('');
+
   const { mutateAsync } = useModifyPostMutation();
 
   const { refresh } = useRouter();
+  const { openModal, closeModal } = useModal();
 
   const handleClickChoice = useCallback(async () => {
     await mutateAsync({ id: parseInt(postId), status: 'COMPLETE', accept_comment_id: commentId });
     refresh();
   }, []);
 
+  const handleClickModify = useCallback(() => {
+    setIsModify(true);
+  }, []);
+
+  const handleClickDelete = useCallback(() => {
+    openModal({
+      modalProps: {
+        contents: (
+          <Modal.Confirm
+            isReverseButton
+            confirmLabel="삭제"
+            cancelLabel="취소"
+            onConfirm={() => {}}
+            onCancel={() => {
+              closeModal();
+            }}
+          >
+            {`{댓글}을 삭제하시나요?`}
+          </Modal.Confirm>
+        ),
+      },
+    });
+  }, []);
+
+  const handleChangeComment = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setModifyComment(e.target.value);
+  }, []);
+
   return (
-    <CommentComp.Wrapper isNestedComment={isNestedComment}>
+    <CommentComp.Wrapper isNestedComment={isNestedComment} isModify={isModify}>
       <CommentComp.Header
         major={authorMajor}
         nickname={authorNickName}
         updatedAt={updatedAt}
         isSelected={isSelected}
-        onClickModify={() => {}}
-        onClickDelete={() => {}}
+        onClickModify={handleClickModify}
+        onClickDelete={handleClickDelete}
       />
       <CommentP>{comment}</CommentP>
+      {isModify && (
+        <CommentTextarea
+          placeholder={comment}
+          minRows={2}
+          onChange={handleChangeComment}
+          value={modifyComment}
+        />
+      )}
       <FooterBoxDiv>
         <CommentComp.Emojis emojis={emojis} />
         {isVisibleChoice && (
