@@ -1,6 +1,8 @@
 'use client';
 
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
+import useCommentsQuery from '@/app/api/comment/[postId]/queries';
+import { useUpdateCommentMutation } from '@/app/api/comment/mutations';
 import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
 import ButtonComp from '@/app/components/common/ButtomComp';
 import CommentComp from '@/app/components/common/CommentComp';
@@ -31,10 +33,10 @@ const CommentP = styled.p`
   margin: 6px 0 10px;
 `;
 
-const FooterBoxDiv = styled.div`
+const FooterBoxDiv = styled.div<{ $isModify: boolean }>`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${({ $isModify }) => ($isModify ? 'flex-end' : 'space-between')};
 `;
 
 const ChoiceButton = styled(ButtonComp.Solid)`
@@ -52,6 +54,12 @@ const CommentTextarea = styled(reactTextareaAutosize)`
   resize: none;
   outline: none;
   border-radius: 8px;
+`;
+
+const ModifyButton = styled(ButtonComp.Solid)`
+  border-radius: 11px;
+  padding: 8px 12px;
+  align-self: flex-end;
 `;
 
 // TODO: 수정필요.
@@ -75,7 +83,9 @@ const CommentItem = ({
   const [isModify, setIsModify] = useState<boolean>(false);
   const [modifyComment, setModifyComment] = useState<string>('');
 
+  const { refetch } = useCommentsQuery(postId);
   const { mutateAsync } = useModifyPostMutation();
+  const { mutateAsync: updateCommentMutation } = useUpdateCommentMutation();
   const { userInfo } = useAuth();
 
   const { refresh } = useRouter();
@@ -86,7 +96,7 @@ const CommentItem = ({
     refresh();
   }, []);
 
-  const handleClickModify = useCallback(() => {
+  const handleClickModifyOpen = useCallback(() => {
     setIsModify(true);
   }, []);
 
@@ -114,6 +124,15 @@ const CommentItem = ({
     setModifyComment(e.target.value);
   }, []);
 
+  const handleClickModify = useCallback(async () => {
+    if (modifyComment) {
+      await updateCommentMutation({ commentId, comment: modifyComment });
+      setIsModify(false);
+      setModifyComment('');
+      refetch();
+    }
+  }, [modifyComment]);
+
   return (
     <CommentComp.Wrapper isNestedComment={isNestedComment} isModify={isModify}>
       <CommentComp.Header
@@ -122,7 +141,7 @@ const CommentItem = ({
         updatedAt={updatedAt}
         isSelected={isSelected}
         isAuthor={userInfo?.user?.nick_name === authorNickName}
-        onClickModify={handleClickModify}
+        onClickModify={handleClickModifyOpen}
         onClickDelete={handleClickDelete}
       />
       <CommentP>{comment}</CommentP>
@@ -134,12 +153,18 @@ const CommentItem = ({
           value={modifyComment}
         />
       )}
-      <FooterBoxDiv>
-        <CommentComp.Emojis emojis={emojis} />
+      <FooterBoxDiv $isModify={isModify}>
+        {!isModify && <CommentComp.Emojis emojis={emojis} />}
         {isVisibleChoice && (
           <ChoiceButton isActive onClick={handleClickChoice}>
             글쓴이 채택
           </ChoiceButton>
+        )}
+
+        {isModify && (
+          <ModifyButton size="sm" isActive onClick={handleClickModify}>
+            수정
+          </ModifyButton>
         )}
       </FooterBoxDiv>
     </CommentComp.Wrapper>
