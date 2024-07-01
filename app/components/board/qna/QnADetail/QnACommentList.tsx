@@ -91,10 +91,11 @@ const FooterBoxDiv = styled.div`
   justify-content: space-between;
 `;
 
-const ChoiceButton = styled(ButtonComp.Solid)`
+const ChoiceButton = styled(ButtonComp.OutlinedPrimary)`
   padding: 4px 10px;
   height: 26px;
   border-radius: 8px;
+  ${({ theme }) => theme.font.body3};
 `;
 
 const emojis = {
