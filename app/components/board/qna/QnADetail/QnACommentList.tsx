@@ -78,6 +78,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
             nestedComments,
             author_major,
           }) => {
+            const isAuthorComment = userInfo?.user.nick_name === author_nickname;
             return (
               <React.Fragment key={`comment-item-${id}`}>
                 <li>
@@ -90,11 +91,11 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                     updatedAt={updated_at || created_at}
                     isSelected={acceptedCommentId === id}
                     comment={comment}
-                    isVisibleChoice={isAuthor && !acceptedCommentId}
+                    isVisibleChoice={isAuthor && !isAuthorComment && !acceptedCommentId}
                   />
                 </li>
                 {nestedComments?.map((item, idx) => {
-                  const isAuthorComment = userInfo?.user.nick_name === item.author_nickname;
+                  const isAuthorNestedComment = userInfo?.user.nick_name === item.author_nickname;
                   return (
                     <li key={`nested-comment-item-${item.id}`}>
                       <CommentItem
@@ -106,7 +107,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                         updatedAt={item.updated_at || item.created_at}
                         isSelected={acceptedCommentId === item.id}
                         comment={item.comment}
-                        isVisibleChoice={isAuthor && !isAuthorComment && !acceptedCommentId}
+                        isVisibleChoice={isAuthor && !isAuthorNestedComment && !acceptedCommentId}
                       />
                     </li>
                   );
