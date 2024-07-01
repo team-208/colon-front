@@ -15,6 +15,7 @@ export interface GetPostResponse {
   author_major: JOB_GROUP_TYPES;
   author_profile_url: string;
   accept_comment_id: number;
+  comments_count: number;
   success: boolean;
 }
 
