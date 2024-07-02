@@ -76,10 +76,35 @@ export async function DELETE(request: Request) {
       const { session } = userSession;
       const userId = session?.user.id;
 
+      const { data: postData, error: getPostError } = await supabase
+        .from('posts')
+        .select('comments_count')
+        .eq('id', bodyData.postId)
+        .single();
+
+      if (getPostError) {
+        return NextResponse.json({ success: false, getPostError });
+      }
+
+      const { error: updatePostError } = await supabase
+        .from('posts')
+        .update({
+          comments_count: postData.comments_count - 1 >= 0 ? postData.comments_count - 1 : 0,
+        })
+        .eq('id', bodyData.postId);
+
+      if (updatePostError) {
+        return NextResponse.json({ success: false, updatePostError });
+      }
+
       const { error: updateError } = await supabase
         .from('comments')
-        .update({ comment: '삭제된 댓글 입니다.', updated_at: dayjs(), author_nickname: '' })
-        .eq('id', bodyData.id)
+        .update({
+          comment: '삭제된 댓글 입니다.',
+          updated_at: dayjs(),
+          author_nickname: null,
+        })
+        .eq('id', bodyData.commentId)
         .eq('user_id', userId);
 
       return NextResponse.json({ success: updateError ? false : true, updateError });
