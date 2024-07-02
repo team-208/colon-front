@@ -3,6 +3,7 @@
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import useCommentsQuery from '@/app/api/comment/[postId]/queries';
 import { useUpdateCommentMutation } from '@/app/api/comment/mutations';
+import { useUpdateCommentReactionMutation } from '@/app/api/comment/reaction/mutations';
 import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
 import ButtonComp from '@/app/components/common/ButtomComp';
 import CommentComp from '@/app/components/common/CommentComp';
@@ -24,6 +25,8 @@ interface Props {
   isSelected: boolean;
   comment: string;
   isVisibleChoice: boolean;
+  likeCount: number;
+  nestedCommentCount?: number;
 }
 
 const CommentP = styled.p`
@@ -79,6 +82,8 @@ const CommentItem = ({
   isSelected,
   comment,
   isVisibleChoice,
+  likeCount,
+  nestedCommentCount,
 }: Props) => {
   const [isModify, setIsModify] = useState<boolean>(false);
   const [modifyComment, setModifyComment] = useState<string>('');
@@ -86,6 +91,7 @@ const CommentItem = ({
   const { refetch } = useCommentsQuery(postId);
   const { mutateAsync } = useModifyPostMutation();
   const { mutateAsync: updateCommentMutation } = useUpdateCommentMutation();
+  const { mutateAsync: updateCommentReactionMutation } = useUpdateCommentReactionMutation();
   const { userInfo } = useAuth();
 
   const { refresh } = useRouter();
@@ -133,6 +139,13 @@ const CommentItem = ({
     }
   }, [modifyComment]);
 
+  const handleClickLike = useCallback(async () => {
+    // TODO: 비로그인 유저 처리 필요.
+
+    await updateCommentReactionMutation({ commentId: commentId, curReactionCount: likeCount });
+    refetch();
+  }, []);
+
   return (
     <CommentComp.Wrapper isNestedComment={isNestedComment} isModify={isModify}>
       <CommentComp.Header
@@ -156,8 +169,9 @@ const CommentItem = ({
       <FooterBoxDiv $isModify={isModify}>
         {!isModify && (
           <CommentComp.Reactions
-            likeCount={999}
-            nestedCommentCount={isNestedComment ? undefined : 999}
+            likeCount={likeCount}
+            nestedCommentCount={isNestedComment ? undefined : nestedCommentCount}
+            onClickLike={handleClickLike}
           />
         )}
         {isVisibleChoice && (

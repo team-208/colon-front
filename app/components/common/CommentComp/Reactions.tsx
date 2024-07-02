@@ -6,6 +6,7 @@ import styled from 'styled-components';
 interface Props {
   likeCount: number;
   nestedCommentCount?: number;
+  onClickLike: () => void;
 }
 
 const EmojiListUl = styled.ul`
@@ -28,11 +29,11 @@ const IconButton = styled.button`
   }
 `;
 
-const Reactions = ({ likeCount, nestedCommentCount }: Props) => {
+const Reactions = ({ likeCount, nestedCommentCount, onClickLike }: Props) => {
   return (
     <EmojiListUl>
       <li>
-        <IconButton type="button">
+        <IconButton type="button" onClick={onClickLike}>
           <Image
             alt="엄지척 이모지"
             src={`${IMAGE_CDN}/icon/Icon_Like_Gray.svg`}
