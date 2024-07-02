@@ -14,7 +14,7 @@ export interface GetPostResponse {
   author_nickname: string;
   author_major: JOB_GROUP_TYPES;
   author_profile_url: string;
-  accepted_comment_id: number;
+  accept_comment_id: number;
   success: boolean;
 }
 
@@ -26,6 +26,7 @@ export interface UpdatePostRequest {
   body?: { data: string; created_at: string } | undefined;
   preview_body?: string | undefined;
   tags?: string[] | undefined;
+  accept_comment_id?: number;
 }
 
 export interface UpdatePostResponse {

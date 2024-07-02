@@ -4,11 +4,15 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { UserPost, UserComment } from '../type';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import PostComp from '../common/PostComp';
 import CommentCard from './CommentCard';
 import PostCard from './PostCard';
+import { HistoryItemProps } from '@/app/api/auth/history/type';
+
+type Props = {
+  list: Array<HistoryItemProps>;
+};
 
 const FilterListLayoutDiv = styled.div`
   display: flex;
@@ -50,31 +54,26 @@ const ModifyButton = styled.button`
 const filterList = [
   {
     text: '전체',
-    value: 'all',
+    value: 'ALL',
   },
   {
     text: '글',
-    value: 'post',
+    value: 'POST',
   },
   {
     text: '댓글',
-    value: 'comment',
+    value: 'COMMENT',
   },
   {
     text: '임시저장',
-    value: 'temp_post',
+    value: 'EDITING',
   },
 ];
-
-// TODO: api 디렉토리 post, comment type으로 변경
-type Props = {
-  list: Array<UserPost | UserComment>;
-};
 
 const ActivityContentInner = (props: Props) => {
   const { list } = props;
   const [filter, setFilter] = useState<string>(filterList[0].value);
-  const [filteredList, setFilteredList] = useState<Array<UserPost | UserComment>>([]);
+  const [filteredList, setFilteredList] = useState<Array<HistoryItemProps>>([]);
 
   const { push } = useRouter();
 
@@ -84,11 +83,20 @@ const ActivityContentInner = (props: Props) => {
 
   useEffect(() => {
     switch (filter) {
-      case 'all':
-        setFilteredList(list);
+      case 'POST':
+        setFilteredList(
+          list.filter(({ type, post }) => type === filter && post.postStatus === 'COMPLETE'),
+        );
         break;
+      case 'COMMENT':
+        setFilteredList(list.filter(({ type }) => type === filter));
+        break;
+      case 'EDITING':
+        setFilteredList(list.filter(({ post }) => post.postStatus === filter));
+        break;
+      case 'ALL':
       default:
-        setFilteredList(list.filter((v) => v.type === filter));
+        setFilteredList(list);
         break;
     }
   }, [filter]);
@@ -107,15 +115,26 @@ const ActivityContentInner = (props: Props) => {
         ))}
       </FilterListLayoutDiv>
 
-      {filteredList.map((v, idx) =>
-        v.type === 'post' || v.type === 'temp_post' ? (
-          <PostCard key={`post-${v.id}`} {...(v as UserPost)} isDelete>
-            {v.type === 'post' && (
-              <PostComp.ReactionCount postId={v.id} emojiCount={999} commentCount={3} />
+      {filteredList.map((v) => {
+        const { type, post, comment } = v;
+        return type === 'POST' ? (
+          <PostCard key={`post-${post.postId}`} {...post} isDelete>
+            {post.postStatus === 'COMPLETE' && (
+              <PostComp.CountBox
+                postId={post.postId}
+                reactionCountObj={{
+                  ThumbsUp: 1,
+                  Pushpin: 2,
+                  FaceWithMonocle: 3,
+                  ExplodingHead: 4,
+                  SmilingHeart: 5,
+                }}
+                reactionDisabled
+                commentCount={3}
+              />
             )}
 
-            {/* TODO: post.id로 변경 */}
-            <ModifyButton onClick={() => handleModifyClick(10)}>
+            <ModifyButton onClick={() => handleModifyClick(post.postId)}>
               <Image
                 alt="수정 아이콘"
                 src={`${IMAGE_CDN}/icon/ModifyButton_active.png`}
@@ -125,9 +144,9 @@ const ActivityContentInner = (props: Props) => {
             </ModifyButton>
           </PostCard>
         ) : (
-          <CommentCard key={`comment-${v.id}`} {...(v as UserComment)} />
-        ),
-      )}
+          <CommentCard key={`comment-${comment?.commentId}`} {...comment} {...post} />
+        );
+      })}
     </>
   );
 };
