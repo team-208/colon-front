@@ -19,3 +19,12 @@ export interface DeleteCommentRequest {
 export interface DeleteCommentResponse {
   success: boolean;
 }
+
+export interface UpdateCommentRequest {
+  commentId: number;
+  comment: string;
+}
+
+export interface UpdateCommentResponse {
+  success: boolean;
+}

@@ -3,6 +3,8 @@ import {
   InsertCommentRequest,
   DeleteCommentRequest,
   DeleteCommentResponse,
+  UpdateCommentRequest,
+  UpdateCommentResponse,
 } from './type';
 
 export const fetchInsertComment = async (body: InsertCommentRequest) => {
@@ -22,5 +24,15 @@ export const fetchDeleteComment = async (body: DeleteCommentRequest) => {
   });
 
   const jsonData = (await res.json()) as DeleteCommentResponse;
+  return jsonData;
+};
+
+export const fetchUpdateComment = async (body: UpdateCommentRequest) => {
+  const res = await fetch(`/api/comment`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  });
+
+  const jsonData = (await res.json()) as UpdateCommentResponse;
   return jsonData;
 };

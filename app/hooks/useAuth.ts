@@ -12,7 +12,7 @@ import { removeUndefinedValue } from '../utils/converter';
 
 const useAuth = () => {
   const { auth } = supabaseClient;
-  const { push, replace } = useRouter();
+  const { replace } = useRouter();
 
   const {
     data: userInfo,
@@ -35,7 +35,8 @@ const useAuth = () => {
   const logout = async () => {
     try {
       await auth.signOut();
-      push('/');
+      await refetchUserSession();
+      replace('/');
     } catch (error) {}
   };
 

@@ -15,10 +15,10 @@ const ContainerDiv = styled.header<{ $isScroll: boolean }>`
   left: 0;
   width: 100%;
   height: ${({ theme }) => theme.heightSizes.header.desktop}px;
-  ${({ $isScroll }) =>
+  ${({ theme, $isScroll }) =>
     $isScroll
       ? 'backdrop-filter: blur(5px);-webkit-backdrop-filter: blur(5px);'
-      : 'border-bottom: 1px solid #cbcbcb;'}
+      : `border-bottom: 1px solid ${theme.color.line.solid.normal};`}
   background-color: ${({ theme, $isScroll }) =>
     $isScroll ? 'rgba(255,255,255,.3)' : theme.color.static.light};
   padding: 0 190px;

@@ -19,22 +19,10 @@ const FlexRowDiv = styled.div`
   align-items: center;
 `;
 
-const CancelButton = styled.button`
-  min-width: 44px;
-  height: 36px;
-  padding: 8px 10px;
-  color: #989ba2;
-  ${({ theme }) => theme.font.body2}
-
-  ${({ theme }) => theme.mediaQuery.mobile} {
-    margin-left: 0;
-  }
-`;
-
 const CancelHeader = ({ onCancel }: Props) => {
   return (
     <ContainerFlex>
-      <CancelButton onClick={onCancel}>취소</CancelButton>
+      <HeaderComp.CancelButton onClick={onCancel} />
 
       <FlexRowDiv>
         <HeaderComp.AlertButton />

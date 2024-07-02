@@ -11,9 +11,10 @@ export async function GET(request: Request, { params }: { params: { postId: stri
     const { data, error: commentsGetError } = await supabase
       .from('comments')
       .select(
-        'id, original_comment, comment, emojis, created_at, updated_at, post_id, author_nickname, author_major ',
+        'id, original_comment, comment, created_at, updated_at, post_id, author_nickname, author_major ',
       )
-      .eq('post_id', params.postId);
+      .eq('post_id', params.postId)
+      .order('id', { ascending: true });
 
     if (commentsGetError) {
       return NextResponse.json({
