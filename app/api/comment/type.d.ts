@@ -11,3 +11,12 @@ export interface InsertCommentRequest {
 export interface InsertCommentResponse {
   success: boolean;
 }
+
+export interface UpdateCommentRequest {
+  commentId: number;
+  comment: string;
+}
+
+export interface UpdateCommentResponse {
+  success: boolean;
+}

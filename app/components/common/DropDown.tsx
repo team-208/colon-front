@@ -3,13 +3,27 @@
 import React, { ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 
+type DIRECTION_TYPE = 'left' | 'right';
+
+interface Distance {
+  desktop: number;
+  mobile: number;
+}
+
 interface Props {
   children: ReactNode;
   isActive: boolean;
+  direction?: DIRECTION_TYPE;
+  distance?: Distance;
   defaultHeight?: number;
 }
 
-const DropDownBoxDiv = styled.div<{ $isActive: boolean; $minHeight: number }>`
+const DropDownBoxDiv = styled.div<{
+  $isActive: boolean;
+  $dir: string;
+  $dis: Distance;
+  $minHeight: number;
+}>`
   opacity: 0;
   width: fit-content;
   height: fit-content;
@@ -24,18 +38,28 @@ const DropDownBoxDiv = styled.div<{ $isActive: boolean; $minHeight: number }>`
   backdrop-filter: blur(15px);
   border-radius: 12px;
 
-  ${({ $isActive }) =>
+  ${({ theme, $isActive, $dir, $dis }) =>
     $isActive &&
     css`
       transform: none;
-      top: 100%;
+      ${$dir}: 0;
+      top: calc(100% + ${$dis.desktop}px);
       opacity: 1;
+
+      ${theme.mediaQuery.mobile} {
+        top: calc(100% + ${$dis.mobile}px);
+      }
     `}
 `;
 
-const DropDown = ({ children, isActive, defaultHeight }: Props) => {
+const DropDown = ({ children, isActive, direction, distance, defaultHeight }: Props) => {
   return (
-    <DropDownBoxDiv $isActive={isActive} $minHeight={defaultHeight ?? 0}>
+    <DropDownBoxDiv
+      $isActive={isActive}
+      $dir={direction ?? 'left'}
+      $dis={distance ?? { desktop: 0, mobile: 0 }}
+      $minHeight={defaultHeight ?? 0}
+    >
       {children}
     </DropDownBoxDiv>
   );

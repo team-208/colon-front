@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import HeaderComp from './HeaderComp';
 import Divider from './DividerComp';
 import DropDown from './DropDown';
+import MobileRenderBox from './HeaderComp/MobileRenderBox';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import icon_search from '@/app/assets/images/header/icon_search.png';
 
@@ -211,10 +212,17 @@ const SearchHeader = () => {
 
   return (
     <ContainerFlex>
-      <FlexRowDiv>
-        <HeaderComp.Logo margin={isActive ? '0' : '0 24px 0 0'} />
-        {!isActive && <HeaderComp.Navigation />}
-      </FlexRowDiv>
+      {isActive && (
+        <MobileRenderBox renderMode="visible">
+          <HeaderComp.CancelButton onClick={handleCancelButton} />
+        </MobileRenderBox>
+      )}
+      <MobileRenderBox renderMode="hidden" isApply={isActive}>
+        <FlexRowDiv>
+          <HeaderComp.Logo margin={isActive ? '0' : '0 24px 0 0'} />
+          {!isActive && <HeaderComp.Navigation />}
+        </FlexRowDiv>
+      </MobileRenderBox>
 
       {isActive && (
         <SearchInputContainer>
@@ -295,8 +303,13 @@ const SearchHeader = () => {
 
       <FlexRowDiv>
         {!isActive && <HeaderComp.SearchButton onClick={handleSearchButton} />}
-        <HeaderComp.AlertButton />
-        <HeaderComp.ProfileButton />
+
+        <MobileRenderBox renderMode="hidden" isApply={isActive}>
+          <FlexRowDiv>
+            <HeaderComp.AlertButton />
+            <HeaderComp.ProfileButton />
+          </FlexRowDiv>
+        </MobileRenderBox>
       </FlexRowDiv>
     </ContainerFlex>
   );
