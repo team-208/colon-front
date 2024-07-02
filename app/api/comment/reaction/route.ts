@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/app/utils/supabase/server';
 import { getHost } from '@/app/utils/host';
 import { UpdateCommentReactionRequest, UserReactionsObjType } from './type';
+import { isEmpty } from 'lodash';
 
 export async function PUT(request: Request) {
   const host = getHost();
@@ -20,15 +21,14 @@ export async function PUT(request: Request) {
       const { data: userReactionsData, error: getUserReaction } = await supabase
         .from('user_reactions')
         .select('*')
-        .eq('user_id', userId)
-        .single();
+        .eq('user_id', userId);
 
       if (getUserReaction) {
         return NextResponse.json({ success: false, getUserReaction });
       }
 
       // 모든 게시글 중에 처음으로 게시글 / 댓글에 반응한 유저.
-      if (!userReactionsData) {
+      if (isEmpty(userReactionsData)) {
         const newUserReactions: UserReactionsObjType = {
           posts: [],
           comments: [bodyData.commentId],
@@ -36,6 +36,7 @@ export async function PUT(request: Request) {
         const { error: insertError } = await supabase.from('user_reactions').insert([
           {
             reactions: newUserReactions,
+            user_id: userId,
           },
         ]);
 
@@ -45,14 +46,14 @@ export async function PUT(request: Request) {
 
         const { error: updateError } = await supabase
           .from('comments')
-          .update({ reactionCount: bodyData.curReactionCount + 1 })
+          .update({ reaction_count: bodyData.curReactionCount + 1 })
           .eq('id', bodyData.commentId);
 
         return NextResponse.json({ success: updateError ? false : true, updateError });
       }
 
       // 한번 이라도 다른 게시글 / 댓글에 반응 한 적이 있는 유저
-      const userReaction = JSON.parse(userReactionsData) as UserReactionsObjType;
+      const userReaction = userReactionsData[0].reactions as UserReactionsObjType;
       const isAddReaction = !userReaction.comments.includes(bodyData.commentId);
 
       const { error: updateUserReactionError } = await supabase
@@ -65,21 +66,18 @@ export async function PUT(request: Request) {
               : userReaction.comments.filter((item) => item !== bodyData.commentId),
           },
         })
-        .eq('id', bodyData.commentId);
-
+        .eq('user_id', userId);
       if (updateUserReactionError) {
         return NextResponse.json({ success: false, updateUserReactionError });
       }
-
       const { error: updateError } = await supabase
         .from('comments')
         .update({
-          reactionCount: isAddReaction
+          reaction_count: isAddReaction
             ? bodyData.curReactionCount + 1
             : bodyData.curReactionCount - 1,
         })
         .eq('id', bodyData.commentId);
-
       return NextResponse.json({ success: updateError ? false : true, updateError });
     }
 
