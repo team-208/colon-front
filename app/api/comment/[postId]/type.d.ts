@@ -10,6 +10,7 @@ export interface GetCommentsResponseItem {
   post_id: number;
   author_nickname: string;
   author_major: JOB_GROUP_TYPES;
+  reaction_count: number;
 
   // client computed props
   nestedComments: GetCommentsResponse[];
