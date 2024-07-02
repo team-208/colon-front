@@ -154,7 +154,12 @@ const CommentItem = ({
         />
       )}
       <FooterBoxDiv $isModify={isModify}>
-        {!isModify && <CommentComp.Emojis emojis={emojis} />}
+        {!isModify && (
+          <CommentComp.Reactions
+            likeCount={999}
+            nestedCommentCount={isNestedComment ? undefined : 999}
+          />
+        )}
         {isVisibleChoice && (
           <ChoiceButton isActive onClick={handleClickChoice}>
             글쓴이 채택
