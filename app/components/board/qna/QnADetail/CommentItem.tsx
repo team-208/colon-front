@@ -158,20 +158,23 @@ const CommentItem = ({
           value={modifyComment}
         />
       )}
-      <FooterBoxDiv $isModify={isModify}>
-        {!isModify && <CommentComp.Emojis emojis={emojis} />}
-        {isVisibleChoice && (
-          <ChoiceButton isActive onClick={handleClickChoice}>
-            글쓴이 채택
-          </ChoiceButton>
-        )}
 
-        {isModify && (
-          <ModifyButton size="sm" isActive onClick={handleClickModify}>
-            수정
-          </ModifyButton>
-        )}
-      </FooterBoxDiv>
+      {authorNickName !== null && (
+        <FooterBoxDiv $isModify={isModify}>
+          {!isModify && <CommentComp.Emojis emojis={emojis} />}
+          {isVisibleChoice && (
+            <ChoiceButton isActive onClick={handleClickChoice}>
+              글쓴이 채택
+            </ChoiceButton>
+          )}
+
+          {isModify && (
+            <ModifyButton size="sm" isActive onClick={handleClickModify}>
+              수정
+            </ModifyButton>
+          )}
+        </FooterBoxDiv>
+      )}
     </CommentComp.Wrapper>
   );
 };
