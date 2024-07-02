@@ -111,7 +111,8 @@ const CommentItem = ({
             cancelLabel="취소"
             onConfirm={async () => {
               await deleteCommentMutation({ commentId, postId: parseInt(postId) });
-              refetch;
+              await refetch();
+              closeModal();
             }}
             onCancel={() => {
               closeModal();
