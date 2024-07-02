@@ -39,10 +39,11 @@ const FooterBoxDiv = styled.div<{ $isModify: boolean }>`
   justify-content: ${({ $isModify }) => ($isModify ? 'flex-end' : 'space-between')};
 `;
 
-const ChoiceButton = styled(ButtonComp.Solid)`
+const ChoiceButton = styled(ButtonComp.OutlinedPrimary)`
   padding: 4px 10px;
   height: 26px;
   border-radius: 8px;
+  ${({ theme }) => theme.font.body3};
 `;
 
 const CommentTextarea = styled(reactTextareaAutosize)`
