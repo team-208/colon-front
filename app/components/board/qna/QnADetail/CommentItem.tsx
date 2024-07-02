@@ -2,7 +2,7 @@
 
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import useCommentsQuery from '@/app/api/comment/[postId]/queries';
-import { useUpdateCommentMutation } from '@/app/api/comment/mutations';
+import { useDeleteCommentMutation, useUpdateCommentMutation } from '@/app/api/comment/mutations';
 import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
 import ButtonComp from '@/app/components/common/ButtomComp';
 import CommentComp from '@/app/components/common/CommentComp';
@@ -86,6 +86,7 @@ const CommentItem = ({
   const { refetch } = useCommentsQuery(postId);
   const { mutateAsync } = useModifyPostMutation();
   const { mutateAsync: updateCommentMutation } = useUpdateCommentMutation();
+  const { mutateAsync: deleteCommentMutation } = useDeleteCommentMutation();
   const { userInfo } = useAuth();
 
   const { refresh } = useRouter();
@@ -108,7 +109,11 @@ const CommentItem = ({
             isReverseButton
             confirmLabel="삭제"
             cancelLabel="취소"
-            onConfirm={() => {}}
+            onConfirm={async () => {
+              await deleteCommentMutation({ commentId, postId: parseInt(postId) });
+              await refetch();
+              closeModal();
+            }}
             onCancel={() => {
               closeModal();
             }}
@@ -153,20 +158,23 @@ const CommentItem = ({
           value={modifyComment}
         />
       )}
-      <FooterBoxDiv $isModify={isModify}>
-        {!isModify && <CommentComp.Emojis emojis={emojis} />}
-        {isVisibleChoice && (
-          <ChoiceButton isActive onClick={handleClickChoice}>
-            글쓴이 채택
-          </ChoiceButton>
-        )}
 
-        {isModify && (
-          <ModifyButton size="sm" isActive onClick={handleClickModify}>
-            수정
-          </ModifyButton>
-        )}
-      </FooterBoxDiv>
+      {authorNickName !== null && (
+        <FooterBoxDiv $isModify={isModify}>
+          {!isModify && <CommentComp.Emojis emojis={emojis} />}
+          {isVisibleChoice && (
+            <ChoiceButton isActive onClick={handleClickChoice}>
+              글쓴이 채택
+            </ChoiceButton>
+          )}
+
+          {isModify && (
+            <ModifyButton size="sm" isActive onClick={handleClickModify}>
+              수정
+            </ModifyButton>
+          )}
+        </FooterBoxDiv>
+      )}
     </CommentComp.Wrapper>
   );
 };

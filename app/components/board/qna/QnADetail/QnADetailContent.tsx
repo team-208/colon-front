@@ -137,10 +137,12 @@ const QnADetailContent = ({ post }: Props) => {
     updated_at,
     author_nickname,
     author_major,
+    comments_count,
   } = post;
 
   // TODO: tanstack query hydrate 적용 필요.
   const { data: userScrapData } = usePostScrapQuery();
+
   const { mutateAsync } = useDeletePostMutation();
 
   const { push, replace } = useRouter();
@@ -227,7 +229,7 @@ const QnADetailContent = ({ post }: Props) => {
             ExplodingHead: 4,
             SmilingHeart: 5,
           }}
-          commentCount={3}
+          commentCount={comments_count}
         />
         <PostComp.ScrapButton postId={id} isScrap={!!isScrap} />
       </PostFooterDiv>

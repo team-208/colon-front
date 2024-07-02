@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import Selector from '../Selector';
+import { useMemo } from 'react';
 
 interface Props {
   major: JOB_GROUP_TYPES;
@@ -82,24 +83,32 @@ const Header = ({
   onClickModify,
   onClickDelete,
 }: Props) => {
+  const isDeletedComment = useMemo(() => nickname === null, []);
+
   return (
     <ContainerDiv>
       <UserInfoDiv>
-        <MajorP $isSelected={isSelected}>
-          {isSelected && (
-            <Image alt="채택 아이콘" src={`${IMAGE_CDN}/icon/Crown.png`} width={14} height={14} />
-          )}
-          {JOB_GROUP_LABELS[major] ?? ''}
-        </MajorP>
+        {!isDeletedComment && (
+          <MajorP $isSelected={isSelected}>
+            {isSelected && (
+              <Image alt="채택 아이콘" src={`${IMAGE_CDN}/icon/Crown.png`} width={14} height={14} />
+            )}
+            {JOB_GROUP_LABELS[major] ?? ''}
+          </MajorP>
+        )}
 
         <AuthorP>
-          <span>{nickname}</span>
-          <span>•</span>
+          {!isDeletedComment && (
+            <>
+              <span>{nickname}</span>
+              <span>•</span>
+            </>
+          )}
           <span>{dateText(dayjs(updatedAt))} (편집됨)</span>
         </AuthorP>
       </UserInfoDiv>
 
-      {isAuthor && (
+      {!isDeletedComment && isAuthor && (
         <Selector
           defaultOption={{ idx: 0, text: '최신순' }}
           selectorButton={

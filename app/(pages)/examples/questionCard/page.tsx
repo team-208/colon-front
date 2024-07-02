@@ -20,6 +20,7 @@ export default function Home() {
         author_major="PLANNING"
         author_profile_url="/"
         isScrap
+        comments_count={999}
       />
     </main>
   );
