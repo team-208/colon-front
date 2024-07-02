@@ -13,7 +13,8 @@ export interface InsertCommentResponse {
 }
 
 export interface DeleteCommentRequest {
-  id: string;
+  commentId: number;
+  postId: number;
 }
 
 export interface DeleteCommentResponse {

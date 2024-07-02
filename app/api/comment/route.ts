@@ -18,6 +18,27 @@ export async function POST(request: Request) {
       const { session } = userSession;
       const userId = session?.user.id;
 
+      const { data: postData, error: getPostError } = await supabase
+        .from('posts')
+        .select('comments_count')
+        .eq('id', bodyData.post_id)
+        .single();
+
+      if (getPostError) {
+        return NextResponse.json({ success: false, getPostError });
+      }
+
+      const { error: updatePostError } = await supabase
+        .from('posts')
+        .update({
+          comments_count: postData.comments_count + 1,
+        })
+        .eq('id', bodyData.post_id);
+
+      if (updatePostError) {
+        return NextResponse.json({ success: false, updatePostError });
+      }
+
       const { error: insertError } = await supabase.from('comments').insert([
         {
           ...removeUndefinedValue(bodyData),
