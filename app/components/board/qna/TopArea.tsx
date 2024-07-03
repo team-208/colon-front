@@ -1,8 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import { useCallback } from 'react';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
-import Image from 'next/image';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/app/hooks/useAuth';
@@ -25,9 +25,16 @@ const ContainerDiv = styled.div`
 
 const TextBoxDiv = styled.div`
   flex: auto;
-  background: ${({ theme }) => theme.color.palette.coolNeutral98};
+  background-image: url('/images/banner_desktop.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   border-radius: 12px;
   padding: 12px 20px;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    background-image: url('/images/banner_mobile.png');
+  }
 `;
 
 const DescP1 = styled.p`
@@ -47,8 +54,8 @@ const FloatingButton = styled(ButtonComp.Gradient)<{ $isScroll: boolean }>`
   justify-content: center;
   align-items: center;
 
-  width: 120px;
-  height: 50px; 
+  min-width: 120px;
+  height: 50px;
   padding: 0;
   margin-left: 24px;
   z-index: 2;
@@ -60,7 +67,7 @@ const FloatingButton = styled(ButtonComp.Gradient)<{ $isScroll: boolean }>`
   ${({ $isScroll }) =>
     $isScroll &&
     css`
-      width: 170px;
+      min-width: 170px;
       position: fixed;
       bottom: 50px;
       left: 50%;
@@ -75,7 +82,7 @@ const FloatingButton = styled(ButtonComp.Gradient)<{ $isScroll: boolean }>`
     left: auto;
     transform: none;
 
-    width: 56px;
+    min-width: 56px;
     height: 56px;
     border-radius: 50%;
 
