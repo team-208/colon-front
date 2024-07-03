@@ -6,9 +6,11 @@ import Image from 'next/image';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/app/hooks/useAuth';
+import useModal from '@/app/hooks/useModal';
 import { useRecoilValue } from 'recoil';
 import { scrollState } from '@/app/recoils';
 import ButtonComp from '../../common/ButtomComp';
+import ModalComp from '../../common/ModalComp';
 
 const ContainerDiv = styled.div`
   display: flex;
@@ -48,7 +50,7 @@ const FloatingButton = styled(ButtonComp.Gradient)<{ $isScroll: boolean }>`
   align-items: center;
 
   width: 120px;
-  height: 50px; 
+  height: 50px;
   padding: 0;
   margin-left: 24px;
   z-index: 2;
@@ -101,14 +103,48 @@ const FloatingBackgroundDiv = styled.div`
   }
 `;
 
+const ModalTextP = styled.p`
+  ${({ theme }) => theme.font.body1};
+  color: ${({ theme }) => theme.color.label.normal};
+
+  span {
+    color: ${({ theme }) => theme.color.primary.normal};
+  }
+`;
+
 const TopArea = () => {
   const { userInfo } = useAuth();
+  const { openModal, closeModal } = useModal();
   const scroll = useRecoilValue(scrollState);
   const { push } = useRouter();
 
   const handleClick = useCallback(() => {
     if (userInfo?.user) push('/qna/write');
-    else push('/login');
+    else
+      openModal({
+        modalProps: {
+          contents: (
+            <ModalComp.Confirm
+              isReverseButton
+              confirmLabel="회원가입 하러가기"
+              cancelLabel="돌아가기"
+              onConfirm={() => {
+                push('/login');
+                closeModal();
+              }}
+              onCancel={() => {
+                closeModal();
+              }}
+            >
+              <ModalTextP>
+                <span>회원가입</span>하고
+                <br />
+                궁금증을 풀어보세요!
+              </ModalTextP>
+            </ModalComp.Confirm>
+          ),
+        },
+      });
   }, [userInfo?.user]);
 
   return (
