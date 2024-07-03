@@ -39,12 +39,13 @@ const TextBoxDiv = styled.div`
 
 const DescP1 = styled.p`
   ${({ theme }) => theme.font.body1}
-  color: ${({ theme }) => theme.color.label.normal};
+  color: ${({ theme }) => theme.color.static.light};
 `;
 
 const DescP2 = styled.p`
-  ${({ theme }) => theme.font.body2}
-  color: ${({ theme }) => theme.color.label.normal};
+  ${({ theme }) => theme.font.body3}
+  color: ${({ theme }) => theme.color.static.light};
+  font-weight: 400;
 `;
 
 const FloatingButton = styled(ButtonComp.Gradient)<{ $isScroll: boolean }>`
