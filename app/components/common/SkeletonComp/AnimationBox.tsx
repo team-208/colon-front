@@ -1,45 +1,20 @@
 'use client';
 
-import styled, { keyframes } from 'styled-components';
 import { ReactNode } from 'react';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 interface Props {
   children: ReactNode;
 }
 
-const animation = keyframes`
-  0% {
-    left: -70%;
-    animation: ease-in;
-  }
-  12% {
-    left: -70%;
-  }
-  25% {
-    left: 10%;
-    animation: linear;
-  }
-  50% {
-    left: 90%; 
-    animation: linear;
-  }
-  75% {
-    left: 170%;
-    animation: linear;
-  }
-  100% {
-    left: -70%;
-    animation: ease-out;
-  }
-`;
-
 const Container = styled.div`
   position: relative;
 `;
 
-const GradientBox = styled.div`
+const GradientBox = styled(motion.div)`
   position: absolute;
-  top: 0;
+  top: 0%;
   width: 100%;
   height: 100%;
   background: linear-gradient(
@@ -48,13 +23,22 @@ const GradientBox = styled.div`
     rgba(255, 255, 255, 0.5) 49.922578828828826%,
     rgba(171, 171, 171, 0) 100%
   );
-  animation: ${animation} 1.2s linear infinite;
 `;
 
 const AnimatonBox = ({ children }: Props) => {
   return (
     <Container>
-      <GradientBox />
+      <GradientBox
+        layout
+        animate={{
+          left: ['-70%', '10%', '90%', '170%', '-170%'],
+        }}
+        transition={{
+          easings: ['easeIn', 'linear', 'linear', [0, 0, 0.3, 0.9]],
+          duration: 1.2,
+          repeat: Infinity,
+        }}
+      />
       {children}
     </Container>
   );
