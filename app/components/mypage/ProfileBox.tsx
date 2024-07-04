@@ -40,6 +40,7 @@ const LabelDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: max-content;
 
   label {
     color: ${({ theme }) => theme.color.interaction.inactive};
