@@ -4,9 +4,9 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import FilterHeader from '@/app/components/common/FilterHeader';
 import Selector from '../../common/Selector';
-import usePostListQuery from '@/app/api/post/queries';
 import { GetPostListQuery } from '@/app/api/post/type';
 import ListBox from './ListBox';
+import SkeletonComp from '../../common/SkeletonComp';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 
 const SelectorContainerDiv = styled.div`
@@ -51,7 +51,7 @@ const QnaListComp = () => {
         </Selector>
       </SelectorContainerDiv>
 
-      <React.Suspense fallback={<div>loading...</div>}>
+      <React.Suspense fallback={<SkeletonComp.ListBoxUI />}>
         <ListBox filter={filter} />
       </React.Suspense>
     </>
