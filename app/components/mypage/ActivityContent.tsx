@@ -13,7 +13,7 @@ const ContentContainer = styled.div`
   }
 `;
 
-const ActivityContent = () => {
+const ActivityContent = async () => {
   const { data } = useHistoryQuery({ historyType: 'ACTIVITY' });
 
   return <ContentContainer>{data && <ActivityContentInner list={data.list} />}</ContentContainer>;

@@ -1,13 +1,9 @@
 'use client';
 
-import Image from 'next/image';
-import dayjs from 'dayjs';
 import styled from 'styled-components';
 import PostComp from '../common/PostComp';
 import PostCard from './PostCard';
-import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import useHistoryQuery from '@/app/api/auth/history/queries';
-import { HistoryItemProps } from '@/app/api/auth/history/type';
 
 const ContentContainer = styled.div`
   padding: 24px 0 20px 0;
@@ -27,7 +23,7 @@ const ScrapButton = styled(PostComp.ScrapButton)`
   align-items: center;
 `;
 
-const ScrapContent = () => {
+const ScrapContent = async () => {
   const { data } = useHistoryQuery({ historyType: 'SCRAP' });
 
   return (
