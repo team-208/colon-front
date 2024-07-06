@@ -7,6 +7,7 @@ import Image from 'next/image';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import CommentItem from './CommentItem';
+import { isEmpty } from 'lodash';
 
 interface Props {
   postId: string;
@@ -48,7 +49,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
 
   const { userInfo } = useAuth();
 
-  const isAuthor = useMemo(() => postAuthor === userInfo?.user.nick_name, [userInfo]);
+  const isAuthor = useMemo(() => postAuthor === userInfo?.user?.nick_name, [userInfo]);
 
   return (
     <ConatinerDiv>
@@ -78,7 +79,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
             nestedComments,
             author_major,
           }) => {
-            const isAuthorComment = userInfo?.user.nick_name === author_nickname;
+            const isAuthorComment = userInfo?.user?.nick_name === author_nickname;
             return (
               <React.Fragment key={`comment-item-${id}`}>
                 <li>

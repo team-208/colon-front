@@ -12,6 +12,7 @@ import Selector from '@/app/components/common/Selector';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/app/hooks/useAuth';
 import { useDeletePostMutation } from '@/app/api/post/[id]/mutations';
+import { isEmpty } from 'lodash';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -166,6 +167,7 @@ const QnADetailContent = ({ post }: Props) => {
     }
   }, []);
 
+  console.log(userInfo);
   return (
     <ConatinerArticle>
       <QnAHeader
@@ -190,7 +192,7 @@ const QnADetailContent = ({ post }: Props) => {
           </CheckLabelP>
         </CheckLabelBoxDiv>
 
-        {userInfo?.user.nick_name === author_nickname && (
+        {userInfo?.user?.nick_name === author_nickname && (
           <Selector
             defaultOption={{ idx: 0, text: '최신순' }}
             selectorButton={
