@@ -44,6 +44,7 @@ export interface PostListItem {
   author_profile_url: string;
   // TODO: tanstack hydrate 적용후 select 에서 ReactionsObjType 변환 필요
   reactions: string;
+  comments_count: number;
 }
 
 export interface GetPostListResponse {

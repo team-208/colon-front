@@ -11,3 +11,21 @@ export interface InsertCommentRequest {
 export interface InsertCommentResponse {
   success: boolean;
 }
+
+export interface DeleteCommentRequest {
+  commentId: number;
+  postId: number;
+}
+
+export interface DeleteCommentResponse {
+  success: boolean;
+}
+
+export interface UpdateCommentRequest {
+  commentId: number;
+  comment: string;
+}
+
+export interface UpdateCommentResponse {
+  success: boolean;
+}

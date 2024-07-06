@@ -21,6 +21,7 @@ export default function Home() {
         author_profile_url="/"
         isScrap
         reactions={''}
+        comments_count={999}
       />
     </main>
   );

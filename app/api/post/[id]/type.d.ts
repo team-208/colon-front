@@ -15,9 +15,11 @@ export interface GetPostResponse {
   author_nickname: string;
   author_major: JOB_GROUP_TYPES;
   author_profile_url: string;
-  accepted_comment_id: number;
   // TODO: tanstack hydrate 적용후 select 에서 ReactionsObjType 변환 필요
   reactions: string;
+  accept_comment_id: number;
+  comments_count: number;
+  success: boolean;
 }
 
 export interface UpdatePostRequest {
@@ -28,8 +30,13 @@ export interface UpdatePostRequest {
   body?: { data: string; created_at: string } | undefined;
   preview_body?: string | undefined;
   tags?: string[] | undefined;
+  accept_comment_id?: number;
 }
 
 export interface UpdatePostResponse {
+  success: boolean;
+}
+
+export interface DeletePostResponse {
   success: boolean;
 }

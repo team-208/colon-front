@@ -7,12 +7,17 @@ import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
+import Selector from '../Selector';
+import { useMemo } from 'react';
 
 interface Props {
   major: JOB_GROUP_TYPES;
   nickname: string;
   updatedAt: string;
   isSelected: boolean;
+  isAuthor: boolean;
+  onClickModify: () => void;
+  onClickDelete: () => void;
 }
 
 const ContainerDiv = styled.div`
@@ -61,27 +66,59 @@ const AuthorP = styled.p`
   }
 `;
 
-const Header = ({ major, nickname, updatedAt, isSelected }: Props) => {
+const ModifyOption = styled(Selector.Option)`
+  color: ${({ theme }) => theme.color.label.normal};
+`;
+
+const DeleteOption = styled(Selector.Option)`
+  color: ${({ theme }) => theme.color.status.destructive};
+`;
+
+const Header = ({
+  major,
+  nickname,
+  updatedAt,
+  isSelected,
+  isAuthor,
+  onClickModify,
+  onClickDelete,
+}: Props) => {
+  const isDeletedComment = useMemo(() => nickname === null, []);
+
   return (
     <ContainerDiv>
       <UserInfoDiv>
-        <MajorP $isSelected={isSelected}>
-          {isSelected && (
-            <Image alt="채택 아이콘" src={`${IMAGE_CDN}/icon/Crown.png`} width={14} height={14} />
-          )}
-          {JOB_GROUP_LABELS[major] ?? ''}
-        </MajorP>
+        {!isDeletedComment && (
+          <MajorP $isSelected={isSelected}>
+            {isSelected && (
+              <Image alt="채택 아이콘" src={`${IMAGE_CDN}/icon/Crown.png`} width={14} height={14} />
+            )}
+            {JOB_GROUP_LABELS[major] ?? ''}
+          </MajorP>
+        )}
 
         <AuthorP>
-          <span>{nickname}</span>
-          <span>•</span>
+          {!isDeletedComment && (
+            <>
+              <span>{nickname}</span>
+              <span>•</span>
+            </>
+          )}
           <span>{dateText(dayjs(updatedAt))} (편집됨)</span>
         </AuthorP>
       </UserInfoDiv>
 
-      <button>
-        <Image alt="더보기 아이콘" src={`${IMAGE_CDN}/icon/dots.png`} width={16} height={16} />
-      </button>
+      {!isDeletedComment && isAuthor && (
+        <Selector
+          defaultOption={{ idx: 0, text: '최신순' }}
+          selectorButton={
+            <Image alt="더보기 아이콘" src={`${IMAGE_CDN}/icon/dots.png`} width={16} height={16} />
+          }
+        >
+          <ModifyOption idx={0} text="수정" clickEvent={onClickModify} />
+          <DeleteOption idx={1} text="삭제" clickEvent={onClickDelete} />
+        </Selector>
+      )}
     </ContainerDiv>
   );
 };

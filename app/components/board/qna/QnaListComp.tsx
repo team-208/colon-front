@@ -94,6 +94,7 @@ const QnaListComp = () => {
             author_major,
             author_profile_url,
             reactions,
+            comments_count,
           } = post;
 
           const isScrap = userScrapData?.list.find((item) => item.post_id === id);
@@ -117,6 +118,7 @@ const QnaListComp = () => {
                     author_profile_url={author_profile_url}
                     isScrap={!!isScrap}
                     reactions={JSON.parse(reactions)}
+                    comments_count={comments_count}
                   />
                 </Link>
               </div>
@@ -139,6 +141,7 @@ const QnaListComp = () => {
                   author_profile_url={author_profile_url}
                   isScrap={!!isScrap}
                   reactions={JSON.parse(reactions)}
+                  comments_count={comments_count}
                 />
               </Link>
             </li>
