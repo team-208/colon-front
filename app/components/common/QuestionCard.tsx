@@ -154,6 +154,7 @@ const QuestionCard = ({
   author_major,
   author_profile_url,
   isScrap,
+  comments_count,
 }: Props) => {
   return (
     <ContainerArticle>
@@ -191,7 +192,7 @@ const QuestionCard = ({
                 SmilingHeart: 5,
               }}
               reactionDisabled
-              commentCount={3}
+              commentCount={comments_count}
             />
             <PostComp.ScrapButton postId={id} isScrap={!!isScrap} />
           </ContentFooterDiv>
