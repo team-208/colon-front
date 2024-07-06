@@ -18,7 +18,8 @@ const ProfileImageDiv = styled.div`
   overflow: hidden;
   margin-right: 16px;
   border-radius: 50%;
-  background-color: #e0e0e0;
+  border: 1px solid ${({ theme }) => theme.color.line.normalOpacity.alternative};
+  background-color: ${({ theme }) => theme.color.background.normal};
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     width: 56px;
@@ -45,7 +46,10 @@ const ProfileImage = (props: Props) => {
 
   const imageSrc = useMemo(() => {
     const modifiedProfileUrl = profile && URL.createObjectURL(profile);
-    return modifiedProfileUrl || `${PROFILE_CDN}/${userInfo?.user?.profile_url || 'default.png'}`;
+    return (
+      modifiedProfileUrl ||
+      `${PROFILE_CDN}/${userInfo?.user?.profile_url || `default_${userInfo?.user?.major}.png`}`
+    );
   }, [profile, userInfo?.user]);
 
   const clickModifyIcon = () => {
