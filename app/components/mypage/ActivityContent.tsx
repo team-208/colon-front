@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import ActivityContentInner from './ActivityContentInner';
 import useHistoryQuery from '@/app/api/auth/history/queries';
+import SkeletonComp from '../common/SkeletonComp';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -13,10 +14,14 @@ const ContentContainer = styled.div`
   }
 `;
 
-const ActivityContent = async () => {
+const ActivityContent = () => {
   const { data } = useHistoryQuery({ historyType: 'ACTIVITY' });
 
-  return <ContentContainer>{data && <ActivityContentInner list={data.list} />}</ContentContainer>;
+  return (
+    <ContentContainer>
+      {data ? <ActivityContentInner list={data.list} /> : <SkeletonComp.TabsUI />}
+    </ContentContainer>
+  );
 };
 
 export default ActivityContent;

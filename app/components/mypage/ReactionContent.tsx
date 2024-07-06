@@ -7,6 +7,7 @@ import PostCard from './PostCard';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { HistoryItemProps } from '@/app/api/auth/history/type';
 import useHistoryQuery from '@/app/api/auth/history/queries';
+import SkeletonComp from '../common/SkeletonComp';
 
 // TODO: reaction, scrap 추후 변경
 interface ReactionPost extends HistoryItemProps {
@@ -160,39 +161,43 @@ const ReactionContent = async () => {
   return (
     <ContentContainer>
       {/* {data?.list?.map((v) => ( */}
-      {list.map((v) => (
-        <PostCard key={`reaction-${v.post.postId}`} {...v.post}>
-          <>
-            <FlexRowDiv>
-              <ReactionButton>
-                <Image
-                  alt="리액션 아이콘"
-                  src={`${IMAGE_CDN}/qna/EmojiThumbsUp.png`}
-                  width={24}
-                  height={24}
-                />
-              </ReactionButton>
-              <DividerDiv />
-              <CommentCountDiv>
-                <Image
-                  alt="댓글 아이콘"
-                  src={`${IMAGE_CDN}/qna/Icon_Comment.png`}
-                  width={24}
-                  height={24}
-                />
-                <CommentCountP>3</CommentCountP>
-              </CommentCountDiv>
-            </FlexRowDiv>
+      {
+        list.map((v) => (
+          <PostCard key={`reaction-${v.post.postId}`} {...v.post}>
+            <>
+              <FlexRowDiv>
+                <ReactionButton>
+                  <Image
+                    alt="리액션 아이콘"
+                    src={`${IMAGE_CDN}/qna/EmojiThumbsUp.png`}
+                    width={24}
+                    height={24}
+                  />
+                </ReactionButton>
+                <DividerDiv />
+                <CommentCountDiv>
+                  <Image
+                    alt="댓글 아이콘"
+                    src={`${IMAGE_CDN}/qna/Icon_Comment.png`}
+                    width={24}
+                    height={24}
+                  />
+                  <CommentCountP>3</CommentCountP>
+                </CommentCountDiv>
+              </FlexRowDiv>
 
-            <ScarpIcon
-              alt="스크랩 아이콘"
-              src={`${IMAGE_CDN}/icon/ScrapButton_${v.scrap ? 'active' : 'inactive'}.png`}
-              width={24}
-              height={24}
-            />
-          </>
-        </PostCard>
-      ))}
+              <ScarpIcon
+                alt="스크랩 아이콘"
+                src={`${IMAGE_CDN}/icon/ScrapButton_${v.scrap ? 'active' : 'inactive'}.png`}
+                width={24}
+                height={24}
+              />
+            </>
+          </PostCard>
+        ))
+        // :
+        // <SkeletonComp.TabsUI/>
+      }
     </ContentContainer>
   );
 };
