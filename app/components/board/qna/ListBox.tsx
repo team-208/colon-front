@@ -8,6 +8,7 @@ import usePostScrapQuery from '@/app/api/post/scrap/queries';
 import usePostListQuery from '@/app/api/post/queries';
 import useObserver from '@/app/hooks/useObserver';
 import QuestionCard from '../../common/QuestionCard';
+import SkeletonComp from '../../common/SkeletonComp';
 
 interface ListBoxProps {
   filter: Omit<GetPostListQuery, 'offset'>;
@@ -23,7 +24,7 @@ const ListWrapperUl = styled.ul`
   }
 `;
 
-const ListBox = async ({ filter }: ListBoxProps) => {
+const ListBox = ({ filter }: ListBoxProps) => {
   const [postList, setPostList] = useState<PostListItem[]>([]);
 
   const { data } = usePostListQuery(filter);
@@ -41,27 +42,49 @@ const ListBox = async ({ filter }: ListBoxProps) => {
 
   return (
     <ListWrapperUl>
-      {postList.map((post, idx) => {
-        const {
-          id,
-          status,
-          requested_major,
-          title,
-          body,
-          preview_body,
-          tags,
-          created_at,
-          updated_at,
-          author_nickname,
-          author_major,
-          author_profile_url,
-        } = post;
+      {data ? (
+        postList.map((post, idx) => {
+          const {
+            id,
+            status,
+            requested_major,
+            title,
+            body,
+            preview_body,
+            tags,
+            created_at,
+            updated_at,
+            author_nickname,
+            author_major,
+            author_profile_url,
+          } = post;
 
-        const isScrap = userScrapData?.list.find((item) => item.post_id === id);
+          const isScrap = userScrapData?.list.find((item) => item.post_id === id);
 
-        return idx === postList.length - 1 ? (
-          <li key={`post-list-item-${post.id}`}>
-            <div ref={observerRef}>
+          return idx === postList.length - 1 ? (
+            <li key={`post-list-item-${post.id}`}>
+              <div ref={observerRef}>
+                <Link href={`/qna/${post.id}`}>
+                  <QuestionCard
+                    id={id}
+                    status={status}
+                    requested_major={requested_major}
+                    title={title}
+                    body={body}
+                    preview_body={preview_body}
+                    tags={tags}
+                    created_at={created_at}
+                    updated_at={updated_at}
+                    author_nickname={author_nickname}
+                    author_major={author_major}
+                    author_profile_url={author_profile_url}
+                    isScrap={!!isScrap}
+                  />
+                </Link>
+              </div>
+            </li>
+          ) : (
+            <li key={`post-list-item-${post.id}`}>
               <Link href={`/qna/${post.id}`}>
                 <QuestionCard
                   id={id}
@@ -79,30 +102,12 @@ const ListBox = async ({ filter }: ListBoxProps) => {
                   isScrap={!!isScrap}
                 />
               </Link>
-            </div>
-          </li>
-        ) : (
-          <li key={`post-list-item-${post.id}`}>
-            <Link href={`/qna/${post.id}`}>
-              <QuestionCard
-                id={id}
-                status={status}
-                requested_major={requested_major}
-                title={title}
-                body={body}
-                preview_body={preview_body}
-                tags={tags}
-                created_at={created_at}
-                updated_at={updated_at}
-                author_nickname={author_nickname}
-                author_major={author_major}
-                author_profile_url={author_profile_url}
-                isScrap={!!isScrap}
-              />
-            </Link>
-          </li>
-        );
-      })}
+            </li>
+          );
+        })
+      ) : (
+        <SkeletonComp.ListBoxUI />
+      )}
     </ListWrapperUl>
   );
 };
