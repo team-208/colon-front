@@ -129,8 +129,8 @@ const TopArea = () => {
               confirmLabel="회원가입 하러가기"
               cancelLabel="돌아가기"
               onConfirm={() => {
-                push('/login');
                 closeModal();
+                push('/login');
               }}
               onCancel={() => {
                 closeModal();
