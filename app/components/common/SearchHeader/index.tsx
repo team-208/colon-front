@@ -144,7 +144,7 @@ const SearchHeader = () => {
             placeholder="검색어를 두 글자 이상 입력해 더 쉽게 찾아보세요."
             onKeyDown={search}
             onBlur={() => {
-              // if (!word) setIsSearch(false);
+              if (!word) setIsSearch(false);
             }}
             onFocus={() => {
               setIsSearch(true);
