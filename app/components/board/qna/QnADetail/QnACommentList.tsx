@@ -111,7 +111,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                         isSelected={acceptedCommentId === item.id}
                         comment={item.comment}
                         isVisibleChoice={isAuthor && !isAuthorNestedComment && !acceptedCommentId}
-                        likeCount={reaction_count}
+                        likeCount={item.reaction_count}
                       />
                     </li>
                   );
