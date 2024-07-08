@@ -1,14 +1,17 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/navigation';
 import HeaderComp from './HeaderComp';
 import Divider from './DividerComp';
 import DropDown from './DropDown';
 import MobileRenderBox from './HeaderComp/MobileRenderBox';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import icon_search from '@/app/assets/images/header/icon_search.png';
+import usePostSearchQuery from '@/app/api/post/search/queries';
+import { PostSearchItemProps } from '@/app/api/post/search/type';
 
 const ContainerFlex = styled(HeaderComp.Container)`
   display: flex;
@@ -57,6 +60,9 @@ const SearchInput = styled.input`
     color: ${({ theme }) => theme.color.interaction.inactive};
   }
 `;
+const DropDownWidthFull = styled(DropDown)`
+  width: 100%;
+`;
 
 const DropDownInnerDiv = styled.div`
   width: 100%;
@@ -71,6 +77,10 @@ const MarginDivider = styled(Divider.Horizonal)`
 `;
 
 const MarginUl = styled.ul<{ $margin: number }>`
+  > li {
+    cursor: pointer;
+  }
+
   > li:not(:last-of-type) {
     margin-bottom: ${({ $margin }) => $margin}px;
   }
@@ -157,58 +167,50 @@ const CancelButton = styled.button`
   transform: translateY(-50%);
 `;
 
-const postList = [
-  {
-    id: 1,
-    title:
-      '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
-  },
-  {
-    id: 2,
-    title:
-      '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
-  },
-  {
-    id: 3,
-    title:
-      '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
-  },
-];
-
-const commentList = [
-  {
-    id: 1,
-    title: '글 제목',
-    text: '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
-  },
-  {
-    id: 2,
-    title: '글 제목',
-    text: '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
-  },
-  {
-    id: 3,
-    title: '글 제목',
-    text: '웹 화면 제목은 공백 포함 53자까지 가능 웹 화면 제목은 공백 포함 53자까지 가능 웹화면 제목은 공백 포함 43자까지 가능',
-  },
-];
-
 const SearchHeader = () => {
   const [isActive, setIsActive] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
+  const [word, setWord] = useState('');
+  const [posts, setPosts] = useState<PostSearchItemProps[]>();
+  const [comments, setComments] = useState<PostSearchItemProps[]>();
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const { push } = useRouter();
+
+  const { data, refetch } = usePostSearchQuery(word);
 
   const handleSearchButton = useCallback(() => {
     setIsActive((v) => !v);
   }, []);
 
   const handleCancelButton = useCallback(() => {
+    setWord('');
     setIsActive((v) => !v);
   }, []);
 
   const handleMoreButton = useCallback(() => {}, []);
 
-  const search = useCallback(() => {}, []);
+  const handlePostClick = useCallback((id: string) => {
+    push(`/qna/${id}`);
+  }, []);
+
+  const search = useCallback((e: React.KeyboardEvent) => {
+    if (e.key !== 'Enter') return;
+    if (!inputRef.current) return;
+
+    setWord(inputRef.current.value);
+  }, []);
+
+  useEffect(() => {
+    refetch();
+  }, [word]);
+
+  useEffect(() => {
+    if (data?.success) {
+      setPosts(data.posts.slice(0, 5));
+      setComments(data.comments.slice(0, 5));
+    }
+  }, [data]);
 
   return (
     <ContainerFlex>
@@ -229,10 +231,10 @@ const SearchHeader = () => {
           <SearchImage src={icon_search} alt="검색 아이콘" width={24} height={24} />
           <SearchInput
             ref={inputRef}
-            placeholder="검색어를 입력해주세요."
-            onMouseEnter={search}
+            placeholder="검색어를 두 글자 이상 입력해 더 쉽게 찾아보세요."
+            onKeyDown={search}
             onBlur={() => {
-              setIsSearch(false);
+              if(!word) setIsSearch(false);
             }}
             onFocus={() => {
               setIsSearch(true);
@@ -241,63 +243,72 @@ const SearchHeader = () => {
           <CancelButton onClick={handleCancelButton}>
             <Image src={`${IMAGE_CDN}/icon/Close.png`} alt="취소 아이콘" width={20} height={20} />
           </CancelButton>
-          <DropDown isActive={isSearch} defaultHeight={112}>
+          <DropDownWidthFull isActive={isSearch} defaultHeight={112}>
             <DropDownInnerDiv>
-              <ListTitleP>질문</ListTitleP>
-              <MarginUl $margin={8}>
-                {postList.map((post) => (
-                  <li key={`post-${post.id}`}>
-                    <PostDiv>
+              {word && (
+                <>
+                  <ListTitleP>질문</ListTitleP>
+                  <MarginUl $margin={8}>
+                    {posts?.map((post) => (
+                      <li
+                        key={`post-${post.id}`}
+                        onClick={() => {
+                          handlePostClick(post.id);
+                        }}
+                      >
+                        <PostDiv>
+                          <Image
+                            alt=""
+                            src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
+                            width={20}
+                            height={20}
+                          />
+                          <p>{post.text}</p>
+                        </PostDiv>
+                      </li>
+                    ))}
+                  </MarginUl>
+                  <MarginDivider height={1} />
+                  <ListTitleP>답변</ListTitleP>
+                  <MarginUl $margin={16}>
+                    {comments?.map((comment) => (
+                      <li key={`comment-${comment.id}`}>
+                        <PostDiv>
+                          <Image
+                            alt=""
+                            src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
+                            width={20}
+                            height={20}
+                          />
+                          <p>{comment.text}</p>
+                        </PostDiv>
+                        <CommentDiv>
+                          <Image
+                            alt=""
+                            src={`${IMAGE_CDN}/icon/Icon_Reply_gray.png`}
+                            width={20}
+                            height={20}
+                          />
+                          <p>{comment.text}</p>
+                        </CommentDiv>
+                      </li>
+                    ))}
+                  </MarginUl>
+                  <DropDownFooterDiv>
+                    <MoreButton onClick={handleMoreButton}>
+                      <p>더 찾아보기</p>
                       <Image
-                        alt=""
-                        src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
-                        width={20}
-                        height={20}
+                        alt="다음 아이콘"
+                        src={`${IMAGE_CDN}/icon/Arrow_Right_Blue.png`}
+                        width={24}
+                        height={24}
                       />
-                      <p>{post.title}</p>
-                    </PostDiv>
-                  </li>
-                ))}
-              </MarginUl>
-              <MarginDivider height={1} />
-              <ListTitleP>답변</ListTitleP>
-              <MarginUl $margin={16}>
-                {commentList.map((comment) => (
-                  <li key={`comment-${comment.id}`}>
-                    <PostDiv>
-                      <Image
-                        alt=""
-                        src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
-                        width={20}
-                        height={20}
-                      />
-                      <p>{comment.title}</p>
-                    </PostDiv>
-                    <CommentDiv>
-                      <Image
-                        alt=""
-                        src={`${IMAGE_CDN}/icon/Icon_Reply_gray.png`}
-                        width={20}
-                        height={20}
-                      />
-                      <p>{comment.text}</p>
-                    </CommentDiv>
-                  </li>
-                ))}
-              </MarginUl>
-              <DropDownFooterDiv>
-                <MoreButton onClick={handleMoreButton}>
-                  <p>더 찾아보기</p>
-                  <Image
-                    alt="다음 아이콘"
-                    src={`${IMAGE_CDN}/icon/Arrow_Right_Blue.png`}
-                    width={24}
-                    height={24}
-                  />
-                </MoreButton>
-              </DropDownFooterDiv>
+                    </MoreButton>
+                  </DropDownFooterDiv>
+                </>
+              )}
             </DropDownInnerDiv>
-          </DropDown>
+          </DropDownWidthFull>
         </SearchInputContainer>
       )}
 
