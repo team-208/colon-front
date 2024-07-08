@@ -88,7 +88,7 @@ const CommentItem = ({
   nestedCommentCount,
 }: Props) => {
   const [isModify, setIsModify] = useState<boolean>(false);
-  const [isOpenNestedComment, setIsOpenNestedComment] = useState<boolean>(true);
+  const [isOpenNestedComment, setIsOpenNestedComment] = useState<boolean>(false);
   const [modifyComment, setModifyComment] = useState<string>('');
 
   const { refetch } = useCommentsQuery(postId);
@@ -158,6 +158,10 @@ const CommentItem = ({
     refetch();
   }, []);
 
+  const handleClickNestedComment = useCallback(() => {
+    setIsOpenNestedComment(true);
+  }, []);
+
   return (
     <>
       <CommentComp.Wrapper isNestedComment={isNestedComment} isModify={isModify}>
@@ -187,6 +191,7 @@ const CommentItem = ({
                 likeCount={likeCount}
                 nestedCommentCount={isNestedComment ? undefined : nestedCommentCount}
                 onClickLike={handleClickLike}
+                onClickNestedComment={handleClickNestedComment}
               />
             )}
             {isVisibleChoice && (
@@ -208,6 +213,9 @@ const CommentItem = ({
           postId={postId}
           commentId={commentId}
           onClickClose={handleClickWriteClose}
+          onSuccessWrite={() => {
+            setIsOpenNestedComment(false);
+          }}
         />
       )}
     </>

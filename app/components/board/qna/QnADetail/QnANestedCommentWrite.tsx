@@ -15,6 +15,7 @@ interface Props {
   postId: string;
   commentId: number;
   onClickClose: () => void;
+  onSuccessWrite: () => void;
 }
 
 const ContainerDiv = styled.div`
@@ -55,7 +56,7 @@ const RegistButton = styled(ButtonComp.Solid)`
   ${({ theme }) => theme.font.body3};
 `;
 
-const QnANestedCommentWrite = ({ postId, commentId, onClickClose }: Props) => {
+const QnANestedCommentWrite = ({ postId, commentId, onClickClose, onSuccessWrite }: Props) => {
   const [comment, setComment] = useState<string>('');
 
   const { userInfo } = useAuth();
@@ -85,6 +86,8 @@ const QnANestedCommentWrite = ({ postId, commentId, onClickClose }: Props) => {
     refetchComments();
     setComment('');
     refresh();
+
+    onSuccessWrite();
   }, [comment, userInfo]);
 
   return (
