@@ -15,6 +15,8 @@ import { useCallback, useState } from 'react';
 import reactTextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 import QnANestedCommentWrite from './QnANestedCommentWrite';
+import { isEmpty } from 'lodash';
+import ModalComp from '@/app/components/common/ModalComp';
 
 interface Props {
   postId: string;
@@ -67,13 +69,6 @@ const ModifyButton = styled(ButtonComp.Solid)`
   align-self: flex-end;
 `;
 
-// TODO: 수정필요.
-const emojis = {
-  thumbsUp: 2,
-  smilingHeart: 4,
-  heart: 0,
-};
-
 const CommentItem = ({
   postId,
   commentId,
@@ -98,8 +93,29 @@ const CommentItem = ({
   const { mutateAsync: deleteCommentMutation } = useDeleteCommentMutation();
   const { userInfo } = useAuth();
 
-  const { refresh } = useRouter();
+  const { push, refresh } = useRouter();
   const { openModal, closeModal } = useModal();
+
+  const unAuthentipicatedUserModal = useCallback(() => {
+    openModal({
+      modalProps: {
+        contents: (
+          <ModalComp.Confirm
+            confirmLabel="로그인하기"
+            cancelLabel="돌아가기"
+            onCancel={() => {
+              closeModal();
+            }}
+            onConfirm={() => {
+              push('/signup');
+            }}
+          >
+            {`글이 인상깊으셨다면,\n로그인을 통해 기록하고,\n이야기해 보세요!`}
+          </ModalComp.Confirm>
+        ),
+      },
+    });
+  }, []);
 
   const handleClickChoice = useCallback(async () => {
     await mutateAsync({ id: parseInt(postId), status: 'COMPLETE', accept_comment_id: commentId });
@@ -152,13 +168,21 @@ const CommentItem = ({
   }, []);
 
   const handleClickLike = useCallback(async () => {
-    // TODO: 비로그인 유저 처리 필요.
+    if (isEmpty(userInfo)) {
+      unAuthentipicatedUserModal();
+      return;
+    }
 
     await updateCommentReactionMutation({ commentId: commentId, curReactionCount: likeCount });
     refetch();
   }, []);
 
   const handleClickNestedComment = useCallback(() => {
+    if (isEmpty(userInfo)) {
+      unAuthentipicatedUserModal();
+      return;
+    }
+
     setIsOpenNestedComment(true);
   }, []);
 
