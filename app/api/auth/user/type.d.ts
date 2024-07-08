@@ -19,7 +19,7 @@ export interface GetUserResponse extends Session {
   user: {
     profile_url: string;
     nick_name: string;
-    major: string;
+    major: JOB_GROUP_TYPES;
     created_at: string;
     updated_at: string;
   };

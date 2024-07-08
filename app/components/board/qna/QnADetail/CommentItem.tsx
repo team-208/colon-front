@@ -2,6 +2,7 @@
 
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import useCommentsQuery from '@/app/api/comment/[postId]/queries';
+import { useUpdateCommentReactionMutation } from '@/app/api/comment/reaction/mutations';
 import { useDeleteCommentMutation, useUpdateCommentMutation } from '@/app/api/comment/mutations';
 import { useModifyPostMutation } from '@/app/api/post/[id]/mutations';
 import ButtonComp from '@/app/components/common/ButtomComp';
@@ -25,6 +26,8 @@ interface Props {
   isSelected: boolean;
   comment: string;
   isVisibleChoice: boolean;
+  likeCount: number;
+  nestedCommentCount?: number;
 }
 
 const CommentP = styled.p`
@@ -81,6 +84,8 @@ const CommentItem = ({
   isSelected,
   comment,
   isVisibleChoice,
+  likeCount,
+  nestedCommentCount,
 }: Props) => {
   const [isModify, setIsModify] = useState<boolean>(false);
   const [isOpenNestedComment, setIsOpenNestedComment] = useState<boolean>(true);
@@ -89,6 +94,7 @@ const CommentItem = ({
   const { refetch } = useCommentsQuery(postId);
   const { mutateAsync } = useModifyPostMutation();
   const { mutateAsync: updateCommentMutation } = useUpdateCommentMutation();
+  const { mutateAsync: updateCommentReactionMutation } = useUpdateCommentReactionMutation();
   const { mutateAsync: deleteCommentMutation } = useDeleteCommentMutation();
   const { userInfo } = useAuth();
 
@@ -145,6 +151,13 @@ const CommentItem = ({
     setIsOpenNestedComment(false);
   }, []);
 
+  const handleClickLike = useCallback(async () => {
+    // TODO: 비로그인 유저 처리 필요.
+
+    await updateCommentReactionMutation({ commentId: commentId, curReactionCount: likeCount });
+    refetch();
+  }, []);
+
   return (
     <>
       <CommentComp.Wrapper isNestedComment={isNestedComment} isModify={isModify}>
@@ -169,12 +182,19 @@ const CommentItem = ({
 
         {authorNickName !== null && (
           <FooterBoxDiv $isModify={isModify}>
-            {!isModify && <CommentComp.Emojis emojis={emojis} />}
+            {!isModify && (
+              <CommentComp.Reactions
+                likeCount={likeCount}
+                nestedCommentCount={isNestedComment ? undefined : nestedCommentCount}
+                onClickLike={handleClickLike}
+              />
+            )}
             {isVisibleChoice && (
               <ChoiceButton isActive onClick={handleClickChoice}>
                 글쓴이 채택
               </ChoiceButton>
             )}
+
             {isModify && (
               <ModifyButton size="sm" isActive onClick={handleClickModify}>
                 수정

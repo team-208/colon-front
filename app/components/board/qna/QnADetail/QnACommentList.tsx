@@ -77,6 +77,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
             original_comment,
             nestedComments,
             author_major,
+            reaction_count,
           }) => {
             const isAuthorComment = userInfo?.user.nick_name === author_nickname;
             return (
@@ -92,6 +93,8 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                     isSelected={acceptedCommentId === id}
                     comment={comment}
                     isVisibleChoice={isAuthor && !isAuthorComment && !acceptedCommentId}
+                    likeCount={reaction_count}
+                    nestedCommentCount={nestedComments?.length ?? 0}
                   />
                 </li>
                 {nestedComments?.map((item, idx) => {
@@ -108,6 +111,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                         isSelected={acceptedCommentId === item.id}
                         comment={item.comment}
                         isVisibleChoice={isAuthor && !isAuthorNestedComment && !acceptedCommentId}
+                        likeCount={reaction_count}
                       />
                     </li>
                   );
