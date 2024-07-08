@@ -7,6 +7,7 @@ interface Props {
   likeCount: number;
   nestedCommentCount?: number;
   onClickLike: () => void;
+  onClickNestedComment: () => void;
 }
 
 const EmojiListUl = styled.ul`
@@ -29,7 +30,7 @@ const IconButton = styled.button`
   }
 `;
 
-const Reactions = ({ likeCount, nestedCommentCount, onClickLike }: Props) => {
+const Reactions = ({ likeCount, nestedCommentCount, onClickLike, onClickNestedComment }: Props) => {
   return (
     <EmojiListUl>
       <li>
@@ -45,7 +46,7 @@ const Reactions = ({ likeCount, nestedCommentCount, onClickLike }: Props) => {
       </li>
       {nestedCommentCount !== undefined && (
         <li>
-          <IconButton type="button">
+          <IconButton type="button" onClick={onClickNestedComment}>
             <Image
               alt="댓글 아이콘"
               src={`${IMAGE_CDN}/qna/Icon_Comment.png`}

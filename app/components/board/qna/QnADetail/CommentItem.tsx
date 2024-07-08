@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import reactTextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
+import QnANestedCommentWrite from './QnANestedCommentWrite';
 
 interface Props {
   postId: string;
@@ -87,6 +88,7 @@ const CommentItem = ({
   nestedCommentCount,
 }: Props) => {
   const [isModify, setIsModify] = useState<boolean>(false);
+  const [isOpenNestedComment, setIsOpenNestedComment] = useState<boolean>(false);
   const [modifyComment, setModifyComment] = useState<string>('');
 
   const { refetch } = useCommentsQuery(postId);
@@ -145,6 +147,10 @@ const CommentItem = ({
     }
   }, [modifyComment]);
 
+  const handleClickWriteClose = useCallback(() => {
+    setIsOpenNestedComment(false);
+  }, []);
+
   const handleClickLike = useCallback(async () => {
     // TODO: 비로그인 유저 처리 필요.
 
@@ -152,50 +158,67 @@ const CommentItem = ({
     refetch();
   }, []);
 
+  const handleClickNestedComment = useCallback(() => {
+    setIsOpenNestedComment(true);
+  }, []);
+
   return (
-    <CommentComp.Wrapper isNestedComment={isNestedComment} isModify={isModify}>
-      <CommentComp.Header
-        major={authorMajor}
-        nickname={authorNickName}
-        updatedAt={updatedAt}
-        isSelected={isSelected}
-        isAuthor={userInfo?.user?.nick_name === authorNickName}
-        onClickModify={handleClickModifyOpen}
-        onClickDelete={handleClickDelete}
-      />
-      <CommentP>{comment}</CommentP>
-      {isModify && (
-        <CommentTextarea
-          placeholder={comment}
-          minRows={2}
-          onChange={handleChangeComment}
-          value={modifyComment}
+    <>
+      <CommentComp.Wrapper isNestedComment={isNestedComment} isModify={isModify}>
+        <CommentComp.Header
+          major={authorMajor}
+          nickname={authorNickName}
+          updatedAt={updatedAt}
+          isSelected={isSelected}
+          isAuthor={userInfo?.user?.nick_name === authorNickName}
+          onClickModify={handleClickModifyOpen}
+          onClickDelete={handleClickDelete}
+        />
+        <CommentP>{comment}</CommentP>
+        {isModify && (
+          <CommentTextarea
+            placeholder={comment}
+            minRows={2}
+            onChange={handleChangeComment}
+            value={modifyComment}
+          />
+        )}
+
+        {authorNickName !== null && (
+          <FooterBoxDiv $isModify={isModify}>
+            {!isModify && (
+              <CommentComp.Reactions
+                likeCount={likeCount}
+                nestedCommentCount={isNestedComment ? undefined : nestedCommentCount}
+                onClickLike={handleClickLike}
+                onClickNestedComment={handleClickNestedComment}
+              />
+            )}
+            {isVisibleChoice && (
+              <ChoiceButton isActive onClick={handleClickChoice}>
+                글쓴이 채택
+              </ChoiceButton>
+            )}
+
+            {isModify && (
+              <ModifyButton size="sm" isActive onClick={handleClickModify}>
+                수정
+              </ModifyButton>
+            )}
+          </FooterBoxDiv>
+        )}
+      </CommentComp.Wrapper>
+      {isOpenNestedComment && (
+        <QnANestedCommentWrite
+          postId={postId}
+          commentId={commentId}
+          onClickClose={handleClickWriteClose}
+          onSuccessWrite={() => {
+            setIsOpenNestedComment(false);
+          }}
         />
       )}
-
-      {authorNickName !== null && (
-        <FooterBoxDiv $isModify={isModify}>
-          {!isModify && (
-            <CommentComp.Reactions
-              likeCount={likeCount}
-              nestedCommentCount={isNestedComment ? undefined : nestedCommentCount}
-              onClickLike={handleClickLike}
-            />
-          )}
-          {isVisibleChoice && (
-            <ChoiceButton isActive onClick={handleClickChoice}>
-              글쓴이 채택
-            </ChoiceButton>
-          )}
-
-          {isModify && (
-            <ModifyButton size="sm" isActive onClick={handleClickModify}>
-              수정
-            </ModifyButton>
-          )}
-        </FooterBoxDiv>
-      )}
-    </CommentComp.Wrapper>
+    </>
   );
 };
 
