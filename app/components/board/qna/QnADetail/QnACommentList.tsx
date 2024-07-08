@@ -99,7 +99,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                   />
                 </li>
                 {nestedComments?.map((item, idx) => {
-                  const isAuthorNestedComment = userInfo?.user.nick_name === item.author_nickname;
+                  const isAuthorNestedComment = userInfo?.user?.nick_name === item.author_nickname;
                   return (
                     <li key={`nested-comment-item-${item.id}`}>
                       <CommentItem
