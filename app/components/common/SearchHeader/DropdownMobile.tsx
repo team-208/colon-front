@@ -28,7 +28,7 @@ const DropDownMobile = styled(DropDown)<{ isActive: boolean }>`
   }
 `;
 
-const DropdownMobile = ({ isActive }: Props) => {
+const DropdownMobile = ({ isActive, posts, comments }: Props) => {
   useEffect(() => {
     if (isActive) document.body.classList.add('hidden');
     else document.body.classList.remove('hidden');
@@ -36,7 +36,7 @@ const DropdownMobile = ({ isActive }: Props) => {
 
   return (
     <DropDownMobile isActive={isActive}>
-      <div>바보</div>
+      <div></div>
     </DropDownMobile>
   );
 };

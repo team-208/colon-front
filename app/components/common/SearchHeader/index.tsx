@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useCallback, useRef, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useSearchParams } from 'next/navigation';
 import HeaderComp from '../HeaderComp';
 import MobileRenderBox from '../HeaderComp/MobileRenderBox';
@@ -13,12 +13,20 @@ import icon_search from '@/app/assets/images/header/icon_search.png';
 import usePostSearchQuery from '@/app/api/post/search/queries';
 import { PostSearchItemProps } from '@/app/api/post/search/type';
 
-const ContainerFlex = styled(HeaderComp.Container)`
+const ContainerFlex = styled(HeaderComp.Container)<{ $isActive: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 10px;
   padding-bottom: 10px;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${({ $isActive, theme }) =>
+      $isActive &&
+      css`
+        background: ${theme.color.static.light};
+      `}
+  }
 `;
 
 const FlexRowDiv = styled.div`
@@ -114,7 +122,7 @@ const SearchHeader = () => {
   }, [data]);
 
   return (
-    <ContainerFlex>
+    <ContainerFlex $isActive={isSearch}>
       {isActive && (
         <MobileRenderBox renderMode="visible">
           <HeaderComp.CancelButton onClick={handleCancelButton} />
