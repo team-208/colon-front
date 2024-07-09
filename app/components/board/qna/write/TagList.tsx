@@ -1,7 +1,9 @@
 'use client';
 
-import React from 'react';
-import styled from 'styled-components';
+import Image from 'next/image';
+import { useState } from 'react';
+import styled, { css } from 'styled-components';
+import { IMAGE_CDN } from '@/app/constants/externalUrls';
 
 const ContainerDiv = styled.div`
   width: 100%;
@@ -18,7 +20,7 @@ const TagContainerDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
 `;
 
 const TitleP = styled.p`
@@ -28,7 +30,7 @@ const TitleP = styled.p`
 `;
 
 const TagInput = styled.input`
-  flex-grow: 1;
+  width: 100%;
   ${({ theme }) => theme.font.body3}
   border-bottom: 1px solid ${({ theme }) => theme.color.interaction.inactive} !important;
   border: none;
@@ -40,11 +42,12 @@ const TagInput = styled.input`
   }
 `;
 
-const AddButton = styled.button`
+const AddButton = styled.button<{ $isError: boolean }>`
   width: 17px;
   height: 17px;
   border-radius: 50%;
-  background: ${({ theme }) => theme.color.interaction.inactive};
+  background: ${({ theme, $isError }) =>
+    $isError ? theme.color.status.destructive : theme.color.interaction.inactive};
   color: #ffffff;
   font-size: 17px;
   line-height: 17px;
@@ -62,6 +65,8 @@ const TagListContainerDiv = styled.div`
 `;
 
 const TagListP = styled.p`
+  display: flex;
+  justify-content: center;
   ${({ theme }) => theme.font.body3}
   color: ${({ theme }) => theme.color.primary.normal};
   background: ${({ theme }) => theme.color.palette.deepSkyBlue99};
@@ -77,20 +82,90 @@ const TagListP = styled.p`
   }
 `;
 
+const CloseButton = styled.button`
+  margin-left: 4px;
+`;
+
+const ErrorDiv = styled.div<{ $isError: boolean }>`
+  position: relative;
+  flex-grow: 1;
+
+  ${({ $isError, theme }) =>
+    $isError &&
+    css`
+      > * {
+        border-color: ${theme.color.status.destructive} !important;
+      }
+    `}
+`;
+
+const ErrorTextP = styled.p`
+  position: absolute;
+  ${({ theme }) => theme.font.caption2}
+  color: ${({ theme }) => theme.color.status.destructive};
+  font-weight: 400;
+  margin-top: 2px;
+`;
+
 const TagList = () => {
+  const [isError, setIsError] = useState(true);
+
   return (
     <ContainerDiv>
       <TagContainerDiv>
         <TitleP>태그</TitleP>
-        <TagInput placeholder=", 표시로 구분할 수 있어요." />
-        <AddButton>+</AddButton>
+        <ErrorDiv $isError={isError}>
+          <TagInput placeholder=", 표시로 구분할 수 있어요." />
+          {isError && <ErrorTextP>공백없이 2자 이상 입력해주세요.</ErrorTextP>}
+        </ErrorDiv>
+        <AddButton $isError={isError}>+</AddButton>
       </TagContainerDiv>
+
       <TagListContainerDiv>
-        <TagListP>#태그</TagListP>
-        <TagListP>#태그</TagListP>
-        <TagListP>#태그</TagListP>
-        <TagListP>#태그</TagListP>
-        <TagListP>#태그</TagListP>
+        <TagListP>
+          # 태그
+          <CloseButton>
+            <Image
+              alt="삭제 이미지"
+              src={`${IMAGE_CDN}/icon/Icon_Close.svg`}
+              width={14}
+              height={14}
+            />
+          </CloseButton>
+        </TagListP>
+        <TagListP>
+          # 태그
+          <CloseButton>
+            <Image
+              alt="삭제 이미지"
+              src={`${IMAGE_CDN}/icon/Icon_Close.svg`}
+              width={14}
+              height={14}
+            />
+          </CloseButton>
+        </TagListP>
+        <TagListP>
+          # 태그
+          <CloseButton>
+            <Image
+              alt="삭제 이미지"
+              src={`${IMAGE_CDN}/icon/Icon_Close.svg`}
+              width={14}
+              height={14}
+            />
+          </CloseButton>
+        </TagListP>
+        <TagListP>
+          # 태그
+          <CloseButton>
+            <Image
+              alt="삭제 이미지"
+              src={`${IMAGE_CDN}/icon/Icon_Close.svg`}
+              width={14}
+              height={14}
+            />
+          </CloseButton>
+        </TagListP>
       </TagListContainerDiv>
     </ContainerDiv>
   );
