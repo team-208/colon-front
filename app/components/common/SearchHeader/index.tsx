@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import styled, { css } from 'styled-components';
 import { useSearchParams } from 'next/navigation';
 import HeaderComp from '../HeaderComp';
@@ -87,11 +87,16 @@ const SearchHeader = () => {
   const [isActive, setIsActive] = useState(!!searchParam);
   const [isSearch, setIsSearch] = useState(false);
   const [word, setWord] = useState(searchParam || '');
-  const [posts, setPosts] = useState<PostSearchItemProps[]>();
-  const [comments, setComments] = useState<PostSearchItemProps[]>();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { data, refetch } = usePostSearchQuery(word);
+
+  const posts = useMemo(() => {
+    if (data?.success) return data.posts.slice(0, 5);
+  }, [data]);
+  const comments = useMemo(() => {
+    if (data?.success) return data.comments.slice(0, 5);
+  }, [data]);
 
   const handleSearchButton = useCallback(() => {
     setIsActive(true);
@@ -113,13 +118,6 @@ const SearchHeader = () => {
   useEffect(() => {
     refetch();
   }, [word]);
-
-  useEffect(() => {
-    if (data?.success) {
-      setPosts(data.posts.slice(0, 5));
-      setComments(data.comments.slice(0, 5));
-    }
-  }, [data]);
 
   return (
     <ContainerFlex $isActive={isSearch}>
