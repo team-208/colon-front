@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import PostComp from '../common/PostComp';
 import PostCard from './PostCard';
 import useHistoryQuery from '@/app/api/auth/history/queries';
-import SkeletonComp from '../common/SkeletonComp';
 
 const ContentContainer = styled.div`
   padding: 24px 0 20px 0;
@@ -29,34 +28,30 @@ const ScrapContent = () => {
 
   return (
     <ContentContainer>
-      {data ? (
-        data.list?.map(({ post }) => (
-          <PostCard key={`reaction-${post.postId}`} {...post}>
-            <>
-              <div>
-                <PostComp.CountBox
-                  postId={post.postId}
-                  reactionCountObj={{
-                    ThumbsUp: 1,
-                    Pushpin: 2,
-                    FaceWithMonocle: 0,
-                    ExplodingHead: 0,
-                    SmilingHeart: 5,
-                  }}
-                  reactionDisabled
-                  commentCount={3}
-                />
-              </div>
+      {data?.list?.map(({ post }) => (
+        <PostCard key={`reaction-${post.postId}`} {...post}>
+          <>
+            <div>
+              <PostComp.CountBox
+                postId={post.postId}
+                reactionCountObj={{
+                  ThumbsUp: 1,
+                  Pushpin: 2,
+                  FaceWithMonocle: 0,
+                  ExplodingHead: 0,
+                  SmilingHeart: 5,
+                }}
+                reactionDisabled
+                commentCount={3}
+              />
+            </div>
 
-              <div>
-                <ScrapButton postId={post.postId} isScrap={true} />
-              </div>
-            </>
-          </PostCard>
-        ))
-      ) : (
-        <SkeletonComp.TabsUI />
-      )}
+            <div>
+              <ScrapButton postId={post.postId} isScrap={true} />
+            </div>
+          </>
+        </PostCard>
+      ))}
     </ContentContainer>
   );
 };
