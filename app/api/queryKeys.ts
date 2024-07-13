@@ -2,6 +2,7 @@ import { GetHistoryQuery } from './auth/history/type';
 import { GetPostListQuery } from './post/type';
 
 const authUserSession = ['auth', 'user'];
+const authUserReactionsSession = ['auth', 'user', 'reactions'];
 const authNickName = ['nickname'];
 const postId = (id: string) => ['post', `/${id}`];
 const postList = ({ order, major }: Omit<GetPostListQuery, 'offset'>) => [
@@ -18,6 +19,7 @@ const postScrapList = () => ['post', '/scrap'];
 const QUERY_KEYS = {
   authUserSession,
   authNickName,
+  authUserReactionsSession,
   postId,
   postSearch,
   postList,
