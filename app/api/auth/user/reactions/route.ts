@@ -22,7 +22,7 @@ export async function GET(request: Request, response: Response) {
       }
 
       const { data: userReactions, error: userReactionsError } = await supabase
-        .from('user_rections')
+        .from('user_reactions')
         .select('*')
         .eq('user_id', userId)
         .single();
@@ -35,7 +35,7 @@ export async function GET(request: Request, response: Response) {
       }
 
       return NextResponse.json({
-        ...userReactions,
+        ...userReactions.reactions,
         success: true,
       });
     }
@@ -56,8 +56,9 @@ export async function PUT(request: Request) {
     const { data } = await supabase.auth.getSession();
     const { error } = await supabase
       .from('user_reactions')
-      .update({ ...bodyData })
+      .update({ reactions: { ...bodyData } })
       .eq('user_id', data.session?.user.id);
+
     // TODO: error 처리 프론트 or 백 결정 필요.
     return NextResponse.json({ success: error ? false : true, error });
   } catch (error) {
