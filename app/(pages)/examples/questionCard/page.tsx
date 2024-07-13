@@ -21,6 +21,7 @@ export default function Home() {
         author_profile_url="/"
         isScrap
         comments_count={999}
+        accept_comment_id={0}
       />
     </main>
   );

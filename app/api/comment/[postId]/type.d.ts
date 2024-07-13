@@ -13,7 +13,7 @@ export interface GetCommentsResponseItem {
   reaction_count: number;
 
   // client computed props
-  nestedComments: GetCommentsResponse[];
+  nestedComments: GetCommentsResponseItem[];
 }
 
 export interface GetCommentsResponse {

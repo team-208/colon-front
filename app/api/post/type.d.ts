@@ -42,6 +42,7 @@ export interface PostListItem {
   author_major: JOB_GROUP_TYPES;
   author_profile_url: string;
   comments_count: number;
+  accept_comment_id: number;
 }
 
 export interface GetPostListResponse {
