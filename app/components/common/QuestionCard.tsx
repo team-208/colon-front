@@ -156,6 +156,7 @@ const QuestionCard = ({
   isScrap,
   reactions,
   comments_count,
+  accept_comment_id,
 }: Props) => {
   return (
     <ContainerArticle>
@@ -172,7 +173,7 @@ const QuestionCard = ({
             <Image
               alt="답변 체크"
               src={`${IMAGE_CDN}/qna/CheckMarkButton${
-                status === 'COMPLETE' ? '_checked' : '_disable'
+                status === 'COMPLETE' && !!accept_comment_id ? '_checked' : '_disable'
               }.png`}
               width={20}
               height={20}

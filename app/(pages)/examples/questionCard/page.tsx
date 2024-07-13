@@ -22,6 +22,7 @@ export default function Home() {
         isScrap
         reactions={''}
         comments_count={999}
+        accept_comment_id={0}
       />
     </main>
   );

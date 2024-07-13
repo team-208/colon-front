@@ -13,7 +13,7 @@ interface Props {
 const LogoLink = styled(Link)<{ $margin: string }>`
   position: relative;
   width: 80px;
-  height: 18px;
+  height: 42px;
   margin: ${({ $margin }) => $margin};
 `;
 
