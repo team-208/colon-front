@@ -5,8 +5,7 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { ReactionType, ReactionObjType } from './type';
-import { useModifyPostReactionsMutation } from '@/app/api/post/[id]/reactions/mutations';
-import { useRouter } from 'next/navigation';
+import useReactions from '@/app/hooks/useReactions';
 
 export interface ReactionProps {
   postId: number;
@@ -99,9 +98,7 @@ const ReactionCount = ({
 }: ReactionProps) => {
   const [isActive, setIsActive] = useState(false);
 
-  const { mutateAsync } = useModifyPostReactionsMutation();
-
-  const { refresh } = useRouter();
+  const { updatePostReaction } = useReactions();
 
   const emojiCount = useMemo(() => {
     if (!reactionCountObj) {
@@ -124,15 +121,7 @@ const ReactionCount = ({
 
   const handleEmojiClick = useCallback(
     async (emoji: ReactionType) => {
-      if (emoji === userReaction) return;
-
-      // TODO: 유저당 1개씩만 반응 하도록 수정 필요.
-      const reactions = { ...reactionCountObj };
-      reactions[emoji] = !(emoji in reactions) ? 1 : (reactions[emoji] as number) + 1;
-      await mutateAsync({ postId, reactions });
-
-      // TODO: tanstack hydrate 적용 필요.
-      refresh();
+      updatePostReaction({ emoji, userReaction, reactionCountObj, postId });
     },
     [userReaction],
   );

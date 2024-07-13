@@ -12,6 +12,7 @@ import Selector from '@/app/components/common/Selector';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/app/hooks/useAuth';
 import { useDeletePostMutation } from '@/app/api/post/[id]/mutations';
+import useUserReactionsQuery from '@/app/api/auth/user/reactions/queries';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -144,6 +145,7 @@ const QnADetailContent = ({ post }: Props) => {
 
   // TODO: tanstack query hydrate 적용 필요.
   const { data: userScrapData } = usePostScrapQuery();
+  const { data: userReactions } = useUserReactionsQuery();
 
   const { mutateAsync } = useDeletePostMutation();
 
@@ -225,6 +227,9 @@ const QnADetailContent = ({ post }: Props) => {
         <PostComp.CountBox
           postId={id}
           reactionCountObj={JSON.parse(reactions)}
+          userReaction={
+            userReactions?.posts?.find((item) => item.postId === id.toString())?.reactions
+          }
           commentCount={comments_count}
         />
         <PostComp.ScrapButton postId={id} isScrap={!!isScrap} />
