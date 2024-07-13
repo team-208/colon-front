@@ -71,7 +71,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
         <Selector defaultOption={{ idx: 0, text: '정렬' }}>
           <Selector.Option
             idx={0}
-            text="최신순"
+            text="시간순"
             clickEvent={() => {
               handleSortList('updated');
             }}
