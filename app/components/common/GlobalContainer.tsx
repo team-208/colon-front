@@ -44,6 +44,12 @@ html {
 body {
   height: 100%;
   line-height: 1;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    &.hidden {
+      overflow: hidden;
+    }
+  }
 }
 ol, ul {
   list-style: none;
