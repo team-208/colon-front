@@ -11,6 +11,7 @@ interface Distance {
 }
 
 interface Props {
+  className?: string;
   children: ReactNode;
   isActive: boolean;
   direction?: DIRECTION_TYPE;
@@ -52,9 +53,10 @@ const DropDownBoxDiv = styled.div<{
     `}
 `;
 
-const DropDown = ({ children, isActive, direction, distance, defaultHeight }: Props) => {
+const DropDown = ({ className, children, isActive, direction, distance, defaultHeight }: Props) => {
   return (
     <DropDownBoxDiv
+      className={className}
       $isActive={isActive}
       $dir={direction ?? 'left'}
       $dis={distance ?? { desktop: 0, mobile: 0 }}
