@@ -95,9 +95,13 @@ const ErrorDiv = styled.div<{ $isError: boolean }>`
 export const WriteFormComp = (props: Props) => {
   const { defaultPost } = props;
   const titleRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef({ html: defaultPost?.body || '', text: defaultPost?.preview_body || '' });
+  const contentRef = useRef({
+    html: defaultPost?.body || '',
+    text: defaultPost?.preview_body || '',
+  });
   const pendingRef = useRef(false);
 
+  const [tagList, setTagList] = useState<string[]>([]);
   const [major, setMajor] = useState<JOB_GROUP_TYPES | undefined>(defaultPost?.requested_major);
   const [val, setVal] = useState<{ isCheck: boolean; list: string[] }>({
     isCheck: false,
@@ -130,8 +134,12 @@ export const WriteFormComp = (props: Props) => {
         status: isTemporary ? 'EDITING' : 'COMPLETE',
         requested_major: requested_major !== major ? major : undefined,
         title: title !== titleRef.current?.value ? titleRef.current?.value : undefined,
-        body: body !== contentRef.current.html ? { data: contentRef.current.html, created_at } : undefined,
-        preview_body: preview_body !== contentRef.current.text ? contentRef.current.text : undefined,
+        body:
+          body !== contentRef.current.html
+            ? { data: contentRef.current.html, created_at }
+            : undefined,
+        preview_body:
+          preview_body !== contentRef.current.text ? contentRef.current.text : undefined,
       };
 
       await modifyPostMutation(removeUndefinedValue(post) as UpdatePostRequest);
@@ -268,7 +276,7 @@ export const WriteFormComp = (props: Props) => {
       <ErrorDiv $isError={errorCheck('content')}>
         <QuillEditor setEditor={setEditor} initValue={defaultPost?.body} />
       </ErrorDiv>
-      <TagList />
+      <TagList list={tagList} setList={setTagList} />
       <ButtonLayoutDiv>
         <ButtonComp.Solid
           text="질문하기"
