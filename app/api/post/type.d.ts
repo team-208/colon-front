@@ -1,5 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { JOB_GROUP_TYPES } from '../auth/user/type';
+import { ReactionObjType } from '@/app/components/common/PostComp/type';
 
 export type POST_STATUS_TYPES = 'EDITING' | 'COMPLETE';
 
@@ -41,6 +42,8 @@ export interface PostListItem {
   author_nickname: string;
   author_major: JOB_GROUP_TYPES;
   author_profile_url: string;
+  // TODO: tanstack hydrate 적용후 select 에서 ReactionsObjType 변환 필요
+  reactions: string;
   comments_count: number;
   accept_comment_id: number;
 }
