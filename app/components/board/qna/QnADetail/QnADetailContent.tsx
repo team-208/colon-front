@@ -194,7 +194,7 @@ const QnADetailContent = ({ post }: Props) => {
           </CheckLabelP>
         </CheckLabelBoxDiv>
 
-        {userInfo?.user.nick_name === author_nickname && (
+        {userInfo?.user?.nick_name === author_nickname && (
           <Selector
             defaultOption={{ idx: 0, text: '최신순' }}
             selectorButton={

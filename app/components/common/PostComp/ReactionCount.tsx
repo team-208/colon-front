@@ -5,6 +5,11 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { ReactionType, ReactionObjType } from './type';
+import useAuth from '@/app/hooks/useAuth';
+import { isEmpty } from 'lodash';
+import useModal from '@/app/hooks/useModal';
+import ModalComp from '@/app/components/common/ModalComp';
+import { useRouter } from 'next/navigation';
 import useReactions from '@/app/hooks/useReactions';
 
 export interface ReactionProps {
@@ -98,6 +103,9 @@ const ReactionCount = ({
 }: ReactionProps) => {
   const [isActive, setIsActive] = useState(false);
 
+  const { userInfo } = useAuth();
+  const { push } = useRouter();
+  const { openModal, closeModal } = useModal();
   const { updatePostReaction } = useReactions();
 
   const emojiCount = useMemo(() => {
@@ -114,6 +122,28 @@ const ReactionCount = ({
   }, []);
 
   const handleCountBoxClick = useCallback(() => {
+    if (isEmpty(userInfo)) {
+      openModal({
+        modalProps: {
+          contents: (
+            <ModalComp.Confirm
+              confirmLabel="로그인하기"
+              cancelLabel="돌아가기"
+              onCancel={() => {
+                closeModal();
+              }}
+              onConfirm={() => {
+                push('/signup');
+              }}
+            >
+              {`글이 인상깊으셨다면,\n로그인을 통해 기록하고,\n이야기해 보세요!`}
+            </ModalComp.Confirm>
+          ),
+        },
+      });
+      return;
+    }
+
     if (reactionDisabled) return;
 
     setIsActive((v) => !v);

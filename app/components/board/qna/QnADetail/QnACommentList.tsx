@@ -39,7 +39,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
 
   const { userInfo } = useAuth();
 
-  const isAuthor = useMemo(() => postAuthor === userInfo?.user.nick_name, [userInfo]);
+  const isAuthor = useMemo(() => postAuthor === userInfo?.user?.nick_name, [userInfo]);
 
   const handleSortList = useCallback(
     (type: 'updated' | 'reaction') => {
@@ -99,7 +99,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
             author_major,
             reaction_count,
           }) => {
-            const isAuthorComment = userInfo?.user.nick_name === author_nickname;
+            const isAuthorComment = userInfo?.user?.nick_name === author_nickname;
             return (
               <React.Fragment key={`comment-item-${id}`}>
                 <li>
@@ -118,7 +118,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                   />
                 </li>
                 {nestedComments?.map((item, idx) => {
-                  const isAuthorNestedComment = userInfo?.user.nick_name === item.author_nickname;
+                  const isAuthorNestedComment = userInfo?.user?.nick_name === item.author_nickname;
                   return (
                     <li key={`nested-comment-item-${item.id}`}>
                       <CommentItem
