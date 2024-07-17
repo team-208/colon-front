@@ -168,7 +168,6 @@ const QnADetailContent = ({ post }: Props) => {
     }
   }, []);
 
-  console.log(userInfo);
   return (
     <ConatinerArticle>
       <QnAHeader
