@@ -93,6 +93,7 @@ const QnaListComp = () => {
             author_nickname,
             author_major,
             author_profile_url,
+            reactions,
             comments_count,
             accept_comment_id,
           } = post;
@@ -117,6 +118,7 @@ const QnaListComp = () => {
                     author_major={author_major}
                     author_profile_url={author_profile_url}
                     isScrap={!!isScrap}
+                    reactions={JSON.parse(reactions)}
                     comments_count={comments_count}
                     accept_comment_id={accept_comment_id}
                   />
@@ -140,6 +142,7 @@ const QnaListComp = () => {
                   author_major={author_major}
                   author_profile_url={author_profile_url}
                   isScrap={!!isScrap}
+                  reactions={JSON.parse(reactions)}
                   comments_count={comments_count}
                   accept_comment_id={accept_comment_id}
                 />

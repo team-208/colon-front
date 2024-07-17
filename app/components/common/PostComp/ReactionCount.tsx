@@ -5,8 +5,10 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { ReactionType, ReactionObjType } from './type';
+import useReactions from '@/app/hooks/useReactions';
 
 export interface ReactionProps {
+  postId: number;
   reactionCountObj: ReactionObjType;
   userReaction?: ReactionType | undefined;
   reactionDisabled?: boolean;
@@ -88,10 +90,20 @@ const CountSpan = styled.span`
   margin-left: 4px;
 `;
 
-const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: ReactionProps) => {
+const ReactionCount = ({
+  postId,
+  reactionCountObj,
+  userReaction,
+  reactionDisabled,
+}: ReactionProps) => {
   const [isActive, setIsActive] = useState(false);
 
+  const { updatePostReaction } = useReactions();
+
   const emojiCount = useMemo(() => {
+    if (!reactionCountObj) {
+      return { sum: 0 };
+    }
     const list = [];
     let sum = 0;
     for (const [key, value] of Object.entries(reactionCountObj)) {
@@ -108,9 +120,8 @@ const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: Rea
   }, [reactionDisabled]);
 
   const handleEmojiClick = useCallback(
-    (emoji: string) => {
-      if (emoji === userReaction) return;
-      // TODO: Reaction 변경 API 연동
+    async (emoji: ReactionType) => {
+      updatePostReaction({ emoji, userReaction, reactionCountObj, postId });
     },
     [userReaction],
   );
@@ -124,7 +135,7 @@ const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: Rea
     >
       {emojiCount.sum > 0 ? (
         <>
-          {emojiCount.list.map(
+          {emojiCount?.list?.map(
             (v) =>
               v.value > 0 && (
                 <Image
@@ -142,12 +153,12 @@ const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: Rea
         <Image alt="이모지" src={`${IMAGE_CDN}/qna/EmojiAdd.png`} width={24} height={24} />
       )}
       <FloatingBoxDiv $isActive={isActive}>
-        {emojiCount.list.map((v) => (
+        {emojiCount?.list?.map((v) => (
           <EmojiBoxDiv
             key={`emoji-box-${v.key}`}
             $isSelect={v.key === userReaction}
             onClick={() => {
-              handleEmojiClick(v.key);
+              handleEmojiClick(v.key as ReactionType);
             }}
           >
             <Image alt="이모지" src={`${IMAGE_CDN}/qna/Emoji${v.key}.png`} width={20} height={20} />
