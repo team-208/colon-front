@@ -30,6 +30,8 @@ interface Props {
   isVisibleChoice: boolean;
   likeCount: number;
   nestedCommentCount?: number;
+  isOpenNestedCommentWrite: boolean;
+  onChangeNestedCommentVisible: (isOpen: boolean) => void;
 }
 
 const CommentP = styled.p`
@@ -81,9 +83,10 @@ const CommentItem = ({
   isVisibleChoice,
   likeCount,
   nestedCommentCount,
+  isOpenNestedCommentWrite,
+  onChangeNestedCommentVisible,
 }: Props) => {
   const [isModify, setIsModify] = useState<boolean>(false);
-  const [isOpenNestedComment, setIsOpenNestedComment] = useState<boolean>(false);
   const [modifyComment, setModifyComment] = useState<string>('');
 
   const { refetch } = useCommentsQuery(postId);
@@ -164,7 +167,7 @@ const CommentItem = ({
   }, [modifyComment]);
 
   const handleClickWriteClose = useCallback(() => {
-    setIsOpenNestedComment(false);
+    onChangeNestedCommentVisible(false);
   }, []);
 
   const handleClickLike = useCallback(async () => {
@@ -183,7 +186,7 @@ const CommentItem = ({
       return;
     }
 
-    setIsOpenNestedComment(true);
+    onChangeNestedCommentVisible(true);
   }, []);
 
   return (
@@ -232,13 +235,13 @@ const CommentItem = ({
           </FooterBoxDiv>
         )}
       </CommentComp.Wrapper>
-      {isOpenNestedComment && (
+      {isOpenNestedCommentWrite && (
         <QnANestedCommentWrite
           postId={postId}
           commentId={commentId}
           onClickClose={handleClickWriteClose}
           onSuccessWrite={() => {
-            setIsOpenNestedComment(false);
+            onChangeNestedCommentVisible(true);
           }}
         />
       )}

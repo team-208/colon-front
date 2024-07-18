@@ -3,7 +3,6 @@ import SearchHeader from '@/app/components/common/SearchHeader';
 import Section from '@/app/components/common/Section';
 import QnADetailContent from '@/app/components/board/qna/QnADetail/QnADetailContent';
 import QnACommentList from '@/app/components/board/qna/QnADetail/QnACommentList';
-import QnACommentWrite from '@/app/components/board/qna/QnADetail/QnACommentWrite';
 import { fetchGetPost } from '@/app/api/post/[id]/fetch';
 
 interface Props {
@@ -30,16 +29,11 @@ const QuestionPage = async ({ params }: Props) => {
       <Section direction="column" padding="0">
         <QnADetailContent post={post} />
       </Section>
-      <Section direction="column" padding="0">
-        <QnACommentList
-          postId={params.id}
-          acceptedCommentId={post.accept_comment_id}
-          postAuthor={post.author_nickname}
-        />
-      </Section>
-      <Section direction="column" padding="0">
-        <QnACommentWrite postId={params.id} />
-      </Section>
+      <QnACommentList
+        postId={params.id}
+        acceptedCommentId={post.accept_comment_id}
+        postAuthor={post.author_nickname}
+      />
     </main>
   );
 };
