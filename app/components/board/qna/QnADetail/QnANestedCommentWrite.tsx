@@ -3,9 +3,7 @@
 import useCommentsQuery from '@/app/api/comment/[postId]/queries';
 import { useInsertCommentMutation } from '@/app/api/comment/mutations';
 import ButtonComp from '@/app/components/common/ButtomComp';
-import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import useAuth from '@/app/hooks/useAuth';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useRef, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
@@ -21,22 +19,17 @@ interface Props {
 const ContainerDiv = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   max-width: 700px;
   width: 100%;
   padding: 16px;
   background-color: ${({ theme }) => theme.color.palette.coolNeutral97};
 `;
 
-const HeaderDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-self: flex-start;
+const HeaderP = styled.p`
   margin-bottom: 8px;
   ${({ theme }) => theme.font.caption1};
   font-weight: bold;
   color: ${({ theme }) => theme.color.label.normal};
-  width: 100%;
 `;
 
 const CommentTextarea = styled(ReactTextareaAutosize)`
@@ -49,8 +42,21 @@ const CommentTextarea = styled(ReactTextareaAutosize)`
   border-radius: 8px;
 `;
 
-const RegistButton = styled(ButtonComp.Solid)`
+const ButtonBoxDiv = styled.div`
   margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const CancelButton = styled(ButtonComp.OutlinedPrimary)`
+  margin-right: 8px;
+  padding: 8px 12px;
+  border-radius: 11px;
+  ${({ theme }) => theme.font.body3};
+`;
+
+const RegistButton = styled(ButtonComp.Solid)`
   padding: 8px 12px;
   border-radius: 11px;
   ${({ theme }) => theme.font.body3};
@@ -92,26 +98,23 @@ const QnANestedCommentWrite = ({ postId, commentId, onClickClose, onSuccessWrite
 
   return (
     <ContainerDiv>
-      <HeaderDiv>
-        <p>@ {userInfo?.user?.nick_name}</p>
-        <button onClick={onClickClose}>
-          <Image
-            alt="답댓 닫기 아이콘"
-            src={`${IMAGE_CDN}/icon/Icon_Close.svg`}
-            width={18}
-            height={18}
-          />
-        </button>
-      </HeaderDiv>
+      <HeaderP>@ {userInfo?.user?.nick_name}</HeaderP>
+
       <CommentTextarea
         placeholder="답댓을 작성해주세요."
         minRows={2}
         onChange={handleChangeComment}
         value={comment}
       />
-      <RegistButton size="sm" isActive onClick={handleClick}>
-        등록
-      </RegistButton>
+
+      <ButtonBoxDiv>
+        <CancelButton size="sm" isActive onClick={onClickClose}>
+          취소
+        </CancelButton>
+        <RegistButton size="sm" isActive onClick={handleClick}>
+          등록
+        </RegistButton>
+      </ButtonBoxDiv>
     </ContainerDiv>
   );
 };
