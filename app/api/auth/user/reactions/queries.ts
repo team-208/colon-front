@@ -1,15 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import supabaseClient from '@/app/utils/supabase/client';
 import { fetchGetUserReactions } from './fetch';
 import QUERY_KEYS from '@/app/api/queryKeys';
+import useAuth from '@/app/hooks/useAuth';
+import { isEmpty } from 'lodash';
 
 const useUserReactionsQuery = () => {
-  const { auth } = supabaseClient;
+  const { userInfo } = useAuth();
 
   return useQuery({
     queryKey: QUERY_KEYS.authUserReactionsSession,
     queryFn: () => fetchGetUserReactions(),
-    enabled: !!auth.getSession(),
+    enabled: !isEmpty(userInfo),
   });
 };
 
