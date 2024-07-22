@@ -15,7 +15,7 @@ export default function PostPage() {
   const { mutateAsync: postModifyMutation } = useModifyPostMutation();
   const { fetchNextPage, hasNextPage } = usePostListQuery({ order: 'DATE_DESC', major: 'ALL' });
 
-  const { data: test } = useHistoryQuery({ historyType: 'ACTIVITY' });
+  // const { data: test } = useHistoryQuery({ historyType: 'ACTIVITY' });
 
   const { data: scrapData } = usePostScrapQuery();
 
