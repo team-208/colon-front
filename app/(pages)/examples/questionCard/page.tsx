@@ -20,6 +20,9 @@ export default function Home() {
         author_major="PLANNING"
         author_profile_url="/"
         isScrap
+        reactions={''}
+        comments_count={999}
+        accept_comment_id={0}
       />
     </main>
   );

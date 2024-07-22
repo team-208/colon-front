@@ -13,12 +13,16 @@ const Container = styled.div`
 `;
 
 const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
   overflow: hidden;
   margin-left: 12px;
-  background: rgba(55, 56, 60, 0.1);
+  border-radius: 50%;
+  border: 1px solid ${({ theme }) => theme.color.line.normalOpacity.alternative};
+  background-color: ${({ theme }) => theme.color.background.normal};
 `;
 
 const DropDownUl = styled.ul`
@@ -63,7 +67,7 @@ export const ProfileButton = () => {
   const { push } = useRouter();
 
   const profileUrl = useMemo(() => {
-    return userInfo?.user?.profile_url || '/default.png';
+    return userInfo?.user?.profile_url || `/default_${userInfo?.user?.major || 'user'}.png`;
   }, [userInfo?.user]);
 
   const handleProfileClick = useCallback(() => {
