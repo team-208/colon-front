@@ -50,7 +50,7 @@ const JobGroupButton = styled(ButtonComp.Solid)`
 const jobList: { id: number; text: string; value: JOB_GROUP_TYPES }[] = [
   {
     id: 1,
-    text: '전체',
+    text: '모두',
     value: 'ALL',
   },
   {

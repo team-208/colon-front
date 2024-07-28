@@ -142,7 +142,6 @@ const QnADetailContent = ({ post }: Props) => {
     comments_count,
     accept_comment_id,
   } = post;
-
   // TODO: tanstack query hydrate 적용 필요.
   const { data: userScrapData } = usePostScrapQuery();
   const { data: userReactions } = useUserReactionsQuery();
