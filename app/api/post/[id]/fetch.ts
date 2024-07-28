@@ -3,7 +3,9 @@ import { GetPostResponse, UpdatePostRequest, UpdatePostResponse } from './type';
 
 export const fetchGetPost = async (id: string) => {
   const host = getHost();
-  const res = await fetch(`${host}/api/post/${id}`);
+  const res = await fetch(`${host}/api/post/${id}`, {
+    method: 'GET',
+  });
   const jsonData = (await res.json()) as GetPostResponse;
   return jsonData;
 };
