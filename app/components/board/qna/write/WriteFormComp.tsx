@@ -158,7 +158,7 @@ const WriteFormComp = (props: Props) => {
             ? { data: contentRef.current.html, created_at }
             : undefined,
         preview_body:
-          preview_body !== contentRef.current.text ? contentRef.current.text : undefined
+          preview_body !== contentRef.current.text ? contentRef.current.text : undefined,
         tags: tags?.join(',') !== tagList.join(',') ? tagList : undefined,
       };
 
