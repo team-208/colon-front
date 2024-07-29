@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import DropDown from '../DropDown';
@@ -61,6 +61,7 @@ const PostDiv = styled.div`
 
   p {
     ${({ theme }) => theme.font.body1}
+    font-weight: 400;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -79,6 +80,7 @@ const CommentDiv = styled.div`
 
   p {
     ${({ theme }) => theme.font.body2}
+    font-weight: 400;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -119,6 +121,9 @@ const MoreButton = styled.button`
 const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
   const { push } = useRouter();
 
+  const postResult = useMemo(() => posts && posts.length > 0, [posts]);
+  const commentsResult = useMemo(() => comments && comments.length > 0, [comments]);
+
   const handleMoreButton = useCallback(() => {
     push(`/qna/search?word=${word}`);
   }, [word]);
@@ -134,50 +139,60 @@ const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
           <>
             <ListTitleP>질문</ListTitleP>
             <MarginUl $margin={8}>
-              {posts?.map((post) => (
-                <li
-                  key={`post-${post.id}`}
-                  onClick={() => {
-                    handlePostClick(post.id);
-                  }}
-                >
-                  <PostDiv>
-                    <Image
-                      alt=""
-                      src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
-                      width={20}
-                      height={20}
-                    />
-                    <p>{post.text}</p>
-                  </PostDiv>
-                </li>
-              ))}
+              {word &&
+                (postResult ? (
+                  posts?.map((post) => (
+                    <li
+                      key={`post-${post.id}`}
+                      onClick={() => {
+                        handlePostClick(post.id);
+                      }}
+                    >
+                      <PostDiv>
+                        <Image
+                          alt=""
+                          src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
+                          width={20}
+                          height={20}
+                        />
+                        <p>{post.text}</p>
+                      </PostDiv>
+                    </li>
+                  ))
+                ) : (
+                  <div>결과 없음</div>
+                ))}
             </MarginUl>
             <MarginDivider height={1} />
             <ListTitleP>답변</ListTitleP>
             <MarginUl $margin={16}>
-              {comments?.map((comment) => (
-                <li key={`comment-${comment.id}`}>
-                  <PostDiv>
-                    <Image
-                      alt=""
-                      src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
-                      width={20}
-                      height={20}
-                    />
-                    <p>{comment.text}</p>
-                  </PostDiv>
-                  <CommentDiv>
-                    <Image
-                      alt=""
-                      src={`${IMAGE_CDN}/icon/Icon_Reply_gray.png`}
-                      width={20}
-                      height={20}
-                    />
-                    <p>{comment.text}</p>
-                  </CommentDiv>
-                </li>
-              ))}
+              {word &&
+                (postResult ? (
+                  comments?.map((comment) => (
+                    <li key={`comment-${comment.id}`}>
+                      <PostDiv>
+                        <Image
+                          alt=""
+                          src={`${IMAGE_CDN}/qna/CheckMarkButton_disable.png`}
+                          width={20}
+                          height={20}
+                        />
+                        <p>{comment.text}</p>
+                      </PostDiv>
+                      <CommentDiv>
+                        <Image
+                          alt=""
+                          src={`${IMAGE_CDN}/icon/Icon_Reply_gray.png`}
+                          width={20}
+                          height={20}
+                        />
+                        <p>{comment.text}</p>
+                      </CommentDiv>
+                    </li>
+                  ))
+                ) : (
+                  <div>결과 없음</div>
+                ))}
             </MarginUl>
             <DropDownFooterDiv>
               <MoreButton onClick={handleMoreButton}>
