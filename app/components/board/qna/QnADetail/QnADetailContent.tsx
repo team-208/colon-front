@@ -12,6 +12,7 @@ import Selector from '@/app/components/common/Selector';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/app/hooks/useAuth';
 import { useDeletePostMutation } from '@/app/api/post/[id]/mutations';
+import useUserReactionsQuery from '@/app/api/auth/user/reactions/queries';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -137,16 +138,21 @@ const QnADetailContent = ({ post }: Props) => {
     updated_at,
     author_nickname,
     author_major,
+    reactions,
+    comments_count,
+    accept_comment_id,
   } = post;
 
   // TODO: tanstack query hydrate 적용 필요.
   const { data: userScrapData } = usePostScrapQuery();
+  const { data: userReactions } = useUserReactionsQuery();
+
   const { mutateAsync } = useDeletePostMutation();
 
   const { push, replace } = useRouter();
   const { userInfo } = useAuth();
 
-  const isComplete = useMemo(() => status === 'COMPLETE', []);
+  const isComplete = useMemo(() => status === 'COMPLETE' && !!accept_comment_id, []);
   const isScrap = useMemo(
     () => userScrapData?.list.find((item) => item.post_id === id),
     [userScrapData],
@@ -188,7 +194,7 @@ const QnADetailContent = ({ post }: Props) => {
           </CheckLabelP>
         </CheckLabelBoxDiv>
 
-        {userInfo?.user.nick_name === author_nickname && (
+        {userInfo?.user?.nick_name === author_nickname && (
           <Selector
             defaultOption={{ idx: 0, text: '최신순' }}
             selectorButton={
@@ -220,14 +226,11 @@ const QnADetailContent = ({ post }: Props) => {
       <PostFooterDiv>
         <PostComp.CountBox
           postId={id}
-          reactionCountObj={{
-            ThumbsUp: 1,
-            Pushpin: 2,
-            FaceWithMonocle: 3,
-            ExplodingHead: 4,
-            SmilingHeart: 5,
-          }}
-          commentCount={3}
+          reactionCountObj={JSON.parse(reactions)}
+          userReaction={
+            userReactions?.posts?.find((item) => item.postId === id.toString())?.reactions
+          }
+          commentCount={comments_count}
         />
         <PostComp.ScrapButton postId={id} isScrap={!!isScrap} />
       </PostFooterDiv>

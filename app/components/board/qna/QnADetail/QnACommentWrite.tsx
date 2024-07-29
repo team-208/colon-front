@@ -3,6 +3,7 @@
 import useCommentsQuery from '@/app/api/comment/[postId]/queries';
 import { useInsertCommentMutation } from '@/app/api/comment/mutations';
 import useAuth from '@/app/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useRef, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
@@ -46,6 +47,8 @@ const QnACommentWrite = ({ postId }: Props) => {
   const { mutateAsync: insertComment } = useInsertCommentMutation();
   const { refetch: refetchComments } = useCommentsQuery(postId);
 
+  const { refresh } = useRouter();
+
   const handleChangeComment = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
   }, []);
@@ -65,6 +68,7 @@ const QnACommentWrite = ({ postId }: Props) => {
 
     refetchComments();
     setComment('');
+    refresh();
   }, [comment, userInfo]);
 
   return (

@@ -154,6 +154,9 @@ const QuestionCard = ({
   author_major,
   author_profile_url,
   isScrap,
+  reactions,
+  comments_count,
+  accept_comment_id,
 }: Props) => {
   return (
     <ContainerArticle>
@@ -170,7 +173,7 @@ const QuestionCard = ({
             <Image
               alt="답변 체크"
               src={`${IMAGE_CDN}/qna/CheckMarkButton${
-                status === 'COMPLETE' ? '_checked' : '_disable'
+                status === 'COMPLETE' && !!accept_comment_id ? '_checked' : '_disable'
               }.png`}
               width={20}
               height={20}
@@ -183,15 +186,9 @@ const QuestionCard = ({
           <ContentFooterDiv>
             <PostComp.CountBox
               postId={id}
-              reactionCountObj={{
-                ThumbsUp: 1,
-                Pushpin: 2,
-                FaceWithMonocle: 3,
-                ExplodingHead: 4,
-                SmilingHeart: 5,
-              }}
+              reactionCountObj={reactions}
               reactionDisabled
-              commentCount={3}
+              commentCount={comments_count}
             />
             <PostComp.ScrapButton postId={id} isScrap={!!isScrap} />
           </ContentFooterDiv>

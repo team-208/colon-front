@@ -5,8 +5,15 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { ReactionType, ReactionObjType } from './type';
+import useAuth from '@/app/hooks/useAuth';
+import { isEmpty } from 'lodash';
+import useModal from '@/app/hooks/useModal';
+import ModalComp from '@/app/components/common/ModalComp';
+import { useRouter } from 'next/navigation';
+import useReactions from '@/app/hooks/useReactions';
 
 export interface ReactionProps {
+  postId: number;
   reactionCountObj: ReactionObjType;
   userReaction?: ReactionType | undefined;
   reactionDisabled?: boolean;
@@ -88,10 +95,23 @@ const CountSpan = styled.span`
   margin-left: 4px;
 `;
 
-const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: ReactionProps) => {
+const ReactionCount = ({
+  postId,
+  reactionCountObj,
+  userReaction,
+  reactionDisabled,
+}: ReactionProps) => {
   const [isActive, setIsActive] = useState(false);
 
+  const { userInfo } = useAuth();
+  const { push } = useRouter();
+  const { openModal, closeModal } = useModal();
+  const { updatePostReaction } = useReactions();
+
   const emojiCount = useMemo(() => {
+    if (!reactionCountObj) {
+      return { sum: 0 };
+    }
     const list = [];
     let sum = 0;
     for (const [key, value] of Object.entries(reactionCountObj)) {
@@ -102,15 +122,36 @@ const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: Rea
   }, []);
 
   const handleCountBoxClick = useCallback(() => {
+    if (isEmpty(userInfo)) {
+      openModal({
+        modalProps: {
+          contents: (
+            <ModalComp.Confirm
+              confirmLabel="로그인하기"
+              cancelLabel="돌아가기"
+              onCancel={() => {
+                closeModal();
+              }}
+              onConfirm={() => {
+                push('/signup');
+              }}
+            >
+              {`글이 인상깊으셨다면,\n로그인을 통해 기록하고,\n이야기해 보세요!`}
+            </ModalComp.Confirm>
+          ),
+        },
+      });
+      return;
+    }
+
     if (reactionDisabled) return;
 
     setIsActive((v) => !v);
   }, [reactionDisabled]);
 
   const handleEmojiClick = useCallback(
-    (emoji: string) => {
-      if (emoji === userReaction) return;
-      // TODO: Reaction 변경 API 연동
+    async (emoji: ReactionType) => {
+      updatePostReaction({ emoji, userReaction, reactionCountObj, postId });
     },
     [userReaction],
   );
@@ -124,7 +165,7 @@ const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: Rea
     >
       {emojiCount.sum > 0 ? (
         <>
-          {emojiCount.list.map(
+          {emojiCount?.list?.map(
             (v) =>
               v.value > 0 && (
                 <Image
@@ -142,12 +183,12 @@ const ReactionCount = ({ reactionCountObj, userReaction, reactionDisabled }: Rea
         <Image alt="이모지" src={`${IMAGE_CDN}/qna/EmojiAdd.png`} width={24} height={24} />
       )}
       <FloatingBoxDiv $isActive={isActive}>
-        {emojiCount.list.map((v) => (
+        {emojiCount?.list?.map((v) => (
           <EmojiBoxDiv
             key={`emoji-box-${v.key}`}
             $isSelect={v.key === userReaction}
             onClick={() => {
-              handleEmojiClick(v.key);
+              handleEmojiClick(v.key as ReactionType);
             }}
           >
             <Image alt="이모지" src={`${IMAGE_CDN}/qna/Emoji${v.key}.png`} width={20} height={20} />

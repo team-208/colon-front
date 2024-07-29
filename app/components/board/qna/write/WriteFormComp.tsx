@@ -120,6 +120,7 @@ const WriteFormComp = (props: Props) => {
   });
   const pendingRef = useRef(false);
 
+  const [tagList, setTagList] = useState<string[]>(defaultPost?.tags || []);
   const [major, setMajor] = useState<JOB_GROUP_TYPES | undefined>(defaultPost?.requested_major);
   const [val, setVal] = useState<{ isCheck: boolean; list: string[] }>({
     isCheck: false,
@@ -145,7 +146,7 @@ const WriteFormComp = (props: Props) => {
     pendingRef.current = true;
 
     if (defaultPost) {
-      const { id, requested_major, title, body, preview_body, created_at } = defaultPost;
+      const { id, requested_major, title, body, preview_body, created_at, tags } = defaultPost;
 
       const post: UpdatePostRequest = {
         id,
@@ -158,6 +159,7 @@ const WriteFormComp = (props: Props) => {
             : undefined,
         preview_body:
           preview_body !== contentRef.current.text ? contentRef.current.text : undefined,
+        tags: tags?.join(',') !== tagList.join(',') ? tagList : undefined,
       };
 
       await modifyPostMutation(removeUndefinedValue(post) as UpdatePostRequest);
@@ -172,7 +174,7 @@ const WriteFormComp = (props: Props) => {
         author_major: userInfo?.user.major as JOB_GROUP_TYPES,
         author_nickname: userInfo?.user.nick_name,
         author_profile_url: userInfo?.user.profile_url,
-        // tags: [],
+        tags: tagList,
       };
 
       const { postId } = await postMutation(post);
@@ -294,7 +296,7 @@ const WriteFormComp = (props: Props) => {
       <ErrorDiv $isError={errorCheck('content')}>
         <QuillEditor setEditor={setEditor} initValue={defaultPost?.body} />
       </ErrorDiv>
-      <TagList />
+      <TagList list={tagList} setList={setTagList} />
       <ButtonLayoutDiv>
         <ButtonComp.Solid
           text="질문하기"
