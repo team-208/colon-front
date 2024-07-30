@@ -1,7 +1,9 @@
 import { GetUserReactionsResponse, UpdateUserReactionsRequest } from './type';
 
 export const fetchGetUserReactions = async () => {
-  const res = await fetch('/api/auth/user/reactions');
+  const res = await fetch('/api/auth/user/reactions', {
+    method: 'GET',
+  });
   const jsonData = (await res.json()) as GetUserReactionsResponse;
   return jsonData;
 };

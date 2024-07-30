@@ -12,6 +12,7 @@ import { isEmpty } from 'lodash';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import { JOB_GROUP_LABELS } from '../constants';
+import SkeletonComp from '../common/SkeletonComp';
 
 interface UpdateUserRequest {
   profile_url?: string;
@@ -39,6 +40,7 @@ const LabelDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: max-content;
 
   label {
     color: ${({ theme }) => theme.color.interaction.inactive};
@@ -174,7 +176,7 @@ const ProfileBox = () => {
   }, []);
 
   const handleHeaderConfirm = useCallback(async () => {
-    if(pendingRef.current) return;
+    if (pendingRef.current) return;
     const updateData = await createUpateData();
 
     if (!isEmpty(updateData)) {
@@ -227,7 +229,7 @@ const ProfileBox = () => {
 
   return (
     <>
-      {userInfo?.user && (
+      {userInfo?.user ? (
         <ProfileDiv>
           <ProfileImageComp
             isModify={isModify}
@@ -281,6 +283,10 @@ const ProfileBox = () => {
               </>
             )}
           </ProfileTextDiv>
+        </ProfileDiv>
+      ) : (
+        <ProfileDiv>
+          <SkeletonComp.ProfileBoxUI />
         </ProfileDiv>
       )}
     </>

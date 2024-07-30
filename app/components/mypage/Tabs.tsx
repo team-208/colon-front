@@ -3,9 +3,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import FilterHeader from '../common/FilterHeader';
-import ReactionContent from '@/app/components/mypage/ReactionContent';
-import ScrapContent from '@/app/components/mypage/ScrapContent';
-import ActivityContent from '@/app/components/mypage/ActivityContent';
+import ReactionContent from './ReactionContent';
+import ScrapContent from './ScrapContent';
+import ActivityContent from './ActivityContent';
+import SkeletonComp from '../common/SkeletonComp';
 
 const TabTableDiv = styled.div`
   width: 100%;
@@ -35,7 +36,7 @@ const Tabs = () => {
         <FilterHeader.Menu idx={1} text="스크랩" clickEvent={changeFilter} />
         <FilterHeader.Menu idx={2} text="활동 내역" clickEvent={changeFilter} />
       </FilterHeader>
-      <React.Suspense fallback={<div>...loading</div>}>
+      <React.Suspense fallback={<SkeletonComp.TabsUI />}>
         <TabContentDiv>{content}</TabContentDiv>
       </React.Suspense>
     </TabTableDiv>

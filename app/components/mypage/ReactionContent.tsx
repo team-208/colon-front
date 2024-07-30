@@ -6,6 +6,7 @@ import PostCard from './PostCard';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { HistoryItemProps } from '@/app/api/auth/history/type';
 import useHistoryQuery from '@/app/api/auth/history/queries';
+import SkeletonComp from '../common/SkeletonComp';
 
 // TODO: reaction, scrap 추후 변경
 interface ReactionPost extends HistoryItemProps {
