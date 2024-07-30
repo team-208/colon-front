@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { writeHeaderState } from '@/app/recoils';
 import { useSetRecoilState } from 'recoil';
 import { UnprivilegedEditor } from 'react-quill';
@@ -22,9 +22,17 @@ import TempSaveCompleteModal from './TempSaveCompleteModal';
 import TagList from './TagList';
 import ButtonComp from '@/app/components/common/ButtomComp';
 import TooltipComp from '@/app/components/common/TooltipComp';
+import SkeletonComp from '@/app/components/common/SkeletonComp';
 import { removeUndefinedValue } from '@/app/utils/converter';
 
-const QuillEditor = dynamic(() => import('@/app/components/common/QuillEditor'), { ssr: false });
+const QuillEditor = dynamic(() => import('@/app/components/common/QuillEditor'), {
+  loading: () => (
+    <LoadingContainerDiv>
+      <SkeletonComp.WriteFormCompUI />
+    </LoadingContainerDiv>
+  ),
+  ssr: false,
+});
 
 interface Props {
   defaultPost?: GetPostResponse;
@@ -33,11 +41,22 @@ interface Props {
 type VAL_TYPE = 'major' | 'title' | 'content';
 
 const ContainerDiv = styled.div`
+  position: relative;
   padding: 0px 200px;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     padding: 0px 20px;
   }
+`;
+
+const LoadingContainerDiv = styled(ContainerDiv)`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: ${({ theme }) => theme.color.static.light};
 `;
 
 const TitleInputDiv = styled.div`
@@ -92,7 +111,7 @@ const ErrorDiv = styled.div<{ $isError: boolean }>`
     `}
 `;
 
-export const WriteFormComp = (props: Props) => {
+const WriteFormComp = (props: Props) => {
   const { defaultPost } = props;
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef({

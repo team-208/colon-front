@@ -1,6 +1,7 @@
 import {css} from 'styled-components'
+import { BUTTON_SIZE } from './type';
 
-export const ButtonSizeStyle = (size: string) => {
+export const ButtonSizeStyle = (size: BUTTON_SIZE) => {
   switch (size) {
     case 'lg':
       return css`
