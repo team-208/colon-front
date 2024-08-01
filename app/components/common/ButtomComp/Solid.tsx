@@ -3,10 +3,7 @@
 import styled, { RuleSet, css } from 'styled-components';
 import { ButtonProps } from './type';
 import { ButtonSizeStyle } from './style';
-interface Props extends ButtonProps {
-  hoverEffect?: boolean;
-  focusEffect?: boolean;
-}
+interface Props extends ButtonProps {}
 
 const SolidButton = styled.button<{
   $isActive: boolean;

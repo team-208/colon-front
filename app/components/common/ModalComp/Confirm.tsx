@@ -37,17 +37,26 @@ const ButtonBoxUl = styled.ul<{ $isReverse: boolean }>`
   }
 
   ${({ $isReverse }) =>
-    $isReverse &&
-    css`
-      flex-direction: row-reverse;
-    `}
-`;
+    $isReverse
+      ? css`
+          flex-direction: row-reverse;
 
-const StyledButton = styled(ButtonComp.OutlinedPrimary)`
-  &:hover {
-    color: ${({ theme }) => theme.color.static.light};
-    background-color: ${({ theme }) => theme.color.primary.normal} !important;
-  }
+          li:first-of-type {
+            button {
+              color: ${({ theme }) => theme.color.static.light};
+              background-color: ${({ theme }) => theme.color.primary.normal} !important;
+              margin-left: 12px;
+            }
+          }
+        `
+      : css`
+          li:last-of-type {
+            button {
+              color: ${({ theme }) => theme.color.static.light};
+              background-color: ${({ theme }) => theme.color.primary.normal} !important;
+            }
+          }
+        `}
 `;
 
 const Confirm = ({
@@ -65,10 +74,22 @@ const Confirm = ({
       {children}
       <ButtonBoxUl $isReverse={!!isReverseButton}>
         <li>
-          <StyledButton size={'lg'} text={confirmLabel} onClick={onConfirm} isActive />
+          <ButtonComp.OutlinedPrimary
+            size={'lg'}
+            text={confirmLabel}
+            onClick={onConfirm}
+            hoverEffect={false}
+            isActive
+          />
         </li>
         <li>
-          <StyledButton size={'lg'} text={cancelLabel} onClick={onCancel} isActive />
+          <ButtonComp.OutlinedPrimary
+            size={'lg'}
+            text={cancelLabel}
+            onClick={onCancel}
+            hoverEffect={false}
+            isActive
+          />
         </li>
       </ButtonBoxUl>
     </ContainerDiv>
