@@ -1,10 +1,12 @@
 'use client';
 
-import useModal from '@/app/hooks/useModal';
+import { useEffect } from 'react';
 import styled from 'styled-components';
+import useModal from '@/app/hooks/useModal';
+import useLockedBody from '@/app/hooks/useLockedBody';
 
 const ContainerDiv = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
@@ -17,10 +19,16 @@ const ContainerDiv = styled.div`
 
 const Container = () => {
   const { modalState, closeModal } = useModal();
+  const [isLock, setisLock] = useLockedBody();
 
   const handleClick = () => {
     closeModal();
-  }
+  };
+
+  useEffect(() => {
+    if (modalState.isOpen) setisLock(true);
+    else setisLock(false);
+  }, [modalState.isOpen]);
 
   return (
     <>
