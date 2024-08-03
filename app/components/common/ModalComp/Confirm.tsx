@@ -4,6 +4,7 @@ import useModal from '@/app/hooks/useModal';
 import { ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 import ButtonComp from '../ButtomComp';
+import { ButtonSizeStyle } from '../ButtomComp/style';
 
 export interface ConfirmProps {
   children: ReactNode;
@@ -15,6 +16,7 @@ export interface ConfirmProps {
 }
 
 const ContainerDiv = styled.div`
+  width: max-content;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -59,6 +61,12 @@ const ButtonBoxUl = styled.ul<{ $isReverse: boolean }>`
         `}
 `;
 
+const StyledButton = styled(ButtonComp.OutlinedPrimary)`
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${ButtonSizeStyle('md')}
+  }
+`;
+
 const Confirm = ({
   children,
   confirmLabel,
@@ -74,7 +82,7 @@ const Confirm = ({
       {children}
       <ButtonBoxUl $isReverse={!!isReverseButton}>
         <li>
-          <ButtonComp.OutlinedPrimary
+          <StyledButton
             size={'lg'}
             text={confirmLabel}
             onClick={onConfirm}
@@ -83,7 +91,7 @@ const Confirm = ({
           />
         </li>
         <li>
-          <ButtonComp.OutlinedPrimary
+          <StyledButton
             size={'lg'}
             text={cancelLabel}
             onClick={onCancel}
