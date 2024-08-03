@@ -34,10 +34,6 @@ const ButtonBoxUl = styled.ul<{ $isReverse: boolean }>`
   display: flex;
   margin-top: 22px;
 
-  & > li:last-of-type {
-    margin-left: 12px;
-  }
-
   ${({ $isReverse }) =>
     $isReverse
       ? css`
