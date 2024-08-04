@@ -3,7 +3,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import styled from 'styled-components';
 import { JOB_GROUP_LABELS } from '../constants';
-import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import PostComp from './PostComp';
@@ -190,7 +189,6 @@ const QuestionCard = ({
               reactionDisabled
               commentCount={comments_count}
             />
-            <PostComp.ScrapButton postId={id} isScrap={!!isScrap} />
           </ContentFooterDiv>
         </ContentDiv>
 
@@ -200,7 +198,7 @@ const QuestionCard = ({
           <div>
             <CommentUserDiv>
               <span>{JOB_GROUP_LABELS['DESIGN']}</span>
-              <span>댓글닉네임(댓글 영역 추가 개발 필요)</span>
+              <span>댓글닉네임</span>
             </CommentUserDiv>
 
             <CommentBodyP>
