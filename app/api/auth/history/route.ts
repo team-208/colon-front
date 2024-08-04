@@ -3,7 +3,7 @@ import { createClient } from '@/app/utils/supabase/server';
 import { getHost } from '@/app/utils/host';
 import { HISTORY_TYPES } from './type';
 import { PostListItem } from '../../post/type';
-import { PostScrapListItem } from '../../post/scrap/type';
+import { UserReactionProps } from '../user/reactions/type';
 
 export async function GET(request: NextRequest, response: Response) {
   const host = getHost();
@@ -155,9 +155,45 @@ export async function GET(request: NextRequest, response: Response) {
     }
 
     if (historyType === 'REACTIONS') {
+      const { data: userReactions, error: userReactionsError } = await supabase
+        .from('user_reactions')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      if (userReactionsError) {
+        return NextResponse.json({ success: false, userReactionsError });
+      }
+
+      const reactions = userReactions?.reactions as UserReactionProps;
+
+      const { data: postHistory, error: postGetError } = await postQuery
+        .order('id', { ascending: false })
+        .in('id', reactions?.posts?.map((v) => v.postId));
+
+      if (postGetError) {
+        return NextResponse.json({ success: false, postGetError });
+      }
+
+      const reactionHistoryList = postHistory.map((post: PostListItem) => {
+        return {
+          type: 'POST',
+          post: {
+            postId: post.id,
+            postStatus: post.status,
+            postAuthorMajor: post.author_major,
+            postRequestedMajor: post.requested_major,
+            authorNickname: post.author_nickname,
+            title: post.title,
+            previewBody: post.preview_body,
+          },
+          updatedAt: post.updated_at,
+        };
+      });
+
       return NextResponse.json({
         success: true,
-        list: [],
+        list: reactionHistoryList,
       });
     }
 
