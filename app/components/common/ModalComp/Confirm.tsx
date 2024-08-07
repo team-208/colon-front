@@ -4,6 +4,7 @@ import useModal from '@/app/hooks/useModal';
 import { ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 import ButtonComp from '../ButtomComp';
+import { ButtonSizeStyle } from '../ButtomComp/style';
 
 export interface ConfirmProps {
   children: ReactNode;
@@ -15,6 +16,7 @@ export interface ConfirmProps {
 }
 
 const ContainerDiv = styled.div`
+  width: max-content;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -32,21 +34,32 @@ const ButtonBoxUl = styled.ul<{ $isReverse: boolean }>`
   display: flex;
   margin-top: 22px;
 
-  & > li:last-of-type {
-    margin-left: 12px;
-  }
-
   ${({ $isReverse }) =>
-    $isReverse &&
-    css`
-      flex-direction: row-reverse;
-    `}
+    $isReverse
+      ? css`
+          flex-direction: row-reverse;
+
+          li:first-of-type {
+            button {
+              color: ${({ theme }) => theme.color.static.light};
+              background-color: ${({ theme }) => theme.color.primary.normal} !important;
+              margin-left: 12px;
+            }
+          }
+        `
+      : css`
+          li:last-of-type {
+            button {
+              color: ${({ theme }) => theme.color.static.light};
+              background-color: ${({ theme }) => theme.color.primary.normal} !important;
+            }
+          }
+        `}
 `;
 
 const StyledButton = styled(ButtonComp.OutlinedPrimary)`
-  &:hover {
-    color: ${({ theme }) => theme.color.static.light};
-    background-color: ${({ theme }) => theme.color.primary.normal} !important;
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    ${ButtonSizeStyle('md')}
   }
 `;
 
@@ -65,10 +78,22 @@ const Confirm = ({
       {children}
       <ButtonBoxUl $isReverse={!!isReverseButton}>
         <li>
-          <StyledButton size={'lg'} text={confirmLabel} onClick={onConfirm} isActive />
+          <StyledButton
+            size={'lg'}
+            text={confirmLabel}
+            onClick={onConfirm}
+            hoverEffect={false}
+            isActive
+          />
         </li>
         <li>
-          <StyledButton size={'lg'} text={cancelLabel} onClick={onCancel} isActive />
+          <StyledButton
+            size={'lg'}
+            text={cancelLabel}
+            onClick={onCancel}
+            hoverEffect={false}
+            isActive
+          />
         </li>
       </ButtonBoxUl>
     </ContainerDiv>

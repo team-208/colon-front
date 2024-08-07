@@ -6,4 +6,6 @@ export interface ButtonProps {
   isActive: boolean;
   onClick: () => void;
   size?: BUTTON_SIZE;
+  hoverEffect?: boolean;
+  focusEffect?: boolean;
 }
