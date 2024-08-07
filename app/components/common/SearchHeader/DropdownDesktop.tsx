@@ -118,6 +118,10 @@ const MoreButton = styled.button`
   }
 `;
 
+const NoResultDiv = styled.div`
+  text-align: center;
+`
+
 const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
   const { push } = useRouter();
 
@@ -160,7 +164,7 @@ const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
                     </li>
                   ))
                 ) : (
-                  <div>결과 없음</div>
+                  <NoResultDiv>결과 없음</NoResultDiv>
                 ))}
             </MarginUl>
             <MarginDivider height={1} />
@@ -191,7 +195,7 @@ const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
                     </li>
                   ))
                 ) : (
-                  <div>결과 없음</div>
+                  <NoResultDiv>결과 없음</NoResultDiv>
                 ))}
             </MarginUl>
             <DropDownFooterDiv>
