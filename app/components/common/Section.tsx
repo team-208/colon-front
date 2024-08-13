@@ -17,6 +17,10 @@ const Container = styled.section<{ $dir: Direction; $padding: string; $margin: s
   flex-direction: ${({ $dir }) => $dir};
   padding: ${({ $padding }) => $padding};
   margin: ${({ $margin }) => $margin};
+
+  ${({ theme }) => theme.mediaQuery.tablet} {
+    max-width: 960px;
+  }
 `;
 
 const Section = (props: Props) => {

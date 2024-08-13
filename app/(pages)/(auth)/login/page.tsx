@@ -18,10 +18,39 @@ const ContainerMain = styled.main`
 
 const TitleImageBoxDiv = styled.div`
   position: absolute;
-  left: 0;
+  left: 50%;
   top: ${({ theme }) => theme.heightSizes.header.desktop}px;
-  width: 1440px;
+  background: linear-gradient(360deg, #78ceff 2.14%, #e2f4ff 81.03%);
+  width: 100vw;
   height: 350px;
+  transform: translateX(-50%);
+
+  & > div {
+    max-width: 1536px;
+    margin: 0 auto;
+    position: relative;
+    width: 100%;
+    height: inherit;
+    overflow: hidden;
+  }
+`;
+
+const TitleImage1 = styled(Image)`
+  position: absolute;
+  top: -280px;
+  left: -11px;
+`;
+const TitleImage2 = styled(Image)`
+  position: absolute;
+  top: 223px;
+  left: 292px;
+  transform: rotate(107deg);
+`;
+const TitleImage3 = styled(Image)`
+  position: absolute;
+  top: -25px;
+  right: 50px;
+  transform: rotate(240deg);
 `;
 
 const TitleWrapperDiv = styled.div`
@@ -49,11 +78,18 @@ const DescUl = styled.ul`
   display: flex;
   margin-top: 56px;
   padding: 0 8px;
-  width: 100%;
+  width: 100vw;
+  height: 18vw;
   cursor: pointer;
 
+  ${({ theme }) => theme.mediaQuery.tablet} {
+    padding: 0 40px;
+  }
+
   ${({ theme }) => theme.mediaQuery.mobile} {
+    padding: 0 20px;
     flex-direction: column;
+    height: auto;
   }
 `;
 
@@ -70,6 +106,10 @@ const DescItemLi = styled.li`
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     &:not(:last-of-type) {
+      margin-right: 0;
+    }
+
+    &:not(:first-of-type) {
       margin: 32px 0 0 0;
     }
 
@@ -80,8 +120,21 @@ const DescItemLi = styled.li`
 `;
 
 const ImageBoxDiv = styled.div`
+  position: relative;
   border-radius: 15px;
   overflow: hidden;
+  width: 340px;
+  height: 230px;
+
+  ${({ theme }) => theme.mediaQuery.tablet} {
+    width: 32vw;
+    height: 18vw;
+  }
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    width: 100vw;
+    height: 60vw;
+  }
 `;
 
 const DescBoxDiv = styled.div`
@@ -104,7 +157,9 @@ const DescBoxDiv = styled.div`
   }
 
   & :hover {
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(5px);
+    background-color: ${({ theme }) => `${theme.color.static.dark}4f`};
+    color: ${({ theme }) => theme.color.static.light};
   }
 `;
 
@@ -133,18 +188,6 @@ const DescTitleP = styled.p`
   ${({ theme }) => theme.font.title2};
   color: ${({ theme }) => theme.color.label.normal};
   text-align: center;
-`;
-
-const SignUpButton = styled.button`
-  margin: 12px auto 0;
-  background-color: #c3c3c3;
-  border-radius: 4px;
-  padding: 14px 24px;
-  width: 300px;
-
-  ${({ theme }) => theme.mediaQuery.mobile} {
-    width: 272px;
-  }
 `;
 
 const DESC_ITEMS = [
@@ -178,7 +221,26 @@ export default function Login() {
       <BasicHeader />
       <Section direction="column" padding="84px 0 58px">
         <TitleImageBoxDiv>
-          <Image alt="상단 이미지" src={`${IMAGE_CDN}/login/login-main.png`} fill />
+          <div>
+            <TitleImage1
+              alt="상단 이미지1"
+              src={`${IMAGE_CDN}/login/login-bg-1-240814.png`}
+              width={540}
+              height={540}
+            />
+            <TitleImage2
+              alt="상단 이미지2"
+              src={`${IMAGE_CDN}/login/login-bg-2-240814.png`}
+              width={205}
+              height={205}
+            />
+            <TitleImage3
+              alt="상단 이미지3"
+              src={`${IMAGE_CDN}/login/login-bg-3-240814.png`}
+              width={400}
+              height={400}
+            />
+          </div>
         </TitleImageBoxDiv>
 
         <TitleWrapperDiv>
@@ -199,12 +261,7 @@ export default function Login() {
           {DESC_ITEMS.map((item, idx) => (
             <DescItemLi key={`desc-item-${idx}`}>
               <ImageBoxDiv>
-                <Image
-                  alt=""
-                  src={`${IMAGE_CDN}/login/login-desc-${idx + 1}.png`}
-                  width={340}
-                  height={230}
-                />
+                <Image alt="" src={`${IMAGE_CDN}/login/login-desc-${idx + 1}.png`} fill />
               </ImageBoxDiv>
 
               <DescBoxDiv>
