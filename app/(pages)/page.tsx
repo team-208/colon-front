@@ -63,7 +63,6 @@ const MoveButton = styled(ButtonComp.Gradient)`
   }
 
   ${({ theme }) => theme.mediaQuery.mobile} {
-    width: 272px;
   }
 `;
 
@@ -176,6 +175,40 @@ const QnADetailBodyP = styled.p`
   margin: 10px 0;
 `;
 
+const ReactionBoxDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  & > div {
+    display: flex;
+  }
+`;
+
+const IconButton = styled.button`
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+  border-radius: 8px;
+
+  span {
+    display: inline-block;
+    ${({ theme }) => theme.font.body3};
+    color: ${({ theme }) => theme.color.label.normal};
+    margin-left: 6px;
+  }
+
+  &:last-of-type {
+    margin-left: 16px;
+  }
+`;
+
+const ChoiceButton = styled(ButtonComp.Solid)`
+  padding: 4px 10px;
+  height: 26px;
+  border-radius: 8px;
+  ${({ theme }) => theme.font.body3};
+`;
+
 const BottomImageBoxDiv = styled.div`
   position: absolute;
   z-index: -1;
@@ -256,6 +289,34 @@ export default function Home() {
               <QnADetailBodyP>
                 {`화면 설계 시 소수점은 제거해주시는 게 좋아요.\nCmd+Shift+'로 snap to pixel grid를 적용해보세요.`}
               </QnADetailBodyP>
+
+              <ReactionBoxDiv>
+                <div>
+                  <IconButton type="button">
+                    <Image
+                      alt="엄지척 이모지"
+                      src={`${IMAGE_CDN}/icon/Icon_Like_Gray.svg`}
+                      width={20}
+                      height={20}
+                    />
+                    <span>999</span>
+                  </IconButton>
+
+                  <IconButton type="button">
+                    <Image
+                      alt="댓글 아이콘"
+                      src={`${IMAGE_CDN}/qna/Icon_Comment.png`}
+                      width={20}
+                      height={20}
+                    />
+                    <span>999</span>
+                  </IconButton>
+                </div>
+
+                <ChoiceButton isActive onClick={() => {}}>
+                  글쓴이 채택
+                </ChoiceButton>
+              </ReactionBoxDiv>
             </QnADetailSampleDiv>
 
             <QnADetailSampleDiv>
@@ -264,6 +325,17 @@ export default function Home() {
               <QnADetailBodyP>
                 {`직군 간 서로 이해하려는 태도가 중요한 것 같아요.\n비단 IT업계 뿐 아니라 모든 업계에 해당되는 부분이죠.`}
               </QnADetailBodyP>
+
+              <ReactionBoxDiv>
+                <Image alt="이모지" src={`${IMAGE_CDN}/qna/EmojiAdd.png`} width={24} height={24} />
+
+                <Image
+                  alt="스크랩 아이콘"
+                  src={`${IMAGE_CDN}/icon/bookmark-stroke.svg`}
+                  width={24}
+                  height={24}
+                />
+              </ReactionBoxDiv>
             </QnADetailSampleDiv>
           </QnADetailSampleWrapperDiv>
         </Section>
