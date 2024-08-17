@@ -21,7 +21,7 @@ export interface InsertPostResponse {
   postId: number;
 }
 
-export type PostListOrderTypes = 'DATE_DESC';
+export type PostListOrderTypes = 'DATE_DESC' | 'REACTION_DESC' | 'COMMENT_DESC' | 'SCRAP_DESC';
 
 export interface GetPostListQuery {
   order: PostListOrderTypes;

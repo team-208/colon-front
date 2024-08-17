@@ -88,11 +88,16 @@ export async function GET(request: NextRequest) {
   const offset = parseInt(searchParams.get('offset') as string);
 
   try {
-    // TODO: 정렬 작업 필요.
     const orderOption =
       order === 'DATE_DESC'
         ? { column: 'created_at', sort: { ascending: false } }
-        : { column: 'created_at', sort: { ascending: true } };
+        : order === 'REACTION_DESC'
+          ? { column: 'reaction_count', sort: { ascending: false } }
+          : order === 'COMMENT_DESC'
+            ? { column: 'comments_count', sort: { ascending: false } }
+            : order === 'SCRAP_DESC'
+              ? { column: 'scrap_count', sort: { ascending: false } }
+              : { column: 'created_at', sort: { ascending: true } };
 
     const { error: totalPostGetError, count: totalCount } = await supabase
       .from('posts')
