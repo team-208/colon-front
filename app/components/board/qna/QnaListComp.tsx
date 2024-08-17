@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import FilterHeader from '@/app/components/common/FilterHeader';
 import Selector from '../../common/Selector';
-import { GetPostListQuery } from '@/app/api/post/type';
-import ListBox from './ListBox';
+import { GetPostListQuery, PostListItem } from '@/app/api/post/type';
+import ListBox from '../../common/ListBox';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
+import usePostListQuery from '@/app/api/post/queries';
 
 const SelectorContainerDiv = styled.div`
   width: 100%;
@@ -20,10 +21,13 @@ const SelectorContainerDiv = styled.div`
 `;
 
 const QnaListComp = () => {
+  const [postList, setPostList] = useState<PostListItem[]>([]);
   const [filter, setFilter] = useState<Omit<GetPostListQuery, 'offset'>>({
     order: 'DATE_DESC',
     major: 'ALL',
   });
+
+  const { data } = usePostListQuery(filter);
 
   const chagneFilter = useCallback((major: JOB_GROUP_TYPES) => {
     setFilter((prev) => ({ ...prev, major }));
@@ -32,6 +36,12 @@ const QnaListComp = () => {
   const changeSort = useCallback((idx: number) => {
     // TODO: sortMenu에 따른 질문카드 영역 처리
   }, []);
+
+  useEffect(() => {
+    if (data?.pages) {
+      setPostList(data?.pages[0].list);
+    }
+  }, [data]);
 
   return (
     <>
@@ -50,7 +60,7 @@ const QnaListComp = () => {
         </Selector>
       </SelectorContainerDiv>
 
-      <ListBox filter={filter} />
+      <ListBox list={postList} />
     </>
   );
 };
