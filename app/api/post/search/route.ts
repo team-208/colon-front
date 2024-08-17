@@ -3,7 +3,6 @@ import { createClient } from '@/app/utils/supabase/server';
 import { getHost } from '@/app/utils/host';
 import { isEmpty } from 'lodash';
 
-const MAX_COUNT = 5;
 function listParser(originArr: any, list: any) {
   const res = [...originArr];
 
@@ -12,13 +11,13 @@ function listParser(originArr: any, list: any) {
   }
 
   let index = 0;
-  while (res.length < MAX_COUNT && index < list.length) {
+  while (index < list.length) {
     if (!list[index]) {
       break;
     }
 
     if (!res.find((post) => post.id === list[index].id)) {
-      res.push({ id: list[index].id, text: list[index].title });
+      res.push({ ...list[index] });
     }
     index++;
   }
@@ -36,11 +35,10 @@ export async function GET(request: NextRequest) {
     // 1 순위: 답변이 채택된 글
     const { data: completePostData, error: completePostGetError } = await supabase
       .from('posts')
-      .select('id, title')
+      .select('*')
       .ilike('title', `%${word}%`)
       .not('accept_comment_id', 'is', null)
-      .order('id', { ascending: false })
-      .limit(MAX_COUNT);
+      .order('id', { ascending: false });
 
     if (completePostGetError) {
       return NextResponse.json({
@@ -49,69 +47,60 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    let postList = isEmpty(completePostData)
-      ? []
-      : completePostData?.map((post) => ({ id: post.id, text: post.title }));
+    let postList = isEmpty(completePostData) ? [] : completePostData;
 
     // 2 순위: 반응순. 반응 작업 후 적용 필요.
-    if (postList.length < MAX_COUNT) {
-      const { data: reactionPostsData, error: reactionPostsGetError } = await supabase
-        .from('posts')
-        .select('id, title')
-        .not('reaction_count', 'eq', 0)
-        .ilike('title', `%${word}%`)
-        .order('reaction_count', { ascending: false })
-        .order('id', { ascending: false })
-        .limit(MAX_COUNT);
 
-      if (reactionPostsGetError) {
-        return NextResponse.json({
-          success: false,
-          ...reactionPostsGetError,
-        });
-      }
+    const { data: reactionPostsData, error: reactionPostsGetError } = await supabase
+      .from('posts')
+      .select('*')
+      .not('reaction_count', 'eq', 0)
+      .ilike('title', `%${word}%`)
+      .order('reaction_count', { ascending: false })
+      .order('id', { ascending: false });
 
-      postList = [...listParser(postList, reactionPostsData)];
+    if (reactionPostsGetError) {
+      return NextResponse.json({
+        success: false,
+        ...reactionPostsGetError,
+      });
     }
+
+    postList = [...listParser(postList, reactionPostsData)];
 
     // 3 순위: 댓글순. 댓글 갯수 컬럼 추가 필요.
-    if (postList.length < MAX_COUNT) {
-      const { data: commentsPostsData, error: commentsPostsGetError } = await supabase
-        .from('posts')
-        .select('id, title')
-        .not('comments_count', 'eq', 0)
-        .ilike('title', `%${word}%`)
-        .order('comments_count', { ascending: false })
-        .order('id', { ascending: false })
-        .limit(MAX_COUNT);
 
-      if (commentsPostsGetError) {
-        return NextResponse.json({
-          success: false,
-          ...commentsPostsGetError,
-        });
-      }
+    const { data: commentsPostsData, error: commentsPostsGetError } = await supabase
+      .from('posts')
+      .select('*')
+      .not('comments_count', 'eq', 0)
+      .ilike('title', `%${word}%`)
+      .order('comments_count', { ascending: false })
+      .order('id', { ascending: false });
 
-      postList = [...listParser(postList, commentsPostsData)];
+    if (commentsPostsGetError) {
+      return NextResponse.json({
+        success: false,
+        ...commentsPostsGetError,
+      });
     }
 
-    if (postList.length < MAX_COUNT) {
-      const { data: allPostsData, error: allPostsGetError } = await supabase
-        .from('posts')
-        .select('id, title')
-        .ilike('title', `%${word}%`)
-        .order('id', { ascending: false })
-        .limit(MAX_COUNT);
+    postList = [...listParser(postList, commentsPostsData)];
 
-      if (allPostsGetError) {
-        return NextResponse.json({
-          success: false,
-          ...allPostsGetError,
-        });
-      }
+    const { data: allPostsData, error: allPostsGetError } = await supabase
+      .from('posts')
+      .select('*')
+      .ilike('title', `%${word}%`)
+      .order('id', { ascending: false });
 
-      postList = [...listParser(postList, allPostsData)];
+    if (allPostsGetError) {
+      return NextResponse.json({
+        success: false,
+        ...allPostsGetError,
+      });
     }
+
+    postList = [...listParser(postList, allPostsData)];
 
     return NextResponse.json({
       success: true,

@@ -96,6 +96,7 @@ const SearchHeader = () => {
   }, [data]);
   const comments = useMemo(() => {
     if (data?.success) return data.comments.slice(0, 5);
+    else return undefined;
   }, [data]);
 
   const handleSearchButton = useCallback(() => {
