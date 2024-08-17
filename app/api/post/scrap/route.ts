@@ -68,6 +68,17 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: false, getScrapsError });
       }
 
+      const { data: postData, error: getPostError } = await supabase
+        .from('posts')
+        .select('scrap_count')
+        .eq('id', postId)
+        .single();
+
+      if (getPostError) {
+        return NextResponse.json({ success: false, getPostError });
+      }
+      console.log(postData);
+
       if (!isEmpty(scrapData)) {
         const { error: deleteError } = await supabase
           .from('scraps')
@@ -77,6 +88,15 @@ export async function POST(request: Request) {
 
         if (deleteError) {
           return NextResponse.json({ success: false, deleteError });
+        }
+
+        const { error: updatePostError } = await supabase
+          .from('posts')
+          .update({ scrap_count: postData.scrap_count - 1 })
+          .eq('id', postId);
+
+        if (updatePostError) {
+          return NextResponse.json({ success: false, updatePostError });
         }
 
         return NextResponse.json({ success: true });
@@ -89,6 +109,15 @@ export async function POST(request: Request) {
 
       if (insertError) {
         return NextResponse.json({ success: false, insertError });
+      }
+
+      const { error: updatePostError } = await supabase
+        .from('posts')
+        .update({ scrap_count: postData.scrap_count + 1 })
+        .eq('id', postId);
+
+      if (updatePostError) {
+        return NextResponse.json({ success: false, updatePostError });
       }
 
       return NextResponse.json({ success: true });
