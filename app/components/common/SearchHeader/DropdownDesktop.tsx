@@ -120,7 +120,7 @@ const MoreButton = styled.button`
 
 const NoResultDiv = styled.div`
   text-align: center;
-`
+`;
 
 const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
   const { push } = useRouter();
@@ -132,7 +132,7 @@ const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
     push(`/qna/search?word=${word}`);
   }, [word]);
 
-  const handlePostClick = useCallback((id: string) => {
+  const handlePostClick = useCallback((id: number) => {
     push(`/qna/${id}`);
   }, []);
 
@@ -159,7 +159,7 @@ const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
                           width={20}
                           height={20}
                         />
-                        <p>{post.text}</p>
+                        <p>{post.title}</p>
                       </PostDiv>
                     </li>
                   ))
@@ -181,7 +181,7 @@ const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
                           width={20}
                           height={20}
                         />
-                        <p>{comment.text}</p>
+                        <p>{comment.title}</p>
                       </PostDiv>
                       <CommentDiv>
                         <Image
@@ -190,7 +190,7 @@ const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
                           width={20}
                           height={20}
                         />
-                        <p>{comment.text}</p>
+                        <p>{comment.title}</p>
                       </CommentDiv>
                     </li>
                   ))
