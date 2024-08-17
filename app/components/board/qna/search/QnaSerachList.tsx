@@ -1,14 +1,13 @@
 'use client';
 
-
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { PostSearchItemProps } from '@/app/api/post/search/type';
-import useObserver from '@/app/hooks/useObserver';
 import usePostSearchQuery from '@/app/api/post/search/queries';
 import Selector from '@/app/components/common/Selector';
 import ListBox from '../../../common/ListBox';
+import NoSearchBox from '@/app/components/common/NoSearchBox';
 import usePostScrapQuery from '@/app/api/post/scrap/queries';
 
 const HeaderContainerDiv = styled.div`
@@ -34,11 +33,6 @@ const QnaSerachList = () => {
   const [comments, setComments] = useState<PostSearchItemProps[]>([]);
 
   const { data } = usePostSearchQuery(param as string);
-  const { data: userScrapData } = usePostScrapQuery();
-
-  const { observerRef } = useObserver(true, () => {
-    // TODO: Infinity scroll 구현
-  });
 
   const changeSort = useCallback((idx: number) => {
     // TODO: sortMenu에 따른 질문카드 영역 처리
@@ -53,19 +47,25 @@ const QnaSerachList = () => {
 
   return (
     <>
-      <HeaderContainerDiv>
-        <p>
-          검색결과 댓글 {'{' + comments.length + '}'}건 글 {'{' + posts.length + '}'}건
-        </p>
-        <Selector defaultOption={{ idx: 0, text: '최신순' }}>
-          <Selector.Option idx={0} text="최신순" clickEvent={changeSort} />
-          <Selector.Option idx={1} text="반응순" clickEvent={changeSort} />
-          <Selector.Option idx={2} text="답변순" clickEvent={changeSort} />
-          <Selector.Option idx={3} text="스크랩순" clickEvent={changeSort} />
-        </Selector>
-      </HeaderContainerDiv>
+      {posts.length > 0 ? (
+        <>
+          <HeaderContainerDiv>
+            <p>
+              검색결과 댓글 {'{' + comments.length + '}'}건 글 {'{' + posts.length + '}'}건
+            </p>
+            <Selector defaultOption={{ idx: 0, text: '최신순' }}>
+              <Selector.Option idx={0} text="최신순" clickEvent={changeSort} />
+              <Selector.Option idx={1} text="반응순" clickEvent={changeSort} />
+              <Selector.Option idx={2} text="답변순" clickEvent={changeSort} />
+              <Selector.Option idx={3} text="스크랩순" clickEvent={changeSort} />
+            </Selector>
+          </HeaderContainerDiv>
 
-      <ListBox list={posts} />
+          <ListBox list={posts} />
+        </>
+      ) : (
+        <NoSearchBox word={param || ''} />
+      )}
     </>
   );
 };

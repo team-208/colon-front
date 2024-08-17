@@ -13,6 +13,7 @@ interface Props {
 
 const Container = styled.section<{ $dir: Direction; $padding: string }>`
   display: flex;
+  height: 100%;
   flex-direction: ${({ $dir }) => $dir};
   padding: ${({ $padding }) => $padding};
 `;
