@@ -41,7 +41,7 @@ const DropdownMobile = ({ isActive, posts, comments, word }: Props) => {
 
   return (
     <DropDownMobile isActive={isActive}>
-      {posts && posts.length > 0 ? <ListBox list={posts} /> : <NoSearchBox word={word} />}
+      {word && (posts && posts.length > 0 ? <ListBox list={posts} /> : <NoSearchBox word={word} />)}
     </DropDownMobile>
   );
 };

@@ -164,7 +164,7 @@ const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
                     </li>
                   ))
                 ) : (
-                  <NoResultDiv>결과 없음</NoResultDiv>
+                  <NoResultDiv>검색하신 "{'{' + word + '}'}"를 찾지 못했어요.</NoResultDiv>
                 ))}
             </MarginUl>
             <MarginDivider height={1} />
@@ -195,7 +195,7 @@ const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
                     </li>
                   ))
                 ) : (
-                  <NoResultDiv>결과 없음</NoResultDiv>
+                  <NoResultDiv>검색하신 "{'{' + word + '}'}"를 찾지 못했어요.</NoResultDiv>
                 ))}
             </MarginUl>
             <DropDownFooterDiv>
