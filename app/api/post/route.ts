@@ -7,6 +7,13 @@ import { PAGE_OFFSET_VALUE, POST_STATUS } from './constants';
 import { JOB_GROUP_TYPES } from '../auth/user/type';
 import { reactionsDefault } from '@/app/constants/reactions';
 
+const ORDER_OPTIONS = {
+  DATE_DESC: { column: 'created_at', sort: { ascending: false } },
+  REACTION_DESC: { column: 'reaction_count', sort: { ascending: false } },
+  COMMENT_DESC: { column: 'comments_count', sort: { ascending: false } },
+  SCRAP_DESC: { column: 'scrap_count', sort: { ascending: false } },
+};
+
 export async function POST(request: Request) {
   const host = getHost();
 
@@ -88,11 +95,7 @@ export async function GET(request: NextRequest) {
   const offset = parseInt(searchParams.get('offset') as string);
 
   try {
-    // TODO: 정렬 작업 필요.
-    const orderOption =
-      order === 'DATE_DESC'
-        ? { column: 'created_at', sort: { ascending: false } }
-        : { column: 'created_at', sort: { ascending: true } };
+    const orderOption = ORDER_OPTIONS[order] ?? ORDER_OPTIONS.DATE_DESC;
 
     const { error: totalPostGetError, count: totalCount } = await supabase
       .from('posts')
