@@ -30,7 +30,7 @@ export interface UpdatePostRequest {
   body?: { data: string; created_at: string } | undefined;
   preview_body?: string | undefined;
   tags?: string[] | undefined;
-  accept_comment_id?: number;
+  accept_comment_id?: number[];
 }
 
 export interface UpdatePostResponse {

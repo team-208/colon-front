@@ -62,7 +62,7 @@ const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) =
   const isAuthor = useMemo(() => postAuthor === userInfo?.user?.nick_name, [userInfo]);
   const acceptCommentList = useMemo(
     () => data?.filter((item) => acceptedCommentId?.includes(item.id)),
-    [data],
+    [data, acceptedCommentId],
   );
 
   const handleSortList = useCallback(
@@ -112,7 +112,7 @@ const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) =
                 nestedComments,
               }) => {
                 return (
-                  <li>
+                  <li key={`accept-comment-${id}`}>
                     <AcceptCommentItem
                       postId={postId}
                       commentId={id}
@@ -123,6 +123,7 @@ const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) =
                       comment={comment}
                       likeCount={reaction_count}
                       nestedCommentCount={nestedComments?.length ?? 0}
+                      acceptCommentList={acceptedCommentId}
                     />
                   </li>
                 );
@@ -193,6 +194,7 @@ const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) =
                         onChangeNestedCommentVisible={(isOpen) => {
                           handleChangeNestedCommentVisible(isOpen, id);
                         }}
+                        acceptCommentList={acceptedCommentId}
                       />
                     </li>
                     {nestedComments?.map((item, idx) => {
@@ -222,6 +224,7 @@ const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) =
                             onChangeNestedCommentVisible={(isOpen) => {
                               handleChangeNestedCommentVisible(isOpen, item.id);
                             }}
+                            acceptCommentList={acceptedCommentId}
                           />
                         </li>
                       );

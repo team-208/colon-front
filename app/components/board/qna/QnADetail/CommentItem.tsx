@@ -32,6 +32,7 @@ interface Props {
   nestedCommentCount?: number;
   isOpenNestedCommentWrite: boolean;
   onChangeNestedCommentVisible: (isOpen: boolean) => void;
+  acceptCommentList: number[];
 }
 
 const CommentP = styled.p`
@@ -85,6 +86,7 @@ const CommentItem = ({
   nestedCommentCount,
   isOpenNestedCommentWrite,
   onChangeNestedCommentVisible,
+  acceptCommentList,
 }: Props) => {
   const [isModify, setIsModify] = useState<boolean>(false);
   const [modifyComment, setModifyComment] = useState<string>('');
@@ -121,9 +123,14 @@ const CommentItem = ({
   }, []);
 
   const handleClickChoice = useCallback(async () => {
-    await mutateAsync({ id: parseInt(postId), status: 'COMPLETE', accept_comment_id: commentId });
+    console.log([...acceptCommentList, commentId]);
+    await mutateAsync({
+      id: parseInt(postId),
+      status: 'COMPLETE',
+      accept_comment_id: [...acceptCommentList, commentId],
+    });
     refresh();
-  }, []);
+  }, [acceptCommentList, commentId]);
 
   const handleClickModifyOpen = useCallback(() => {
     setIsModify(true);

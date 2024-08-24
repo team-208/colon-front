@@ -27,6 +27,7 @@ interface Props {
   isSelected: boolean;
   comment: string;
   likeCount: number;
+  acceptCommentList: number[];
   nestedCommentCount?: number;
 }
 
@@ -84,6 +85,7 @@ const AcceptCommentItem = ({
   comment,
   likeCount,
   nestedCommentCount,
+  acceptCommentList,
 }: Props) => {
   const [isModify, setIsModify] = useState<boolean>(false);
   const [modifyComment, setModifyComment] = useState<string>('');
@@ -117,11 +119,6 @@ const AcceptCommentItem = ({
         ),
       },
     });
-  }, []);
-
-  const handleClickChoice = useCallback(async () => {
-    await mutateAsync({ id: parseInt(postId), status: 'COMPLETE', accept_comment_id: commentId });
-    refresh();
   }, []);
 
   const handleClickModifyOpen = useCallback(() => {
@@ -175,6 +172,18 @@ const AcceptCommentItem = ({
     refetch();
   }, []);
 
+  const handleClickCancelChoice = useCallback(async () => {
+    await mutateAsync({
+      id: parseInt(postId),
+      status: 'COMPLETE',
+      accept_comment_id: acceptCommentList.filter((item) => item !== commentId),
+    });
+
+    setTimeout(() => {
+      refresh();
+    }, 100);
+  }, [acceptCommentList, commentId]);
+
   return (
     <CommentComp.Wrapper isModify={isModify}>
       <CommentComp.Header
@@ -206,7 +215,7 @@ const AcceptCommentItem = ({
             />
           )}
 
-          <ChoiceCancelButton isActive={false} size="sm" onClick={handleClickChoice}>
+          <ChoiceCancelButton isActive={false} size="sm" onClick={handleClickCancelChoice}>
             채택 취소
           </ChoiceCancelButton>
 
