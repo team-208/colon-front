@@ -7,7 +7,7 @@ interface Props {
   likeCount: number;
   nestedCommentCount?: number;
   onClickLike: () => void;
-  onClickNestedComment: () => void;
+  onClickNestedComment?: () => void;
 }
 
 const EmojiListUl = styled.ul`

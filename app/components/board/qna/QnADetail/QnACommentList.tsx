@@ -10,12 +10,26 @@ import { isEmpty } from 'lodash';
 import { GetCommentsResponseItem } from '@/app/api/comment/[postId]/type';
 import Section from '@/app/components/common/Section';
 import QnACommentWrite from './QnACommentWrite';
+import AcceptCommentItem from './AcceptCommentItem';
 
 interface Props {
   postId: string;
   acceptedCommentId: number[];
   postAuthor: string;
 }
+
+const AcceptCommentListWrapperUl = styled.ul`
+  border: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 700px;
+  margin: 32px auto 24px;
+
+  & > li:not(:last-of-type) {
+    border-bottom: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
+  }
+`;
 
 const ConatinerDiv = styled.div`
   max-width: 700px;
@@ -46,6 +60,10 @@ const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) =
   const { userInfo } = useAuth();
 
   const isAuthor = useMemo(() => postAuthor === userInfo?.user?.nick_name, [userInfo]);
+  const acceptCommentList = useMemo(
+    () => data?.filter((item) => acceptedCommentId?.includes(item.id)),
+    [data],
+  );
 
   const handleSortList = useCallback(
     (type: 'updated' | 'reaction') => {
@@ -79,6 +97,41 @@ const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) =
 
   return (
     <>
+      {acceptCommentList && (
+        <Section direction="column" padding="0">
+          <AcceptCommentListWrapperUl>
+            {acceptCommentList?.map(
+              ({
+                id,
+                author_nickname,
+                created_at,
+                updated_at,
+                comment,
+                author_major,
+                reaction_count,
+                nestedComments,
+              }) => {
+                return (
+                  <li>
+                    <AcceptCommentItem
+                      postId={postId}
+                      commentId={id}
+                      authorMajor={author_major}
+                      authorNickName={author_nickname}
+                      updatedAt={updated_at || created_at}
+                      isSelected={acceptedCommentId?.includes(id)}
+                      comment={comment}
+                      likeCount={reaction_count}
+                      nestedCommentCount={nestedComments?.length ?? 0}
+                    />
+                  </li>
+                );
+              },
+            )}
+          </AcceptCommentListWrapperUl>
+        </Section>
+      )}
+
       <Section direction="column" padding="0">
         <ConatinerDiv>
           <FilterDiv>
@@ -115,11 +168,6 @@ const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) =
                 reaction_count,
               }) => {
                 const isAuthorComment = userInfo?.user?.nick_name === author_nickname;
-                console.log(
-                  !!isAuthor,
-                  isAuthorComment,
-                  !acceptedCommentId || acceptedCommentId?.length < 3,
-                );
                 return (
                   <React.Fragment key={`comment-item-${id}`}>
                     <li>
