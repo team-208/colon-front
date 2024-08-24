@@ -97,7 +97,7 @@ const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) =
 
   return (
     <>
-      {acceptCommentList && (
+      {acceptCommentList && acceptCommentList?.length > 0 && (
         <Section direction="column" padding="0">
           <AcceptCommentListWrapperUl>
             {acceptCommentList?.map(
