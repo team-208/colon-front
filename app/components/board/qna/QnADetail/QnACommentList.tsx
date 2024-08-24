@@ -21,6 +21,10 @@ interface Props {
 const AcceptCommentTitleP = styled.p`
   ${({ theme }) => theme.font.body1};
   padding: 10px 20px;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    padding: 0 20px;
+  }
 `;
 
 const AcceptCommentListWrapperUl = styled.ul`
@@ -33,6 +37,16 @@ const AcceptCommentListWrapperUl = styled.ul`
 
   & > li:not(:last-of-type) {
     border-bottom: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
+  }
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    border-top: none;
+    border-bottom: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
+    margin: 24px auto;
+
+    & > li:not(:last-of-type) {
+      border: none;
+    }
   }
 `;
 
