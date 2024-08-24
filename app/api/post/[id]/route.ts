@@ -75,9 +75,28 @@ export async function PUT(request: Request, { params }: { params: Params }) {
 
     delete bodyData.body;
 
+    const { data, error: postGetError } = await supabase
+      .from('posts')
+      .select('*')
+      .eq('id', params.id)
+      .limit(1)
+      .single();
+
+    if (postGetError) {
+      return NextResponse.json({ success: false, postGetError });
+    }
+
+    const accept_comment_id = data?.accept_comment_id
+      ? [...data.accept_comment_id, bodyData.accept_comment_id]
+      : [bodyData.accept_comment_id];
+
     const { error } = await supabase
       .from('posts')
-      .update({ ...bodyData, updated_at: dayjs() })
+      .update({
+        ...bodyData,
+        accept_comment_id,
+        updated_at: dayjs(),
+      })
       .eq('id', params.id);
 
     return NextResponse.json({ success: error ? false : true, error });

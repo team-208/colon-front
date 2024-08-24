@@ -13,7 +13,7 @@ import QnACommentWrite from './QnACommentWrite';
 
 interface Props {
   postId: string;
-  acceptedCommentId: number;
+  acceptedCommentId: number[];
   postAuthor: string;
 }
 
@@ -34,7 +34,7 @@ const TitleP = styled.p`
   ${({ theme }) => theme.font.body2};
 `;
 
-const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
+const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) => {
   const [commentList, setCommentList] = useState<GetCommentsResponseItem[]>([]);
   const [openedNestedComment, setOpenedNestedComment] = useState<{
     isOpen: boolean;
@@ -115,6 +115,11 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                 reaction_count,
               }) => {
                 const isAuthorComment = userInfo?.user?.nick_name === author_nickname;
+                console.log(
+                  !!isAuthor,
+                  isAuthorComment,
+                  !acceptedCommentId || acceptedCommentId?.length < 3,
+                );
                 return (
                   <React.Fragment key={`comment-item-${id}`}>
                     <li>
@@ -125,9 +130,13 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                         authorMajor={author_major}
                         authorNickName={author_nickname}
                         updatedAt={updated_at || created_at}
-                        isSelected={acceptedCommentId === id}
+                        isSelected={acceptedCommentId?.includes(id)}
                         comment={comment}
-                        isVisibleChoice={isAuthor && !isAuthorComment && !acceptedCommentId}
+                        isVisibleChoice={
+                          isAuthor &&
+                          !isAuthorComment &&
+                          (!acceptedCommentId || acceptedCommentId?.length < 3)
+                        }
                         likeCount={reaction_count}
                         nestedCommentCount={nestedComments?.length ?? 0}
                         isOpenNestedCommentWrite={
@@ -150,10 +159,12 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                             authorMajor={item.author_major}
                             authorNickName={item.author_nickname}
                             updatedAt={item.updated_at || item.created_at}
-                            isSelected={acceptedCommentId === item.id}
+                            isSelected={acceptedCommentId?.includes(item.id)}
                             comment={item.comment}
                             isVisibleChoice={
-                              isAuthor && !isAuthorNestedComment && !acceptedCommentId
+                              isAuthor &&
+                              !isAuthorNestedComment &&
+                              (!acceptedCommentId || acceptedCommentId?.length < 3)
                             }
                             likeCount={item.reaction_count}
                             isOpenNestedCommentWrite={

@@ -172,7 +172,7 @@ const QuestionCard = ({
             <Image
               alt="답변 체크"
               src={`${IMAGE_CDN}/qna/CheckMarkButton${
-                status === 'COMPLETE' && !!accept_comment_id ? '_checked' : '_disable'
+                status === 'COMPLETE' && accept_comment_id?.length > 0 ? '_checked' : '_disable'
               }.png`}
               width={20}
               height={20}
