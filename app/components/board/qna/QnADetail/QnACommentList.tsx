@@ -18,6 +18,11 @@ interface Props {
   postAuthor: string;
 }
 
+const AcceptCommentTitleP = styled.p`
+  ${({ theme }) => theme.font.body1};
+  padding: 10px 20px;
+`;
+
 const AcceptCommentListWrapperUl = styled.ul`
   border: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
   border-radius: 12px;
@@ -100,6 +105,9 @@ const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) =
       {acceptCommentList && acceptCommentList?.length > 0 && (
         <Section direction="column" padding="0">
           <AcceptCommentListWrapperUl>
+            <li>
+              <AcceptCommentTitleP>채택 답변</AcceptCommentTitleP>
+            </li>
             {acceptCommentList?.map(
               ({
                 id,
