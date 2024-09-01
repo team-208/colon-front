@@ -77,7 +77,10 @@ export async function PUT(request: Request, { params }: { params: Params }) {
 
     const { error } = await supabase
       .from('posts')
-      .update({ ...bodyData, updated_at: dayjs() })
+      .update({
+        ...bodyData,
+        updated_at: dayjs(),
+      })
       .eq('id', params.id);
 
     return NextResponse.json({ success: error ? false : true, error });

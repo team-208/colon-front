@@ -4,8 +4,7 @@ import styled, { RuleSet, css } from 'styled-components';
 import { ButtonProps } from './type';
 import { ButtonSizeStyle } from './style';
 
-interface Props extends ButtonProps {
-}
+interface Props extends ButtonProps {}
 
 const OutlinedPrimaryButton = styled.button<{
   $isActive: boolean;
@@ -23,8 +22,8 @@ const OutlinedPrimaryButton = styled.button<{
           color: ${theme.color.primary.normal};
         `
       : css`
-          border: 1px solid ${theme.color.interaction.disable};
-          color: ${theme.color.interaction.disable};
+          border: 1px solid ${theme.color.interaction.inactive};
+          color: ${theme.color.interaction.inactive};
         `}
 
   ${({ $hoverEffect }) =>

@@ -151,7 +151,7 @@ const QnADetailContent = ({ post }: Props) => {
   const { push, replace } = useRouter();
   const { userInfo } = useAuth();
 
-  const isComplete = useMemo(() => status === 'COMPLETE' && !!accept_comment_id, []);
+  const isComplete = useMemo(() => status === 'COMPLETE' && accept_comment_id?.length > 0, []);
   const isScrap = useMemo(
     () => userScrapData?.list.find((item) => item.post_id === id),
     [userScrapData],
