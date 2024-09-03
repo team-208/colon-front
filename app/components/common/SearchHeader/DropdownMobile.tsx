@@ -6,6 +6,7 @@ import DropDown from '../DropDown';
 import { PostSearchItemProps } from '@/app/api/post/search/type';
 import ListBox from '../ListBox';
 import NoSearchBox from '../NoSearchBox';
+import { isEmpty } from 'lodash';
 
 interface Props {
   isActive: boolean;
@@ -41,7 +42,7 @@ const DropdownMobile = ({ isActive, posts, comments, word }: Props) => {
 
   return (
     <DropDownMobile isActive={isActive}>
-      {word && (posts && posts.length > 0 ? <ListBox list={posts} /> : <NoSearchBox word={word} />)}
+      {word && (!isEmpty(posts) ? <ListBox list={posts ?? []} /> : <NoSearchBox word={word} />)}
     </DropDownMobile>
   );
 };
