@@ -21,7 +21,7 @@ export interface InsertPostResponse {
   postId: number;
 }
 
-export type PostListOrderTypes = 'DATE_DESC';
+export type PostListOrderTypes = 'DATE_DESC' | 'REACTION_DESC' | 'COMMENT_DESC' | 'SCRAP_DESC';
 
 export interface GetPostListQuery {
   order: PostListOrderTypes;
@@ -45,7 +45,7 @@ export interface PostListItem {
   // TODO: tanstack hydrate 적용후 select 에서 ReactionsObjType 변환 필요
   reactions: string;
   comments_count: number;
-  accept_comment_id: number;
+  accept_comment_id: number[];
 }
 
 export interface GetPostListResponse {

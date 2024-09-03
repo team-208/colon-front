@@ -135,6 +135,8 @@ const color = {
   gradient: {
     normal:
       'linear-gradient(90deg, rgba(0,128,219,1) 0%, rgba(0,161,255,1) 32%, rgba(62,205,222,1) 100%);',
+    normalReverse:
+      'linear-gradient(270deg, rgba(0,128,219,1) 0%, rgba(0,161,255,1) 32%, rgba(62,205,222,1) 100%);',
     hover:
       'linear-gradient(90deg, rgba(0,128,219,1) 0%, rgba(0,161,255,1) 78%, rgba(35,185,253,1) 100%);',
   },

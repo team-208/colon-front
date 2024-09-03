@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import FilterHeader from '@/app/components/common/FilterHeader';
 import Selector from '../../common/Selector';
-import { GetPostListQuery, PostListItem } from '@/app/api/post/type';
+import { GetPostListQuery, PostListItem, PostListOrderTypes } from '@/app/api/post/type';
 import ListBox from '../../common/ListBox';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import usePostListQuery from '@/app/api/post/queries';
@@ -33,8 +33,8 @@ const QnaListComp = () => {
     setFilter((prev) => ({ ...prev, major }));
   }, []);
 
-  const changeSort = useCallback((idx: number) => {
-    // TODO: sortMenu에 따른 질문카드 영역 처리
+  const changeOrder = useCallback((order: PostListOrderTypes) => {
+    setFilter((prev) => ({ ...prev, order }));
   }, []);
 
   useEffect(() => {
@@ -53,10 +53,10 @@ const QnaListComp = () => {
       </FilterHeader>
       <SelectorContainerDiv>
         <Selector defaultOption={{ idx: 0, text: '최신순' }}>
-          <Selector.Option idx={0} text="최신순" clickEvent={changeSort} />
-          <Selector.Option idx={1} text="반응순" clickEvent={changeSort} />
-          <Selector.Option idx={2} text="답변순" clickEvent={changeSort} />
-          <Selector.Option idx={3} text="스크랩순" clickEvent={changeSort} />
+          <Selector.Option idx={0} text="최신순" clickEvent={() => changeOrder('DATE_DESC')} />
+          <Selector.Option idx={1} text="반응순" clickEvent={() => changeOrder('REACTION_DESC')} />
+          <Selector.Option idx={2} text="답변순" clickEvent={() => changeOrder('COMMENT_DESC')} />
+          <Selector.Option idx={3} text="스크랩순" clickEvent={() => changeOrder('SCRAP_DESC')} />
         </Selector>
       </SelectorContainerDiv>
 
