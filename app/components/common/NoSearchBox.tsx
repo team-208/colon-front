@@ -37,7 +37,7 @@ const NoSearchBox = ({ word }: Props) => {
   return (
     <ContainerDiv>
       <TextP>
-        검색하신 “{'{' + word + '}'}”를 찾지 못했어요.
+        검색하신 “{word}”를 찾지 못했어요.
         <br />
         질문하시는 건 어떠세요?
       </TextP>
