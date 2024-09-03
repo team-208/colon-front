@@ -21,18 +21,14 @@ import ModalComp from '@/app/components/common/ModalComp';
 interface Props {
   postId: string;
   commentId: number;
-  isNestedComment: boolean;
   authorMajor: JOB_GROUP_TYPES;
   authorNickName: string;
   updatedAt: string;
   isSelected: boolean;
   comment: string;
-  isVisibleChoice: boolean;
   likeCount: number;
-  nestedCommentCount?: number;
-  isOpenNestedCommentWrite: boolean;
-  onChangeNestedCommentVisible: (isOpen: boolean) => void;
   acceptCommentList: number[];
+  nestedCommentCount?: number;
 }
 
 const CommentP = styled.p`
@@ -49,6 +45,13 @@ const FooterBoxDiv = styled.div<{ $isModify: boolean }>`
 `;
 
 const ChoiceButton = styled(ButtonComp.OutlinedPrimary)`
+  padding: 4px 10px;
+  height: 26px;
+  border-radius: 8px;
+  ${({ theme }) => theme.font.body3};
+`;
+
+const ChoiceCancelButton = styled(ButtonComp.OutlinedPrimary)`
   padding: 4px 10px;
   height: 26px;
   border-radius: 8px;
@@ -72,20 +75,16 @@ const ModifyButton = styled(ButtonComp.Solid)`
   align-self: flex-end;
 `;
 
-const CommentItem = ({
+const AcceptCommentItem = ({
   postId,
   commentId,
-  isNestedComment,
   authorMajor,
   authorNickName,
   updatedAt,
   isSelected,
   comment,
-  isVisibleChoice,
   likeCount,
   nestedCommentCount,
-  isOpenNestedCommentWrite,
-  onChangeNestedCommentVisible,
   acceptCommentList,
 }: Props) => {
   const [isModify, setIsModify] = useState<boolean>(false);
@@ -121,16 +120,6 @@ const CommentItem = ({
       },
     });
   }, []);
-
-  const handleClickChoice = useCallback(async () => {
-    console.log([...acceptCommentList, commentId]);
-    await mutateAsync({
-      id: parseInt(postId),
-      status: 'COMPLETE',
-      accept_comment_id: [...acceptCommentList, commentId],
-    });
-    refresh();
-  }, [acceptCommentList, commentId]);
 
   const handleClickModifyOpen = useCallback(() => {
     setIsModify(true);
@@ -173,10 +162,6 @@ const CommentItem = ({
     }
   }, [modifyComment]);
 
-  const handleClickWriteClose = useCallback(() => {
-    onChangeNestedCommentVisible(false);
-  }, []);
-
   const handleClickLike = useCallback(async () => {
     if (isEmpty(userInfo)) {
       unAuthentipicatedUserModal();
@@ -187,73 +172,62 @@ const CommentItem = ({
     refetch();
   }, []);
 
-  const handleClickNestedComment = useCallback(() => {
-    if (isEmpty(userInfo)) {
-      unAuthentipicatedUserModal();
-      return;
-    }
+  const handleClickCancelChoice = useCallback(async () => {
+    await mutateAsync({
+      id: parseInt(postId),
+      status: 'COMPLETE',
+      accept_comment_id: acceptCommentList.filter((item) => item !== commentId),
+    });
 
-    onChangeNestedCommentVisible(true);
-  }, []);
+    setTimeout(() => {
+      refresh();
+    }, 100);
+  }, [acceptCommentList, commentId]);
 
   return (
-    <>
-      <CommentComp.Wrapper isNestedComment={isNestedComment} isModify={isModify}>
-        <CommentComp.Header
-          major={authorMajor}
-          nickname={authorNickName}
-          updatedAt={updatedAt}
-          isSelected={isSelected}
-          isAuthor={userInfo?.user?.nick_name === authorNickName}
-          onClickModify={handleClickModifyOpen}
-          onClickDelete={handleClickDelete}
-        />
-        <CommentP>{comment}</CommentP>
-        {isModify && (
-          <CommentTextarea
-            placeholder={comment}
-            minRows={2}
-            onChange={handleChangeComment}
-            value={modifyComment}
-          />
-        )}
-
-        {authorNickName !== null && (
-          <FooterBoxDiv $isModify={isModify}>
-            {!isModify && (
-              <CommentComp.Reactions
-                likeCount={likeCount}
-                nestedCommentCount={isNestedComment ? undefined : nestedCommentCount}
-                onClickLike={handleClickLike}
-                onClickNestedComment={handleClickNestedComment}
-              />
-            )}
-            {isVisibleChoice && (
-              <ChoiceButton isActive onClick={handleClickChoice}>
-                글쓴이 채택
-              </ChoiceButton>
-            )}
-
-            {isModify && (
-              <ModifyButton size="sm" isActive onClick={handleClickModify}>
-                수정
-              </ModifyButton>
-            )}
-          </FooterBoxDiv>
-        )}
-      </CommentComp.Wrapper>
-      {isOpenNestedCommentWrite && (
-        <QnANestedCommentWrite
-          postId={postId}
-          commentId={commentId}
-          onClickClose={handleClickWriteClose}
-          onSuccessWrite={() => {
-            onChangeNestedCommentVisible(true);
-          }}
+    <CommentComp.Wrapper isModify={isModify}>
+      <CommentComp.Header
+        major={authorMajor}
+        nickname={authorNickName}
+        updatedAt={updatedAt}
+        isSelected={isSelected}
+        isAuthor={userInfo?.user?.nick_name === authorNickName}
+        onClickModify={handleClickModifyOpen}
+        onClickDelete={handleClickDelete}
+      />
+      <CommentP>{comment}</CommentP>
+      {isModify && (
+        <CommentTextarea
+          placeholder={comment}
+          minRows={2}
+          onChange={handleChangeComment}
+          value={modifyComment}
         />
       )}
-    </>
+
+      {authorNickName !== null && (
+        <FooterBoxDiv $isModify={isModify}>
+          {!isModify && (
+            <CommentComp.Reactions
+              likeCount={likeCount}
+              nestedCommentCount={nestedCommentCount}
+              onClickLike={handleClickLike}
+            />
+          )}
+
+          <ChoiceCancelButton isActive={false} size="sm" onClick={handleClickCancelChoice}>
+            채택 취소
+          </ChoiceCancelButton>
+
+          {isModify && (
+            <ModifyButton size="sm" isActive onClick={handleClickModify}>
+              수정
+            </ModifyButton>
+          )}
+        </FooterBoxDiv>
+      )}
+    </CommentComp.Wrapper>
   );
 };
 
-export default CommentItem;
+export default AcceptCommentItem;

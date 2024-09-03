@@ -10,12 +10,45 @@ import { isEmpty } from 'lodash';
 import { GetCommentsResponseItem } from '@/app/api/comment/[postId]/type';
 import Section from '@/app/components/common/Section';
 import QnACommentWrite from './QnACommentWrite';
+import AcceptCommentItem from './AcceptCommentItem';
 
 interface Props {
   postId: string;
-  acceptedCommentId: number;
+  acceptedCommentId: number[];
   postAuthor: string;
 }
+
+const AcceptCommentTitleP = styled.p`
+  ${({ theme }) => theme.font.body1};
+  padding: 10px 20px;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    padding: 0 20px;
+  }
+`;
+
+const AcceptCommentListWrapperUl = styled.ul`
+  border: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 700px;
+  margin: 32px auto 24px;
+
+  & > li:not(:last-of-type) {
+    border-bottom: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
+  }
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    border-top: none;
+    border-bottom: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
+    margin: 24px auto;
+
+    & > li:not(:last-of-type) {
+      border: none;
+    }
+  }
+`;
 
 const ConatinerDiv = styled.div`
   max-width: 700px;
@@ -34,7 +67,7 @@ const TitleP = styled.p`
   ${({ theme }) => theme.font.body2};
 `;
 
-const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
+const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) => {
   const [commentList, setCommentList] = useState<GetCommentsResponseItem[]>([]);
   const [openedNestedComment, setOpenedNestedComment] = useState<{
     isOpen: boolean;
@@ -46,6 +79,10 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
   const { userInfo } = useAuth();
 
   const isAuthor = useMemo(() => postAuthor === userInfo?.user?.nick_name, [userInfo]);
+  const acceptCommentList = useMemo(
+    () => data?.filter((item) => acceptedCommentId?.includes(item.id)),
+    [data, acceptedCommentId],
+  );
 
   const handleSortList = useCallback(
     (type: 'updated' | 'reaction') => {
@@ -79,6 +116,45 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
 
   return (
     <>
+      {acceptCommentList && acceptCommentList?.length > 0 && (
+        <Section direction="column" padding="0">
+          <AcceptCommentListWrapperUl>
+            <li>
+              <AcceptCommentTitleP>채택 답변</AcceptCommentTitleP>
+            </li>
+            {acceptCommentList?.map(
+              ({
+                id,
+                author_nickname,
+                created_at,
+                updated_at,
+                comment,
+                author_major,
+                reaction_count,
+                nestedComments,
+              }) => {
+                return (
+                  <li key={`accept-comment-${id}`}>
+                    <AcceptCommentItem
+                      postId={postId}
+                      commentId={id}
+                      authorMajor={author_major}
+                      authorNickName={author_nickname}
+                      updatedAt={updated_at || created_at}
+                      isSelected={acceptedCommentId?.includes(id)}
+                      comment={comment}
+                      likeCount={reaction_count}
+                      nestedCommentCount={nestedComments?.length ?? 0}
+                      acceptCommentList={acceptedCommentId}
+                    />
+                  </li>
+                );
+              },
+            )}
+          </AcceptCommentListWrapperUl>
+        </Section>
+      )}
+
       <Section direction="column" padding="0">
         <ConatinerDiv>
           <FilterDiv>
@@ -125,9 +201,13 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                         authorMajor={author_major}
                         authorNickName={author_nickname}
                         updatedAt={updated_at || created_at}
-                        isSelected={acceptedCommentId === id}
+                        isSelected={acceptedCommentId?.includes(id)}
                         comment={comment}
-                        isVisibleChoice={isAuthor && !isAuthorComment && !acceptedCommentId}
+                        isVisibleChoice={
+                          isAuthor &&
+                          !isAuthorComment &&
+                          (!acceptedCommentId || acceptedCommentId?.length < 3)
+                        }
                         likeCount={reaction_count}
                         nestedCommentCount={nestedComments?.length ?? 0}
                         isOpenNestedCommentWrite={
@@ -136,6 +216,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                         onChangeNestedCommentVisible={(isOpen) => {
                           handleChangeNestedCommentVisible(isOpen, id);
                         }}
+                        acceptCommentList={acceptedCommentId}
                       />
                     </li>
                     {nestedComments?.map((item, idx) => {
@@ -150,10 +231,12 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                             authorMajor={item.author_major}
                             authorNickName={item.author_nickname}
                             updatedAt={item.updated_at || item.created_at}
-                            isSelected={acceptedCommentId === item.id}
+                            isSelected={acceptedCommentId?.includes(item.id)}
                             comment={item.comment}
                             isVisibleChoice={
-                              isAuthor && !isAuthorNestedComment && !acceptedCommentId
+                              isAuthor &&
+                              !isAuthorNestedComment &&
+                              (!acceptedCommentId || acceptedCommentId?.length < 3)
                             }
                             likeCount={item.reaction_count}
                             isOpenNestedCommentWrite={
@@ -163,6 +246,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                             onChangeNestedCommentVisible={(isOpen) => {
                               handleChangeNestedCommentVisible(isOpen, item.id);
                             }}
+                            acceptCommentList={acceptedCommentId}
                           />
                         </li>
                       );
