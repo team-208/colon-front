@@ -75,9 +75,10 @@ const ReactionContent = async () => {
           <>
             <FlexRowDiv>
               <ReactionButton>
+                {/* TODO: Icon comp 추가시 변경 필요. */}
                 <Image
                   alt="리액션 아이콘"
-                  src={`${IMAGE_CDN}/qna/EmojiThumbsUp.png`}
+                  src={`${IMAGE_CDN}/qna/Emoji${v.post.userReaction ?? 'ThumbsUp'}.png`}
                   width={24}
                   height={24}
                 />
@@ -96,9 +97,7 @@ const ReactionContent = async () => {
 
             <ScarpIcon
               alt="스크랩 아이콘"
-              src={`${IMAGE_CDN}/icon/ScrapButton_inactive.png`}
-              // TODO: history api scrap & reactions field 추가 필요.
-              // src={`${IMAGE_CDN}/icon/ScrapButton_${v.scrap ? 'active' : 'inactive'}.png`}
+              src={`${IMAGE_CDN}/icon/ScrapButton_${v?.post.isScrap ? 'active' : 'inactive'}.png`}
               width={24}
               height={24}
             />
