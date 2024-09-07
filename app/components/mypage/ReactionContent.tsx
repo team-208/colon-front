@@ -78,7 +78,7 @@ const ReactionContent = async () => {
                 {/* TODO: Icon comp 추가시 변경 필요. */}
                 <Image
                   alt="리액션 아이콘"
-                  src={`${IMAGE_CDN}/qna/Emoji${v.post.userReaction ?? 'ThumbsUp'}.png`}
+                  src={`${IMAGE_CDN}/qna/Emoji${v.post.userReaction ?? 'Add'}.png`}
                   width={24}
                   height={24}
                 />
