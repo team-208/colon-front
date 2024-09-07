@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import reactTextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
-import QnANestedCommentWrite from './QnANestedCommentWrite';
 import { isEmpty } from 'lodash';
 import ModalComp from '@/app/components/common/ModalComp';
 
@@ -31,6 +30,10 @@ interface Props {
   nestedCommentCount?: number;
 }
 
+const Container = styled(CommentComp.Wrapper)`
+  border-bottom: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
+`;
+
 const CommentP = styled.p`
   ${({ theme }) => theme.font.body2};
   font-weight: 400;
@@ -42,13 +45,6 @@ const FooterBoxDiv = styled.div<{ $isModify: boolean }>`
   display: flex;
   align-items: center;
   justify-content: ${({ $isModify }) => ($isModify ? 'flex-end' : 'space-between')};
-`;
-
-const ChoiceButton = styled(ButtonComp.OutlinedPrimary)`
-  padding: 4px 10px;
-  height: 26px;
-  border-radius: 8px;
-  ${({ theme }) => theme.font.body3};
 `;
 
 const ChoiceCancelButton = styled(ButtonComp.OutlinedPrimary)`
@@ -185,7 +181,7 @@ const AcceptCommentItem = ({
   }, [acceptCommentList, commentId]);
 
   return (
-    <CommentComp.Wrapper isModify={isModify}>
+    <Container isModify={isModify}>
       <CommentComp.Header
         major={authorMajor}
         nickname={authorNickName}
@@ -226,7 +222,7 @@ const AcceptCommentItem = ({
           )}
         </FooterBoxDiv>
       )}
-    </CommentComp.Wrapper>
+    </Container>
   );
 };
 

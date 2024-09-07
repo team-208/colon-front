@@ -20,7 +20,7 @@ interface Props {
 
 const AcceptCommentTitleP = styled.p`
   ${({ theme }) => theme.font.body1};
-  padding: 10px 20px;
+  padding: 0px 20px 10px;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     padding: 0 20px;
@@ -28,21 +28,14 @@ const AcceptCommentTitleP = styled.p`
 `;
 
 const AcceptCommentListWrapperUl = styled.ul`
-  border: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
-  border-radius: 12px;
   overflow: hidden;
   width: 100%;
   max-width: 700px;
-  margin: 32px auto 24px;
-
-  & > li:not(:last-of-type) {
-    border-bottom: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
-  }
+  margin: 24px auto 0;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     border-top: none;
     border-bottom: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
-    margin: 24px auto;
 
     & > li:not(:last-of-type) {
       border: none;
@@ -64,7 +57,7 @@ const FilterDiv = styled.div`
 `;
 
 const TitleP = styled.p`
-  ${({ theme }) => theme.font.body2};
+  ${({ theme }) => theme.font.body1};
 `;
 
 const QnACommentList = ({ postId, acceptedCommentId = [], postAuthor }: Props) => {
