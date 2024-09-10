@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     const { data: completePostData, error: completePostGetError } = await supabase
       .from('posts')
       .select(
-        'id, status, requested_major, title, body, preview_body, tags, created_at, updated_at, author_nickname, author_major, author_profile_url, reactions, comments_count, accept_comment_id',
+        'id, status, requested_major, title, body_url, preview_body, tags, created_at, updated_at, author_nickname, author_major, author_profile_url, reactions, comments_count, accept_comment_id',
       )
       .ilike('title', `%${word}%`)
       .not('accept_comment_id', 'is', null)
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
     const { data: reactionPostsData, error: reactionPostsGetError } = await supabase
       .from('posts')
       .select(
-        'id, status, requested_major, title, body, preview_body, tags, created_at, updated_at, author_nickname, author_major, author_profile_url, reactions, comments_count, accept_comment_id',
+        'id, status, requested_major, title, body_url, preview_body, tags, created_at, updated_at, author_nickname, author_major, author_profile_url, reactions, comments_count, accept_comment_id',
       )
       .not('reaction_count', 'eq', 0)
       .ilike('title', `%${word}%`)
@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
     const { data: commentsPostsData, error: commentsPostsGetError } = await supabase
       .from('posts')
       .select(
-        'id, status, requested_major, title, body, preview_body, tags, created_at, updated_at, author_nickname, author_major, author_profile_url, reactions, comments_count, accept_comment_id',
+        'id, status, requested_major, title, body_url, preview_body, tags, created_at, updated_at, author_nickname, author_major, author_profile_url, reactions, comments_count, accept_comment_id',
       )
       .not('comments_count', 'eq', 0)
       .ilike('title', `%${word}%`)
@@ -96,7 +96,7 @@ export async function GET(request: NextRequest) {
     const { data: allPostsData, error: allPostsGetError } = await supabase
       .from('posts')
       .select(
-        'id, status, requested_major, title, body, preview_body, tags, created_at, updated_at, author_nickname, author_major, author_profile_url, reactions, comments_count, accept_comment_id',
+        'id, status, requested_major, title, body_url, preview_body, tags, created_at, updated_at, author_nickname, author_major, author_profile_url, reactions, comments_count, accept_comment_id',
       )
       .ilike('title', `%${word}%`)
       .order('id', { ascending: false });
