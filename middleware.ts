@@ -2,13 +2,22 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { updateSession } from './app/utils/supabase/middleware';
 
 export async function middleware(request: NextRequest) {
-  const isLogin = !!request.cookies.get('sb-rlwvcjygwndaidplsnnk-auth-token.0');
+  const result = await updateSession(request);
+  
+  let isLogin = false;
+  const list = request.cookies.getAll();
+  for (let i = 0; i < list.length; i++) {
+    const name = list[i].name;
+    if (name.includes('sb') && name.includes('auth') && name.includes('token')) {
+      isLogin = true;
+      break;
+    }
+  }
 
   if (request.nextUrl.pathname === '/mypage' || request.nextUrl.pathname === '/qna/write') {
     if (!isLogin) return NextResponse.redirect(new URL('/', request.nextUrl.origin));
   }
 
-  const result = await updateSession(request);
   return result;
 }
 
