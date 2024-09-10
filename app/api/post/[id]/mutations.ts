@@ -6,4 +6,4 @@ export const useModifyPostMutation = () =>
   useMutation({ mutationFn: (body: UpdatePostRequest) => fetchUpdatePost(body) });
 
 export const useDeletePostMutation = () =>
-  useMutation({ mutationFn: (id: string) => fetchDeletePost(id) });
+  useMutation({ mutationFn: (id: number) => fetchDeletePost(id) });

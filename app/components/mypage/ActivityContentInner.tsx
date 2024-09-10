@@ -99,7 +99,7 @@ const ActivityContentInner = (props: Props) => {
         setFilteredList(list);
         break;
     }
-  }, [filter]);
+  }, [list, filter]);
 
   return (
     <>
