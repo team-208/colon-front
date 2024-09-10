@@ -7,6 +7,10 @@ import { JOB_GROUP_LABELS } from '../constants';
 import CommentComp from '../common/CommentComp';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import { HistoryPost, HistoryComment } from '@/app/api/auth/history/type';
+import { useDeleteCommentMutation } from '@/app/api/comment/mutations';
+import useModal from '@/app/hooks/useModal';
+import useHistoryQuery from '@/app/api/auth/history/queries';
+import Modal from '../common/ModalComp';
 
 interface Props extends HistoryPost, HistoryComment {}
 
@@ -136,16 +140,47 @@ const ModifyButton = styled.button`
 `;
 
 const CommentCard = ({
+  postId,
   postAuthorMajor,
   postRequestedMajor,
   postStatus,
   title,
+  commentId,
   commentAuthorMajor,
   commentAuthorNickname,
   comment,
 }: Props) => {
+  const { openModal, closeModal } = useModal();
+  const { mutateAsync: commentDeleteMutation } = useDeleteCommentMutation();
+  const { refetch: historyRefetch } = useHistoryQuery({ historyType: 'ACTIVITY' });
+
   const handleDeleteClick = () => {
-    // TODO: 댓글 삭제 api 연동
+    openModal({
+      modalProps: {
+        contents: (
+          <Modal.Confirm
+            isReverseButton
+            confirmLabel="삭제하기"
+            cancelLabel="취소"
+            onConfirm={async () => {
+              const res = await commentDeleteMutation({
+                postId: postId,
+                commentId: commentId as number,
+              });
+              if (res.success) {
+                await historyRefetch();
+              }
+              closeModal();
+            }}
+            onCancel={() => {
+              closeModal();
+            }}
+          >
+            정말 삭제하시겠습니까 ?
+          </Modal.Confirm>
+        ),
+      },
+    });
   };
 
   const handleModifyClick = () => {
