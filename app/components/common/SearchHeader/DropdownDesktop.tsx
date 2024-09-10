@@ -8,6 +8,7 @@ import DropDown from '../DropDown';
 import Divider from '../DividerComp';
 import { PostSearchItemProps } from '@/app/api/post/search/type';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
+import { isEmpty } from 'lodash';
 
 interface Props {
   isActive: boolean;
@@ -120,19 +121,19 @@ const MoreButton = styled.button`
 
 const NoResultDiv = styled.div`
   text-align: center;
-`
+`;
 
 const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
   const { push } = useRouter();
 
-  const postResult = useMemo(() => posts && posts.length > 0, [posts]);
+  const postResult = useMemo(() => !isEmpty(posts), [posts]);
   const commentsResult = useMemo(() => comments && comments.length > 0, [comments]);
 
   const handleMoreButton = useCallback(() => {
     push(`/qna/search?word=${word}`);
   }, [word]);
 
-  const handlePostClick = useCallback((id: string) => {
+  const handlePostClick = useCallback((id: number) => {
     push(`/qna/${id}`);
   }, []);
 
@@ -159,12 +160,12 @@ const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
                           width={20}
                           height={20}
                         />
-                        <p>{post.text}</p>
+                        <p>{post.title}</p>
                       </PostDiv>
                     </li>
                   ))
                 ) : (
-                  <NoResultDiv>결과 없음</NoResultDiv>
+                  <NoResultDiv>검색하신 "{word}"를 찾지 못했어요.</NoResultDiv>
                 ))}
             </MarginUl>
             <MarginDivider height={1} />
@@ -181,7 +182,7 @@ const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
                           width={20}
                           height={20}
                         />
-                        <p>{comment.text}</p>
+                        <p>{comment.title}</p>
                       </PostDiv>
                       <CommentDiv>
                         <Image
@@ -190,12 +191,12 @@ const DropdownDesktop = ({ word, isActive, posts, comments }: Props) => {
                           width={20}
                           height={20}
                         />
-                        <p>{comment.text}</p>
+                        <p>{comment.title}</p>
                       </CommentDiv>
                     </li>
                   ))
                 ) : (
-                  <NoResultDiv>결과 없음</NoResultDiv>
+                  <NoResultDiv>검색하신 "{word}"를 찾지 못했어요.</NoResultDiv>
                 ))}
             </MarginUl>
             <DropDownFooterDiv>

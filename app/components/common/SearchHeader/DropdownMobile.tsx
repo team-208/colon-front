@@ -4,6 +4,9 @@ import { useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import DropDown from '../DropDown';
 import { PostSearchItemProps } from '@/app/api/post/search/type';
+import ListBox from '../ListBox';
+import NoSearchBox from '../NoSearchBox';
+import { isEmpty } from 'lodash';
 
 interface Props {
   isActive: boolean;
@@ -17,18 +20,21 @@ const DropDownMobile = styled(DropDown)<{ isActive: boolean }>`
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     display: block;
-    ${({ isActive }) =>
+    overflow: auto;
+
+    ${({ isActive, theme }) =>
       isActive &&
       css`
         width: 100vw;
         height: 100vh;
-        background: ${({ theme }) => theme.color.static.light};
+        background: ${theme.color.static.light};
         border-radius: 0;
+        padding-bottom: ${theme.heightSizes.header.mobile}px;
       `}
   }
 `;
 
-const DropdownMobile = ({ isActive, posts, comments }: Props) => {
+const DropdownMobile = ({ isActive, posts, comments, word }: Props) => {
   useEffect(() => {
     if (isActive) document.body.classList.add('hidden');
     else document.body.classList.remove('hidden');
@@ -36,7 +42,7 @@ const DropdownMobile = ({ isActive, posts, comments }: Props) => {
 
   return (
     <DropDownMobile isActive={isActive}>
-      <div></div>
+      {word && (!isEmpty(posts) ? <ListBox list={posts ?? []} /> : <NoSearchBox word={word} />)}
     </DropDownMobile>
   );
 };

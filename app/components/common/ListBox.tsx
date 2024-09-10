@@ -1,17 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { GetPostListQuery, PostListItem } from '@/app/api/post/type';
+import { PostListItem } from '@/app/api/post/type';
+import { PostSearchItemProps } from '@/app/api/post/search/type';
 import usePostScrapQuery from '@/app/api/post/scrap/queries';
-import usePostListQuery from '@/app/api/post/queries';
 import useObserver from '@/app/hooks/useObserver';
-import QuestionCard from '../../common/QuestionCard';
-import SkeletonComp from '../../common/SkeletonComp';
+import QuestionCard from './QuestionCard';
+import SkeletonComp from './SkeletonComp';
 
 interface ListBoxProps {
-  filter: Omit<GetPostListQuery, 'offset'>;
+  list: PostListItem[] | PostSearchItemProps[];
+  infiniteCallback?: () => void;
 }
 
 const ListWrapperUl = styled.ul`
@@ -24,26 +24,17 @@ const ListWrapperUl = styled.ul`
   }
 `;
 
-const ListBox = ({ filter }: ListBoxProps) => {
-  const [postList, setPostList] = useState<PostListItem[]>([]);
-
-  const { data } = usePostListQuery(filter);
+const ListBox = ({ list, infiniteCallback }: ListBoxProps) => {
   const { data: userScrapData } = usePostScrapQuery();
 
   const { observerRef } = useObserver(true, () => {
-    // TODO: Infinity scroll 구현
+    if (infiniteCallback) infiniteCallback();
   });
-
-  useEffect(() => {
-    if (data?.pages) {
-      setPostList(data?.pages[0].list);
-    }
-  }, [data]);
 
   return (
     <ListWrapperUl>
-      {data ? (
-        postList.map((post, idx) => {
+      {list ? (
+        list.map((post, idx) => {
           const {
             id,
             status,
@@ -64,7 +55,7 @@ const ListBox = ({ filter }: ListBoxProps) => {
 
           const isScrap = userScrapData?.list.find((item) => item.post_id === id);
 
-          return idx === postList.length - 1 ? (
+          return idx === list.length - 1 ? (
             <li key={`post-list-item-${post.id}`}>
               <div ref={observerRef}>
                 <Link href={`/qna/${post.id}`}>

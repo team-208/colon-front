@@ -11,7 +11,6 @@ import DropdownMobile from './DropdownMobile';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import icon_search from '@/app/assets/images/header/icon_search.png';
 import usePostSearchQuery from '@/app/api/post/search/queries';
-import { PostSearchItemProps } from '@/app/api/post/search/type';
 
 const ContainerFlex = styled(HeaderComp.Container)<{ $isActive: boolean }>`
   display: flex;
