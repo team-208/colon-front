@@ -24,6 +24,8 @@ export interface HistoryPost {
   authorNickname: string;
   title: string;
   previewBody: string;
+  userReaction?: ReactionType;
+  isScrap?: boolean;
 }
 
 export interface HistoryComment {

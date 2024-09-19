@@ -167,6 +167,15 @@ export async function GET(request: NextRequest, response: Response) {
 
       const reactions = userReactions?.reactions as UserReactionProps;
 
+      const { data: scrapList, error: scrapGetError } = await supabase
+        .from('scraps')
+        .select('id, post_id, created_at')
+        .eq('user_id', userId);
+
+      if (scrapGetError) {
+        return NextResponse.json({ success: false, scrapGetError });
+      }
+
       const { data: postHistory, error: postGetError } = await postQuery
         .order('id', { ascending: false })
         .in('id', reactions?.posts?.map((v) => v.postId));
@@ -176,6 +185,9 @@ export async function GET(request: NextRequest, response: Response) {
       }
 
       const reactionHistoryList = postHistory.map((post: PostListItem) => {
+        const userReaction = reactions.posts.find(({ postId }) => postId === post.id.toString())
+          ?.reactions;
+        const isScrap = scrapList.some(({ post_id }) => post_id === post.id);
         return {
           type: 'POST',
           post: {
@@ -186,6 +198,8 @@ export async function GET(request: NextRequest, response: Response) {
             authorNickname: post.author_nickname,
             title: post.title,
             previewBody: post.preview_body,
+            userReaction,
+            isScrap,
           },
           updatedAt: post.updated_at,
         };
