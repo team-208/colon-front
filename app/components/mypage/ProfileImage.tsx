@@ -5,11 +5,18 @@ import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import useAuth from '@/app/hooks/useAuth';
 import { PROFILE_CDN, IMAGE_CDN } from '@/app/constants/externalUrls';
+import DropDown from '../common/DropDown';
 
 interface Props {
   isModify: boolean;
   updateProfileFile: (file: File) => void;
 }
+
+const ContainerDiv = styled.div`
+  position: relative;
+  width: max-content;
+  height: max-content;
+`;
 
 const ProfileImageDiv = styled.div`
   position: relative;
@@ -39,10 +46,30 @@ const ModifyImageDiv = styled.div`
   z-index: 5;
 `;
 
+const DropDownUl = styled.ul`
+  padding: 8px 0;
+
+  li {
+    cursor: pointer;
+    width: max-content;
+    min-width: 100px;
+    height: 32px;
+    padding: 6px 12px;
+    ${({ theme }) => theme.font.caption1}
+    color: ${({ theme }) => theme.color.label.normal};
+    font-weight: 400;
+
+    &:last-of-type {
+      color: ${({ theme }) => theme.color.interaction.inactive};
+    }
+  }
+`;
+
 const ProfileImage = (props: Props) => {
   const { userInfo } = useAuth();
   const { isModify, updateProfileFile } = props;
   const [profile, setProfile] = useState<File | null>(null);
+  const [isClick, setIsClick] = useState(false);
 
   const imageSrc = useMemo(() => {
     const modifiedProfileUrl = profile && URL.createObjectURL(profile);
@@ -53,19 +80,21 @@ const ProfileImage = (props: Props) => {
   }, [profile, userInfo?.user]);
 
   const clickModifyIcon = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/png, image/jpeg';
-    input.click();
+    setIsClick((v) => !v);
 
-    input.addEventListener('change', async () => {
-      if (input.files) {
-        setProfile(input.files[0]);
-      } else {
-        // TODO: 에러처리
-        console.log('error');
-      }
-    });
+    // const input = document.createElement('input');
+    // input.type = 'file';
+    // input.accept = 'image/png, image/jpeg';
+    // input.click();
+
+    // input.addEventListener('change', async () => {
+    //   if (input.files) {
+    //     setProfile(input.files[0]);
+    //   } else {
+    //     // TODO: 에러처리
+    //     console.log('error');
+    //   }
+    // });
   };
 
   useEffect(() => {
@@ -81,14 +110,26 @@ const ProfileImage = (props: Props) => {
   }, [isModify]);
 
   return (
-    <ProfileImageDiv>
-      <Image src={imageSrc} alt="프로필 이미지" fill sizes="72px" />
-      {isModify && (
-        <ModifyImageDiv onClick={clickModifyIcon}>
-          <Image src={`${IMAGE_CDN}/icon/Camera.png`} alt="수정아이콘" width={32} height={32} />
-        </ModifyImageDiv>
-      )}
-    </ProfileImageDiv>
+    <ContainerDiv>
+      <ProfileImageDiv>
+        <Image src={imageSrc} alt="프로필 이미지" fill sizes="72px" />
+        {isModify && (
+          <ModifyImageDiv onClick={clickModifyIcon}>
+            <Image src={`${IMAGE_CDN}/icon/Camera.png`} alt="수정아이콘" width={32} height={32} />
+          </ModifyImageDiv>
+        )}
+      </ProfileImageDiv>
+      <DropDown isActive={isClick} distance={{ desktop: 10, mobile: 8 }}>
+        <DropDownUl>
+          <li onClick={() => {}}>
+            <p>프로필 사진 추가</p>
+          </li>
+          <li onClick={() => {}}>
+            <p>기본사진으로 돌아가기</p>
+          </li>
+        </DropDownUl>
+      </DropDown>
+    </ContainerDiv>
   );
 };
 
