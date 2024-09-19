@@ -6,7 +6,11 @@ import styled from 'styled-components';
 import { ReactNode } from 'react';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import PostComp from '../common/PostComp';
+import Modal from '../common/ModalComp';
+import useModal from '@/app/hooks/useModal';
 import { HistoryPost } from '@/app/api/auth/history/type';
+import { useDeletePostMutation } from '@/app/api/post/[id]/mutations';
+import useHistoryQuery from '@/app/api/auth/history/queries';
 
 interface Props extends HistoryPost {
   isDelete?: boolean;
@@ -85,6 +89,7 @@ const DeleteButton = styled.button`
 `;
 
 const PostCard = ({
+  postId,
   title,
   postStatus,
   previewBody,
@@ -94,8 +99,36 @@ const PostCard = ({
   children,
   isDelete,
 }: Props) => {
-  const handleDeleteClick = () => {
-    // TODO: post 삭제 api 연동
+  const { openModal, closeModal } = useModal();
+  const { mutateAsync: postDeleteMutation } = useDeletePostMutation();
+  const { refetch: historyRefetch } = useHistoryQuery({ historyType: 'ACTIVITY' });
+
+  const handleDeleteClick = async () => {
+    openModal({
+      modalProps: {
+        contents: (
+          <Modal.Confirm
+            isReverseButton
+            confirmLabel="삭제하기"
+            cancelLabel="취소"
+            onConfirm={async () => {
+              const res = await postDeleteMutation(postId);
+              if (res.success) {
+                await historyRefetch();
+              }
+              closeModal();
+            }}
+            onCancel={() => {
+              closeModal();
+            }}
+          >
+            글을 삭제하시면
+            <br />
+            글, 반응, 댓글 모두 사라져요.
+          </Modal.Confirm>
+        ),
+      },
+    });
   };
 
   return (

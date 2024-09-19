@@ -27,7 +27,8 @@ export async function GET(request: NextRequest, response: Response) {
       .select(
         '*, posts!comments_post_id_fkey ( id, status, title, preview_body, author_major, requested_major, author_nickname )',
       )
-      .eq('user_id', userId);
+      .eq('user_id', userId)
+      .neq('author_nickname', null);
 
     // 활동내역 list
     if (historyType === 'ACTIVITY') {

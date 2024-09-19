@@ -65,7 +65,7 @@ const ScarpIcon = styled(Image)`
   transform: translateY(-50%);
 `;
 
-const ReactionContent = async () => {
+const ReactionContent = () => {
   const { data } = useHistoryQuery({ historyType: 'REACTIONS' });
 
   return (
