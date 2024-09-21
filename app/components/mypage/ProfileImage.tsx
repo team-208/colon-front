@@ -9,7 +9,7 @@ import DropDown from '../common/DropDown';
 
 interface Props {
   isModify: boolean;
-  updateProfileFile: (file: File) => void;
+  updateProfileFile: (file: File | null) => void;
 }
 
 const ContainerDiv = styled.div`
@@ -58,10 +58,6 @@ const DropDownUl = styled.ul`
     ${({ theme }) => theme.font.caption1}
     color: ${({ theme }) => theme.color.label.normal};
     font-weight: 400;
-
-    &:last-of-type {
-      color: ${({ theme }) => theme.color.interaction.inactive};
-    }
   }
 `;
 
@@ -69,32 +65,43 @@ const ProfileImage = (props: Props) => {
   const { userInfo } = useAuth();
   const { isModify, updateProfileFile } = props;
   const [profile, setProfile] = useState<File | null>(null);
+  const [isReset, setIsReset] = useState(false);
   const [isClick, setIsClick] = useState(false);
 
   const imageSrc = useMemo(() => {
     const modifiedProfileUrl = profile && URL.createObjectURL(profile);
-    return (
-      modifiedProfileUrl ||
-      `${PROFILE_CDN}/${userInfo?.user?.profile_url || `default_${userInfo?.user?.major}.png`}`
-    );
-  }, [profile, userInfo?.user]);
+
+    return isReset
+      ? `${PROFILE_CDN}/default_${userInfo?.user?.major}.png`
+      : modifiedProfileUrl ||
+          `${PROFILE_CDN}/${userInfo?.user?.profile_url || `default_${userInfo?.user?.major}.png`}`;
+  }, [isReset, profile, userInfo?.user]);
 
   const clickModifyIcon = () => {
     setIsClick((v) => !v);
+  };
 
-    // const input = document.createElement('input');
-    // input.type = 'file';
-    // input.accept = 'image/png, image/jpeg';
-    // input.click();
+  const modifyProfile = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/png, image/jpeg';
+    input.click();
+    setIsClick(false);
 
-    // input.addEventListener('change', async () => {
-    //   if (input.files) {
-    //     setProfile(input.files[0]);
-    //   } else {
-    //     // TODO: 에러처리
-    //     console.log('error');
-    //   }
-    // });
+    input.addEventListener('change', async () => {
+      if (input.files) {
+        setProfile(input.files[0]);
+        setIsReset(false);
+      } else {
+        // TODO: 에러처리
+        console.log('error');
+      }
+    });
+  };
+
+  const resetProfile = () => {
+    setIsClick(false);
+    setIsReset(true);
   };
 
   useEffect(() => {
@@ -106,6 +113,8 @@ const ProfileImage = (props: Props) => {
   useEffect(() => {
     if (!isModify) {
       setProfile(null);
+      setIsClick(false);
+      setIsReset(false);
     }
   }, [isModify]);
 
@@ -121,10 +130,10 @@ const ProfileImage = (props: Props) => {
       </ProfileImageDiv>
       <DropDown isActive={isClick} distance={{ desktop: 10, mobile: 8 }}>
         <DropDownUl>
-          <li onClick={() => {}}>
+          <li onClick={modifyProfile}>
             <p>프로필 사진 추가</p>
           </li>
-          <li onClick={() => {}}>
+          <li onClick={resetProfile}>
             <p>기본사진으로 돌아가기</p>
           </li>
         </DropDownUl>
