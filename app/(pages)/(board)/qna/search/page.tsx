@@ -16,13 +16,17 @@ const ContainerMain = styled.main`
   }
 `;
 
+const StyledSection = styled(Section)`
+  height: 100%;
+`;
+
 const QuestionSearchPage = () => {
   return (
     <ContainerMain>
       <SearchHeader />
-      <Section direction="column" padding="0">
+      <StyledSection direction="column" padding="0">
         <QnaSerachList />
-      </Section>
+      </StyledSection>
     </ContainerMain>
   );
 };
