@@ -3,7 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SearchHeader from '@/app/components/common/SearchHeader';
-import QnaSerachList from '@/app/components/board/qna/search/QnaSerachList';
+import QnaSearchList from '@/app/components/board/qna/search/QnaSearchList';
 import Section from '@/app/components/common/Section';
 
 const ContainerMain = styled.main`
@@ -25,7 +25,7 @@ const QuestionSearchPage = () => {
     <ContainerMain>
       <SearchHeader />
       <StyledSection direction="column" padding="0">
-        <QnaSerachList />
+        <QnaSearchList />
       </StyledSection>
     </ContainerMain>
   );
