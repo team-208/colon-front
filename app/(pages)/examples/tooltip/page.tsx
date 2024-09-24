@@ -35,9 +35,7 @@ export default function TooltipPage() {
       >
         top bubble
         {isOpenTopBubble && (
-          <TooltipComp.Bubble bubblePosition={{ align: 'top', top: '-50px', left: '-15px' }}>
-            top tooltip
-          </TooltipComp.Bubble>
+          <TooltipComp.Bubble bubblePosition={{ align: 'top' }}>top tooltip</TooltipComp.Bubble>
         )}
       </BubbleButton>
 
@@ -48,9 +46,7 @@ export default function TooltipPage() {
       >
         left bubble
         {isOpenLeftBubble && (
-          <TooltipComp.Bubble bubblePosition={{ align: 'left', top: '-10px', left: '-100px' }}>
-            left tooltip
-          </TooltipComp.Bubble>
+          <TooltipComp.Bubble bubblePosition={{ align: 'left' }}>left tooltip</TooltipComp.Bubble>
         )}
       </BubbleButton>
 
@@ -61,7 +57,7 @@ export default function TooltipPage() {
       >
         bottom bubble
         {isOpenBottomBubble && (
-          <TooltipComp.Bubble bubblePosition={{ align: 'bottom', left: '-15px' }}>
+          <TooltipComp.Bubble bubblePosition={{ align: 'bottom' }}>
             bottom tooltip
           </TooltipComp.Bubble>
         )}
@@ -74,9 +70,7 @@ export default function TooltipPage() {
       >
         right bubble
         {isOpenRightBubble && (
-          <TooltipComp.Bubble bubblePosition={{ align: 'right', left: '70px', top: '-10px' }}>
-            right tooltip
-          </TooltipComp.Bubble>
+          <TooltipComp.Bubble bubblePosition={{ align: 'right' }}>right tooltip</TooltipComp.Bubble>
         )}
       </BubbleButton>
     </div>

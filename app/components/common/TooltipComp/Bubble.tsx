@@ -19,6 +19,82 @@ interface Props {
   children: ReactNode;
 }
 
+const topStyle = ({
+  $top,
+  $left,
+  $bottom,
+  $right,
+}: {
+  $top?: string;
+  $left?: string;
+  $bottom?: string;
+  $right?: string;
+}) => css`
+  top: ${$top ?? '0px'};
+  left: ${$left ?? '50%'};
+  bottom: ${$bottom ?? 'initial'};
+  right: ${$right ?? 'initial'};
+  transform: translate(-50%, -100%);
+  flex-direction: column;
+`;
+
+const leftStyle = ({
+  $top,
+  $left,
+  $bottom,
+  $right,
+}: {
+  $top?: string;
+  $left?: string;
+  $bottom?: string;
+  $right?: string;
+}) => css`
+  top: ${$top ?? '50%'};
+  left: ${$left ?? '0px'};
+  bottom: ${$bottom ?? 'initial'};
+  right: ${$right ?? 'initial'};
+  transform: translate(-100%, -50%);
+  flex-direction: row;
+`;
+
+const bottomStyle = ({
+  $top,
+  $left,
+  $bottom,
+  $right,
+}: {
+  $top?: string;
+  $left?: string;
+  $bottom?: string;
+  $right?: string;
+}) => css`
+  top: ${$top ?? 'initial'};
+  left: ${$left ?? '50%'};
+  bottom: ${$bottom ?? '0px'};
+  right: ${$right ?? 'initial'};
+  transform: translate(-50%, 100%);
+  flex-direction: column;
+`;
+
+const rightStyle = ({
+  $top,
+  $left,
+  $bottom,
+  $right,
+}: {
+  $top?: string;
+  $left?: string;
+  $bottom?: string;
+  $right?: string;
+}) => css`
+  top: ${$top ?? '50%'};
+  left: ${$left ?? 'initial'};
+  bottom: ${$bottom ?? 'initial'};
+  right: ${$right ?? '0px'};
+  transform: translate(100%, -50%);
+  flex-direction: row;
+`;
+
 const ContainerDiv = styled.div<{
   $align: 'top' | 'left' | 'bottom' | 'right';
   $top?: string;
@@ -27,13 +103,11 @@ const ContainerDiv = styled.div<{
   $right?: string;
 }>`
   position: absolute;
-  top: ${({ $top }) => $top ?? 'initial'};
-  left: ${({ $left }) => $left ?? 'initial'};
-  bottom: ${({ $bottom }) => $bottom ?? 'initial'};
-  right: ${({ $right }) => $right ?? 'initial'};
-
   display: flex;
-  flex-direction: ${({ $align }) => ($align === 'top' || $align === 'bottom' ? 'column' : 'row')};
+  ${({ $align }) => $align === 'top' && topStyle}
+  ${({ $align }) => $align === 'left' && leftStyle}
+  ${({ $align }) => $align === 'bottom' && bottomStyle}
+  ${({ $align }) => $align === 'right' && rightStyle}
 `;
 
 const ContentWrapperDiv = styled.div<{ $backgroundColor?: string }>`
