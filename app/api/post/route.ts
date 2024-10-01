@@ -57,7 +57,7 @@ export async function POST(request: Request) {
           preview_body,
           tags,
           author_major,
-          author_profile_url,
+          author_profile_url: author_profile_url ?? '',
           author_nickname,
           body_url: postData?.path,
           created_at: createdDate,
