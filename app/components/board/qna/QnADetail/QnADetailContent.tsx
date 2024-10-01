@@ -158,7 +158,7 @@ const QnADetailContent = ({ post }: Props) => {
   );
 
   const handleDeletePost = () => {
-    mutateAsync(id.toString());
+    mutateAsync(id);
     push('/qna');
   };
 
@@ -175,7 +175,8 @@ const QnADetailContent = ({ post }: Props) => {
         authorMajor={author_major}
         requestedMajor={requested_major}
         nickname={author_nickname}
-        updatedAt={updated_at ?? created_at}
+        createdAt={created_at}
+        updatedAt={updated_at}
       />
 
       <DividerComp.Horizonal height={1} />

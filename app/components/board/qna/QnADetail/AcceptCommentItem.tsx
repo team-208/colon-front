@@ -22,6 +22,7 @@ interface Props {
   commentId: number;
   authorMajor: JOB_GROUP_TYPES;
   authorNickName: string;
+  createdAt: string;
   updatedAt: string;
   isSelected: boolean;
   comment: string;
@@ -76,6 +77,7 @@ const AcceptCommentItem = ({
   commentId,
   authorMajor,
   authorNickName,
+  createdAt,
   updatedAt,
   isSelected,
   comment,
@@ -185,6 +187,7 @@ const AcceptCommentItem = ({
       <CommentComp.Header
         major={authorMajor}
         nickname={authorNickName}
+        createdAt={createdAt}
         updatedAt={updatedAt}
         isSelected={isSelected}
         isAuthor={userInfo?.user?.nick_name === authorNickName}

@@ -133,7 +133,8 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                       commentId={id}
                       authorMajor={author_major}
                       authorNickName={author_nickname}
-                      updatedAt={updated_at || created_at}
+                      createdAt={created_at}
+                      updatedAt={updated_at}
                       isSelected={acceptedCommentId?.includes(id)}
                       comment={comment}
                       likeCount={reaction_count}
@@ -195,7 +196,8 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                           isNestedComment={!!original_comment}
                           authorMajor={author_major}
                           authorNickName={author_nickname}
-                          updatedAt={updated_at || created_at}
+                          createdAt={created_at}
+                          updatedAt={updated_at}
                           isSelected={acceptedCommentId?.includes(id)}
                           comment={comment}
                           isVisibleChoice={
@@ -225,7 +227,8 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                               isNestedComment
                               authorMajor={item.author_major}
                               authorNickName={item.author_nickname}
-                              updatedAt={item.updated_at || item.created_at}
+                              createdAt={item.created_at}
+                              updatedAt={item.updated_at}
                               isSelected={acceptedCommentId?.includes(item.id)}
                               comment={item.comment}
                               isVisibleChoice={

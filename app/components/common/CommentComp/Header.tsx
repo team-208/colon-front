@@ -13,6 +13,7 @@ import { useMemo } from 'react';
 interface Props {
   major: JOB_GROUP_TYPES;
   nickname: string;
+  createdAt: string;
   updatedAt: string;
   isSelected: boolean;
   isAuthor: boolean;
@@ -77,6 +78,7 @@ const DeleteOption = styled(Selector.Option)`
 const Header = ({
   major,
   nickname,
+  createdAt,
   updatedAt,
   isSelected,
   isAuthor,
@@ -104,7 +106,9 @@ const Header = ({
               <span>•</span>
             </>
           )}
-          <span>{dateText(dayjs(updatedAt))} (편집됨)</span>
+          <span>
+            {dateText(dayjs(updatedAt))} {updatedAt !== createdAt && '(편집됨)'}
+          </span>
         </AuthorP>
       </UserInfoDiv>
 

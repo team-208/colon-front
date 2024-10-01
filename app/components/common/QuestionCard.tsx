@@ -163,6 +163,7 @@ const QuestionCard = ({
         authorMajor={author_major}
         requestedMajor={requested_major}
         nickname={author_nickname}
+        createdAt={dayjs(created_at).format('YYYY-MM-DD HH:mm:ss')}
         updatedAt={dayjs(updated_at).format('YYYY-MM-DD HH:mm:ss')}
       />
 
