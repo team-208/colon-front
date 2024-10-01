@@ -40,7 +40,7 @@ export interface GetUserResponse extends Session {
 
 export interface UpdateUserRequest {
   major?: JOB_GROUP_TYPES;
-  profile_url?: string;
+  profile_url?: string | null;
   nick_name?: string;
   updated_at?: dayjs.Dayjs;
 }

@@ -14,7 +14,6 @@ interface Props {
 
 const Container = styled.section<{ $dir: Direction; $padding: string; $margin: string }>`
   display: flex;
-  height: 100%;
   flex-direction: ${({ $dir }) => $dir};
   padding: ${({ $padding }) => $padding};
   margin: ${({ $margin }) => $margin};
@@ -24,10 +23,9 @@ const Container = styled.section<{ $dir: Direction; $padding: string; $margin: s
   }
 `;
 
-const Section = (props: Props) => {
-  const { direction, children, padding, margin } = props;
+const Section = ({ direction, children, padding, margin, ...props }: Props) => {
   return (
-    <Container $dir={direction} $padding={padding ?? '16px'} $margin={margin ?? '0'}>
+    <Container $dir={direction} $padding={padding ?? '16px'} $margin={margin ?? '0'} {...props}>
       {children}
     </Container>
   );
