@@ -101,14 +101,13 @@ const ProfileImage = (props: Props) => {
   };
 
   const resetProfile = () => {
-    setIsClick(false);
     setIsReset(true);
+    setProfile(null);
+    setIsClick(false);
   };
 
   useEffect(() => {
-    if (profile) {
-      updateProfileFile(profile);
-    }
+    updateProfileFile(profile);
   }, [profile]);
 
   useEffect(() => {
