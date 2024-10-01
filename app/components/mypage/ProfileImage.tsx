@@ -54,6 +54,7 @@ const DropDownUl = styled.ul`
     width: max-content;
     min-width: 100px;
     height: 32px;
+    line-height: 20px !important;
     padding: 6px 12px;
     ${({ theme }) => theme.font.caption1}
     color: ${({ theme }) => theme.color.label.normal};
@@ -134,7 +135,7 @@ const ProfileImage = (props: Props) => {
             <p>프로필 사진 추가</p>
           </li>
           <li onClick={resetProfile}>
-            <p>기본사진으로 돌아가기</p>
+            <p>기본 사진으로 돌아가기</p>
           </li>
         </DropDownUl>
       </DropDown>
