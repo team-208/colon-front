@@ -32,6 +32,7 @@ const SelectorButton = styled.button`
   display: flex;
   align-items: center;
   ${({ theme }) => theme.font.caption1};
+  font-weight: 400;
   color: ${({ theme }) => theme.color.label.normal};
   padding: 4px 8px;
   background-color: transparent;
@@ -55,6 +56,7 @@ const OptionDiv = styled.div`
 // TODO: $isActive 처리 디자인 나오면 수정
 const OptionLi = styled.li<{ $isActive: boolean }>`
   ${({ theme }) => theme.font.caption1};
+  font-weight: 400;
   color: ${({ theme, $isActive }) => ($isActive ? theme.color.primary.normal : '#000000')};
   width: 100px;
   padding: 6px 12px;
