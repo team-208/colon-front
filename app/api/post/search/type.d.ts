@@ -19,7 +19,7 @@ interface PostSearchItemProps {
   // TODO: tanstack hydrate 적용후 select 에서 ReactionsObjType 변환 필요
   reactions: string;
   comments_count: number;
-  accept_comment_id: number;
+  accept_comment_id: number[];
 }
 
 export interface GetPostSearchResponse {

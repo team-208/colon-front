@@ -158,7 +158,7 @@ const QnADetailContent = ({ post }: Props) => {
   );
 
   const handleDeletePost = () => {
-    mutateAsync(id.toString());
+    mutateAsync(id);
     push('/qna');
   };
 
