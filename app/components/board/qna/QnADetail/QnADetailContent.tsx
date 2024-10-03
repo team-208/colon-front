@@ -58,6 +58,7 @@ const DeleteOption = styled(Selector.Option)`
 `;
 
 const ReportButton = styled(ButtonComp.OutlinedPrimary)`
+  height: 22px;
   padding: 4px 8px;
   border-radius: 7px;
   ${({ theme }) => theme.font.caption2};
@@ -228,8 +229,8 @@ const QnADetailContent = ({ post }: Props) => {
           </Selector>
         ) : (
           <ReportButton isActive onClick={handleReport}>
-          신고
-        </ReportButton>
+            신고
+          </ReportButton>
         )}
       </SubtitleBoxDiv>
 

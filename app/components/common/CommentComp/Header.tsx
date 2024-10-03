@@ -77,6 +77,7 @@ const DeleteOption = styled(Selector.Option)`
 `;
 
 const ReportButton = styled(ButtonComp.OutlinedPrimary)`
+  height: 22px;
   padding: 4px 8px;
   border-radius: 7px;
   ${({ theme }) => theme.font.caption2};
