@@ -18,6 +18,7 @@ interface Props {
   updatedAt: string;
   isSelected: boolean;
   isAuthor: boolean;
+  activeReport?: boolean;
   onClickModify: () => void;
   onClickDelete: () => void;
 }
@@ -90,6 +91,7 @@ const Header = ({
   updatedAt,
   isSelected,
   isAuthor,
+  activeReport = true,
   onClickModify,
   onClickDelete,
 }: Props) => {
@@ -135,9 +137,13 @@ const Header = ({
           <DeleteOption idx={1} text="삭제" clickEvent={onClickDelete} />
         </Selector>
       ) : (
-        <ReportButton isActive onClick={handleReport}>
-          신고
-        </ReportButton>
+        <>
+          {activeReport && (
+            <ReportButton isActive={false} onClick={handleReport}>
+              신고
+            </ReportButton>
+          )}
+        </>
       )}
     </ContainerDiv>
   );

@@ -25,6 +25,7 @@ interface Props {
   createdAt: string;
   updatedAt: string;
   isSelected: boolean;
+  activeReport: boolean;
   comment: string;
   likeCount: number;
   acceptCommentList: number[];
@@ -80,6 +81,7 @@ const AcceptCommentItem = ({
   createdAt,
   updatedAt,
   isSelected,
+  activeReport,
   comment,
   likeCount,
   nestedCommentCount,
@@ -193,6 +195,7 @@ const AcceptCommentItem = ({
         isAuthor={userInfo?.user?.nick_name === authorNickName}
         onClickModify={handleClickModifyOpen}
         onClickDelete={handleClickDelete}
+        activeReport={activeReport}
       />
       <CommentP>{comment}</CommentP>
       {isModify && (

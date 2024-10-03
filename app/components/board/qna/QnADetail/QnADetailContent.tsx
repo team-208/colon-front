@@ -228,7 +228,7 @@ const QnADetailContent = ({ post }: Props) => {
             <DeleteOption idx={1} text="삭제" clickEvent={handleDeletePost} />
           </Selector>
         ) : (
-          <ReportButton isActive onClick={handleReport}>
+          <ReportButton isActive={false} onClick={handleReport}>
             신고
           </ReportButton>
         )}

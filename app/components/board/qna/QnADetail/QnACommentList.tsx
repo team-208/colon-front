@@ -136,6 +136,7 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                       createdAt={created_at}
                       updatedAt={updated_at}
                       isSelected={acceptedCommentId?.includes(id)}
+                      activeReport={false}
                       comment={comment}
                       likeCount={reaction_count}
                       nestedCommentCount={nestedComments?.length ?? 0}
@@ -190,6 +191,21 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                   <React.Fragment key={`comment-item-${id}`}>
                     <li>
                       {isAcceptComment ? (
+                        <AcceptCommentItem
+                        postId={postId}
+                        commentId={id}
+                        authorMajor={author_major}
+                        authorNickName={author_nickname}
+                        createdAt={created_at}
+                        updatedAt={updated_at}
+                        isSelected={acceptedCommentId?.includes(id)}
+                        activeReport={true}
+                        comment={comment}
+                        likeCount={reaction_count}
+                        nestedCommentCount={nestedComments?.length ?? 0}
+                        acceptCommentList={acceptedCommentId || []}
+                      />
+                      ) : (
                         <CommentItem
                           postId={postId}
                           commentId={id}
@@ -213,20 +229,6 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                           onChangeNestedCommentVisible={(isOpen) => {
                             handleChangeNestedCommentVisible(isOpen, id);
                           }}
-                          acceptCommentList={acceptedCommentId || []}
-                        />
-                      ) : (
-                        <AcceptCommentItem
-                          postId={postId}
-                          commentId={id}
-                          authorMajor={author_major}
-                          authorNickName={author_nickname}
-                          createdAt={created_at}
-                          updatedAt={updated_at}
-                          isSelected={acceptedCommentId?.includes(id)}
-                          comment={comment}
-                          likeCount={reaction_count}
-                          nestedCommentCount={nestedComments?.length ?? 0}
                           acceptCommentList={acceptedCommentId || []}
                         />
                       )}
