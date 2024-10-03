@@ -172,24 +172,24 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
           </FilterDiv>
 
           <ul>
-            {commentList
-              ?.filter((v) => !acceptedCommentId?.includes(v.id))
-              .map(
-                ({
-                  id,
-                  author_nickname,
-                  created_at,
-                  updated_at,
-                  comment,
-                  original_comment,
-                  nestedComments,
-                  author_major,
-                  reaction_count,
-                }) => {
-                  const isAuthorComment = userInfo?.user?.nick_name === author_nickname;
-                  return (
-                    <React.Fragment key={`comment-item-${id}`}>
-                      <li>
+            {commentList.map(
+              ({
+                id,
+                author_nickname,
+                created_at,
+                updated_at,
+                comment,
+                original_comment,
+                nestedComments,
+                author_major,
+                reaction_count,
+              }) => {
+                const isAuthorComment = userInfo?.user?.nick_name === author_nickname;
+                const isAcceptComment = acceptCommentList?.some((v) => v.id === id);
+                return (
+                  <React.Fragment key={`comment-item-${id}`}>
+                    <li>
+                      {isAcceptComment ? (
                         <CommentItem
                           postId={postId}
                           commentId={id}
@@ -215,44 +215,59 @@ const QnACommentList = ({ postId, acceptedCommentId, postAuthor }: Props) => {
                           }}
                           acceptCommentList={acceptedCommentId || []}
                         />
-                      </li>
-                      {nestedComments?.map((item, idx) => {
-                        const isAuthorNestedComment =
-                          userInfo?.user?.nick_name === item.author_nickname;
-                        return (
-                          <li key={`nested-comment-item-${item.id}`}>
-                            <CommentItem
-                              postId={postId}
-                              commentId={item.id}
-                              isNestedComment
-                              authorMajor={item.author_major}
-                              authorNickName={item.author_nickname}
-                              createdAt={item.created_at}
-                              updatedAt={item.updated_at}
-                              isSelected={acceptedCommentId?.includes(item.id)}
-                              comment={item.comment}
-                              isVisibleChoice={
-                                isAuthor &&
-                                !isAuthorNestedComment &&
-                                (!acceptedCommentId || acceptedCommentId?.length < 3)
-                              }
-                              likeCount={item.reaction_count}
-                              isOpenNestedCommentWrite={
-                                openedNestedComment.isOpen &&
-                                openedNestedComment.commentId === item.id
-                              }
-                              onChangeNestedCommentVisible={(isOpen) => {
-                                handleChangeNestedCommentVisible(isOpen, item.id);
-                              }}
-                              acceptCommentList={acceptedCommentId || []}
-                            />
-                          </li>
-                        );
-                      })}
-                    </React.Fragment>
-                  );
-                },
-              )}
+                      ) : (
+                        <AcceptCommentItem
+                          postId={postId}
+                          commentId={id}
+                          authorMajor={author_major}
+                          authorNickName={author_nickname}
+                          createdAt={created_at}
+                          updatedAt={updated_at}
+                          isSelected={acceptedCommentId?.includes(id)}
+                          comment={comment}
+                          likeCount={reaction_count}
+                          nestedCommentCount={nestedComments?.length ?? 0}
+                          acceptCommentList={acceptedCommentId || []}
+                        />
+                      )}
+                    </li>
+                    {nestedComments?.map((item, idx) => {
+                      const isAuthorNestedComment =
+                        userInfo?.user?.nick_name === item.author_nickname;
+                      return (
+                        <li key={`nested-comment-item-${item.id}`}>
+                          <CommentItem
+                            postId={postId}
+                            commentId={item.id}
+                            isNestedComment
+                            authorMajor={item.author_major}
+                            authorNickName={item.author_nickname}
+                            createdAt={item.created_at}
+                            updatedAt={item.updated_at}
+                            isSelected={acceptedCommentId?.includes(item.id)}
+                            comment={item.comment}
+                            isVisibleChoice={
+                              isAuthor &&
+                              !isAuthorNestedComment &&
+                              (!acceptedCommentId || acceptedCommentId?.length < 3)
+                            }
+                            likeCount={item.reaction_count}
+                            isOpenNestedCommentWrite={
+                              openedNestedComment.isOpen &&
+                              openedNestedComment.commentId === item.id
+                            }
+                            onChangeNestedCommentVisible={(isOpen) => {
+                              handleChangeNestedCommentVisible(isOpen, item.id);
+                            }}
+                            acceptCommentList={acceptedCommentId || []}
+                          />
+                        </li>
+                      );
+                    })}
+                  </React.Fragment>
+                );
+              },
+            )}
           </ul>
         </ConatinerDiv>
       </Section>
