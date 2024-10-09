@@ -11,6 +11,7 @@ interface Props {
   authorMajor: JOB_GROUP_TYPES;
   requestedMajor: JOB_GROUP_TYPES;
   nickname: string;
+  createdAt: string;
   updatedAt: string;
 }
 
@@ -43,7 +44,7 @@ const AuthorP = styled.p`
   }
 `;
 
-const Header = ({ className, authorMajor, requestedMajor, nickname, updatedAt }: Props) => {
+const Header = ({ className, authorMajor, requestedMajor, nickname, createdAt, updatedAt }: Props) => {
   return (
     <div className={className}>
       <MajorBox authorMajor={authorMajor} requestedMajor={requestedMajor} />
@@ -51,7 +52,7 @@ const Header = ({ className, authorMajor, requestedMajor, nickname, updatedAt }:
       <AuthorP>
         <span>{nickname}</span>
         <span>•</span>
-        <span>{dateText(dayjs(updatedAt))} (편집됨)</span>
+        <span>{dateText(dayjs(updatedAt))} {updatedAt !== createdAt &&'(편집됨)'}</span>
       </AuthorP>
     </div>
   );

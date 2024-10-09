@@ -22,8 +22,10 @@ interface Props {
   commentId: number;
   authorMajor: JOB_GROUP_TYPES;
   authorNickName: string;
+  createdAt: string;
   updatedAt: string;
   isSelected: boolean;
+  activeReport: boolean;
   comment: string;
   likeCount: number;
   acceptCommentList: number[];
@@ -76,8 +78,10 @@ const AcceptCommentItem = ({
   commentId,
   authorMajor,
   authorNickName,
+  createdAt,
   updatedAt,
   isSelected,
+  activeReport,
   comment,
   likeCount,
   nestedCommentCount,
@@ -185,11 +189,13 @@ const AcceptCommentItem = ({
       <CommentComp.Header
         major={authorMajor}
         nickname={authorNickName}
+        createdAt={createdAt}
         updatedAt={updatedAt}
         isSelected={isSelected}
         isAuthor={userInfo?.user?.nick_name === authorNickName}
         onClickModify={handleClickModifyOpen}
         onClickDelete={handleClickDelete}
+        activeReport={activeReport}
       />
       <CommentP>{comment}</CommentP>
       {isModify && (

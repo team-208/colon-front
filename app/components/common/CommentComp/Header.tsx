@@ -7,15 +7,18 @@ import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
+import ButtonComp from '../ButtomComp';
 import Selector from '../Selector';
 import { useMemo } from 'react';
 
 interface Props {
   major: JOB_GROUP_TYPES;
   nickname: string;
+  createdAt: string;
   updatedAt: string;
   isSelected: boolean;
   isAuthor: boolean;
+  activeReport?: boolean;
   onClickModify: () => void;
   onClickDelete: () => void;
 }
@@ -74,16 +77,29 @@ const DeleteOption = styled(Selector.Option)`
   color: ${({ theme }) => theme.color.status.destructive};
 `;
 
+const ReportButton = styled(ButtonComp.OutlinedPrimary)`
+  height: 22px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  ${({ theme }) => theme.font.caption2};
+`;
+
 const Header = ({
   major,
   nickname,
+  createdAt,
   updatedAt,
   isSelected,
   isAuthor,
+  activeReport = true,
   onClickModify,
   onClickDelete,
 }: Props) => {
   const isDeletedComment = useMemo(() => nickname === null, []);
+
+  const handleReport = () => {
+    // TODO: Comment 신고 API 연동
+  };
 
   return (
     <ContainerDiv>
@@ -104,11 +120,13 @@ const Header = ({
               <span>•</span>
             </>
           )}
-          <span>{dateText(dayjs(updatedAt))} (편집됨)</span>
+          <span>
+            {dateText(dayjs(updatedAt))} {updatedAt !== createdAt && '(편집됨)'}
+          </span>
         </AuthorP>
       </UserInfoDiv>
 
-      {!isDeletedComment && isAuthor && (
+      {!isDeletedComment && isAuthor ? (
         <Selector
           defaultOption={{ idx: 0, text: '최신순' }}
           selectorButton={
@@ -118,6 +136,14 @@ const Header = ({
           <ModifyOption idx={0} text="수정" clickEvent={onClickModify} />
           <DeleteOption idx={1} text="삭제" clickEvent={onClickDelete} />
         </Selector>
+      ) : (
+        <>
+          {activeReport && (
+            <ReportButton isActive={false} onClick={handleReport}>
+              신고
+            </ReportButton>
+          )}
+        </>
       )}
     </ContainerDiv>
   );
