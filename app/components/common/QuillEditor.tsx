@@ -32,21 +32,25 @@ const ToolbarContainer = styled.div`
 const Container = styled.div`
   position: relative;
   width: 100%;
-  min-height: 258px;
-  max-height: 258px;
-  overflow: auto;
+  overflow: hidden;
   z-index: 1;
 
   .ql-container {
+    height: 258px;
     ${({ theme }) => theme.font.body1};
+    font-weight: 400;
   }
 
   .ql-container.ql-snow {
     border: none;
   }
 
+  .ql-editor {
+    padding-bottom: 40px;
+  }
   .ql-editor.ql-blank::before {
     ${({ theme }) => theme.font.body1};
+    font-weight: 400;
     color: ${({ theme }) => theme.color.interaction.inactive};
     font-style: normal;
   }
@@ -59,6 +63,11 @@ const Container = styled.div`
     .ql-container {
       ${({ theme }) => theme.font.body2};
     }
+  }
+
+  .ql-tooltip {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
   }
 `;
 
