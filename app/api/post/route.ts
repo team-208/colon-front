@@ -101,12 +101,14 @@ export async function GET(request: NextRequest) {
       .from('posts')
       .select('*', { count: 'exact', head: true })
       .neq('status', POST_STATUS.EDITING)
+      .neq('is_del', true)
       .order(orderOption.column, { ...orderOption.sort });
 
     const postQuery = supabase
       .from('posts')
       .select('*')
       .neq('status', POST_STATUS.EDITING)
+      .neq('is_del', true)
       .order(orderOption.column, { ...orderOption.sort });
 
     if (!!major) {

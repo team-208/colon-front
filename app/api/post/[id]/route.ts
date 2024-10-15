@@ -18,6 +18,7 @@ export async function GET(request: Request, { params }: { params: Params }) {
       .from('posts')
       .select('*')
       .eq('id', params.id)
+      .neq('is_del', true)
       .limit(1)
       .single();
 
@@ -100,32 +101,21 @@ export async function DELETE(request: Request, { params }: { params: Params }) {
     const { session } = userSession;
     const userId = session?.user.id;
 
-    const { data, error: postDeleteError } = await supabase
+    const { error: postDeleteError } = await supabase
       .from('posts')
-      .delete()
-      .eq('id', params.id)
-      .select('body_url, user_id')
-      .single();
+      .update({
+        updated_at: dayjs(),
+        is_del: true,
+        user_id: userId,
+      })
+      .eq('id', params.id);
 
-    if (postDeleteError || data.user_id !== userId) {
-      const userIdError = data?.user_id !== userId ? 'User without permission' : '';
+    if (postDeleteError) {
       return NextResponse.json({
         success: false,
         ...postDeleteError,
-        userIdError,
       });
     }
-
-    const { error: storageError } = await supabase.storage.from('posts').remove(data.body_url);
-
-    if (storageError) {
-      return NextResponse.json({
-        success: false,
-        ...storageError,
-      });
-    }
-
-    // TODO: scraps, reactions 도 제거 필요.
 
     return NextResponse.json({ success: true });
   } catch (error) {

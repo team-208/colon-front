@@ -4,6 +4,7 @@ import Section from '@/app/components/common/Section';
 import QnADetailContent from '@/app/components/board/qna/QnADetail/QnADetailContent';
 import QnACommentList from '@/app/components/board/qna/QnADetail/QnACommentList';
 import { fetchGetPost } from '@/app/api/post/[id]/fetch';
+import { notFound } from 'next/navigation';
 
 interface Props {
   params: { id: string };
@@ -22,6 +23,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const QuestionPage = async ({ params }: Props) => {
   const post = await fetchGetPost(params.id);
+
+  if (!post.success) {
+    notFound();
+  }
 
   return (
     <main>
