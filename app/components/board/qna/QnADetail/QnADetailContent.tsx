@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import useAuth from '@/app/hooks/useAuth';
 import { useDeletePostMutation } from '@/app/api/post/[id]/mutations';
 import useUserReactionsQuery from '@/app/api/auth/user/reactions/queries';
+import ButtonComp from '@/app/components/common/ButtomComp';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -54,6 +55,13 @@ const ModifyOption = styled(Selector.Option)`
 
 const DeleteOption = styled(Selector.Option)`
   color: ${({ theme }) => theme.color.status.destructive};
+`;
+
+const ReportButton = styled(ButtonComp.OutlinedPrimary)`
+  height: 22px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  ${({ theme }) => theme.font.caption2};
 `;
 
 const CheckLabelBoxDiv = styled.div`
@@ -162,6 +170,10 @@ const QnADetailContent = ({ post }: Props) => {
     push('/qna');
   };
 
+  const handleReport = () => {
+    // TODO: Post 신고 API 연동
+  };
+
   useEffect(() => {
     if (!post.success) {
       replace('/qna');
@@ -175,7 +187,8 @@ const QnADetailContent = ({ post }: Props) => {
         authorMajor={author_major}
         requestedMajor={requested_major}
         nickname={author_nickname}
-        updatedAt={updated_at ?? created_at}
+        createdAt={created_at}
+        updatedAt={updated_at}
       />
 
       <DividerComp.Horizonal height={1} />
@@ -193,7 +206,7 @@ const QnADetailContent = ({ post }: Props) => {
           </CheckLabelP>
         </CheckLabelBoxDiv>
 
-        {userInfo?.user?.nick_name === author_nickname && (
+        {userInfo?.user?.nick_name === author_nickname ? (
           <Selector
             defaultOption={{ idx: 0, text: '최신순' }}
             selectorButton={
@@ -214,6 +227,10 @@ const QnADetailContent = ({ post }: Props) => {
             />
             <DeleteOption idx={1} text="삭제" clickEvent={handleDeletePost} />
           </Selector>
+        ) : (
+          <ReportButton isActive={false} onClick={handleReport}>
+            신고
+          </ReportButton>
         )}
       </SubtitleBoxDiv>
 
