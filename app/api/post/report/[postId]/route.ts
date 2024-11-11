@@ -19,10 +19,9 @@ export async function GET(request: Request, { params }: { params: Params }) {
       const userId = session?.user.id;
       const { data, error: reportGetError } = await supabase
         .from('report')
-        .select('*')
+        .select('id, post_id, comment_id, user_nickname, reason, status')
         .eq('user_id', userId)
-        .eq('post_id', params.postId)
-        .single();
+        .eq('post_id', params.postId);
 
       if (reportGetError) {
         return NextResponse.json({
@@ -33,7 +32,7 @@ export async function GET(request: Request, { params }: { params: Params }) {
 
       return NextResponse.json({
         success: true,
-        isReported: !!data,
+        list: data,
       });
     }
 

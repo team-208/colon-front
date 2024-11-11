@@ -15,7 +15,7 @@ const postSearch = (word: string) => ['post', `/${word}`];
 const commentList = (postId: string) => ['comment', `/${postId}`];
 const historyList = ({ historyType }: GetHistoryQuery) => ['history', `/${historyType}`];
 const postScrapList = () => ['post', '/scrap'];
-const reportCheck = (postId: number) => ['report', '/check', `/${postId}`];
+const report = (postId: number) => ['report', `/${postId}`];
 
 const QUERY_KEYS = {
   authUserSession,
@@ -27,7 +27,7 @@ const QUERY_KEYS = {
   commentList,
   historyList,
   postScrapList,
-  reportCheck,
+  report,
 };
 
 export default QUERY_KEYS;
