@@ -8,6 +8,8 @@ import { GetPostListQuery, PostListItem, PostListOrderTypes } from '@/app/api/po
 import ListBox from '../../common/ListBox';
 import { JOB_GROUP_TYPES } from '@/app/api/auth/user/type';
 import usePostListQuery from '@/app/api/post/queries';
+import useObserver from '@/app/hooks/useObserver';
+import { GetPostResponse } from '@/app/api/post/[id]/type';
 
 const SelectorContainerDiv = styled.div`
   width: 100%;
@@ -27,7 +29,11 @@ const QnaListComp = () => {
     major: 'ALL',
   });
 
-  const { data } = usePostListQuery(filter);
+  const { data, fetchNextPage } = usePostListQuery(filter);
+
+  const infinitePaging = async () => {
+    await fetchNextPage();
+  };
 
   const chagneFilter = useCallback((major: JOB_GROUP_TYPES) => {
     setFilter((prev) => ({ ...prev, major }));
@@ -39,7 +45,15 @@ const QnaListComp = () => {
 
   useEffect(() => {
     if (data?.pages) {
-      setPostList(data?.pages[0].list);
+      setPostList((v) => {
+        const list: PostListItem[] = [];
+
+        data?.pages.forEach((v) => {
+          list.push(...v.list);
+        });
+
+        return list;
+      });
     }
   }, [data]);
 
@@ -60,7 +74,7 @@ const QnaListComp = () => {
         </Selector>
       </SelectorContainerDiv>
 
-      <ListBox list={postList} />
+      <ListBox list={postList} infiniteCallback={infinitePaging} />
     </>
   );
 };

@@ -115,7 +115,7 @@ export async function GET(request: NextRequest) {
 
     const { data, error: postGetError } = await postQuery.range(
       offset * PAGE_OFFSET_VALUE,
-      (offset + 1) * PAGE_OFFSET_VALUE,
+      (offset + 1) * PAGE_OFFSET_VALUE - 1,
     );
 
     if (totalPostGetError || postGetError) {
