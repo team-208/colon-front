@@ -15,7 +15,7 @@ import { JOB_GROUP_LABELS } from '../constants';
 import SkeletonComp from '../common/SkeletonComp';
 
 interface UpdateUserRequest {
-  profile_url?: string;
+  profile_url?: string | null;
   nick_name?: string;
   major?: JOB_GROUP_TYPES;
 }
@@ -154,6 +154,8 @@ const ProfileBox = () => {
         // TODO: 에러처리
         console.log('error');
       }
+    } else {
+      updateData.profile_url = null;
     }
 
     if (userInfo?.user.major !== major) {
@@ -233,7 +235,7 @@ const ProfileBox = () => {
         <ProfileDiv>
           <ProfileImageComp
             isModify={isModify}
-            updateProfileFile={(file: File) => setUpdateProfile(file)}
+            updateProfileFile={(file: File | null) => setUpdateProfile(file)}
           />
 
           <ProfileTextDiv>

@@ -30,6 +30,7 @@ const Container = styled.section<{
   }
 `;
 
+
 const Section = (props: Props) => {
   const { direction, children, padding, margin, heightFull = false } = props;
   return (

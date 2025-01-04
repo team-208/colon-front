@@ -121,9 +121,8 @@ export async function DELETE(request: Request) {
       const { error: updateError } = await supabase
         .from('comments')
         .update({
-          comment: '삭제된 댓글 입니다.',
           updated_at: dayjs(),
-          author_nickname: null,
+          is_del: true,
         })
         .eq('id', bodyData.commentId)
         .eq('user_id', userId);

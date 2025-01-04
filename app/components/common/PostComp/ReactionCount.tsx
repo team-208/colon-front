@@ -147,7 +147,7 @@ const ReactionCount = ({
     if (reactionDisabled) return;
 
     setIsActive((v) => !v);
-  }, [reactionDisabled]);
+  }, [reactionDisabled, userInfo]);
 
   const handleEmojiClick = useCallback(
     async (emoji: ReactionType) => {

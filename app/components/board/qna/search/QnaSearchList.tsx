@@ -25,7 +25,7 @@ const HeaderContainerDiv = styled.div`
   }
 `;
 
-const QnaSerachList = () => {
+const QnaSearchList = () => {
   const searchParams = useSearchParams();
   const param = searchParams.get('word');
 
@@ -70,4 +70,4 @@ const QnaSerachList = () => {
   );
 };
 
-export default QnaSerachList;
+export default QnaSearchList;

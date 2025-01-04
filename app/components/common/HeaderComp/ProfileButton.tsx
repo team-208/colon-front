@@ -32,6 +32,7 @@ const DropDownUl = styled.ul`
     cursor: pointer;
     min-width: 100px;
     height: 32px;
+    line-height: 20px;
     padding: 6px 12px;
     ${({ theme }) => theme.font.caption1}
     color: ${({ theme }) => theme.color.label.normal};

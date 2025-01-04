@@ -57,7 +57,7 @@ export async function POST(request: Request) {
           preview_body,
           tags,
           author_major,
-          author_profile_url,
+          author_profile_url: author_profile_url ?? '',
           author_nickname,
           body_url: postData?.path,
           created_at: createdDate,
@@ -101,12 +101,14 @@ export async function GET(request: NextRequest) {
       .from('posts')
       .select('*', { count: 'exact', head: true })
       .neq('status', POST_STATUS.EDITING)
+      .neq('is_del', true)
       .order(orderOption.column, { ...orderOption.sort });
 
     const postQuery = supabase
       .from('posts')
       .select('*')
       .neq('status', POST_STATUS.EDITING)
+      .neq('is_del', true)
       .order(orderOption.column, { ...orderOption.sort });
 
     if (!!major) {

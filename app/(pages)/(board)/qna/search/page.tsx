@@ -3,7 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SearchHeader from '@/app/components/common/SearchHeader';
-import QnaSerachList from '@/app/components/board/qna/search/QnaSearchList';
+import QnaSearchList from '@/app/components/board/qna/search/QnaSearchList';
 import Section from '@/app/components/common/Section';
 
 const ContainerMain = styled.main`
@@ -16,13 +16,17 @@ const ContainerMain = styled.main`
   }
 `;
 
+const StyledSection = styled(Section)`
+  height: 100%;
+`;
+
 const QuestionSearchPage = () => {
   return (
     <ContainerMain>
       <SearchHeader />
-      <Section direction="column" padding="0" heightFull>
-        <QnaSerachList />
-      </Section>
+      <StyledSection direction="column" padding="0">
+        <QnaSearchList />
+      </StyledSection>
     </ContainerMain>
   );
 };
