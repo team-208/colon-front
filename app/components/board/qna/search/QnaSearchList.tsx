@@ -40,8 +40,8 @@ const QnaSerachList = () => {
 
   useEffect(() => {
     if (data) {
-      setPosts(data?.posts);
-      setComments(data?.comments);
+      // setPosts(data?.posts);
+      // setComments(data?.comments);
     }
   }, [data]);
 
