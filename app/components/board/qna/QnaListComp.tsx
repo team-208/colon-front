@@ -32,7 +32,19 @@ const QnaListComp = () => {
   const { data, fetchNextPage } = usePostListQuery(filter);
 
   const infinitePaging = async () => {
-    await fetchNextPage();
+    const { data } = await fetchNextPage();
+
+    if (data?.pages) {
+      setPostList((v) => {
+        const list: PostListItem[] = [];
+
+        data?.pages.forEach((v) => {
+          list.push(...v.list);
+        });
+
+        return list;
+      });
+    }
   };
 
   const chagneFilter = useCallback((major: JOB_GROUP_TYPES) => {
@@ -44,16 +56,8 @@ const QnaListComp = () => {
   }, []);
 
   useEffect(() => {
-    if (data?.pages) {
-      setPostList((v) => {
-        const list: PostListItem[] = [];
-
-        data?.pages.forEach((v) => {
-          list.push(...v.list);
-        });
-
-        return list;
-      });
+    if (postList.length === 0 && data?.pages) {
+      setPostList(data?.pages[0].list);
     }
   }, [data]);
 
