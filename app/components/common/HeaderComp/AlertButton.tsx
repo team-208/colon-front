@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled, { css } from 'styled-components';
 import icon_bell from '@/app/assets/images/header/icon_bell.png';
 import DropDown from '../DropDown';
@@ -15,6 +15,7 @@ interface IconListProps {
   iconUrl: string;
   titleComponent: JSX.Element;
   content: string;
+  onClick: () => void;
 }
 
 const ContainerDiv = styled.div`
@@ -44,6 +45,10 @@ const Button = styled.button<{ $isAlert: boolean }>`
     `}
 `;
 
+const StyledDropDown = styled(DropDown)`
+  right: -48px !important;
+`;
+
 const DropDownUl = styled.ul`
   padding: 8px 0;
 `;
@@ -68,9 +73,26 @@ const DropDownHeader = styled.div`
 `;
 
 const IconListLi = styled.li<{ $isActive: boolean }>`
+  cursor: pointer;
+  position: relative;
   width: 320px;
+  min-height: 58px;
   height: auto;
   padding: 12px 20px;
+
+  ${({ $isActive }) =>
+    !$isActive &&
+    css`
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: inherit;
+        min-height: inherit;
+        background: rgba(255, 255, 255, 0.5);
+      }
+    `}
 
   > p {
     width: 100%;
@@ -100,41 +122,66 @@ const IconListLi = styled.li<{ $isActive: boolean }>`
   }
 `;
 
-const IconList = React.memo(({ isRead, iconUrl, titleComponent, content }: IconListProps) => {
-  return (
-    <IconListLi $isActive={isRead}>
-      <p>
-        <Image alt={'알림창 리스트 아이콘'} src={iconUrl} width={16} height={16} />
-        {titleComponent}
-      </p>
-      <p>{content}</p>
-    </IconListLi>
-  );
-});
+const IconList = React.memo(
+  ({ isRead, iconUrl, titleComponent, content, onClick }: IconListProps) => {
+    return (
+      <IconListLi $isActive={!isRead} onClick={onClick}>
+        <p>
+          <Image alt={'알림창 리스트 아이콘'} src={iconUrl} width={16} height={16} />
+          {titleComponent}
+        </p>
+        <p>{content}</p>
+      </IconListLi>
+    );
+  },
+);
 
 const AlertButton = () => {
   const [isClick, setIsClick] = useState(false);
 
-  const handleClickButton = () => {
+  const notReadCount = useMemo(() => {
+    // TODO: 알린 안읽은 개수에 따라 로직 수정
+    return 10;
+  }, []);
+
+  const isAlert = useMemo(() => {
+    // TODO: 알림 읽은 개수에 따라 로직 수정
+    return true;
+  }, []);
+
+  const handleClickAlertButton = () => {
     setIsClick((v) => !v);
+  };
+
+  const handleClickAllRead = () => {
+    // TODO: 모두 읽음 처리
+  };
+
+  const handleClickList = () => {
+    // TODO: 해당 게시물 이동 처리
   };
 
   return (
     <ContainerDiv>
-      <Button onClick={handleClickButton} $isAlert={true}>
+      <Button onClick={handleClickAlertButton} $isAlert={isAlert}>
         <Image alt="알림 아이콘" src={icon_bell} width={24} height={24} />
       </Button>
-      <DropDown isActive={isClick} direction={'right'} distance={{ desktop: 4, mobile: 4 }}>
+      <StyledDropDown
+        isActive={isClick}
+        direction={'right'}
+        defaultHeight={320}
+        distance={{ desktop: 4, mobile: 4 }}
+      >
         <DropDownUl>
           <DropDownHeader>
             <p>읽지 않은 알림 (10)</p>
-            <button>모두 읽음</button>
+            <button onClick={handleClickAllRead}>모두 읽음</button>
           </DropDownHeader>
           <ScrollContainer>
-            {[0, 1, 2, 3, 4, 5, 6, 7].map((v, idx) => (
+            {[true, false, true, false, false, true, false].map((v, idx) => (
               <IconList
                 key={idx}
-                isRead={true}
+                isRead={v}
                 iconUrl={`${IMAGE_CDN}/qna/EmojiComment.png`}
                 titleComponent={
                   <>
@@ -142,11 +189,12 @@ const AlertButton = () => {
                   </>
                 }
                 content="일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십"
+                onClick={handleClickList}
               />
             ))}
           </ScrollContainer>
         </DropDownUl>
-      </DropDown>
+      </StyledDropDown>
     </ContainerDiv>
   );
 };
