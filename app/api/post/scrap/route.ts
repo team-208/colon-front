@@ -3,6 +3,7 @@ import { createClient } from '@/app/utils/supabase/server';
 import { getHost } from '@/app/utils/host';
 import { InsertPostScrapRequest } from './type';
 import { isEmpty } from 'lodash';
+import { ALARM_CONTENT_TYPES } from '../../alarm/constant';
 
 export async function GET(request: Request) {
   const host = getHost();
@@ -70,14 +71,13 @@ export async function POST(request: Request) {
 
       const { data: postData, error: getPostError } = await supabase
         .from('posts')
-        .select('scrap_count')
+        .select('user_id, title, scrap_count')
         .eq('id', postId)
         .single();
 
       if (getPostError) {
         return NextResponse.json({ success: false, getPostError });
       }
-      console.log(postData);
 
       if (!isEmpty(scrapData)) {
         const { error: deleteError } = await supabase
@@ -111,13 +111,29 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: false, insertError });
       }
 
+      const scrapCount = postData.scrap_count + 1;
       const { error: updatePostError } = await supabase
         .from('posts')
-        .update({ scrap_count: postData.scrap_count + 1 })
+        .update({ scrap_count: scrapCount })
         .eq('id', postId);
 
       if (updatePostError) {
         return NextResponse.json({ success: false, updatePostError });
+      }
+
+      if (scrapCount % 5 === 0) {
+        // scrap 이 5의 배수로 추가 될때 알림 진행.
+        const { error: insertAlarmError } = await supabase.from('alarm').insert({
+          user_id: postData.user_id,
+          content_type: ALARM_CONTENT_TYPES.POST_SCRAP,
+          content_id: postId,
+          content_title: postData.title,
+          message: `스크랩 수가 ${scrapCount}개를 달성했어요!`,
+        });
+
+        if (insertAlarmError) {
+          return NextResponse.json({ success: false, insertError });
+        }
       }
 
       return NextResponse.json({ success: true });
