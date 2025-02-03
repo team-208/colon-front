@@ -44,6 +44,7 @@ html {
 body {
   height: 100%;
   line-height: 1;
+  -ms-overflow-style: none;
 
   ${({ theme }) => theme.mediaQuery.mobile} {
     &.hidden {
