@@ -10,10 +10,17 @@ interface Props {
   children: ReactNode;
   padding?: string;
   margin?: string;
+  heightFull?: boolean;
 }
 
-const Container = styled.section<{ $dir: Direction; $padding: string; $margin: string }>`
+const Container = styled.section<{
+  $dir: Direction;
+  $padding: string;
+  $margin: string;
+  $hFull: boolean;
+}>`
   display: flex;
+  height: ${({$hFull}) => $hFull  ? '100%' : 'auto'};
   flex-direction: ${({ $dir }) => $dir};
   padding: ${({ $padding }) => $padding};
   margin: ${({ $margin }) => $margin};
@@ -23,9 +30,16 @@ const Container = styled.section<{ $dir: Direction; $padding: string; $margin: s
   }
 `;
 
-const Section = ({ direction, children, padding, margin, ...props }: Props) => {
+
+const Section = (props: Props) => {
+  const { direction, children, padding, margin, heightFull = false } = props;
   return (
-    <Container $dir={direction} $padding={padding ?? '16px'} $margin={margin ?? '0'} {...props}>
+    <Container
+      $dir={direction}
+      $padding={padding ?? '16px'}
+      $margin={margin ?? '0'}
+      $hFull={heightFull}
+    >
       {children}
     </Container>
   );
