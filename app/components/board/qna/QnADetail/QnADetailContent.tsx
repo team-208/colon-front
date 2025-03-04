@@ -17,6 +17,7 @@ import ButtonComp from '@/app/components/common/ButtomComp';
 import useModal from '@/app/hooks/useModal';
 import ModalComp from '@/app/components/common/ModalComp';
 import Icon from '@/app/components/common/Icon/Icon';
+import QnAReportModal from '../QnAReportModal';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -178,46 +179,7 @@ const QnADetailContent = ({ post }: Props) => {
     // TODO: Post 신고 API 연동
     openModal({
       modalProps: {
-        contents: (
-          <ModalComp.Confirm
-            confirmLabel="취소"
-            cancelLabel="적용"
-            onConfirm={() => {
-              closeModal();
-            }}
-            onCancel={() => {
-              closeModal();
-            }}
-          >
-            어떤 점이 불편하셨나요?
-            <div>
-              <Icon name={'icRadioInactive'} width="24px" height="24px" />
-              불쾌한 표현
-              <Icon name={'icNormalCaretDown'} width="12px" height="12px" />
-            </div>
-            <div>
-              <div>욕설/차별/혐오</div>
-              <div>직/간접적으로 타인을 공격하는 내용</div>
-              <div>계층/지역/종교/성별 등을 혐오하거나 비하하는 표현</div>
-              <div>신체/외모/취향 등을 경멸하는 표현</div>
-            </div>
-            <div>
-              <Icon name={'icRadioInactive'} width="24px" height="24px" />
-              스팸 홍보 / 도배
-              <Icon name={'icNormalCaretDown'} width="12px" height="12px" />
-            </div>
-            <div>
-              <div>사행성 오락이나 도박을 홍보하거나 권장하는 내용 등</div>
-              <div>부적절한 스팸 홍보 행위</div>
-            </div>
-            <div>
-              <Icon name={'icRadioInactive'} width="24px" height="24px" />
-              기타
-              <Icon name={'icNormalCaretDown'} width="12px" height="12px" />
-            </div>
-            {`명예, 저작권 침해 등 권리침해의 경우\n권리보호센터로 접수해 주시길 바랍니다.`}
-          </ModalComp.Confirm>
-        ),
+        contents: <QnAReportModal onConfirm={() => closeModal()} onCancel={() => closeModal()} />,
       },
     });
   };
