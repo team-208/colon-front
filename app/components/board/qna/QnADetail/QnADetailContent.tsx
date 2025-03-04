@@ -14,6 +14,10 @@ import useAuth from '@/app/hooks/useAuth';
 import { useDeletePostMutation } from '@/app/api/post/[id]/mutations';
 import useUserReactionsQuery from '@/app/api/auth/user/reactions/queries';
 import ButtonComp from '@/app/components/common/ButtomComp';
+import useModal from '@/app/hooks/useModal';
+import ModalComp from '@/app/components/common/ModalComp';
+import Icon from '@/app/components/common/Icon/Icon';
+import QnAReportModal from '../QnAReportModal';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -158,6 +162,7 @@ const QnADetailContent = ({ post }: Props) => {
 
   const { push, replace } = useRouter();
   const { userInfo } = useAuth();
+  const { openModal, closeModal } = useModal();
 
   const isComplete = useMemo(() => status === 'COMPLETE' && accept_comment_id?.length > 0, []);
   const isScrap = useMemo(
@@ -172,6 +177,11 @@ const QnADetailContent = ({ post }: Props) => {
 
   const handleReport = () => {
     // TODO: Post 신고 API 연동
+    openModal({
+      modalProps: {
+        contents: <QnAReportModal onConfirm={() => closeModal()} onCancel={() => closeModal()} />,
+      },
+    });
   };
 
   useEffect(() => {

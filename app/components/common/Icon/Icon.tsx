@@ -36,7 +36,8 @@ const StyledIcon = styled.div<{
     height: ${({ $height }) => $height};
 
     path,
-    circle {
+    circle,
+    rect {
       stroke: ${({ $color }) => $color};
       fill: ${({ $fillColor }) => $fillColor};
 

@@ -7,6 +7,7 @@ import ButtonComp from '../ButtomComp';
 import { ButtonSizeStyle } from '../ButtomComp/style';
 
 export interface ConfirmProps {
+  className?: string;
   children: ReactNode;
   confirmLabel: string;
   cancelLabel: string;
@@ -32,6 +33,8 @@ const ContainerDiv = styled.div`
 
 const ButtonBoxUl = styled.ul<{ $isReverse: boolean }>`
   display: flex;
+  justify-content: center;
+  gap: 16px;
   margin-top: 22px;
 
   ${({ $isReverse }) =>
@@ -64,6 +67,7 @@ const StyledButton = styled(ButtonComp.OutlinedPrimary)`
 `;
 
 const Confirm = ({
+  className,
   children,
   confirmLabel,
   cancelLabel,
@@ -74,7 +78,7 @@ const Confirm = ({
   const {} = useModal();
 
   return (
-    <ContainerDiv>
+    <ContainerDiv className={className}>
       {children}
       <ButtonBoxUl $isReverse={!!isReverseButton}>
         <li>
