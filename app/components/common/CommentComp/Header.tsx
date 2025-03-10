@@ -10,8 +10,13 @@ import { IMAGE_CDN } from '@/app/constants/externalUrls';
 import ButtonComp from '../ButtomComp';
 import Selector from '../Selector';
 import { useMemo } from 'react';
+import useReport from '@/app/hooks/useReport';
+import useModal from '@/app/hooks/useModal';
+import QnAReportModal from '../../board/qna/QnAReportModal';
 
 interface Props {
+  postId?: string;
+  commentId?: number;
   major: JOB_GROUP_TYPES;
   nickname: string;
   createdAt: string;
@@ -85,6 +90,8 @@ const ReportButton = styled(ButtonComp.OutlinedPrimary)`
 `;
 
 const Header = ({
+  postId,
+  commentId,
   major,
   nickname,
   createdAt,
@@ -95,10 +102,26 @@ const Header = ({
   onClickModify,
   onClickDelete,
 }: Props) => {
+  const { requestReport } = useReport();
+  const { openModal, closeModal } = useModal();
+
   const isDeletedComment = useMemo(() => nickname === null, []);
 
   const handleReport = () => {
-    // TODO: Comment 신고 API 연동
+    const handleConfirm = async (reason: string) => {
+      if (!postId) {
+        return;
+      }
+
+      requestReport({ postId: parseInt(postId), commentId, reason });
+      closeModal();
+    };
+
+    openModal({
+      modalProps: {
+        contents: <QnAReportModal onConfirm={handleConfirm} onCancel={() => closeModal()} />,
+      },
+    });
   };
 
   return (
