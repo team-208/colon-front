@@ -19,10 +19,10 @@ export async function POST(request: Request) {
 
       const { postId, commentId, reason, status, userNickname } = bodyData;
 
-      const { error: insertError } = await supabase.from('scraps').insert({
+      const { error: insertError } = await supabase.from('report').insert({
         user_id: userId,
         post_id: postId,
-        commentId: commentId ?? '',
+        comment_id: commentId ?? null,
         user_nickname: userNickname,
         reason,
         status,
