@@ -16,6 +16,7 @@ const commentList = (postId: string) => ['comment', `/${postId}`];
 const historyList = ({ historyType }: GetHistoryQuery) => ['history', `/${historyType}`];
 const postScrapList = () => ['post', '/scrap'];
 const report = (postId: number) => ['report', `/${postId}`];
+const alarmList = () => ['alarm'];
 
 const QUERY_KEYS = {
   authUserSession,
@@ -28,6 +29,7 @@ const QUERY_KEYS = {
   historyList,
   postScrapList,
   report,
+  alarmList,
 };
 
 export default QUERY_KEYS;
