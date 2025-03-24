@@ -125,7 +125,6 @@ const CommentItem = ({
   }, []);
 
   const handleClickChoice = useCallback(async () => {
-    console.log([...acceptCommentList, commentId]);
     await mutateAsync({
       id: parseInt(postId),
       status: 'COMPLETE',
@@ -202,6 +201,8 @@ const CommentItem = ({
     <>
       <CommentComp.Wrapper isNestedComment={isNestedComment} isModify={isModify}>
         <CommentComp.Header
+          postId={postId}
+          commentId={commentId}
           major={authorMajor}
           nickname={authorNickName}
           createdAt={createdAt}

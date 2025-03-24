@@ -4,7 +4,7 @@ import ModalComp from '@/app/components/common/ModalComp';
 import { useMemo, useState } from 'react';
 
 interface Props {
-  onConfirm: () => void;
+  onConfirm: (reason: string) => void;
   onCancel: () => void;
 }
 
@@ -50,7 +50,7 @@ const DetailReasonDiv = styled.div`
   border-radius: 4px;
   background-color: #ecf8ff;
 
-  & > p {
+  & > div {
     text-align: left;
     ${({ theme }) => theme.font.caption1};
     color: ${({ theme }) => theme.color.label.normal};
@@ -59,7 +59,7 @@ const DetailReasonDiv = styled.div`
     align-items: center;
   }
 
-  & > p > div {
+  & > div > div {
     width: 2px;
     height: 2px;
     border-radius: 2px;
@@ -95,26 +95,44 @@ const InfoDescriptionP = styled.p`
   font-weight: 400;
 `;
 
-const REPORT_REASON = {
+const REPORT_REASON_TYPES = {
   UNPLEASANT: 1,
   SPAM: 2,
   ETC: 3,
 };
 
+const REPORT_REASON_LABELS: { [reasonType: number]: string } = {
+  1: '불쾌한 표현',
+  2: '스팸 홍보 / 도배',
+};
+
 const QnAReportModal = ({ onConfirm, onCancel }: Props) => {
   const [selectedReason, setSelectedReason] = useState<number>();
+  const [reason, setReason] = useState<string>('');
+
   const isOpenUnpleasant = useMemo(
-    () => selectedReason === REPORT_REASON.UNPLEASANT,
+    () => selectedReason === REPORT_REASON_TYPES.UNPLEASANT,
     [selectedReason],
   );
-  const isOpenSpam = useMemo(() => selectedReason === REPORT_REASON.SPAM, [selectedReason]);
-  const isOpenETC = useMemo(() => selectedReason === REPORT_REASON.ETC, [selectedReason]);
+  const isOpenSpam = useMemo(() => selectedReason === REPORT_REASON_TYPES.SPAM, [selectedReason]);
+  const isOpenETC = useMemo(() => selectedReason === REPORT_REASON_TYPES.ETC, [selectedReason]);
+
+  const handleConfirm = () => {
+    const isEmptyETCReason = isOpenETC && !reason;
+    if (!selectedReason || isEmptyETCReason) {
+      window.alert(isEmptyETCReason ? '신고 이유를 입력해주세요.' : '신고 이유를 선택해주세요.');
+      return;
+    }
+
+    onConfirm(isOpenETC ? reason : REPORT_REASON_LABELS[selectedReason]);
+  };
 
   return (
     <ContainerModal
-      confirmLabel="취소"
-      cancelLabel="제출"
-      onConfirm={onConfirm}
+      isReverseButton
+      confirmLabel="제출"
+      cancelLabel="취소"
+      onConfirm={handleConfirm}
       onCancel={onCancel}
     >
       <WrapperDiv>
@@ -124,7 +142,7 @@ const QnAReportModal = ({ onConfirm, onCancel }: Props) => {
           {/* 불쾌한 표현 */}
           <RadioButton
             onClick={() => {
-              setSelectedReason(REPORT_REASON.UNPLEASANT);
+              setSelectedReason(REPORT_REASON_TYPES.UNPLEASANT);
             }}
           >
             <Icon
@@ -132,31 +150,31 @@ const QnAReportModal = ({ onConfirm, onCancel }: Props) => {
               width="24px"
               height="24px"
             />
-            <span>불쾌한 표현</span>
+            <span>{REPORT_REASON_LABELS[REPORT_REASON_TYPES.UNPLEASANT]}</span>
             <Icon name={'icNormalCaretDown'} width="12px" height="12px" />
           </RadioButton>
 
           {isOpenUnpleasant && (
             <DetailReasonDiv>
-              <p>
+              <div>
                 <div /> 욕설/차별/혐오
-              </p>
-              <p>
+              </div>
+              <div>
                 <div /> 직/간접적으로 타인을 공격하는 내용
-              </p>
-              <p>
+              </div>
+              <div>
                 <div /> 계층/지역/종교/성별 등을 혐오하거나 비하하는 표현
-              </p>
-              <p>
+              </div>
+              <div>
                 <div /> 신체/외모/취향 등을 경멸하는 표현
-              </p>
+              </div>
             </DetailReasonDiv>
           )}
 
           {/* 스팸 홍보 / 도배 */}
           <RadioButton
             onClick={() => {
-              setSelectedReason(REPORT_REASON.SPAM);
+              setSelectedReason(REPORT_REASON_TYPES.SPAM);
             }}
           >
             <Icon
@@ -164,25 +182,25 @@ const QnAReportModal = ({ onConfirm, onCancel }: Props) => {
               width="24px"
               height="24px"
             />
-            <span>스팸 홍보 / 도배</span>
+            <span>{REPORT_REASON_LABELS[REPORT_REASON_TYPES.SPAM]}</span>
             <Icon name={'icNormalCaretDown'} width="12px" height="12px" />
           </RadioButton>
 
           {isOpenSpam && (
             <DetailReasonDiv>
-              <p>
+              <div>
                 <div /> 사행성 오락이나 도박을 홍보하거나 권장하는 내용 등
-              </p>
-              <p>
+              </div>
+              <div>
                 <div /> 부적절한 스팸 홍보 행위
-              </p>
+              </div>
             </DetailReasonDiv>
           )}
 
           {/* 기타 */}
           <RadioButton
             onClick={() => {
-              setSelectedReason(REPORT_REASON.ETC);
+              setSelectedReason(REPORT_REASON_TYPES.ETC);
             }}
           >
             <Icon
@@ -193,7 +211,16 @@ const QnAReportModal = ({ onConfirm, onCancel }: Props) => {
             <span>기타</span>
           </RadioButton>
 
-          <ETCInput />
+          <ETCInput
+            placeholder="내용을 작성해 주세요"
+            value={reason}
+            onChange={(e) => {
+              setReason(e.target.value);
+            }}
+            onClick={() => {
+              setSelectedReason(REPORT_REASON_TYPES.ETC);
+            }}
+          />
         </div>
 
         <InfoDescriptionP>
