@@ -48,10 +48,12 @@ const QnaListComp = () => {
   };
 
   const chagneFilter = useCallback((major: JOB_GROUP_TYPES) => {
+    setPostList([]);
     setFilter((prev) => ({ ...prev, major }));
   }, []);
-
+  
   const changeOrder = useCallback((order: PostListOrderTypes) => {
+    setPostList([]);
     setFilter((prev) => ({ ...prev, order }));
   }, []);
 
