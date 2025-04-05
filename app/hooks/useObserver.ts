@@ -14,6 +14,7 @@ const useObserver = (
   options?: IntersectionObserverInit | undefined,
 ) => {
   const ref = useRef<IntersectionObserver | null>(null);
+  let loading = false;
 
   const observerRef = useCallback((node: HTMLDivElement) => {
     if (ref.current) {
@@ -26,8 +27,8 @@ const useObserver = (
      * */
     ref.current = infinitScroll
       ? new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting) {
-            callback();
+          if (entries[0].isIntersecting && !loading) {
+            load();
           }
         }, options)
       : new IntersectionObserver(() => {
@@ -38,6 +39,14 @@ const useObserver = (
       ref.current.observe(node);
     }
   }, []);
+
+  const load = () => {
+    loading = true;
+    setTimeout(() => {
+      callback();
+      loading = false;
+    }, 1000);
+  }
 
   return {
     observerRef,

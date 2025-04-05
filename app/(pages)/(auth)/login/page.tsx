@@ -76,6 +76,7 @@ const TitleDescP = styled.p`
 
 const DescUl = styled.ul`
   display: flex;
+  justify-content: center;
   margin-top: 56px;
   padding: 0 8px;
   width: 100vw;
