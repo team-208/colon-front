@@ -34,16 +34,15 @@ const QnaListComp = () => {
   const infinitePaging = async () => {
     const { data } = await fetchNextPage();
 
+    console.log('data', data?.pages);
+
     if (data?.pages) {
-      setPostList((v) => {
-        const list: PostListItem[] = [];
+      const list: PostListItem[] = [];
 
-        data?.pages.forEach((v) => {
-          list.push(...v.list);
-        });
-
-        return list;
+      data?.pages.forEach((v) => {
+        list.push(...v.list);
       });
+      setPostList(list);
     }
   };
 
@@ -51,15 +50,19 @@ const QnaListComp = () => {
     setPostList([]);
     setFilter((prev) => ({ ...prev, major }));
   }, []);
-  
+
   const changeOrder = useCallback((order: PostListOrderTypes) => {
     setPostList([]);
     setFilter((prev) => ({ ...prev, order }));
   }, []);
 
   useEffect(() => {
-    if (postList.length === 0 && data?.pages) {
-      setPostList(data?.pages[0].list);
+    if (data?.pages) {
+      setPostList((list) => {
+        if (list.length === 0) return data?.pages[0].list;
+
+        return list;
+      });
     }
   }, [data]);
 
