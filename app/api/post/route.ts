@@ -131,15 +131,47 @@ export async function GET(request: NextRequest) {
       });
     }
 
+    const list = [];
+    for (let i = 0; i < data.length; i++) {
+      const item = data[i];
+      let comment;
+      if (item.comments_count > 0) {
+        const { data: commnetData, error: commentGetError } = await supabase
+          .from('comments')
+          .select('*')
+          .eq('post_id', item.id)
+          .neq('is_del', true)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+          
+        comment = commnetData;
+
+        if (commentGetError) {
+          return NextResponse.json({
+            success: false,
+            offset,
+            totalCount: 0,
+            count: 0,
+            list: [],
+            ...commentGetError,
+          });
+        }
+      }
+
+      list.push({
+        ...item,
+        reactions: item.reactions ?? JSON.stringify(reactionsDefault),
+        comment: comment ?? null,
+      });
+    }
+
     return NextResponse.json({
       success: true,
       offset,
       totalCount,
       count: data.length,
-      list: data.map((item) => ({
-        ...item,
-        reactions: item.reactions ?? JSON.stringify(reactionsDefault),
-      })),
+      list,
     });
   } catch (error) {
     return NextResponse.redirect(`${host}/error/500`);
