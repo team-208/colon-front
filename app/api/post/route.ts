@@ -6,6 +6,7 @@ import { InsertPostRequest, PostListOrderTypes } from './type';
 import { PAGE_OFFSET_VALUE, POST_STATUS } from './constants';
 import { JOB_GROUP_TYPES } from '../auth/user/type';
 import { reactionsDefault } from '@/app/constants/reactions';
+import { resolve } from 'path';
 
 const ORDER_OPTIONS = {
   DATE_DESC: { column: 'created_at', sort: { ascending: false } },
@@ -134,27 +135,52 @@ export async function GET(request: NextRequest) {
     const list = [];
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
-      let comment;
+
+      // 댓글 존재
+      let comment, commentError;
       if (item.comments_count > 0) {
-        const { data: commnetData, error: commentGetError } = await supabase
+        const commentQuery = supabase
           .from('comments')
           .select('*')
+          .is('original_comment', null)
           .eq('post_id', item.id)
-          .neq('is_del', true)
-          .order('created_at', { ascending: false })
-          .limit(1)
-          .single();
-          
-        comment = commnetData;
+          .neq('is_del', true);
 
-        if (commentGetError) {
+        if (item.accept_comment_id !== null) {
+          // 선택 답변
+          const { data: acceptComment, error } = await commentQuery
+            .eq('id', item.accept_comment_id[0])
+            .limit(1)
+            .single();
+
+          comment = acceptComment;
+          commentError = error;
+        } else {
+          // 공감순
+          const { data: reactComment, error: commentGetError1 } = await commentQuery
+            .order('reaction_count', { ascending: false })
+            .limit(1)
+            .single();
+
+          // 최신순
+          const { data: latestComment, error: commentGetError2 } = await commentQuery
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
+
+          comment = reactComment || latestComment;
+          commentError = commentGetError1 || commentGetError2;
+          console.log('commentError', commentError);
+        }
+
+        if (commentError) {
           return NextResponse.json({
             success: false,
             offset,
             totalCount: 0,
             count: 0,
             list: [],
-            ...commentGetError,
+            ...commentError,
           });
         }
       }
