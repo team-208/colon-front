@@ -13,6 +13,8 @@ import { useMemo } from 'react';
 import useReport from '@/app/hooks/useReport';
 import useModal from '@/app/hooks/useModal';
 import QnAReportModal from '../../board/qna/QnAReportModal';
+import { useRecoilValue } from 'recoil';
+import { mobileScreenState } from '@/app/recoils';
 
 interface Props {
   postId?: string;
@@ -102,6 +104,7 @@ const Header = ({
   onClickModify,
   onClickDelete,
 }: Props) => {
+  const mobileScreen = useRecoilValue(mobileScreenState);
   const { requestReport } = useReport();
   const { openModal, closeModal } = useModal();
 
@@ -117,11 +120,14 @@ const Header = ({
       closeModal();
     };
 
-    openModal({
-      modalProps: {
-        contents: <QnAReportModal onConfirm={handleConfirm} onCancel={() => closeModal()} />,
+    openModal(
+      {
+        modalProps: {
+          contents: <QnAReportModal onConfirm={handleConfirm} onCancel={() => closeModal()} />,
+        },
       },
-    });
+      mobileScreen,
+    );
   };
 
   return (
