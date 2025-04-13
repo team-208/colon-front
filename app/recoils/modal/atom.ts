@@ -4,6 +4,7 @@ import { RECOIL_KEYS } from '../key.d';
 
 export const modalInitValue: ModalRecoilStateProps = {
   isOpen: false,
+  isScreen: false,
   modalProps: {
     contents: '',
     confirmLabel: '확인',
