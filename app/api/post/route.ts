@@ -170,7 +170,6 @@ export async function GET(request: NextRequest) {
 
           comment = reactComment || latestComment;
           commentError = commentGetError1 || commentGetError2;
-          console.log('commentError', commentError);
         }
 
         if (commentError) {
