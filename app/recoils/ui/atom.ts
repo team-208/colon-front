@@ -9,5 +9,5 @@ export const scrollState = atom({
 
 export const mobileScreenState = atom({
   key: RECOIL_KEYS.mobileScreenState,
-  default: true,
+  default: false,
 });
