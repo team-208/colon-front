@@ -10,15 +10,8 @@ interface Props {
 }
 
 const ContainerModal = styled(ModalComp.Confirm)`
-  width: 355px !important;
+  width: 355px;
   height: 532px;
-
-  ${({ theme }) => theme.mediaQuery.mobile} {
-    width: 100vw !important;
-    height: 100vh;
-    border-radius: 0;
-    padding: 0 !important;
-  }
 `;
 
 const HeaderDiv = styled.div`
