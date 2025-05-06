@@ -8,6 +8,8 @@ import Image from 'next/image';
 import logo_kakao from '../../../assets/images/home/logo_kakao.png';
 import styled from 'styled-components';
 import { IMAGE_CDN } from '@/app/constants/externalUrls';
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 const ContainerMain = styled.main`
   display: flex;
@@ -208,6 +210,7 @@ const DESC_ITEMS = [
 export default function Login() {
   // hooks
   const { login } = useAuth();
+  const searchParams = useSearchParams();
 
   const host = getHost();
 
@@ -215,6 +218,13 @@ export default function Login() {
   const handleClickKakao = () => {
     login(`${host}/api/auth/callback`);
   };
+
+  useEffect(() => {
+    const isReportedUser = searchParams.get('isReported') === 'true';
+    if (isReportedUser) {
+      window.alert('정지된 계정입니다. 일정 기간 후 정지가 풀릴 예정입니다.');
+    }
+  }, [searchParams]);
 
   return (
     <ContainerMain>

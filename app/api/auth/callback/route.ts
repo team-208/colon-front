@@ -26,7 +26,12 @@ export async function GET(request: Request) {
         throw Error('get session error');
       }
 
-      const { data: userInfo, error: userInfoError } = await supabase.from('user_info').select('*');
+      const { data: userInfo, error: userInfoError } = await supabase
+        .from('user_info')
+        .select('*')
+        .limit(1)
+        .single();
+
       if (userInfoError) {
         throw Error('user info error');
       }
@@ -35,9 +40,19 @@ export async function GET(request: Request) {
         return NextResponse.redirect(`${host}/signup`);
       }
 
+      if (userInfo.status === 'REPORTED') {
+        throw Error('reported user');
+      }
+
       return NextResponse.redirect(`${host}/qna`);
     }
   } catch (error) {
+    // 정지 유저 세션 아웃 처리.
+    if ((error as Error).message === 'reported user') {
+      await supabase.auth.signOut();
+      return NextResponse.redirect(`${host}/login?isReported=true`);
+    }
+
     // 로그인 에러 발생시 redirect
     return NextResponse.redirect(`${host}/error/500`);
   }
