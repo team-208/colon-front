@@ -4,6 +4,7 @@ import { getHost } from '@/app/utils/host';
 import dayjs from 'dayjs';
 import { DeleteCommentRequest, InsertCommentRequest, UpdateCommentRequest } from './type';
 import { removeUndefinedValue } from '@/app/utils/converter';
+import { ALARM_CONTENT_TYPES } from '../alarm/constant';
 
 export async function POST(request: Request) {
   const host = getHost();
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
 
       const { data: postData, error: getPostError } = await supabase
         .from('posts')
-        .select('comments_count')
+        .select('title, comments_count')
         .eq('id', bodyData.post_id)
         .single();
 
@@ -48,7 +49,22 @@ export async function POST(request: Request) {
         },
       ]);
 
-      return NextResponse.json({ success: insertError ? false : true, insertError });
+      const { error: insertAlarmError } = await supabase.from('alarm').insert({
+        user_id: userId,
+        content_type: bodyData.original_comment
+          ? ALARM_CONTENT_TYPES.COMMENT_REPLY
+          : ALARM_CONTENT_TYPES.POST_COMMENT,
+        content_id: bodyData.original_comment ? bodyData.original_comment : bodyData.post_id,
+        content_title: bodyData.original_comment ? bodyData.comment : postData.title,
+        message: `${bodyData.author_nickname} 님이 ${
+          bodyData.original_comment ? '댓글' : '답변'
+        }을 달았어요.`,
+      });
+
+      return NextResponse.json({
+        success: insertError || insertAlarmError ? false : true,
+        insertError,
+      });
     }
 
     return NextResponse.redirect(`${host}/error/500`);
