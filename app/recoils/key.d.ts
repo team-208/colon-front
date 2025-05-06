@@ -1,5 +1,6 @@
 interface RecoilKeyProps {
   scrollState: string;
+  mobileScreenState: string;
   modalState: string;
   mypageHeaderState: string;
   writeHeaderState: string;
@@ -8,6 +9,7 @@ interface RecoilKeyProps {
 
 const RECOIL_KEYS: RecoilKeyProps = {
   scrollState: 'scrollState',
+  mobileScreenState: 'mobileScreenState',
   modalState: 'modalState',
   mypageHeaderState: 'mypageHeaderState',
   writeHeaderState: 'writeHeaderState',
