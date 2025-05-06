@@ -34,6 +34,8 @@ const QnaListComp = () => {
   const infinitePaging = async () => {
     const { data } = await fetchNextPage();
 
+    console.log('data', data)
+
     if (data?.pages) {
       setPostList((v) => {
         const list: PostListItem[] = [];

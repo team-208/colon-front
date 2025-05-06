@@ -154,6 +154,7 @@ const QuestionCard = ({
   author_profile_url,
   isScrap,
   reactions,
+  comment,
   comments_count,
   accept_comment_id,
 }: Props) => {
@@ -193,20 +194,25 @@ const QuestionCard = ({
           </ContentFooterDiv>
         </ContentDiv>
 
-        <CommentDiv>
-          <Image alt="댓글 아이콘" src={`${IMAGE_CDN}/qna/Icon_Reply.png`} width={20} height={20} />
+        {comment && (
+          <CommentDiv>
+            <Image
+              alt="댓글 아이콘"
+              src={`${IMAGE_CDN}/qna/Icon_Reply.png`}
+              width={20}
+              height={20}
+            />
 
-          <div>
-            <CommentUserDiv>
-              <span>{JOB_GROUP_LABELS['DESIGN']}</span>
-              <span>댓글닉네임</span>
-            </CommentUserDiv>
+            <div>
+              <CommentUserDiv>
+                <span>{JOB_GROUP_LABELS[comment.author_major]}</span>
+                <span>{comment.author_nickname}</span>
+              </CommentUserDiv>
 
-            <CommentBodyP>
-              개발 공부를 하면서 이런 유용한 정보를 얻을 수 있다니 정말 좋아요! 반응 남기고 갑니다~
-            </CommentBodyP>
-          </div>
-        </CommentDiv>
+              <CommentBodyP>{comment.comment}</CommentBodyP>
+            </div>
+          </CommentDiv>
+        )}
       </ArticleBodyDiv>
     </ContainerArticle>
   );

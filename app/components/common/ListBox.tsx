@@ -51,6 +51,7 @@ const ListBox = ({ list, infiniteCallback }: ListBoxProps) => {
             reactions,
             comments_count,
             accept_comment_id,
+            comment,
           } = post;
 
           const isScrap = userScrapData?.list.find((item) => item.post_id === id);
@@ -73,6 +74,7 @@ const ListBox = ({ list, infiniteCallback }: ListBoxProps) => {
                     author_major={author_major}
                     author_profile_url={author_profile_url}
                     reactions={JSON.parse(reactions)}
+                    comment={comment}
                     comments_count={comments_count}
                     accept_comment_id={accept_comment_id}
                     isScrap={!!isScrap}
@@ -97,6 +99,7 @@ const ListBox = ({ list, infiniteCallback }: ListBoxProps) => {
                   author_major={author_major}
                   author_profile_url={author_profile_url}
                   reactions={JSON.parse(reactions)}
+                  comment={comment}
                   comments_count={comments_count}
                   accept_comment_id={accept_comment_id}
                   isScrap={!!isScrap}
