@@ -17,6 +17,8 @@ import ButtonComp from '@/app/components/common/ButtomComp';
 import useModal from '@/app/hooks/useModal';
 import QnAReportModal from '../QnAReportModal';
 import useReport from '@/app/hooks/useReport';
+import { useRecoilValue } from 'recoil';
+import { mobileScreenState } from '@/app/recoils';
 
 // TODO: post api response로 interface 수정 필요.
 interface Props {
@@ -153,6 +155,8 @@ const QnADetailContent = ({ post }: Props) => {
     comments_count,
     accept_comment_id,
   } = post;
+  const mobileScreen = useRecoilValue(mobileScreenState);
+
   // TODO: tanstack query hydrate 적용 필요.
   const { data: userScrapData } = usePostScrapQuery();
   const { data: userReactions } = useUserReactionsQuery();
@@ -181,11 +185,14 @@ const QnADetailContent = ({ post }: Props) => {
       closeModal();
     };
 
-    openModal({
-      modalProps: {
-        contents: <QnAReportModal onConfirm={handleConfirm} onCancel={() => closeModal()} />,
+    openModal(
+      {
+        modalProps: {
+          contents: <QnAReportModal onConfirm={handleConfirm} onCancel={() => closeModal()} />,
+        },
       },
-    });
+      mobileScreen,
+    );
   };
 
   useEffect(() => {

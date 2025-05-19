@@ -16,7 +16,7 @@ export interface ConfirmProps {
   onCancel: () => void;
 }
 
-const ContainerDiv = styled.div`
+const ContainerDiv = styled.div<{ $isScreen: boolean }>`
   width: max-content;
   position: absolute;
   top: 50%;
@@ -29,6 +29,15 @@ const ContainerDiv = styled.div`
   ${({ theme }) => theme.font.body2};
   text-align: center;
   white-space: pre-line;
+
+  ${({ $isScreen }) =>
+    $isScreen &&
+    css`
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0;
+      padding: 0 !important;
+    `};
 `;
 
 const ButtonBoxUl = styled.ul<{ $isReverse: boolean }>`
@@ -75,10 +84,10 @@ const Confirm = ({
   onConfirm,
   onCancel,
 }: ConfirmProps) => {
-  const {} = useModal();
+  const { modalState } = useModal();
 
   return (
-    <ContainerDiv className={className}>
+    <ContainerDiv className={className} $isScreen={modalState.isScreen ?? false}>
       {children}
       <ButtonBoxUl $isReverse={!!isReverseButton}>
         <li>

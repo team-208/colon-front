@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import useModal from '@/app/hooks/useModal';
 import useLockedBody from '@/app/hooks/useLockedBody';
 
-const ContainerDiv = styled.div`
+const ContainerDiv = styled.div<{ $isScreen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -14,7 +14,7 @@ const ContainerDiv = styled.div`
   background: ${({ theme }) => theme.color.static.dark}14;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  z-index: 999;
+  z-index: ${({ $isScreen }) => ($isScreen ? 1001 : 999)};
 `;
 
 const Container = () => {
@@ -33,7 +33,7 @@ const Container = () => {
   return (
     <>
       {modalState.isOpen && (
-        <ContainerDiv onClick={handleClick}>
+        <ContainerDiv $isScreen={modalState.isScreen ?? false} onClick={handleClick}>
           <div
             onClick={(e) => {
               e.stopPropagation();
