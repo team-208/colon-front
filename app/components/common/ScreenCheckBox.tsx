@@ -3,28 +3,18 @@
 import { useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { debounce } from 'lodash';
+import { isIPhone13, isMobileOnly } from 'react-device-detect';
 import { useSetRecoilState } from 'recoil';
 import { mobileScreenState } from '@/app/recoils';
 
 const ScreenCheckBox = () => {
   const setMobileScreen = useSetRecoilState(mobileScreenState);
-
-  const mobileCheck = useCallback(() => {
-    setMobileScreen(window.matchMedia('only screen and (max-width: 767px)').matches);
-  }, []);
-
+  
   useEffect(() => {
-    mobileCheck()
+    setMobileScreen(isIPhone13 || isMobileOnly);
 
-    const resize = debounce(() => {
-      mobileCheck()
-    }, 500);
-
-    window.addEventListener('resize', resize);
-
-    return () => {
-      window.removeEventListener('resize', resize);
-    };
+    console.log('isIPhone13', isIPhone13)
+    console.log('isMobileOnly', isMobileOnly)
   }, []);
 
   return <></>;
