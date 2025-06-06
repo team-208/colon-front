@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Icon from '../../common/Icon/Icon';
 import ModalComp from '@/app/components/common/ModalComp';
 import { useMemo, useState } from 'react';
+import MobileRenderBox from '../../common/HeaderComp/MobileRenderBox';
 
 interface Props {
   onConfirm: (reason: string) => void;
@@ -9,15 +10,33 @@ interface Props {
 }
 
 const ContainerModal = styled(ModalComp.Confirm)`
-  width: 355px !important;
+  width: 355px;
   height: 532px;
 `;
 
+const HeaderDiv = styled.div`
+  width: 100%;
+  height: max-content;
+  padding: 7px 20px;
+  border-bottom: 1px solid ${({ theme }) => theme.color.line.solid.neutral};
+
+  p {
+    ${({ theme }) => theme.font.body1};
+    color: ${({ theme }) => theme.color.label.normal};
+    line-height: 42px;
+    text-align: left;
+  }
+`;
+
 const WrapperDiv = styled.div`
-  height: calc(100% - 70px);
+  height: calc(100% - 86px - 57px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  ${({ theme }) => theme.mediaQuery.mobile} {
+    padding: 30px;
+  }
 `;
 
 const TitleH1 = styled.h1`
@@ -135,6 +154,11 @@ const QnAReportModal = ({ onConfirm, onCancel }: Props) => {
       onConfirm={handleConfirm}
       onCancel={onCancel}
     >
+      <MobileRenderBox renderMode="visible">
+        <HeaderDiv>
+          <p>신고하기</p>
+        </HeaderDiv>
+      </MobileRenderBox>
       <WrapperDiv>
         <div>
           <TitleH1>어떤 점이 불편하셨나요?</TitleH1>

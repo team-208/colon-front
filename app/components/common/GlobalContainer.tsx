@@ -7,6 +7,7 @@ import { RecoilRoot } from 'recoil';
 import StyledComponentsRegistry from './StyledComponentRegistry';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import theme from '@/app/styles/theme';
+import RouterObserver from './RouterObserver';
 
 interface GlobalContainerProps {
   children: ReactNode;
@@ -128,7 +129,10 @@ const GlobalContainer = ({ children }: GlobalContainerProps) => {
       <StyledComponentsRegistry>
         <ThemeProvider theme={theme}>
           <GobalStyle />
-          <RecoilRoot>{children}</RecoilRoot>
+          <RecoilRoot>
+            <RouterObserver />
+            {children}
+          </RecoilRoot>
         </ThemeProvider>
       </StyledComponentsRegistry>
       <ReactQueryDevtools initialIsOpen={false} />
