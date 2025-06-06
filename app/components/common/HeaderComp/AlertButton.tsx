@@ -6,7 +6,9 @@ import styled, { css } from 'styled-components';
 import icon_bell from '@/app/assets/images/header/icon_bell.png';
 import DropDown from '../DropDown';
 import ScrollContainer from '../ScrollContainer';
-import { IMAGE_CDN } from '@/app/constants/externalUrls';
+import useAlarmListQuery from '@/app/api/alarm/queries';
+import { ALARM_MESSAGES } from '@/app/api/alarm/constant';
+import { useRouter } from 'next/navigation';
 
 interface Props {}
 
@@ -127,7 +129,7 @@ const IconList = React.memo(
     return (
       <IconListLi $isActive={!isRead} onClick={onClick}>
         <p>
-          <Image alt={'알림창 리스트 아이콘'} src={iconUrl} width={16} height={16} />
+          {iconUrl && <Image alt={'알림창 리스트 아이콘'} src={iconUrl} width={16} height={16} />}
           {titleComponent}
         </p>
         <p>{content}</p>
@@ -138,6 +140,9 @@ const IconList = React.memo(
 
 const AlertButton = () => {
   const [isClick, setIsClick] = useState(false);
+
+  const { data } = useAlarmListQuery();
+  const { push } = useRouter();
 
   const notReadCount = useMemo(() => {
     // TODO: 알린 안읽은 개수에 따라 로직 수정
@@ -157,8 +162,8 @@ const AlertButton = () => {
     // TODO: 모두 읽음 처리
   };
 
-  const handleClickList = () => {
-    // TODO: 해당 게시물 이동 처리
+  const handleClickList = (postId: number) => {
+    push(`/qna/${postId}`);
   };
 
   return (
@@ -178,20 +183,25 @@ const AlertButton = () => {
             <button onClick={handleClickAllRead}>모두 읽음</button>
           </DropDownHeader>
           <ScrollContainer>
-            {[true, false, true, false, false, true, false].map((v, idx) => (
-              <IconList
-                key={idx}
-                isRead={v}
-                iconUrl={`${IMAGE_CDN}/qna/EmojiComment.png`}
-                titleComponent={
-                  <>
-                    <span>김콜론</span>님이 답변을 달았어요.
-                  </>
+            {data &&
+              data?.list?.map((reportedItem) => {
+                const alarmInfo = ALARM_MESSAGES[reportedItem.content_type] ?? null;
+
+                if (!alarmInfo) {
+                  return <></>;
                 }
-                content="일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십"
-                onClick={handleClickList}
-              />
-            ))}
+
+                return (
+                  <IconList
+                    key={reportedItem.id}
+                    isRead={reportedItem.is_confirmed_detail}
+                    iconUrl={alarmInfo.icon}
+                    titleComponent={<>{alarmInfo.title}</>}
+                    content={alarmInfo.content}
+                    onClick={() => handleClickList(reportedItem.content_id)}
+                  />
+                );
+              })}
           </ScrollContainer>
         </DropDownUl>
       </StyledDropDown>
