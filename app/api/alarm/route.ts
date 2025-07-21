@@ -1,25 +1,14 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/app/utils/supabase/server';
 import { getHost } from '@/app/utils/host';
+import { AlarmRepository } from './repository';
 
 export async function GET(request: Request, response: Response) {
   const host = getHost();
-  const supabase = await createClient(true);
+  const alarmRepository = new AlarmRepository();
 
   try {
-    const { data, error: sessionError } = await supabase.auth.getSession();
-    if (sessionError) {
-      return NextResponse.json({ success: false, sessionError });
-    }
-
-    const userId = data.session?.user.id;
-
-    const { data: userAlarmData, error: userAlarmError } = await supabase
-      .from('alarm')
-      .select('*')
-      .limit(10)
-      .eq('user_id', userId)
-      .order('id', { ascending: false });
+    const { data: userAlarmData, error: userAlarmError } =
+      await alarmRepository.getUserAlarmsAuthenticated();
 
     if (userAlarmError) {
       return NextResponse.json({
@@ -33,6 +22,10 @@ export async function GET(request: Request, response: Response) {
       list: userAlarmData,
     });
   } catch (error) {
+    // requireAuth()에서 발생한 인증 에러 처리
+    if (error instanceof Error && error.message === 'User not authenticated') {
+      return NextResponse.json({ success: false, error: 'User not authenticated' });
+    }
     return NextResponse.redirect(`${host}/error/500`);
   }
 }
